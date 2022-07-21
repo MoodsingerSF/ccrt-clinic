@@ -1,16 +1,43 @@
-import { TextField } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 import React from "react";
-
-const SignUpTextField = ({ label, type }) => {
+import PropTypes from "prop-types";
+const SignUpTextField = ({
+  label,
+  type,
+  value,
+  onChange,
+  error = false,
+  errorText = "",
+}) => {
   return (
-    <TextField
-      fullWidth
-      label={label}
-      variant="standard"
-      style={{ marginBottom: "5px" }}
-      type={type}
-    />
+    <Grid container item xs={12}>
+      <TextField
+        fullWidth
+        variant="standard"
+        label={label}
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e)}
+        style={{ marginBottom: "5px" }}
+      />
+      {error && (
+        <Typography
+          style={{ color: "red", fontSize: "10px", marginBottom: "5px" }}
+        >
+          {errorText}
+        </Typography>
+      )}
+    </Grid>
   );
+};
+
+SignUpTextField.propTypes = {
+  label: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  error: PropTypes.bool,
+  errorText: PropTypes.string,
 };
 
 export default SignUpTextField;
