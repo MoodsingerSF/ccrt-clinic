@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Checkbox,
@@ -26,6 +26,13 @@ import SignUpTextField from "../components/textfields/SignUpTextField";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
 import { useStyles } from "../styles/signupstyles";
+import {
+  formErrors,
+  validateConfirmPassword,
+  validateEmail,
+  validateName,
+  validatePassword,
+} from "../controllers/signupController";
 
 const signup = () => {
   const theme = useTheme();
@@ -33,6 +40,47 @@ const signup = () => {
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
   const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [policy, setPolicy] = useState(false);
+  const [showError, setShowError] = useState(false);
+
+  const handleInputfieldName = (e) => {
+    setName(e.target.value);
+  };
+  const handleInputfieldEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  const handleInputfieldPass = (e) => {
+    setPassword(e.target.value);
+  };
+  const handleInputfieldEmailConPass = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+  const handleInputfieldPolicy = () => {
+    setPolicy(!policy);
+  };
+
+  const handleSubmitForm = () => {
+    if (validate(name, email, password, confirmPassword, policy)) {
+    } else {
+      setShowError(true);
+    }
+  };
+
+  const validate = (name, email, password, confirmPassword, policy) => {
+    let isEverythingAllRight = true;
+    isEverythingAllRight =
+      validateName(name) &&
+      validateEmail(email) &&
+      validatePassword(password) &&
+      validateConfirmPassword(confirmPassword, password) &&
+      policy;
+    return isEverythingAllRight;
+  };
 
   return (
     <Grid
@@ -87,12 +135,45 @@ const signup = () => {
       >
         <h2>{SIGN_UP_TITLE}</h2>
         <Grid>
-          <SignUpTextField label="Full Name" type="text" />
-          <SignUpTextField label="Email" type="email" />
-          <SignUpTextField label="Password" type="password" />
-          <SignUpTextField label="Confirm Password" type="password" />
+          <SignUpTextField
+            label="Full Name"
+            type="text"
+            value={name}
+            onChange={handleInputfieldName}
+            error={showError && !validateName(name)}
+            errorText={formErrors.name}
+          />
+          <SignUpTextField
+            label="Email"
+            type="email"
+            value={email}
+            onChange={handleInputfieldEmail}
+            error={showError && !validateEmail(email)}
+            errorText={formErrors.email}
+          />
+
+          <SignUpTextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={handleInputfieldPass}
+            error={showError && !validatePassword(password)}
+            errorText={formErrors.password}
+          />
+          <SignUpTextField
+            label="Confirm Password"
+            type="password"
+            value={confirmPassword}
+            onChange={handleInputfieldEmailConPass}
+            error={
+              showError && !validateConfirmPassword(confirmPassword, password)
+            }
+            errorText={formErrors.confirmPassword}
+          />
           <FormControlLabel
-            control={<Checkbox />}
+            control={
+              <Checkbox checked={policy} onChange={handleInputfieldPolicy} />
+            }
             label={
               <span style={{ fontSize: "16px", color: "#666666" }}>
                 {TERMS_CONDITIONS}
@@ -100,7 +181,19 @@ const signup = () => {
             }
             style={{ marginTop: "20px" }}
           />
-          <Button variant="contained" fullWidth style={{ marginTop: "20px" }}>
+          {showError && !policy && (
+            <Typography
+              style={{ color: "red", fontSize: "10px", marginBottom: "5px" }}
+            >
+              {formErrors.policy}
+            </Typography>
+          )}
+          <Button
+            variant="contained"
+            fullWidth
+            style={{ marginTop: "20px" }}
+            onClick={handleSubmitForm}
+          >
             {SIGN_UP_BUTTON}
           </Button>
         </Grid>
