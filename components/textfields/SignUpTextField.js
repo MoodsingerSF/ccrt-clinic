@@ -22,7 +22,7 @@ const SignUpTextField = ({
       />
       {error && (
         <Typography
-          style={{ color: "red", fontSize: "10px", marginBottom: "5px" }}
+          style={{ color: "red", fontSize: "70%", marginBottom: "5px" }}
         >
           {errorText}
         </Typography>
