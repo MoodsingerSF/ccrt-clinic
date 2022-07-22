@@ -19,6 +19,10 @@ export default function MyApp(props) {
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <title>CCRT Clinic</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta name="description" content="dummy" />
+        <meta charSet="utf-8" />
       </Head>
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant,

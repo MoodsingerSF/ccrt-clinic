@@ -12,7 +12,6 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../public/image/logo/logo.png";
-import { DEFAULT_COLOR } from "../misc/colors";
 import {
   SIGN_UP_BUTTON,
   SIGN_UP_TITLE,
@@ -36,7 +35,7 @@ import {
 
 const signup = () => {
   const theme = useTheme();
-  const classes2 = useStyles();
+  const classes = useStyles();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
   const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
@@ -44,28 +43,29 @@ const signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmedPassword, setConfirmedPassword] = useState("");
   const [policy, setPolicy] = useState(false);
   const [showError, setShowError] = useState(false);
 
-  const handleInputfieldName = (e) => {
+  const handleName = (e) => {
     setName(e.target.value);
   };
-  const handleInputfieldEmail = (e) => {
+  const handleEmail = (e) => {
     setEmail(e.target.value);
   };
-  const handleInputfieldPass = (e) => {
+  const handlePassword = (e) => {
     setPassword(e.target.value);
   };
-  const handleInputfieldEmailConPass = (e) => {
-    setConfirmPassword(e.target.value);
+  const handleConfirmPassword = (e) => {
+    setConfirmedPassword(e.target.value);
   };
-  const handleInputfieldPolicy = () => {
+  const handlePolicy = () => {
     setPolicy(!policy);
   };
 
   const handleSubmitForm = () => {
-    if (validate(name, email, password, confirmPassword, policy)) {
+    if (validate(name, email, password, confirmedPassword, policy)) {
+      // if everything is alright, send verification code
     } else {
       setShowError(true);
     }
@@ -85,30 +85,35 @@ const signup = () => {
   return (
     <Grid
       container
+      alignItems={"center"}
+      justifyContent="center"
       className={classNames({
-        [classes2.containerMobile]: !matches,
-        [classes2.containerDesktopSm]: matches,
-        [classes2.containerDesktopMd]: matchesMD,
-        [classes2.containerDesktopLg]: matchesLG,
+        [classes.containerMobile]: !matches,
+        [classes.containerDesktopSm]: matches,
+        [classes.containerDesktopMd]: matchesMD,
+        [classes.containerDesktopLg]: matchesLG,
       })}
     >
       <Grid
+        container
         item
         sm={12}
         md={4}
-        align="center"
+        alignItems="flex-start"
+        justifyContent={"center"}
         className={classNames({
-          [classes2.ccrt__signup__left]: !matches,
-          [classes2.ccrt__signup__left__Sm]: matches,
-          [classes2.ccrt__signup__left__Md]: matchesMD,
-          [classes2.ccrt__signup__left__Lg]: matchesLG,
+          [classes.ccrt__signup__left]: !matches,
+          [classes.ccrt__signup__left__Sm]: matches,
+          [classes.ccrt__signup__left__Md]: matchesMD,
+          [classes.ccrt__signup__left__Lg]: matchesLG,
         })}
       >
-        <Image src={logo} />
+        <Image src={logo} alt="ccrt logo" />
         <Grid
+          container
           className={classNames({
-            [classes2.ccrt__signup__left__desc]: !matches,
-            [classes2.ccrt__signup__left__desc__Sm]: matches,
+            [classes.ccrt__signup__left__desc]: !matches,
+            [classes.ccrt__signup__left__desc__Sm]: matches,
           })}
         >
           <h2 style={{ color: "white" }}>{TITLE}</h2>
@@ -116,7 +121,6 @@ const signup = () => {
             style={{
               color: "white",
               textAlign: "justify",
-              padding: "0 20px",
             }}
           >
             {SUBTITLE}
@@ -128,18 +132,18 @@ const signup = () => {
         sm={12}
         md={8}
         className={classNames({
-          [classes2.ccrt__signup__right]: !matches,
-          [classes2.ccrt__signup__right__Sm]: matches,
-          [classes2.ccrt__signup__right__Md]: matchesMD,
+          [classes.ccrt__signup__right]: !matches,
+          [classes.ccrt__signup__right__Sm]: matches,
+          [classes.ccrt__signup__right__Md]: matchesMD,
         })}
       >
         <h2>{SIGN_UP_TITLE}</h2>
-        <Grid>
+        <Grid container>
           <SignUpTextField
             label="Full Name"
             type="text"
             value={name}
-            onChange={handleInputfieldName}
+            onChange={handleName}
             error={showError && !validateName(name)}
             errorText={formErrors.name}
           />
@@ -147,7 +151,7 @@ const signup = () => {
             label="Email"
             type="email"
             value={email}
-            onChange={handleInputfieldEmail}
+            onChange={handleEmail}
             error={showError && !validateEmail(email)}
             errorText={formErrors.email}
           />
@@ -156,34 +160,32 @@ const signup = () => {
             label="Password"
             type="password"
             value={password}
-            onChange={handleInputfieldPass}
+            onChange={handlePassword}
             error={showError && !validatePassword(password)}
             errorText={formErrors.password}
           />
           <SignUpTextField
             label="Confirm Password"
             type="password"
-            value={confirmPassword}
-            onChange={handleInputfieldEmailConPass}
+            value={confirmedPassword}
+            onChange={handleConfirmPassword}
             error={
-              showError && !validateConfirmPassword(confirmPassword, password)
+              showError && !validateConfirmPassword(confirmedPassword, password)
             }
             errorText={formErrors.confirmPassword}
           />
           <FormControlLabel
-            control={
-              <Checkbox checked={policy} onChange={handleInputfieldPolicy} />
-            }
+            control={<Checkbox checked={policy} onChange={handlePolicy} />}
             label={
-              <span style={{ fontSize: "16px", color: "#666666" }}>
+              <Typography className={classes.termsTextStyle}>
                 {TERMS_CONDITIONS}
-              </span>
+              </Typography>
             }
-            style={{ marginTop: "20px" }}
+            style={{ marginTop: 20 }}
           />
           {showError && !policy && (
             <Typography
-              style={{ color: "red", fontSize: "10px", marginBottom: "5px" }}
+              style={{ color: "red", fontSize: "70%", marginBottom: 5 }}
             >
               {formErrors.policy}
             </Typography>
@@ -191,61 +193,53 @@ const signup = () => {
           <Button
             variant="contained"
             fullWidth
-            style={{ marginTop: "20px" }}
+            style={{ marginTop: 20 }}
             onClick={handleSubmitForm}
           >
             {SIGN_UP_BUTTON}
           </Button>
         </Grid>
-        <Grid align="center" my={2}>
-          <span>Or</span>
+        <Grid
+          container
+          item
+          alignItems="center"
+          justifyContent="center"
+          xs={12}
+        >
+          <Typography>Or</Typography>
         </Grid>
         <Grid
+          container
           className={classNames({
-            [classes2.ccrt__signup__another__way]: !matches,
+            [classes.ccrt__signup__another__way]: !matches,
           })}
         >
           <Button
             variant="contained"
             fullWidth
             style={{
-              position: "relative",
-              cursor: "pointer",
-              marginBottom: "5px",
+              marginBottom: 5,
             }}
+            startIcon={<GoogleIcon />}
           >
-            <GoogleIcon />
-            <span style={{ fontSize: "14px", marginLeft: "10px" }}>
-              {SIGN_UP_WITH_GOOGLE}
-            </span>
+            {SIGN_UP_WITH_GOOGLE}
           </Button>
-          <Button
-            variant="contained"
-            fullWidth
-            style={{ position: "relative", cursor: "pointer" }}
-          >
-            <FacebookIcon />
-            <span style={{ fontSize: "14px", marginLeft: "10px" }}>
-              {SIGN_UP_WITH_FACEBOOK}
-            </span>
+          <Button variant="contained" fullWidth startIcon={<FacebookIcon />}>
+            {SIGN_UP_WITH_FACEBOOK}
           </Button>
         </Grid>
-        <Grid align="center" mt={4}>
-          <p>
-            Already have an account?
-            <Link href="/login">
-              <a
-                style={{
-                  textDecoration: "none",
-                  color: DEFAULT_COLOR,
-                  fontWeight: "500",
-                  marginLeft: "5px",
-                }}
-              >
-                Log In
-              </a>
-            </Link>
-          </p>
+        <Grid
+          container
+          alignItems="center"
+          justifyContent="center"
+          item
+          xs={12}
+          style={{ marginTop: 10 }}
+        >
+          <Typography>Already have an account?</Typography>
+          <Link href="/login">
+            <a className={classes.linkStyle}>Log In</a>
+          </Link>
         </Grid>
       </Grid>
     </Grid>

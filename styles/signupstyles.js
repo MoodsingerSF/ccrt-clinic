@@ -57,5 +57,15 @@ export const useStyles = makeStyles((theme) =>
       display: "flex",
       flexDirection: "column",
     },
+    linkStyle: {
+      textDecoration: "none",
+      color: theme.palette.primary.main,
+      fontWeight: "500",
+      marginLeft: 5,
+    },
+    termsTextStyle: {
+      fontSize: "80%",
+      color: theme.palette.grey[900],
+    },
   })
 );

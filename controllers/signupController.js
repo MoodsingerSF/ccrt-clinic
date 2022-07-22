@@ -1,15 +1,16 @@
+import { EMAIL_REGEX, NAME_REGEX } from "../misc/constants";
+
+const MINIMUM_PASSWORD_LENGTH = 6;
 export const validateName = (name) => {
-  const nameRegex = /^[a-zA-Z\- ]+$/;
-  return nameRegex.test(name);
+  return NAME_REGEX.test(name);
 };
 
 export const validateEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
+  return EMAIL_REGEX.test(email);
 };
 
 export const validatePassword = (password) => {
-  return password.length >= 4;
+  return password.length >= MINIMUM_PASSWORD_LENGTH;
 };
 
 export const validateConfirmPassword = (confirmPassword, password) => {
@@ -18,8 +19,8 @@ export const validateConfirmPassword = (confirmPassword, password) => {
 
 export const formErrors = {
   name: "Name should contain only english alphabet, -, _ and whitespace",
-  email: "Email is not valid",
-  password: "Password is required",
+  email: "Email address is not valid",
+  password: "Password must be at-least 6 characters long",
   confirmPassword: "Passwords haven't matched",
-  policy: "You should accept our policy",
+  policy: "You have to accept our policy to create an account.",
 };

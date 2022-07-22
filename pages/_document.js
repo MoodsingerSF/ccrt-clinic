@@ -11,6 +11,10 @@ export default class MyDocument extends Document {
         <Head>
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
+          <meta name="title" content={"CCRT Clinic"} />
+          <meta charSet="utf-8" />
+          <meta name="description" content="dummy" />
+
           <link rel="shortcut icon" href="/static/favicon.ico" />
           <link
             rel="stylesheet"
