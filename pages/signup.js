@@ -30,7 +30,7 @@ import {
   validatePassword,
 } from "../controllers/signupController";
 import Head from "next/head";
-import AnotherSignupButtons from "../components/pages/anotherSignupButton/AnotherSignupButtons";
+import AnotherSignupButton from "../components/pages/anotherSignupButton/AnotherSignupButton";
 const VerificationCode = dynamic(() =>
   import("../components/modal/VerificationCode")
 );
@@ -196,29 +196,18 @@ const signup = () => {
           >
             <Typography style={{ margin: "10px 0" }}>Or</Typography>
           </Grid>
-          <AnotherSignupButtons
-            value={SIGN_UP_WITH_GOOGLE}
-            Icon={<GoogleIcon />}
-          />
-          <AnotherSignupButtons
-            value={SIGN_UP_WITH_FACEBOOK}
-            Icon={<FacebookIcon />}
-          />
-          {/* <Grid container>
-            <Button
-              variant="contained"
-              fullWidth
-              style={{
-                marginBottom: "10px",
-              }}
-              startIcon={<GoogleIcon />}
-            >
-              {SIGN_UP_WITH_GOOGLE}
-            </Button>
-            <Button variant="contained" fullWidth startIcon={<FacebookIcon />}>
-              {SIGN_UP_WITH_FACEBOOK}
-            </Button>
-          </Grid> */}
+          <Grid container>
+            <AnotherSignupButton
+              value={SIGN_UP_WITH_GOOGLE}
+              Icon={<GoogleIcon />}
+            />
+          </Grid>
+          <Grid container style={{ marginTop: "10px" }}>
+            <AnotherSignupButton
+              value={SIGN_UP_WITH_FACEBOOK}
+              Icon={<FacebookIcon />}
+            />
+          </Grid>
           <Grid
             container
             alignItems="center"
