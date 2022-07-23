@@ -12,6 +12,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
+  formErrors,
   SIGN_UP_BUTTON,
   SIGN_UP_TITLE,
   SIGN_UP_WITH_FACEBOOK,
@@ -23,7 +24,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
 import { useStyles } from "../styles/signupstyles";
 import {
-  formErrors,
   validateConfirmPassword,
   validateEmail,
   validateName,
