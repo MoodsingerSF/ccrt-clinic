@@ -30,6 +30,9 @@ import {
   validatePassword,
 } from "../controllers/signupController";
 import Head from "next/head";
+const VerificationCode = dynamic(() =>
+  import("../components/modal/VerificationCode")
+);
 const Mobile = dynamic(() => import("../components/pages/signup/mobile"));
 const Desktop = dynamic(() => import("../components/pages/signup/desktop"));
 
@@ -46,6 +49,10 @@ const signup = () => {
   const [confirmedPassword, setConfirmedPassword] = useState("");
   const [policy, setPolicy] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleName = (e) => {
     setName(e.target.value);
@@ -66,6 +73,7 @@ const signup = () => {
   const handleSubmitForm = () => {
     if (validate(name, email, password, confirmedPassword, policy)) {
       // if everything is alright, send verification code
+      handleOpen();
     } else {
       setShowError(true);
     }
@@ -216,6 +224,7 @@ const signup = () => {
             </Link>
           </Grid>
         </Grid>
+        {open && <VerificationCode open={open} onClose={handleClose} />}
       </Grid>
     </>
   );
