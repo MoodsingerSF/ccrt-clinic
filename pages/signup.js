@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import Head from "next/head";
+import dynamic from "next/dynamic";
+import Link from "next/link";
 import {
   Button,
   Checkbox,
@@ -9,8 +12,6 @@ import {
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import dynamic from "next/dynamic";
-import Link from "next/link";
 import {
   formErrors,
   SIGN_UP_BUTTON,
@@ -29,13 +30,16 @@ import {
   validateName,
   validatePassword,
 } from "../controllers/signupController";
-import Head from "next/head";
 import AnotherSignupButton from "../components/pages/anotherSignupButton/AnotherSignupButton";
-const VerificationCode = dynamic(() =>
-  import("../components/modal/VerificationCode")
+const VerificationCodeModal = dynamic(() =>
+  import("../components/modal/VerificationCodeModal")
 );
-const Mobile = dynamic(() => import("../components/pages/signup/mobile"));
-const Desktop = dynamic(() => import("../components/pages/signup/desktop"));
+const SignupMobileHeader = dynamic(() =>
+  import("../components/pages/signup/SignupMobileHeader")
+);
+const SignupDesktopSidebar = dynamic(() =>
+  import("../components/pages/signup/SignupDesktopSidebar")
+);
 
 const signup = () => {
   const theme = useTheme();
@@ -107,7 +111,7 @@ const signup = () => {
           [classes.containerDesktopLg]: matchesLG,
         })}
       >
-        {matches ? <Desktop /> : <Mobile />}
+        {matches ? <SignupDesktopSidebar /> : <SignupMobileHeader />}
         <Grid
           item
           sm={12}
@@ -222,7 +226,7 @@ const signup = () => {
             </Link>
           </Grid>
         </Grid>
-        {open && <VerificationCode open={open} onClose={handleClose} />}
+        {open && <VerificationCodeModal open={open} onClose={handleClose} />}
       </Grid>
     </>
   );

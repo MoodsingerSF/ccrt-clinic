@@ -6,7 +6,7 @@ import logo from "../../../public/image/logo/logo.png";
 import classNames from "classnames";
 import { makeStyles } from "@mui/styles";
 
-const Desktop = () => {
+const SignupDesktopSidebar = () => {
   const theme = useTheme();
   const classes = useStyles();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
@@ -65,4 +65,4 @@ const useStyles = makeStyles({
   },
 });
 
-export default Desktop;
+export default SignupDesktopSidebar;

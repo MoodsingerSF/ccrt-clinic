@@ -4,7 +4,7 @@ import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import logo from "../../../public/image/logo/logo.png";
 
-const Mobile = () => {
+const SignupMobileHeader = () => {
   const classes = useStyles();
 
   return (
@@ -26,4 +26,4 @@ const useStyles = makeStyles({
     padding: "20px 30px",
   },
 });
-export default Mobile;
+export default SignupMobileHeader;
