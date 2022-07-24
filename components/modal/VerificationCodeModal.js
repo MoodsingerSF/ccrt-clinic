@@ -12,11 +12,12 @@ import {
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
 
-const VerificationCode = ({ open, onClose }) => {
+const VerificationCodeModal = ({ open, onClose }) => {
   const classes = useStyles();
   const [seconds, setSeconds] = useState(INITIALSECONDS);
   const [disabled, setDisabled] = useState(true);
   const [showContent, setShowContent] = useState(true);
+
   useEffect(() => {
     let myInterval = setInterval(() => {
       if (seconds > 0) {
@@ -126,8 +127,8 @@ const useStyles = makeStyles({
   },
 });
 
-VerificationCode.propTypes = {
+VerificationCodeModal.propTypes = {
   open: PropTypes.bool.isRequired,
-  onClose: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
-export default VerificationCode;
+export default VerificationCodeModal;
