@@ -49,7 +49,8 @@ const BlogEditor = () => {
   );
 
   const [tagLists, setTagLists] = useState([]);
-  const [suggestions, setSuggestions] = useState(["React", "HTML", "CSS"]);
+  // const [suggestions, setSuggestions] = useState(["React", "HTML", "CSS"]);
+  const suggestions = ["React", "HTML", "CSS"];
 
   const onCoverPhotoChange = (event) => {
     setCoverPhoto(event.target.files[0]);
@@ -68,7 +69,9 @@ const BlogEditor = () => {
       setTitleOkay(false);
       // return;
     }
-    setTagsOkay(false);
+    if (tagLists.length === 0) {
+      setTagsOkay(false);
+    }
   };
 
   const onEditorStateChange = (editorState) => {
@@ -190,7 +193,7 @@ const BlogEditor = () => {
               options={suggestions}
               getOptionLabel={(option) => option}
               onChange={(event, newValue) => {
-                setTagLists((prev) => newValue);
+                setTagLists(() => newValue);
               }}
               freeSolo
               renderInput={(params) => (
