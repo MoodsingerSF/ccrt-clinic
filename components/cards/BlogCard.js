@@ -1,7 +1,6 @@
 import React from "react";
-import blog from "../../public/image/blog/blog1.jpeg";
-
 import Image from "next/image";
+import blog from "../../public/image/blog/blog1.jpeg";
 import {
   Avatar,
   Card,
@@ -13,9 +12,11 @@ import {
   Typography,
 } from "@mui/material";
 import { useStyles } from "../../styles/blogstyle";
+import { useRouter } from "next/router";
 
-const BlogCard = () => {
+const BlogCard = ({ blogId }) => {
   const classes = useStyles();
+  const router = useRouter();
   return (
     <Grid
       container
@@ -23,6 +24,9 @@ const BlogCard = () => {
       justifyContent="center"
       alignItems="center"
       className={classes.ccrt__blog__body__container}
+      onClick={() => {
+        router.push("/blogs/" + blogId);
+      }}
     >
       <Grid item xs={12} sm={6} md={4} lg={3}>
         <Grid container>

@@ -2,12 +2,16 @@ import React from "react";
 import Image from "next/image";
 import Head from "next/head";
 import { Grid } from "@mui/material";
-import { useStyles } from "../styles/blogstyle";
-import img from "../public/image/ccrt-bg/CCRT_bg.jpg";
-import BlogCard from "../components/cards/BlogCard";
+import { useStyles } from "../../styles/blogstyle";
+import img from "../../public/image/ccrt-bg/CCRT_bg.jpg";
+import BlogCard from "../../components/cards/BlogCard";
+import { useRouter } from "next/router";
 
 const BlogScreen = () => {
   const classes = useStyles();
+
+  const router = useRouter();
+
   return (
     <>
       <Head>
@@ -23,7 +27,9 @@ const BlogScreen = () => {
           <h2 className={classes.ccrt__blog__header__title}>Blog</h2>
         </Grid>
         <Grid container justifyContent="center" alignItems="center">
-          <BlogCard />
+          {blogData.map((item) => (
+            <BlogCard blogId={item.id} />
+          ))}
         </Grid>
       </Grid>
     </>
@@ -31,3 +37,9 @@ const BlogScreen = () => {
 };
 
 export default BlogScreen;
+
+const blogData = [
+  {
+    id: 1,
+  },
+];
