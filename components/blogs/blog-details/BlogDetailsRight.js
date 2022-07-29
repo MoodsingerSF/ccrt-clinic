@@ -1,13 +1,19 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Chip, Grid, Typography } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import TelegramIcon from "@mui/icons-material/Telegram";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import { useStyles } from "../../../styles/blogDetailstyle";
 // import blog from "../../../public/image/blog/blog1.jpeg";
 import blog1 from "../../../public/image/blogDetails/abc.jpg";
-import { DEFAULT_COLOR, DEFAULT_COLOR_MINUS_2 } from "../../../misc/colors";
+import { DEFAULT_COLOR_MINUS_2 } from "../../../misc/colors";
+import SocialShareComponent from "../../misc/SocialShareComponent";
 
 const BlogDetailsRight = () => {
   const classes = useStyles();
@@ -60,11 +66,12 @@ const BlogDetailsRight = () => {
       <Grid
         container
         alignItems="center"
+        justifyContent="space-between"
         style={{
           marginTop: "20px",
         }}
       >
-        <Grid>
+        <Grid item container xs={6}>
           <Chip
             style={{
               margin: "5px",
@@ -97,6 +104,9 @@ const BlogDetailsRight = () => {
             }}
             label="liver"
           />
+        </Grid>
+        <Grid item xs={6} container>
+          <SocialShareComponent justifyContent="flex-end" link={"sfvdgh"} />
         </Grid>
       </Grid>
     </Grid>
