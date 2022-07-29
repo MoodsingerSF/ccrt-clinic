@@ -13,11 +13,11 @@ export const useStyles = makeStyles((theme) =>
     },
     containerDesktopMd: {
       borderRadius: "26px",
-      width: "900px",
+      width: "80%",
       margin: "10px auto",
     },
     containerDesktopLg: {
-      width: "1154px",
+      width: "70%",
     },
     ccrt__signup__right: {
       background: "#fff",

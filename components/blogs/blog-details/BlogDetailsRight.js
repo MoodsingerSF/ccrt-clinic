@@ -7,7 +7,7 @@ import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import { useStyles } from "../../../styles/blogDetailstyle";
 // import blog from "../../../public/image/blog/blog1.jpeg";
 import blog1 from "../../../public/image/blogDetails/abc.jpg";
-import { DEFAULT_COLOR } from "../../../misc/colors";
+import { DEFAULT_COLOR, DEFAULT_COLOR_MINUS_2 } from "../../../misc/colors";
 
 const BlogDetailsRight = () => {
   const classes = useStyles();
@@ -59,32 +59,45 @@ const BlogDetailsRight = () => {
       </Grid>
       <Grid
         container
+        alignItems="center"
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
           marginTop: "20px",
         }}
       >
         <Grid>
           <Chip
-            style={{ margin: "5px", background: DEFAULT_COLOR, color: "#fff" }}
+            style={{
+              margin: "5px",
+              background: DEFAULT_COLOR_MINUS_2,
+              color: "#fff",
+            }}
             label="cancer"
           />
           <Chip
-            style={{ margin: "5px", background: DEFAULT_COLOR, color: "#fff" }}
-            label="Heart"
+            style={{
+              margin: "5px",
+              background: DEFAULT_COLOR_MINUS_2,
+              color: "#fff",
+            }}
+            label="heart"
           />
           <Chip
-            style={{ margin: "5px", background: DEFAULT_COLOR, color: "#fff" }}
+            style={{
+              margin: "5px",
+              background: DEFAULT_COLOR_MINUS_2,
+              color: "#fff",
+            }}
             label="brain"
           />
           <Chip
-            style={{ margin: "5px", background: DEFAULT_COLOR, color: "#fff" }}
+            style={{
+              margin: "5px",
+              background: DEFAULT_COLOR_MINUS_2,
+              color: "#fff",
+            }}
             label="liver"
           />
         </Grid>
-        <Grid></Grid>
       </Grid>
     </Grid>
   );

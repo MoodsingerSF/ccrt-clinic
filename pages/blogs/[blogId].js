@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { useStyles } from "../../styles/blogDetailstyle";
 import BlogDetailsLeft from "../../components/blogs/blog-details/BlogDetailsLeft";
 import BlogDetailsRight from "../../components/blogs/blog-details/BlogDetailsRight";
@@ -23,6 +23,12 @@ const BlogDetailsScreen = () => {
         </Grid>
         <Grid item xs={12} sm={6} md={7} lg={8}>
           <BlogDetailsRight />
+          <Grid container justifyContent="center" alignItems="center" mt={3}>
+            <Button variant="contained" style={{ marginRight: "5px" }}>
+              Back
+            </Button>
+            <Button variant="contained">Share</Button>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
