@@ -102,131 +102,138 @@ const signup = () => {
       </Head>
       <Grid
         container
-        alignItems="center"
         justifyContent="center"
-        className={classNames({
-          [classes.containerMobile]: !matches,
-          [classes.containerDesktopSm]: matches,
-          [classes.containerDesktopMd]: matchesMD,
-          [classes.containerDesktopLg]: matchesLG,
-        })}
+        alignItems="center"
+        style={{ minHeight: "100vh" }}
       >
-        {matches ? <SignupDesktopSidebar /> : <SignupMobileHeader />}
         <Grid
-          item
-          sm={12}
-          md={8}
+          container
+          alignItems="center"
+          justifyContent="center"
           className={classNames({
-            [classes.ccrt__signup__right]: !matches,
-            [classes.ccrt__signup__right__Sm]: matches,
-            [classes.ccrt__signup__right__Md]: matchesMD,
+            [classes.containerMobile]: !matches,
+            [classes.containerDesktopSm]: matches,
+            [classes.containerDesktopMd]: matchesMD,
+            [classes.containerDesktopLg]: matchesLG,
           })}
         >
-          <h2>{SIGN_UP_TITLE}</h2>
-          <Grid container>
-            <SignUpTextField
-              label="Full Name"
-              type="text"
-              value={name}
-              onChange={handleName}
-              error={showError && !validateName(name)}
-              errorText={formErrors.name}
-            />
-            <SignUpTextField
-              label="Email"
-              type="email"
-              value={email}
-              onChange={handleEmail}
-              error={showError && !validateEmail(email)}
-              errorText={formErrors.email}
-            />
+          {matches ? <SignupDesktopSidebar /> : <SignupMobileHeader />}
+          <Grid
+            item
+            sm={12}
+            md={8}
+            className={classNames({
+              [classes.ccrt__signup__right]: !matches,
+              [classes.ccrt__signup__right__Sm]: matches,
+              [classes.ccrt__signup__right__Md]: matchesMD,
+            })}
+          >
+            <h2>{SIGN_UP_TITLE}</h2>
+            <Grid container>
+              <SignUpTextField
+                label="Full Name"
+                type="text"
+                value={name}
+                onChange={handleName}
+                error={showError && !validateName(name)}
+                errorText={formErrors.name}
+              />
+              <SignUpTextField
+                label="Email"
+                type="email"
+                value={email}
+                onChange={handleEmail}
+                error={showError && !validateEmail(email)}
+                errorText={formErrors.email}
+              />
 
-            <SignUpTextField
-              label="Password"
-              type="password"
-              value={password}
-              onChange={handlePassword}
-              error={showError && !validatePassword(password)}
-              errorText={formErrors.password}
-            />
-            <SignUpTextField
-              label="Confirm Password"
-              type="password"
-              value={confirmedPassword}
-              onChange={handleConfirmPassword}
-              error={
-                showError &&
-                !validateConfirmPassword(confirmedPassword, password)
-              }
-              errorText={formErrors.confirmPassword}
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  size="small"
-                  checked={policy}
-                  onChange={handlePolicy}
-                />
-              }
-              label={
-                <Typography className={classes.termsTextStyle}>
-                  {TERMS_CONDITIONS}
+              <SignUpTextField
+                label="Password"
+                type="password"
+                value={password}
+                onChange={handlePassword}
+                error={showError && !validatePassword(password)}
+                errorText={formErrors.password}
+              />
+              <SignUpTextField
+                label="Confirm Password"
+                type="password"
+                value={confirmedPassword}
+                onChange={handleConfirmPassword}
+                error={
+                  showError &&
+                  !validateConfirmPassword(confirmedPassword, password)
+                }
+                errorText={formErrors.confirmPassword}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    size="small"
+                    checked={policy}
+                    onChange={handlePolicy}
+                  />
+                }
+                label={
+                  <Typography className={classes.termsTextStyle}>
+                    {TERMS_CONDITIONS}
+                  </Typography>
+                }
+                style={{ marginTop: "20px" }}
+              />
+              {showError && !policy && (
+                <Typography
+                  style={{ color: "red", fontSize: "70%", marginBottom: "5px" }}
+                >
+                  {formErrors.policy}
                 </Typography>
-              }
-              style={{ marginTop: "20px" }}
-            />
-            {showError && !policy && (
-              <Typography
-                style={{ color: "red", fontSize: "70%", marginBottom: "5px" }}
+              )}
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={handleSubmitForm}
+                style={{ marginTop: "20px" }}
               >
-                {formErrors.policy}
-              </Typography>
-            )}
-            <Button
-              variant="contained"
-              fullWidth
-              onClick={handleSubmitForm}
-              style={{ marginTop: "20px" }}
+                {SIGN_UP_BUTTON}
+              </Button>
+            </Grid>
+            <Grid
+              container
+              alignItems="center"
+              justifyContent="center"
+              item
+              xs={12}
             >
-              {SIGN_UP_BUTTON}
-            </Button>
+              <Typography style={{ margin: "10px 0" }}>Or</Typography>
+            </Grid>
+            <Grid container>
+              <AnotherSignupButton
+                value={SIGN_UP_WITH_GOOGLE}
+                Icon={<GoogleIcon />}
+              />
+            </Grid>
+            <Grid container style={{ marginTop: "10px" }}>
+              <AnotherSignupButton
+                value={SIGN_UP_WITH_FACEBOOK}
+                Icon={<FacebookIcon />}
+              />
+            </Grid>
+            <Grid
+              container
+              alignItems="center"
+              justifyContent="center"
+              item
+              xs={12}
+              style={{ marginTop: "10px" }}
+            >
+              <Typography>Already have an account?</Typography>
+              <Link href="/login">
+                <a className={classes.linkStyle}>Log In</a>
+              </Link>
+            </Grid>
           </Grid>
-          <Grid
-            container
-            alignItems="center"
-            justifyContent="center"
-            item
-            xs={12}
-          >
-            <Typography style={{ margin: "10px 0" }}>Or</Typography>
-          </Grid>
-          <Grid container>
-            <AnotherSignupButton
-              value={SIGN_UP_WITH_GOOGLE}
-              Icon={<GoogleIcon />}
-            />
-          </Grid>
-          <Grid container style={{ marginTop: "10px" }}>
-            <AnotherSignupButton
-              value={SIGN_UP_WITH_FACEBOOK}
-              Icon={<FacebookIcon />}
-            />
-          </Grid>
-          <Grid
-            container
-            alignItems="center"
-            justifyContent="center"
-            item
-            xs={12}
-            style={{ marginTop: "10px" }}
-          >
-            <Typography>Already have an account?</Typography>
-            <Link href="/login">
-              <a className={classes.linkStyle}>Log In</a>
-            </Link>
-          </Grid>
+          {open && <VerificationCodeModal open={open} onClose={handleClose} />}
         </Grid>
-        {open && <VerificationCodeModal open={open} onClose={handleClose} />}
       </Grid>
     </>
   );
