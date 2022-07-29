@@ -101,8 +101,8 @@ const SignupScreen = () => {
       </Head>
       <Grid
         container
-        alignItems="center"
         justifyContent="center"
+        alignItems="center"
         style={{ minHeight: "100vh" }}
       >
         <Grid
