@@ -5,12 +5,9 @@ import { Grid } from "@mui/material";
 import { useStyles } from "../../styles/blogstyle";
 import img from "../../public/image/ccrt-bg/CCRT_bg.jpg";
 import BlogCard from "../../components/cards/BlogCard";
-import { useRouter } from "next/router";
 
 const BlogScreen = () => {
   const classes = useStyles();
-
-  const router = useRouter();
 
   return (
     <>
@@ -28,7 +25,7 @@ const BlogScreen = () => {
         </Grid>
         <Grid container justifyContent="center" alignItems="center">
           {blogData.map((item) => (
-            <BlogCard blogId={item.id} />
+            <BlogCard blogId={item.id} key={item.id} />
           ))}
         </Grid>
       </Grid>

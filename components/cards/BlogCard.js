@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import blog from "../../public/image/blog/blog1.jpeg";
 import {
   Avatar,
@@ -12,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useStyles } from "../../styles/blogstyle";
-import { useRouter } from "next/router";
+import PropTypes from "prop-types";
 
 const BlogCard = ({ blogId }) => {
   const classes = useStyles();
@@ -233,3 +234,6 @@ const BlogCard = ({ blogId }) => {
 };
 
 export default BlogCard;
+BlogCard.propTypes = {
+  blogId: PropTypes.string.isRequired,
+};
