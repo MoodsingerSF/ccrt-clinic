@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Typography, Grid, TextField, Button } from "@mui/material";
 import { DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
 import {
-  INITIALSECONDS,
+  INITIAL_SECONDS,
   MESSAGE,
   RESEND,
   SUBTITLE,
@@ -14,7 +14,7 @@ import { makeStyles } from "@mui/styles";
 
 const VerificationCode = ({ open, onClose }) => {
   const classes = useStyles();
-  const [seconds, setSeconds] = useState(INITIALSECONDS);
+  const [seconds, setSeconds] = useState(INITIAL_SECONDS);
   const [disabled, setDisabled] = useState(true);
   const [showContent, setShowContent] = useState(true);
   useEffect(() => {
@@ -60,7 +60,7 @@ const VerificationCode = ({ open, onClose }) => {
               disabled={disabled}
               className={classes.modal__resend}
               onClick={() => {
-                setSeconds(INITIALSECONDS);
+                setSeconds(INITIAL_SECONDS);
                 setDisabled(true);
                 setShowContent(true);
                 //api
