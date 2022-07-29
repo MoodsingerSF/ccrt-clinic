@@ -44,5 +44,10 @@ export const useStyles = makeStyles((theme) =>
       fontSize: "80%",
       color: theme.palette.grey[900],
     },
+    ccrt__signup__policyError__text: {
+      color: "red",
+      fontSize: "70%",
+      marginBottom: "15px",
+    },
   })
 );

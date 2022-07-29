@@ -3,7 +3,6 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
-  Button,
   Checkbox,
   FormControlLabel,
   Grid,
@@ -30,7 +29,7 @@ import {
   validateName,
   validatePassword,
 } from "../controllers/signupController";
-import AnotherSignupButton from "../components/pages/anotherSignupButton/AnotherSignupButton";
+import CustomButton from "../components/button/CustomButton";
 const VerificationCodeModal = dynamic(() =>
   import("../components/modal/VerificationCodeModal")
 );
@@ -41,7 +40,7 @@ const SignupDesktopSidebar = dynamic(() =>
   import("../components/pages/signup/SignupDesktopSidebar")
 );
 
-const signup = () => {
+const SignupScreen = () => {
   const theme = useTheme();
   const classes = useStyles();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
@@ -188,14 +187,7 @@ const signup = () => {
                   {formErrors.policy}
                 </Typography>
               )}
-              <Button
-                variant="contained"
-                fullWidth
-                onClick={handleSubmitForm}
-                style={{ marginTop: "20px" }}
-              >
-                {SIGN_UP_BUTTON}
-              </Button>
+              <CustomButton onClick={handleSubmitForm} title={SIGN_UP_BUTTON} />
             </Grid>
             <Grid
               container
@@ -207,15 +199,12 @@ const signup = () => {
               <Typography style={{ margin: "10px 0" }}>Or</Typography>
             </Grid>
             <Grid container>
-              <AnotherSignupButton
-                value={SIGN_UP_WITH_GOOGLE}
-                Icon={<GoogleIcon />}
-              />
+              <CustomButton title={SIGN_UP_WITH_GOOGLE} icon={<GoogleIcon />} />
             </Grid>
             <Grid container style={{ marginTop: "10px" }}>
-              <AnotherSignupButton
-                value={SIGN_UP_WITH_FACEBOOK}
-                Icon={<FacebookIcon />}
+              <CustomButton
+                title={SIGN_UP_WITH_FACEBOOK}
+                icon={<FacebookIcon />}
               />
             </Grid>
             <Grid
@@ -239,4 +228,4 @@ const signup = () => {
   );
 };
 
-export default signup;
+export default SignupScreen;
