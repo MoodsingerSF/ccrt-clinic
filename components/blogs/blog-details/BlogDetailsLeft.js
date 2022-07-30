@@ -1,14 +1,17 @@
 import React from "react";
-// import Image from "next/image";
-import Link from "next/link";
-import { Chip, Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField, useTheme } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import classNames from "classnames";
 import SearchIcon from "@mui/icons-material/Search";
-// import Author from "../../../public/image/blogDetails/author.png";
 import { useStyles } from "../../../styles/blogDetailstyle";
 import BlogDetailsAuthorCard from "../../cards/BlogDetailsAuthorCard";
+import BlogPopularTags from "./BlogPopularTags";
 
 const BlogDetailsLeft = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
+
   return (
     <Grid container>
       <Grid container className={classes.ccrt__blogDetails__search__container}>
@@ -21,58 +24,21 @@ const BlogDetailsLeft = () => {
           <SearchIcon />
         </span>
       </Grid>
-      <BlogDetailsAuthorCard />
       <Grid
         container
-        justifyContent="center"
-        alignItems="center"
-        className={classes.ccrt__blogDetails__tags__container}
+        className={classNames({
+          [classes.ccrt__blogDetails__author__card]: !matchesMD,
+        })}
       >
-        <Typography className={classes.ccrt__blogDetails__popular_tag__title}>
-          Popular tags
-        </Typography>
-        <Grid container>
-          <Link href="#">
-            <a>
-              <Chip
-                label="cancer"
-                className={classes.ccrt__blogDetails__popular_tags}
-              />
-            </a>
-          </Link>
-          <Link href="#">
-            <a>
-              <Chip
-                label="heart"
-                className={classes.ccrt__blogDetails__popular_tags}
-              />
-            </a>
-          </Link>
-          <Link href="#">
-            <a>
-              <Chip
-                label="liver"
-                className={classes.ccrt__blogDetails__popular_tags}
-              />
-            </a>
-          </Link>
-          <Link href="#">
-            <a>
-              <Chip
-                label="leukemia"
-                className={classes.ccrt__blogDetails__popular_tags}
-              />
-            </a>
-          </Link>
-          <Link href="#">
-            <a>
-              <Chip
-                label="cancer"
-                className={classes.ccrt__blogDetails__popular_tags}
-              />
-            </a>
-          </Link>
-        </Grid>
+        <BlogDetailsAuthorCard />
+      </Grid>
+      <Grid
+        container
+        className={classNames({
+          [classes.ccrt__blog__popular_tags]: !matchesMD,
+        })}
+      >
+        <BlogPopularTags />
       </Grid>
     </Grid>
   );

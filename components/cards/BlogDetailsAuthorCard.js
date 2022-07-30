@@ -1,21 +1,34 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Avatar, Grid, Typography } from "@mui/material";
+import { Avatar, Grid, Typography, useTheme } from "@mui/material";
 import { useStyles } from "../../styles/blogDetailstyle";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import classNames from "classnames";
 import Author from "../../public/image/blogDetails/author.png";
 import SocialShareComponent from "../misc/SocialShareComponent";
 
 const BlogDetailsAuthorCard = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+
   return (
     <Grid
       container
       justifyContent="center"
       alignItems="center"
-      className={classes.ccrt__blogDetails__author__container}
+      className={classNames({
+        [classes.ccrt__blogDetails__author__containerMobile]: !matches,
+        [classes.ccrt__blogDetails__container__container__Tablet]: matches,
+      })}
     >
-      <Avatar style={{ height: "150px", width: "150px" }}>
+      <Avatar
+        className={classNames({
+          [classes.ccrt__blogDetails__author__avatar__mobile]: !matches,
+          [classes.ccrt__blogDetails__author__avatar__tablet]: matches,
+        })}
+      >
         <Image src={Author} alt="author" />
       </Avatar>
       <Grid

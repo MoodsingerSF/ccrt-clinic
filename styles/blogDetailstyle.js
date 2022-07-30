@@ -7,7 +7,10 @@ export const useStyles = makeStyles((theme) =>
       position: "relative",
       margin: "20px 0",
     },
-    ccrt__blogDetails__container: {
+    ccrt__blogDetails__container__mobile: {
+      padding: "0 10px",
+    },
+    ccrt__blogDetails__container_tablet: {
       position: "relative",
       width: "90%",
     },
@@ -27,10 +30,23 @@ export const useStyles = makeStyles((theme) =>
       borderTopRightRadius: "5px",
       borderBottomRightRadius: "5px",
     },
-    ccrt__blogDetails__author__container: {
+    ccrt__blogDetails__author__containerMobile: {
       margin: "40px 0 0 0",
-      padding: "34px 40px",
+      padding: "20px 10px 0",
       border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
+    },
+    ccrt__blogDetails__container__container__Tablet: {
+      margin: "20px 0 0 0",
+      padding: "20px 10px 0",
+      border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
+    },
+    ccrt__blogDetails__author__avatar__mobile: {
+      height: "100px",
+      width: "100px",
+    },
+    ccrt__blogDetails__author__avatar__tablet: {
+      height: "150px",
+      width: "150px",
     },
     ccrt__blogDetails__author__info: {
       marginTop: "20px",
@@ -56,7 +72,7 @@ export const useStyles = makeStyles((theme) =>
       margin: "0 10px",
     },
     ccrt__blogDetails__tags__container: {
-      margin: "40px 0 0 0",
+      margin: "20px 0 0 0",
       padding: "34px 40px",
       border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
     },
@@ -66,8 +82,10 @@ export const useStyles = makeStyles((theme) =>
       textTransform: "capitalize",
       paddingBottom: "25px",
       margin: "0 0 29px",
-      borderBottom: `2px solid ${DEFAULT_COLOR_MINUS_2}`,
+      borderBottom: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
       color: DEFAULT_COLOR,
+      width: "100vw",
+      textAlign: "center",
     },
     ccrt__blogDetails__popular_tags: {
       textDecoration: "none",
@@ -79,15 +97,44 @@ export const useStyles = makeStyles((theme) =>
         background: DEFAULT_COLOR,
       },
     },
-    ccrt__blogDetails__right__section: {
-      border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
-      padding: "45px 25px 30px",
+    ccrt__blogDetails__right__section__mobile: {
+      padding: "0 20px",
     },
-    ccrt__blogDetails__right__title: {
-      lineHeight: "32px",
+    ccrt__blogDetails__right__section__tablet: {
+      padding: "15px 25px 30px",
+    },
+    ccrt__blogDetails__right__section__desktop_Lg: {
+      border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
+    },
+    ccrt__blogDetails__right__title__mobile: {
+      fontSize: "100%",
+      textAlign: "justify",
       fontWeight: "700",
       margin: "0 0 13px",
       color: DEFAULT_COLOR,
+    },
+    ccrt__blogDetails__right__title_tablet: {
+      textAlign: "justify",
+      lineHeight: "35px",
+      margin: "0 0 13px",
+      color: DEFAULT_COLOR,
+    },
+    ccrt__blogDetails__right__tags: {
+      margin: "5px",
+      background: DEFAULT_COLOR_MINUS_2,
+      color: "#fff",
+    },
+    ccrt__blogDetails__right__blog__tags__mobile: {
+      justifyContent: "right",
+    },
+    ccrt__blogDetails__right__blog__tags__tablet: {
+      justifyContent: "right",
+    },
+    ccrt__blogDetails__right__blog__tags__laptop: {
+      justifyContent: "right",
+    },
+    ccrt__blogDetails__right__blog__tags__LG: {
+      justifyContent: "left",
     },
     ccrt__blogDetails__right__blog_meta: {
       fontSize: "16px",
@@ -99,6 +146,18 @@ export const useStyles = makeStyles((theme) =>
     ccrt__blogDetails__right__icon: {
       fontSize: "20px",
       marginRight: "5px",
+    },
+    ccrt__blogDetails__author__card: {
+      display: "none",
+    },
+    ccrt__blogDetails__author__Desktop_Md: {
+      display: "none",
+    },
+    ccrt__blog__popular_tags: {
+      display: "none",
+    },
+    ccrt__blog__popular_tags__Desktop_Md: {
+      display: "none",
     },
   })
 );

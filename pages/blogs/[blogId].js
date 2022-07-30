@@ -1,12 +1,19 @@
 import React from "react";
-import { Grid } from "@mui/material";
+import { Grid, useTheme } from "@mui/material";
 import { useStyles } from "../../styles/blogDetailstyle";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import classNames from "classnames";
 import BlogDetailsLeft from "../../components/blogs/blog-details/BlogDetailsLeft";
 import BlogDetailsRight from "../../components/blogs/blog-details/BlogDetailsRight";
-// import ShareIcon from "@mui/icons-material/Share";
+import BlogPopularTags from "../../components/blogs/blog-details/BlogPopularTags";
+import BlogDetailsAuthorCard from "../../components/cards/BlogDetailsAuthorCard";
 
 const BlogDetailsScreen = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
+  // const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
   return (
     <Grid
       container
@@ -17,13 +24,32 @@ const BlogDetailsScreen = () => {
       <Grid
         container
         spacing={4}
-        className={classes.ccrt__blogDetails__container}
+        className={classNames({
+          [classes.ccrt__blogDetails__container__mobile]: !matches,
+          [classes.ccrt__blogDetails__container_tablet]: matches,
+        })}
       >
-        <Grid item xs={12} sm={6} md={5} lg={4}>
+        <Grid item xs={12} sm={12} md={5} lg={4}>
           <BlogDetailsLeft />
         </Grid>
-        <Grid item xs={12} sm={6} md={7} lg={8}>
+        <Grid item xs={12} sm={12} md={7} lg={8}>
           <BlogDetailsRight />
+          <Grid
+            container
+            className={classNames({
+              [classes.ccrt__blogDetails__author__Desktop_Md]: matchesMD,
+            })}
+          >
+            <BlogDetailsAuthorCard />
+          </Grid>
+          <Grid
+            container
+            className={classNames({
+              [classes.ccrt__blog__popular_tags__Desktop_Md]: matchesMD,
+            })}
+          >
+            <BlogPopularTags />
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

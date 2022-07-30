@@ -1,15 +1,12 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { Chip, Grid, Typography } from "@mui/material";
+import { Chip, Grid, Typography, useTheme } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import TelegramIcon from "@mui/icons-material/Telegram";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import { useStyles } from "../../../styles/blogDetailstyle";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import classNames from "classnames";
 // import blog from "../../../public/image/blog/blog1.jpeg";
 import blog1 from "../../../public/image/blogDetails/abc.jpg";
 import { DEFAULT_COLOR_MINUS_2 } from "../../../misc/colors";
@@ -17,10 +14,26 @@ import SocialShareComponent from "../../misc/SocialShareComponent";
 
 const BlogDetailsRight = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
+  const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
   return (
-    <Grid container className={classes.ccrt__blogDetails__right__section}>
+    <Grid
+      container
+      className={classNames({
+        [classes.ccrt__blogDetails__right__section__mobile]: !matches,
+        [classes.ccrt__blogDetails__right__section__tablet]: matches,
+        [classes.ccrt__blogDetails__right__section__desktop_Lg]: matchesLG,
+      })}
+    >
       <Grid container mb={3}>
-        <h2 className={classes.ccrt__blogDetails__right__title}>
+        <h2
+          className={classNames({
+            [classes.ccrt__blogDetails__right__title__mobile]: !matches,
+            [classes.ccrt__blogDetails__right__title_tablet]: matches,
+          })}
+        >
           A Policy Dialogue named Multi-Sectoral Cooperation to Reduce the
           Burden of Cancer in Bangladesh and Ensuring Patients Access
         </h2>
@@ -49,7 +62,7 @@ const BlogDetailsRight = () => {
         <Image src={blog1} alt="blog-img" />
       </Grid>
       <Grid container style={{ marginTop: "20px" }}>
-        <Typography>
+        <Typography style={{ textAlign: "justify" }}>
           A Policy Dialogue named Multi-Sectoral Cooperation to Reduce the
           Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
           after the inauguration session” was arranged inviting most of the
@@ -66,46 +79,41 @@ const BlogDetailsRight = () => {
       <Grid
         container
         alignItems="center"
-        justifyContent="space-between"
+        justifyContent="center"
         style={{
           marginTop: "20px",
         }}
       >
-        <Grid item container xs={6}>
+        <Grid
+          item
+          container
+          xs={12}
+          lg={6}
+          className={classNames({
+            [classes.ccrt__blogDetails__right__blog__tags__mobile]: !matches,
+            [classes.ccrt__blogDetails__right__blog__tags__tablet]: matches,
+            [classes.ccrt__blogDetails__right__blog__tags__laptop]: matchesMD,
+            [classes.ccrt__blogDetails__right__blog__tags__LG]: matchesLG,
+          })}
+        >
           <Chip
-            style={{
-              margin: "5px",
-              background: DEFAULT_COLOR_MINUS_2,
-              color: "#fff",
-            }}
+            className={classes.ccrt__blogDetails__right__tags}
             label="cancer"
           />
           <Chip
-            style={{
-              margin: "5px",
-              background: DEFAULT_COLOR_MINUS_2,
-              color: "#fff",
-            }}
+            className={classes.ccrt__blogDetails__right__tags}
             label="heart"
           />
           <Chip
-            style={{
-              margin: "5px",
-              background: DEFAULT_COLOR_MINUS_2,
-              color: "#fff",
-            }}
+            className={classes.ccrt__blogDetails__right__tags}
             label="brain"
           />
           <Chip
-            style={{
-              margin: "5px",
-              background: DEFAULT_COLOR_MINUS_2,
-              color: "#fff",
-            }}
+            className={classes.ccrt__blogDetails__right__tags}
             label="liver"
           />
         </Grid>
-        <Grid item xs={6} container>
+        <Grid item xs={12} lg={6} container>
           <SocialShareComponent justifyContent="flex-end" link={"sfvdgh"} />
         </Grid>
       </Grid>
