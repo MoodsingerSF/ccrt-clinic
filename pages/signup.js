@@ -47,19 +47,28 @@ const SignupScreen = () => {
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
   const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
 
-  const [name, setName] = useState("");
+  const [userType, setUserType] = useState("user");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
   const [policy, setPolicy] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpenModal(true);
+  const handleCloseVerificationCodeModal = () => setOpenModal(false);
 
-  const handleName = (e) => {
-    setName(e.target.value);
+  const handleUserTypeChange = (e) => {
+    setUserType(e.target.value);
+  };
+
+  const handleFirstName = (e) => {
+    setFirstName(e.target.value);
+  };
+  const handleLastName = (e) => {
+    setLastName(e.target.value);
   };
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -75,7 +84,9 @@ const SignupScreen = () => {
   };
 
   const handleSubmitForm = () => {
-    if (validate(name, email, password, confirmedPassword, policy)) {
+    if (
+      validate(firstName, lastName, email, password, confirmedPassword, policy)
+    ) {
       // if everything is alright, send verification code
       handleOpen();
     } else {
@@ -83,10 +94,18 @@ const SignupScreen = () => {
     }
   };
 
-  const validate = (name, email, password, confirmPassword, policy) => {
+  const validate = (
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmPassword,
+    policy
+  ) => {
     let isEverythingAllRight = true;
     isEverythingAllRight =
-      validateName(name) &&
+      validateName(firstName) &&
+      validateName(lastName) &&
       validateEmail(email) &&
       validatePassword(password) &&
       validateConfirmPassword(confirmPassword, password) &&
@@ -129,12 +148,47 @@ const SignupScreen = () => {
           >
             <h2>{SIGN_UP_TITLE}</h2>
             <Grid container>
+              <Grid container>
+                <Typography>Choose your role</Typography>
+                <Grid container justifyContent="flex-start" alignItems="center">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        size="small"
+                        value="user"
+                        checked={userType === "user"}
+                        onChange={handleUserTypeChange}
+                      />
+                    }
+                    label={<Typography>User</Typography>}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        size="small"
+                        value="doctor"
+                        checked={userType === "doctor"}
+                        onChange={handleUserTypeChange}
+                      />
+                    }
+                    label={<Typography>Doctor</Typography>}
+                  />
+                </Grid>
+              </Grid>
               <SignUpTextField
-                label="Full Name"
+                label="First Name"
                 type="text"
-                value={name}
-                onChange={handleName}
-                error={showError && !validateName(name)}
+                value={firstName}
+                onChange={handleFirstName}
+                error={showError && !validateName(firstName)}
+                errorText={formErrors.name}
+              />
+              <SignUpTextField
+                label="Last Name"
+                type="text"
+                value={lastName}
+                onChange={handleLastName}
+                error={showError && !validateName(lastName)}
                 errorText={formErrors.name}
               />
               <SignUpTextField
@@ -174,11 +228,17 @@ const SignupScreen = () => {
                   />
                 }
                 label={
-                  <Typography className={classes.termsTextStyle}>
+                  <Typography
+                    // className={classes.termsTextStyle}
+                    className={classNames({
+                      [classes.termsTextStyle__Mobile]: !matches,
+                      [classes.termsTextStyle__DesktopMd]: matchesMD,
+                    })}
+                  >
                     {TERMS_CONDITIONS}
                   </Typography>
                 }
-                style={{ marginTop: "20px" }}
+                style={{ margin: "10px 0" }}
               />
               {showError && !policy && (
                 <Typography
@@ -221,7 +281,14 @@ const SignupScreen = () => {
               </Link>
             </Grid>
           </Grid>
-          {open && <VerificationCodeModal open={open} onClose={handleClose} />}
+          {openModal && (
+            <VerificationCodeModal
+              openModal={openModal}
+              handleCloseVerificationCodeModal={
+                handleCloseVerificationCodeModal
+              }
+            />
+          )}
         </Grid>
       </Grid>
     </>
