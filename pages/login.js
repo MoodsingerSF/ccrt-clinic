@@ -61,7 +61,12 @@ const LoginScreen = () => {
       <Head>
         <title>Login</title>
       </Head>
-      <Grid container justifyContent="center" alignItems="center">
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        style={{ minHeight: "100vh" }}
+      >
         <Grid
           container
           className={classNames({
