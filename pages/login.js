@@ -20,7 +20,7 @@ import {
   LOGIN_WITH_FACEBOOK,
   LOGIN_WITH_GOOGLE,
 } from "../data/login/data";
-import CustomButton from "../components/button/Button";
+import CustomButton from "../components/button/CustomButton";
 
 const LoginScreen = () => {
   const theme = useTheme();
