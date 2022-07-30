@@ -20,7 +20,7 @@ import {
   LOGIN_WITH_FACEBOOK,
   LOGIN_WITH_GOOGLE,
 } from "../data/login/data";
-import CustomButton from "../components/button/Button";
+import CustomButton from "../components/button/CustomButton";
 
 const LoginScreen = () => {
   const theme = useTheme();
@@ -61,7 +61,12 @@ const LoginScreen = () => {
       <Head>
         <title>Login</title>
       </Head>
-      <Grid container justifyContent="center" alignItems="center">
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        style={{ minHeight: "100vh" }}
+      >
         <Grid
           container
           className={classNames({

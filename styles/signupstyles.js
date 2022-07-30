@@ -12,12 +12,16 @@ export const useStyles = makeStyles((theme) =>
       background: theme.palette.primary.main,
     },
     containerDesktopMd: {
-      borderRadius: "26px",
-      width: "80%",
-      margin: "10px auto",
+      // borderRadius: "26px",
+      // width: "900px",
+      // height: "95vh",
+      width: "90%",
+      // margin: "10px auto",
     },
     containerDesktopLg: {
       width: "70%",
+      // width: "1154px",
+      // borderRadius: "26px",
     },
     ccrt__signup__right: {
       background: "#fff",
@@ -29,10 +33,11 @@ export const useStyles = makeStyles((theme) =>
       padding: "20px 50px",
     },
     ccrt__signup__right__Md: {
-      width: "729px",
-      padding: "50px 90px",
-      borderTopRightRadius: "25px",
-      borderBottomRightRadius: "25px",
+      // width: "729px",
+      width: "50%",
+      padding: "20px 90px",
+      // borderTopRightRadius: "25px",
+      // borderBottomRightRadius: "25px",
     },
     linkStyle: {
       textDecoration: "none",
@@ -40,9 +45,12 @@ export const useStyles = makeStyles((theme) =>
       fontWeight: "500",
       marginLeft: "10px",
     },
-    termsTextStyle: {
+    termsTextStyle__Mobile: {
       fontSize: "80%",
       color: theme.palette.grey[900],
+    },
+    termsTextStyle__DesktopMd: {
+      fontSize: "90%",
     },
     ccrt__signup__policyError__text: {
       color: "red",

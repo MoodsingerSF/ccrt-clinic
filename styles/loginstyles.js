@@ -6,13 +6,11 @@ export const useStyles = makeStyles((theme) =>
     ccrt__login__containerMobile: {
       background: "#FFF",
       padding: "20px",
-      margin: "40px 0",
     },
     ccrt__login__containerDesktopSm: {
       background: "#FFF",
       width: "80%",
       padding: "20px 50px",
-      margin: "20px 0",
       borderRadius: "5px",
     },
     ccrt__login__containerDesktopMd: {
@@ -20,7 +18,6 @@ export const useStyles = makeStyles((theme) =>
       width: "50%",
       boxShadow: BOX_SHADOW,
       padding: "30px",
-      margin: "35px 0",
       borderRadius: "5px",
     },
     ccrt__login__containerDesktopLg: {
@@ -28,7 +25,6 @@ export const useStyles = makeStyles((theme) =>
       width: "40%",
       boxShadow: BOX_SHADOW,
       padding: "50px",
-      margin: "80px 0",
       borderRadius: "5px",
     },
     ccrt__login__forgot__password: {
