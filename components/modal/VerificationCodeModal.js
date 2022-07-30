@@ -1,22 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Typography, Grid, TextField, Button } from "@mui/material";
+import {
+  Modal,
+  Typography,
+  Grid,
+  TextField,
+  Button,
+  useTheme,
+} from "@mui/material";
 import { DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
 import {
-  INITIALSECONDS,
+  INITIAL_SECONDS,
   MESSAGE,
   RESEND,
   SUBTITLE,
   TITLE,
   VERIFY_BUTTON,
 } from "../../data/signupVerificationCodeModal/data";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import classNames from "classnames";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
+import CustomButton from "../button/CustomButton";
 
-const VerificationCodeModal = ({ open, onClose }) => {
+const VerificationCodeModal = ({
+  openModal,
+  handleCloseVerificationCodeModal,
+}) => {
   const classes = useStyles();
-  const [seconds, setSeconds] = useState(INITIALSECONDS);
+  const theme = useTheme();
+
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
+  const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
+  const [seconds, setSeconds] = useState(INITIAL_SECONDS);
   const [disabled, setDisabled] = useState(true);
-  const [showContent, setShowContent] = useState(true);
+  const [showModalContent, setShowModalContent] = useState(true);
 
   useEffect(() => {
     let myInterval = setInterval(() => {
@@ -24,7 +42,7 @@ const VerificationCodeModal = ({ open, onClose }) => {
         setSeconds(seconds - 1);
       } else {
         setDisabled(false);
-        setShowContent(false);
+        setShowModalContent(false);
         clearInterval(myInterval);
       }
     }, 1000);
@@ -34,15 +52,26 @@ const VerificationCodeModal = ({ open, onClose }) => {
   }, [seconds]);
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Grid container className={classes.modal__container}>
+    <Modal open={openModal} onClose={handleCloseVerificationCodeModal}>
+      <Grid
+        container
+        // className={classes.modal__container}
+        className={classNames({
+          [classes.modal__container_Mobile]: !matches,
+          [classes.modal__container_DesktopSm]: matches,
+          [classes.modal__container_DesktopMd]: matchesMD,
+          [classes.modal__container_DesktopLg]: matchesLG,
+        })}
+      >
         <Grid container justifyContent="center" alignItems="center">
           <Typography variant="h6" component="h2">
             {TITLE}
           </Typography>
-          <Typography className={classes.modal__subtitle}>
-            {SUBTITLE}
-          </Typography>
+          <Grid container justifyContent="center" alignItems="center">
+            <Typography className={classes.modal__subtitle}>
+              {SUBTITLE}
+            </Typography>
+          </Grid>
         </Grid>
         <Grid container justifyContent="center" alignItems="center">
           <TextField
@@ -61,15 +90,15 @@ const VerificationCodeModal = ({ open, onClose }) => {
               disabled={disabled}
               className={classes.modal__resend}
               onClick={() => {
-                setSeconds(INITIALSECONDS);
+                setSeconds(INITIAL_SECONDS);
                 setDisabled(true);
-                setShowContent(true);
+                setShowModalContent(true);
                 //api
               }}
             >
               {RESEND}
             </Button>
-            {showContent ? (
+            {showModalContent ? (
               <Typography className={classes.modal__resend__timer}>
                 After {seconds} Secs
               </Typography>
@@ -77,13 +106,7 @@ const VerificationCodeModal = ({ open, onClose }) => {
           </Typography>
         </Grid>
         <Grid container justifyContent="center" alignItems="center">
-          <Button
-            variant="contained"
-            fullWidth
-            className={classes.modal__verify__button}
-          >
-            {VERIFY_BUTTON}
-          </Button>
+          <CustomButton title={VERIFY_BUTTON} />
         </Grid>
       </Grid>
     </Modal>
@@ -91,18 +114,37 @@ const VerificationCodeModal = ({ open, onClose }) => {
 };
 
 const useStyles = makeStyles({
-  modal__container: {
+  modal__container_Mobile: {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     color: DEFAULT_COLOR_MINUS_2,
     textAlign: "center",
-    width: 400,
+    width: "90%",
     background: "#fff",
     borderRadius: "6px",
     padding: "50px 50px",
     boxShadow: 24,
+  },
+  modal__container_DesktopSm: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    color: DEFAULT_COLOR_MINUS_2,
+    textAlign: "center",
+    width: "50%",
+    background: "#fff",
+    borderRadius: "6px",
+    padding: "50px 50px",
+    boxShadow: 24,
+  },
+  modal__container_DesktopMd: {
+    width: "50%",
+  },
+  modal__container_DesktopLg: {
+    width: "40%",
   },
   modal__subtitle: {
     marginBottom: "20px",
@@ -122,13 +164,10 @@ const useStyles = makeStyles({
   modal__resend__timer: {
     fontSize: "100%",
   },
-  modal__verify__button: {
-    color: "white",
-  },
 });
 
 VerificationCodeModal.propTypes = {
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
+  openModal: PropTypes.bool.isRequired,
+  handleCloseVerificationCodeModal: PropTypes.func.isRequired,
 };
 export default VerificationCodeModal;

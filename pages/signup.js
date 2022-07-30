@@ -3,7 +3,6 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
-  Button,
   Checkbox,
   FormControlLabel,
   Grid,
@@ -30,7 +29,7 @@ import {
   validateName,
   validatePassword,
 } from "../controllers/signupController";
-import AnotherSignupButton from "../components/pages/anotherSignupButton/AnotherSignupButton";
+import CustomButton from "../components/button/CustomButton";
 const VerificationCodeModal = dynamic(() =>
   import("../components/modal/VerificationCodeModal")
 );
@@ -41,26 +40,35 @@ const SignupDesktopSidebar = dynamic(() =>
   import("../components/pages/signup/SignupDesktopSidebar")
 );
 
-const signup = () => {
+const SignupScreen = () => {
   const theme = useTheme();
   const classes = useStyles();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
   const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
 
-  const [name, setName] = useState("");
+  const [userType, setUserType] = useState("user");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
   const [policy, setPolicy] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpenModal(true);
+  const handleCloseVerificationCodeModal = () => setOpenModal(false);
 
-  const handleName = (e) => {
-    setName(e.target.value);
+  const handleUserTypeChange = (e) => {
+    setUserType(e.target.value);
+  };
+
+  const handleFirstName = (e) => {
+    setFirstName(e.target.value);
+  };
+  const handleLastName = (e) => {
+    setLastName(e.target.value);
   };
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -76,7 +84,9 @@ const signup = () => {
   };
 
   const handleSubmitForm = () => {
-    if (validate(name, email, password, confirmedPassword, policy)) {
+    if (
+      validate(firstName, lastName, email, password, confirmedPassword, policy)
+    ) {
       // if everything is alright, send verification code
       handleOpen();
     } else {
@@ -84,10 +94,18 @@ const signup = () => {
     }
   };
 
-  const validate = (name, email, password, confirmPassword, policy) => {
+  const validate = (
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmPassword,
+    policy
+  ) => {
     let isEverythingAllRight = true;
     isEverythingAllRight =
-      validateName(name) &&
+      validateName(firstName) &&
+      validateName(lastName) &&
       validateEmail(email) &&
       validatePassword(password) &&
       validateConfirmPassword(confirmPassword, password) &&
@@ -102,134 +120,179 @@ const signup = () => {
       </Head>
       <Grid
         container
-        alignItems="center"
         justifyContent="center"
-        className={classNames({
-          [classes.containerMobile]: !matches,
-          [classes.containerDesktopSm]: matches,
-          [classes.containerDesktopMd]: matchesMD,
-          [classes.containerDesktopLg]: matchesLG,
-        })}
+        alignItems="center"
+        style={{ minHeight: "100vh" }}
       >
-        {matches ? <SignupDesktopSidebar /> : <SignupMobileHeader />}
         <Grid
-          item
-          sm={12}
-          md={8}
+          container
+          alignItems="center"
+          justifyContent="center"
           className={classNames({
-            [classes.ccrt__signup__right]: !matches,
-            [classes.ccrt__signup__right__Sm]: matches,
-            [classes.ccrt__signup__right__Md]: matchesMD,
+            [classes.containerMobile]: !matches,
+            [classes.containerDesktopSm]: matches,
+            [classes.containerDesktopMd]: matchesMD,
+            [classes.containerDesktopLg]: matchesLG,
           })}
         >
-          <h2>{SIGN_UP_TITLE}</h2>
-          <Grid container>
-            <SignUpTextField
-              label="Full Name"
-              type="text"
-              value={name}
-              onChange={handleName}
-              error={showError && !validateName(name)}
-              errorText={formErrors.name}
-            />
-            <SignUpTextField
-              label="Email"
-              type="email"
-              value={email}
-              onChange={handleEmail}
-              error={showError && !validateEmail(email)}
-              errorText={formErrors.email}
-            />
+          {matches ? <SignupDesktopSidebar /> : <SignupMobileHeader />}
+          <Grid
+            item
+            sm={12}
+            md={8}
+            className={classNames({
+              [classes.ccrt__signup__right]: !matches,
+              [classes.ccrt__signup__right__Sm]: matches,
+              [classes.ccrt__signup__right__Md]: matchesMD,
+            })}
+          >
+            <h2>{SIGN_UP_TITLE}</h2>
+            <Grid container>
+              <Grid container>
+                <Typography>Choose your role</Typography>
+                <Grid container justifyContent="flex-start" alignItems="center">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        size="small"
+                        value="user"
+                        checked={userType === "user"}
+                        onChange={handleUserTypeChange}
+                      />
+                    }
+                    label={<Typography>User</Typography>}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        size="small"
+                        value="doctor"
+                        checked={userType === "doctor"}
+                        onChange={handleUserTypeChange}
+                      />
+                    }
+                    label={<Typography>Doctor</Typography>}
+                  />
+                </Grid>
+              </Grid>
+              <SignUpTextField
+                label="First Name"
+                type="text"
+                value={firstName}
+                onChange={handleFirstName}
+                error={showError && !validateName(firstName)}
+                errorText={formErrors.name}
+              />
+              <SignUpTextField
+                label="Last Name"
+                type="text"
+                value={lastName}
+                onChange={handleLastName}
+                error={showError && !validateName(lastName)}
+                errorText={formErrors.name}
+              />
+              <SignUpTextField
+                label="Email"
+                type="email"
+                value={email}
+                onChange={handleEmail}
+                error={showError && !validateEmail(email)}
+                errorText={formErrors.email}
+              />
 
-            <SignUpTextField
-              label="Password"
-              type="password"
-              value={password}
-              onChange={handlePassword}
-              error={showError && !validatePassword(password)}
-              errorText={formErrors.password}
-            />
-            <SignUpTextField
-              label="Confirm Password"
-              type="password"
-              value={confirmedPassword}
-              onChange={handleConfirmPassword}
-              error={
-                showError &&
-                !validateConfirmPassword(confirmedPassword, password)
-              }
-              errorText={formErrors.confirmPassword}
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  size="small"
-                  checked={policy}
-                  onChange={handlePolicy}
-                />
-              }
-              label={
-                <Typography className={classes.termsTextStyle}>
-                  {TERMS_CONDITIONS}
+              <SignUpTextField
+                label="Password"
+                type="password"
+                value={password}
+                onChange={handlePassword}
+                error={showError && !validatePassword(password)}
+                errorText={formErrors.password}
+              />
+              <SignUpTextField
+                label="Confirm Password"
+                type="password"
+                value={confirmedPassword}
+                onChange={handleConfirmPassword}
+                error={
+                  showError &&
+                  !validateConfirmPassword(confirmedPassword, password)
+                }
+                errorText={formErrors.confirmPassword}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    size="small"
+                    checked={policy}
+                    onChange={handlePolicy}
+                  />
+                }
+                label={
+                  <Typography
+                    // className={classes.termsTextStyle}
+                    className={classNames({
+                      [classes.termsTextStyle__Mobile]: !matches,
+                      [classes.termsTextStyle__DesktopMd]: matchesMD,
+                    })}
+                  >
+                    {TERMS_CONDITIONS}
+                  </Typography>
+                }
+                style={{ margin: "10px 0" }}
+              />
+              {showError && !policy && (
+                <Typography
+                  style={{ color: "red", fontSize: "70%", marginBottom: "5px" }}
+                >
+                  {formErrors.policy}
                 </Typography>
-              }
-              style={{ marginTop: "20px" }}
-            />
-            {showError && !policy && (
-              <Typography
-                style={{ color: "red", fontSize: "70%", marginBottom: "5px" }}
-              >
-                {formErrors.policy}
-              </Typography>
-            )}
-            <Button
-              variant="contained"
-              fullWidth
-              onClick={handleSubmitForm}
-              style={{ marginTop: "20px" }}
+              )}
+              <CustomButton onClick={handleSubmitForm} title={SIGN_UP_BUTTON} />
+            </Grid>
+            <Grid
+              container
+              alignItems="center"
+              justifyContent="center"
+              item
+              xs={12}
             >
-              {SIGN_UP_BUTTON}
-            </Button>
+              <Typography style={{ margin: "10px 0" }}>Or</Typography>
+            </Grid>
+            <Grid container>
+              <CustomButton title={SIGN_UP_WITH_GOOGLE} icon={<GoogleIcon />} />
+            </Grid>
+            <Grid container style={{ marginTop: "10px" }}>
+              <CustomButton
+                title={SIGN_UP_WITH_FACEBOOK}
+                icon={<FacebookIcon />}
+              />
+            </Grid>
+            <Grid
+              container
+              alignItems="center"
+              justifyContent="center"
+              item
+              xs={12}
+              style={{ marginTop: "10px" }}
+            >
+              <Typography>Already have an account?</Typography>
+              <Link href="/login">
+                <a className={classes.linkStyle}>Log In</a>
+              </Link>
+            </Grid>
           </Grid>
-          <Grid
-            container
-            alignItems="center"
-            justifyContent="center"
-            item
-            xs={12}
-          >
-            <Typography style={{ margin: "10px 0" }}>Or</Typography>
-          </Grid>
-          <Grid container>
-            <AnotherSignupButton
-              value={SIGN_UP_WITH_GOOGLE}
-              Icon={<GoogleIcon />}
+          {openModal && (
+            <VerificationCodeModal
+              openModal={openModal}
+              handleCloseVerificationCodeModal={
+                handleCloseVerificationCodeModal
+              }
             />
-          </Grid>
-          <Grid container style={{ marginTop: "10px" }}>
-            <AnotherSignupButton
-              value={SIGN_UP_WITH_FACEBOOK}
-              Icon={<FacebookIcon />}
-            />
-          </Grid>
-          <Grid
-            container
-            alignItems="center"
-            justifyContent="center"
-            item
-            xs={12}
-            style={{ marginTop: "10px" }}
-          >
-            <Typography>Already have an account?</Typography>
-            <Link href="/login">
-              <a className={classes.linkStyle}>Log In</a>
-            </Link>
-          </Grid>
+          )}
         </Grid>
-        {open && <VerificationCodeModal open={open} onClose={handleClose} />}
       </Grid>
     </>
   );
 };
 
-export default signup;
+export default SignupScreen;
