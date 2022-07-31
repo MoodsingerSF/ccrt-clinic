@@ -9,7 +9,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
 // import blog from "../../../public/image/blog/blog1.jpeg";
 import blog1 from "../../../public/image/blogDetails/abc.jpg";
-import { DEFAULT_COLOR_MINUS_2 } from "../../../misc/colors";
 import SocialShareComponent from "../../misc/SocialShareComponent";
 
 const BlogDetailsRight = () => {

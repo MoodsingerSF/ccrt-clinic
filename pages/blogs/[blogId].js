@@ -1,12 +1,25 @@
 import React from "react";
+import dynamic from "next/dynamic";
 import { Grid, useTheme } from "@mui/material";
 import { useStyles } from "../../styles/blogDetailstyle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
-import BlogDetailsLeft from "../../components/blogs/blog-details/BlogDetailsLeft";
-import BlogDetailsRight from "../../components/blogs/blog-details/BlogDetailsRight";
-import BlogPopularTags from "../../components/blogs/blog-details/BlogPopularTags";
-import BlogDetailsAuthorCard from "../../components/cards/BlogDetailsAuthorCard";
+// import BlogDetailsLeft from "../../components/blogs/blog-details/BlogDetailsLeft";
+// import BlogDetailsRight from "../../components/blogs/blog-details/BlogDetailsRight";
+// import BlogPopularTags from "../../components/blogs/blog-details/BlogPopularTags";
+// import BlogDetailsAuthorCard from "../../components/cards/BlogDetailsAuthorCard";
+const BlogDetailsLeft = dynamic(() =>
+  import("../../components/blogs/blog-details/BlogDetailsLeft")
+);
+const BlogDetailsRight = dynamic(() =>
+  import("../../components/blogs/blog-details/BlogDetailsRight")
+);
+const BlogPopularTags = dynamic(() =>
+  import("../../components/blogs/blog-details/BlogPopularTags")
+);
+const BlogDetailsAuthorCard = dynamic(() =>
+  import("../../components/cards/BlogDetailsAuthorCard")
+);
 
 const BlogDetailsScreen = () => {
   const classes = useStyles();

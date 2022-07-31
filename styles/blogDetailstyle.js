@@ -121,8 +121,8 @@ export const useStyles = makeStyles((theme) =>
     },
     ccrt__blogDetails__right__tags: {
       margin: "5px",
-      background: DEFAULT_COLOR_MINUS_2,
-      color: "#fff",
+      // background: DEFAULT_COLOR_MINUS_2,
+      // color: "#fff",
     },
     ccrt__blogDetails__right__blog__tags__mobile: {
       justifyContent: "right",
