@@ -6,6 +6,7 @@ import DashboardSidebar from "../../components/dashboard/DashboardSidebar";
 import Overview from "../../components/dashboard/Overview";
 import DoctorsRequest from "../../components/dashboard/DoctorsRequest";
 import DashboardNavber from "../../components/dashboard/DashboardNavber";
+import CreateNewAdmin from "../../components/dashboard/CreateNewAdmin";
 
 const Dashboard = () => {
   const classes = useStyles();
@@ -20,6 +21,8 @@ const Dashboard = () => {
       return <Overview />;
     } else if (route[0] === "doctor-request") {
       return <DoctorsRequest />;
+    } else if (route[0] === "create-new-admin") {
+      return <CreateNewAdmin />;
     }
   };
   // useEffect(() => {
@@ -35,6 +38,9 @@ const Dashboard = () => {
     >
       <Grid container className={classes.ccrt__dashboard__container}>
         <Grid
+          container
+          justifyContent="start"
+          alignItems="start"
           item
           xs={12}
           md={3}
@@ -43,9 +49,12 @@ const Dashboard = () => {
           <DashboardSidebar setOptopnTitle={setOptopnTitle} />
         </Grid>
         <Grid
+          // container
           item
           xs={12}
           md={9}
+          // justifyContent="start"
+          // alignItems="start"
           className={classes.ccrt__dashboard__right__container}
         >
           <Grid container item xs={12}>

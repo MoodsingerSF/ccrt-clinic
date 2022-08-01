@@ -10,7 +10,7 @@ const DashboardNavber = () => {
   const classes = useStyles();
   return (
     <Grid container className={classes.ccrt__dashboard__navbar}>
-      <Grid container justifyContent="start" alignItems="center" item sm={4}>
+      <Grid container justifyContent="start" alignItems="center" item sm={3}>
         <Grid
           container
           justifyContent="start"
@@ -20,10 +20,10 @@ const DashboardNavber = () => {
           <Image src={logo} alt="logo" />
         </Grid>
       </Grid>
-      <Grid container justifyContent="center" alignItems="center" item sm={4}>
+      <Grid container justifyContent="center" alignItems="center" item sm={6}>
         <SearchField placeholder="Search..." />
       </Grid>
-      <Grid container justifyContent="flex-end" alignItems="center" item sm={4}>
+      <Grid container justifyContent="flex-end" alignItems="center" item sm={3}>
         <Typography
           style={{ marginRight: "10px", fontSize: "90%", fontWeight: "600" }}
         >

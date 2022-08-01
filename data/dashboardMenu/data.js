@@ -7,6 +7,10 @@ export const SidebarData = [
     route: "doctor-request",
     heading: "Doctor request",
   },
+  {
+    route: "create-new-admin",
+    heading: "Create new admin",
+  },
 ];
 
 export const DoctorTableData = [
