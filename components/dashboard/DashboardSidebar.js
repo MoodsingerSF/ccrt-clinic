@@ -1,0 +1,97 @@
+import React, { useState } from "react";
+import Link from "next/link";
+import { Grid, Typography } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { DEFAULT_COLOR, DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
+import { SidebarData } from "../../data/dashboardMenu/data";
+
+const DashboardSidebar = () => {
+  const classes = useStyles();
+  const [selected, setSelected] = useState(0);
+  const handleClickTest = (index) => {
+    setSelected(index);
+  };
+
+  return (
+    <Grid container className={classes.ccrt__dashboard__sidebar__container}>
+      <Grid
+        container
+        justifyContent="center"
+        className={classes.ccrt__dashboard__sidebar__header}
+      >
+        <Typography>Dashboard kit</Typography>
+      </Grid>
+      <Grid container className={classes.ccrt__dashboard__sidebar__menu}>
+        <ul className={classes.ccrt__dashboard__sidebar__menu__items}>
+          {SidebarData.map((item, index) => {
+            return (
+              <li
+                key={index}
+                className={
+                  selected === index
+                    ? classes.ccrt__dashboard__sidebar__menu__item__active
+                    : classes.ccrt__dashboard__sidebar__menu__item
+                }
+                onClick={() => handleClickTest(index)}
+              >
+                <Link href={item.route}>
+                  <Grid
+                    container
+                    className={
+                      classes.ccrt__dashboard__sidebar__menu__item__link
+                    }
+                  >
+                    {item.heading}
+                  </Grid>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </Grid>
+    </Grid>
+  );
+};
+
+const useStyles = makeStyles({
+  ccrt__dashboard__sidebar__container: {
+    padding: "10px 0",
+  },
+  ccrt__dashboard__sidebar__header: {
+    color: "#FFFFFF",
+    textTransform: "capitalize",
+    borderBottom: "2px solid #ffffff",
+    paddingBottom: "10px",
+  },
+  ccrt__dashboard__sidebar__menu: {
+    marginTop: "10px",
+  },
+  ccrt__dashboard__sidebar__menu__items: {
+    padding: "0",
+    margin: "0",
+    width: "100%",
+    listStyle: "none",
+  },
+  ccrt__dashboard__sidebar__menu__item: {
+    padding: "10px",
+    cursor: "pointer",
+    borderLeft: `5px solid ${DEFAULT_COLOR_MINUS_2}`,
+    "&:hover": {
+      background: DEFAULT_COLOR,
+      borderLeft: "5px solid #FFFFFF",
+    },
+  },
+  ccrt__dashboard__sidebar__menu__item__link: {
+    textDecoration: "none",
+    color: "#FFF",
+    width: "100%",
+    cursor: "pointer",
+  },
+  ccrt__dashboard__sidebar__menu__item__active: {
+    background: DEFAULT_COLOR,
+    padding: "10px",
+    cursor: "pointer",
+    borderLeft: "5px solid #FFFFFF",
+  },
+});
+export default DashboardSidebar;
