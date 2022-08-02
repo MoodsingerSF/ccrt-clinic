@@ -46,4 +46,5 @@ export default SearchField;
 
 SearchField.propTypes = {
   placeholder: PropTypes.string,
+  size: PropTypes.string,
 };

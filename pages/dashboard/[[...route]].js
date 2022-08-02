@@ -1,19 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { Grid } from "@mui/material";
+import { Grid, useTheme } from "@mui/material";
 import { useStyles } from "../../styles/dashBoardstyle";
-import DashboardSidebar from "../../components/dashboard/DashboardSidebar";
+// import classNames from "classnames";
+import useMediaQuery from "@mui/material/useMediaQuery";
+// import DashboardSidebar from "../../components/dashboard/DashboardSidebar";
+const DashboardSidebar = dynamic(() =>
+  import("../../components/dashboard/DashboardSidebar")
+);
 import Overview from "../../components/dashboard/Overview";
 import DoctorsRequest from "../../components/dashboard/DoctorsRequest";
 import DashboardNavber from "../../components/dashboard/DashboardNavber";
 import CreateNewAdmin from "../../components/dashboard/CreateNewAdmin";
+// import CustomDrawer from "../../components/drawer/CustomDrawer";
 
 const Dashboard = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
 
   const router = useRouter();
 
-  const [optionTitle, setOptopnTitle] = useState("Dashboard");
   const getComponent = (route) => {
     console.log(route);
     if (typeof route !== "undefined" && route.length !== 1) return null;
@@ -37,31 +45,54 @@ const Dashboard = () => {
       className={classes.ccrt__dashboard__section}
     >
       <Grid container className={classes.ccrt__dashboard__container}>
-        <Grid
-          container
-          justifyContent="start"
-          alignItems="start"
-          item
-          xs={12}
-          md={3}
-          className={classes.ccrt__dashboard__left__container}
-        >
-          <DashboardSidebar setOptopnTitle={setOptopnTitle} />
-        </Grid>
-        <Grid
-          // container
-          item
-          xs={12}
-          md={9}
-          // justifyContent="start"
-          // alignItems="start"
-          className={classes.ccrt__dashboard__right__container}
-        >
-          <Grid container item xs={12}>
-            <DashboardNavber />
+        {matchesMD ? (
+          <Grid
+            container
+            alignItems="flex-start"
+            item
+            xs={3}
+            className={classes.ccrt__dashboard__left__container}
+          >
+            <DashboardSidebar />
           </Grid>
-          {getComponent(router.query.route)}
-        </Grid>
+        ) : null}
+
+        {matchesMD ? (
+          <Grid container>
+            <Grid container item xs={3}></Grid>
+            <Grid
+              container
+              alignItems="flex-start"
+              item
+              xs={9}
+              className={classes.ccrt__dashboard__right__container}
+            >
+              <Grid container item xs={12}>
+                <DashboardNavber />
+                {getComponent(router.query.route)}
+              </Grid>
+            </Grid>
+          </Grid>
+        ) : (
+          <Grid
+            container
+            alignItems="flex-start"
+            item
+            xs={12}
+            className={classes.ccrt__dashboard__right__container}
+          >
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              item
+              xs={12}
+            >
+              <DashboardNavber />
+              {getComponent(router.query.route)}
+            </Grid>
+          </Grid>
+        )}
       </Grid>
     </Grid>
   );

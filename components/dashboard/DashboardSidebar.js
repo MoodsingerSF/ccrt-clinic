@@ -7,13 +7,15 @@ import { SidebarData } from "../../data/dashboardMenu/data";
 
 const DashboardSidebar = () => {
   const classes = useStyles();
+
   const [selected, setSelected] = useState(0);
+
   const handleClickTest = (index) => {
     setSelected(index);
   };
 
   return (
-    <Grid container className={classes.ccrt__dashboard__sidebar__container}>
+    <Grid className={classes.ccrt__dashboard__sidebar__container}>
       <Grid
         container
         justifyContent="center"
@@ -56,6 +58,8 @@ const DashboardSidebar = () => {
 const useStyles = makeStyles({
   ccrt__dashboard__sidebar__container: {
     padding: "10px 0",
+    height: "100vh",
+    width: "100%",
   },
   ccrt__dashboard__sidebar__header: {
     color: "#FFFFFF",
@@ -73,7 +77,6 @@ const useStyles = makeStyles({
     listStyle: "none",
   },
   ccrt__dashboard__sidebar__menu__item: {
-    padding: "10px",
     cursor: "pointer",
     borderLeft: `5px solid ${DEFAULT_COLOR_MINUS_2}`,
     "&:hover": {
@@ -86,10 +89,10 @@ const useStyles = makeStyles({
     color: "#FFF",
     width: "100%",
     cursor: "pointer",
+    padding: "10px",
   },
   ccrt__dashboard__sidebar__menu__item__active: {
     background: DEFAULT_COLOR,
-    padding: "10px",
     cursor: "pointer",
     borderLeft: "5px solid #FFFFFF",
   },

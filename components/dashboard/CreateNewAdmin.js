@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import classNames from "classnames";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import SignUpTextField from "../textfields/SignUpTextField";
 import { formErrors } from "../../data/signup/data";
 import CustomButton from "../button/CustomButton";
@@ -10,10 +12,16 @@ import {
   validatePassword,
 } from "../../controllers/signupController";
 import { BOX_SHADOW } from "../../misc/colors";
-import { CREATE_BUTTON } from "../../data/dashboard/data";
+import {
+  CREATE_BUTTON,
+  CREATE_NEW_ADMIN_TITLE,
+} from "../../data/dashboard/data";
 
 const CreateNewAdmin = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matchesMobile = useMediaQuery(theme.breakpoints.up("sm"));
+  const matchesDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -57,29 +65,43 @@ const CreateNewAdmin = () => {
       container
       justifyContent="center"
       alignItems="center"
-      className={classes.ccrt_dashboard_create_new_admin}
+      className={classNames({
+        [classes.ccrt_dashboard_create_new_admin__mobile]: !matchesMobile,
+        [classes.ccrt_dashboard_create_new_admin__tablet]: matchesMobile,
+        [classes.ccrt_dashboard_create_new_admin__desktop]: matchesDesktop,
+      })}
     >
       <Grid container justifyContent="center" alignItems="center">
         <Grid
           container
           justifyContent="center"
           alignItems="center"
-          className={classes.ccrt_dashboard_create_new_admin_form}
+          className={classNames({
+            [classes.ccrt_dashboard_create_new_admin_form__mobile]:
+              !matchesMobile,
+            [classes.ccrt_dashboard_create_new_admin_form__tablet]:
+              matchesMobile,
+            [classes.ccrt_dashboard_create_new_admin_form__desktop]:
+              matchesDesktop,
+          })}
         >
           <Grid
             container
             justifyContent="center"
             alignItems="center"
-            className={classes.ccrt_dashboard_create_new_admin_form__container}
+            className={classNames({
+              [classes.ccrt_dashboard_create_new_admin_form__container__mobile]:
+                !matchesMobile,
+              [classes.ccrt_dashboard_create_new_admin_form__container__tablet]:
+                matchesMobile,
+              [classes.ccrt_dashboard_create_new_admin_form__container__desktop]:
+                matchesDesktop,
+            })}
           >
             <Typography
-              style={{
-                textTransform: "capitalize",
-                fontWeight: "600",
-                fontSize: "120%",
-              }}
+              className={classes.ccrt_dashboard_create_new_admin__title}
             >
-              Create New Admin
+              {CREATE_NEW_ADMIN_TITLE}
             </Typography>
             <SignUpTextField
               label="First Name"
@@ -129,20 +151,48 @@ const CreateNewAdmin = () => {
 };
 
 const useStyles = makeStyles({
-  ccrt_dashboard_create_new_admin: {
-    marginTop: "100px",
-    // change for mobile
+  ccrt_dashboard_create_new_admin__mobile: {
+    height: "70vh",
   },
-  ccrt_dashboard_create_new_admin_form: {
-    height: "100%",
-    width: "70%",
+  ccrt_dashboard_create_new_admin__tablet: {
+    height: "71vh",
+  },
+  ccrt_dashboard_create_new_admin__desktop: {
+    height: "86vh",
+  },
+  ccrt_dashboard_create_new_admin_form__mobile: {
+    width: "100%",
     background: "#ffffff",
     boxShadow: BOX_SHADOW,
-    padding: "50px 0",
-    // change for mobile
+    padding: "15px 0",
   },
-  ccrt_dashboard_create_new_admin_form__container: {
+  ccrt_dashboard_create_new_admin_form__tablet: {
+    width: "100%",
+    background: "#ffffff",
+    boxShadow: BOX_SHADOW,
+    padding: "15px 0",
+  },
+  ccrt_dashboard_create_new_admin_form__desktop: {
+    width: "80%",
+    background: "#ffffff",
+    boxShadow: BOX_SHADOW,
+    padding: "15px 0",
+  },
+  ccrt_dashboard_create_new_admin_form__container__mobile: {
+    width: "90%",
+  },
+  ccrt_dashboard_create_new_admin_form__container__tablet: {
+    width: "65%",
+    padding: "20px 0",
+  },
+  ccrt_dashboard_create_new_admin_form__container__desktop: {
     width: "70%",
+    padding: "20px 0",
+  },
+  ccrt_dashboard_create_new_admin__title: {
+    textTransform: "capitalize",
+    fontWeight: "600",
+    fontSize: "120%",
   },
 });
 export default CreateNewAdmin;
