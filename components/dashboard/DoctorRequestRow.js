@@ -116,10 +116,10 @@ const useStyles = makeStyles({
   },
   ccrt__dashboard__dctr__req__table__data__desktop: {
     borderBottom: "1px solid #ddd",
-    padding: "12px 0",
+    padding: "8px 0",
     cursor: "pointer",
     textAlign: "center",
-    fontSize: "100%",
+    fontSize: "95%",
   },
   ccrt__dashboard__dctr__req__table__data__row: {
     "&:hover": {

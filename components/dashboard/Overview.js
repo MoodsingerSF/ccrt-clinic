@@ -4,7 +4,7 @@ import React from "react";
 const Overview = () => {
   return (
     <Grid container>
-      <Typography style={{ color: "red" }}>Overview</Typography>
+      <Typography>Overview</Typography>
     </Grid>
   );
 };

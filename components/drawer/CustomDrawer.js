@@ -99,5 +99,5 @@ export default CustomDrawer;
 
 CustomDrawer.propTypes = {
   isDrawerOpen: PropTypes.bool,
-  setIsDrawerOpen: PropTypes.bool,
+  setIsDrawerOpen: PropTypes.func,
 };
