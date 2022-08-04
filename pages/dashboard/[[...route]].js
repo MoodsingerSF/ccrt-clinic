@@ -13,6 +13,7 @@ import Overview from "../../components/dashboard/Overview";
 import DoctorsRequest from "../../components/dashboard/DoctorsRequest";
 import DashboardNavber from "../../components/dashboard/DashboardNavber";
 import CreateNewAdmin from "../../components/dashboard/CreateNewAdmin";
+import DashboardBlogs from "../../components/dashboard/DashboardBlogs";
 // import CustomDrawer from "../../components/drawer/CustomDrawer";
 
 const Dashboard = () => {
@@ -31,6 +32,8 @@ const Dashboard = () => {
       return <DoctorsRequest />;
     } else if (route[0] === "create-new-admin") {
       return <CreateNewAdmin />;
+    } else if (route[0] === "user-blogs") {
+      return <DashboardBlogs />;
     }
   };
   // useEffect(() => {

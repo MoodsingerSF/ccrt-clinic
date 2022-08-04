@@ -11,6 +11,10 @@ export const SidebarData = [
     route: "create-new-admin",
     heading: "Create new admin",
   },
+  {
+    route: "user-blogs",
+    heading: "Blogs",
+  },
 ];
 
 export const DoctorTableData = [

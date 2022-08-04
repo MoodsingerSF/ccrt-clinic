@@ -96,9 +96,9 @@ const DoctorRequestRow = ({ doctor }) => {
             <Typography>Name: {doctor.name}</Typography>
             <Typography>Email: {doctor.email}</Typography>
             <Typography>About Doctor: lorem</Typography>
-            {/* <Typography>Name: {doctor.name}</Typography>
+            <Typography>Name: {doctor.name}</Typography>
             <Typography>Email: {doctor.email}</Typography>
-            <Typography>About Doctor: lorem</Typography> */}
+            <Typography>About Doctor: lorem</Typography>
           </td>
         </tr>
       ) : null}

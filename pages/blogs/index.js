@@ -5,6 +5,7 @@ import { Grid } from "@mui/material";
 import { useStyles } from "../../styles/blogstyle";
 import img from "../../public/image/ccrt-bg/CCRT_bg.jpg";
 import BlogCard from "../../components/cards/BlogCard";
+import { blogData } from "../../data/blog/data";
 
 const BlogScreen = () => {
   const classes = useStyles();
@@ -23,10 +24,23 @@ const BlogScreen = () => {
           </Grid>
           <h2 className={classes.ccrt__blog__header__title}>Blog</h2>
         </Grid>
-        <Grid container justifyContent="center" alignItems="center">
-          {blogData.map((item) => (
-            <BlogCard blogId={item.id} key={item.id} />
-          ))}
+        <Grid container justifyContent="flex-start" alignItems="center">
+          {blogData.map((blog) => {
+            return (
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <BlogCard
+                  key={blog.blogId}
+                  blogId={blog.blogId}
+                  avatar={blog.avatar}
+                  name={blog.name}
+                  date={blog.date}
+                  image={blog.image}
+                  title={blog.title}
+                  description={blog.description}
+                />
+              </Grid>
+            );
+          })}
         </Grid>
       </Grid>
     </>
@@ -34,9 +48,3 @@ const BlogScreen = () => {
 };
 
 export default BlogScreen;
-
-const blogData = [
-  {
-    id: 1,
-  },
-];

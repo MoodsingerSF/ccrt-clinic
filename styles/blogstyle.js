@@ -1,6 +1,4 @@
 import { createStyles, makeStyles } from "@mui/styles";
-import { DEFAULT_COLOR_MINUS_2 } from "../misc/colors";
-import img from "../public/image/ccrt-bg/CCRT_bg.jpg";
 
 export const useStyles = makeStyles((theme) =>
   createStyles({
@@ -9,8 +7,6 @@ export const useStyles = makeStyles((theme) =>
       width: "100vw",
       overflow: "hidden",
       zIndex: "-1",
-      //   backgroundColor: "#000000",
-      //   opacity: "0.7",
     },
     ccrt__blog__wrapper: {
       boxSizing: "border-box",
@@ -39,18 +35,17 @@ export const useStyles = makeStyles((theme) =>
       textShadow: "1px 1px 1px #3c5c5e",
     },
     ccrt__blog__body__container: {
-      width: "95%",
-      margin: "20px 0",
+      padding: "10px",
+      // boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
     },
     ccrt__blog__content__title: {
       fontWeight: "bold",
       marginBottom: "5px",
+      cursor: "pointer",
     },
     ccrt__blog__hashtag: {
       margin: "0 5px",
-      background: DEFAULT_COLOR_MINUS_2,
-      color: "#fff",
-      padding: "0 5px",
+      padding: "15px 5px",
     },
   })
 );
