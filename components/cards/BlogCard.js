@@ -15,7 +15,7 @@ import {
 import { useStyles } from "../../styles/blogstyle";
 import PropTypes from "prop-types";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import DashboardBlogsModal from "../modal/DashboardBlogsModal";
+import DashboardBlogsOptionsPopup from "../modal/DashboardBlogsOptionsPopup";
 
 const BlogCard = ({
   blogId,
@@ -30,15 +30,16 @@ const BlogCard = ({
   const classes = useStyles();
   const router = useRouter();
 
-  const [open, setOpen] = useState(false);
+  const [openOptionsPopup, setOpenOptionsPopup] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(!open);
+  const handleClickOpenOptionsPopup = () => {
+    setOpenOptionsPopup(!openOptionsPopup);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleCloseOptionsPopup = () => {
+  //   setOpenOptionsPopup(false);
+  // };
+
   return (
     <Grid
       container
@@ -50,11 +51,14 @@ const BlogCard = ({
         <CardHeader
           avatar={<Avatar>{avatar}</Avatar>}
           action={
-            showOptions ? (
-              <IconButton aria-label="settings" onClick={handleClickOpen}>
+            showOptions && (
+              <IconButton
+                aria-label="settings"
+                onClick={handleClickOpenOptionsPopup}
+              >
                 <MoreVertIcon />
               </IconButton>
-            ) : null
+            )
           }
           title={name}
           subheader={date}
@@ -108,7 +112,7 @@ const BlogCard = ({
           </Grid>
         </CardContent>
       </Card>
-      {open ? <DashboardBlogsModal handleClose={handleClose} /> : null}
+      {openOptionsPopup && <DashboardBlogsOptionsPopup blogId={blogId} />}
     </Grid>
   );
 };

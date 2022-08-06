@@ -23,18 +23,7 @@ const DashboardBlogs = () => {
         </Grid>
         <Grid container item sm={6}>
           <Link href="/blog-edit">
-            <a
-              style={{
-                textDecoration: "none",
-                background: DEFAULT_COLOR_MINUS_2,
-                width: "100%",
-                textAlign: "center",
-                color: "#fff",
-                textTransform: "uppercase",
-                padding: "10px 20px",
-                fontWeight: "500",
-              }}
-            >
+            <a className={classes.ccrt__dashboard__blogs__creat__blog__link}>
               Create new blog
             </a>
           </Link>
@@ -79,6 +68,16 @@ const useStyles = makeStyles({
     top: "4%",
     right: "4%",
     cursor: "pointer",
+  },
+  ccrt__dashboard__blogs__creat__blog__link: {
+    textDecoration: "none",
+    background: DEFAULT_COLOR_MINUS_2,
+    width: "100%",
+    textAlign: "center",
+    color: "#fff",
+    textTransform: "uppercase",
+    padding: "10px 20px",
+    fontWeight: "500",
   },
 });
 export default DashboardBlogs;
