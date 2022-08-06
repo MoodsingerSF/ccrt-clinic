@@ -1,5 +1,9 @@
 export const SidebarData = [
   {
+    route: "user-profile",
+    heading: "Profile",
+  },
+  {
     route: "overview",
     heading: "Overview",
   },

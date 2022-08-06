@@ -14,6 +14,7 @@ import DoctorsRequest from "../../components/dashboard/DoctorsRequest";
 import DashboardNavber from "../../components/dashboard/DashboardNavber";
 import CreateNewAdmin from "../../components/dashboard/CreateNewAdmin";
 import DashboardBlogs from "../../components/dashboard/DashboardBlogs";
+import DashboardProfile from "../../components/dashboard/DashboardProfile";
 // import CustomDrawer from "../../components/drawer/CustomDrawer";
 
 const Dashboard = () => {
@@ -24,9 +25,11 @@ const Dashboard = () => {
   const router = useRouter();
 
   const getComponent = (route) => {
-    console.log(route);
+    // console.log(route);
     if (typeof route !== "undefined" && route.length !== 1) return null;
-    if (typeof route === "undefined" || route[0] === "overview") {
+    if (typeof route === "undefined" || route[0] === "user-profile") {
+      return <DashboardProfile />;
+    } else if (route[0] === "overview") {
       return <Overview />;
     } else if (route[0] === "doctor-request") {
       return <DoctorsRequest />;
