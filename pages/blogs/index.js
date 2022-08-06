@@ -27,7 +27,7 @@ const BlogScreen = () => {
         <Grid container justifyContent="flex-start" alignItems="center">
           {blogData.map((blog) => {
             return (
-              <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Grid item xs={12} sm={6} md={4} lg={3} key={blog.blogId}>
                 <BlogCard
                   key={blog.blogId}
                   blogId={blog.blogId}

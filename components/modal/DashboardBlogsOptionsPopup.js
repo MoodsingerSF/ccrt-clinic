@@ -4,8 +4,9 @@ import { makeStyles } from "@mui/styles";
 import { Grid } from "@mui/material";
 import ConfirmationModal from "./ConfirmationModal";
 // import { blogData } from "../../data/blog/data";
+// import PropTypes from "prop-types";
 
-const DashboardBlogsOptionsPopup = ({ blogId }) => {
+const DashboardBlogsOptionsPopup = () => {
   const classes = useStyles();
   // const router = useRouter();
 
@@ -90,3 +91,7 @@ const useStyles = makeStyles({
   },
 });
 export default DashboardBlogsOptionsPopup;
+
+// DashboardBlogsOptionsPopup.propTypes = {
+//   blogId: PropTypes.string,
+// };
