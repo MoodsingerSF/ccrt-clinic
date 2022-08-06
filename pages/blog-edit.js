@@ -14,20 +14,22 @@ import {
   useTheme,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+// import Parser from "html-react-parser";
 import AddSharpIcon from "@mui/icons-material/AddSharp";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
 import { DEFAULT_COLOR_MINUS_2 } from "../misc/colors";
 import dynamic from "next/dynamic";
-import { EditorState, convertToRaw } from "draft-js";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import draftToHtml from "draftjs-to-html";
+// import { EditorState, convertToRaw } from "draft-js";
+// import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+// import draftToHtml from "draftjs-to-html";
 import CustomButton from "../components/button/Button";
+// import { parseUrl } from "next/dist/shared/lib/router/utils/parse-url";
 // import htmlToDraft from "html-to-draftjs";
-const Editor = dynamic(
-  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
-  { ssr: false }
-);
+// const Editor = dynamic(
+//   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
+//   { ssr: false }
+// );
 
 const BlogEditor = () => {
   const classes = useStyles();
@@ -48,9 +50,9 @@ const BlogEditor = () => {
     `${"/images/ArtistScreen/logo2.jpg"}`
   );
 
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
+  // const [editorState, setEditorState] = useState(() =>
+  //   EditorState.createEmpty()
+  // );
 
   const [tagLists, setTagLists] = useState([]);
   // const [suggestions, setSuggestions] = useState(["React", "HTML", "CSS"]);
@@ -68,9 +70,9 @@ const BlogEditor = () => {
     }
   };
 
-  const onEditorStateChange = (editorState) => {
-    setEditorState(editorState);
-  };
+  // const onEditorStateChange = (editorState) => {
+  //   setEditorState(editorState);
+  // };
 
   const uploadBlog = () => {
     if (blogTitle === "") {
@@ -98,34 +100,25 @@ const BlogEditor = () => {
         <h2>Write your blog</h2>
       </Grid>
 
-      <Grid container justifyContent="center" alignItems="center" item={12}>
-        <textarea
-          disabled
-          value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
-        />
-      </Grid>
+      {/* <Grid container justifyContent="center" alignItems="center" item={12}>
+        {Parser(draftToHtml(convertToRaw(editorState.getCurrentContent())))}
+      </Grid> */}
 
-      <Grid
-        container
-        item={12}
-        justifyContent="center"
-        alignItems="center"
-        className={classes.ccrt__blog__editor__cover_image__wrapper}
-      >
+      {coverPhoto !== null && (
         <Grid
           container
           justifyContent="center"
           alignItems="center"
           style={{
-            height: "100%",
-            background: "#eff2f4",
+            height: "300px",
+            width: "300px",
             backgroundImage: `url(${coverPhotoPreview})`,
-            backgroundSize: "400px 250px",
+            backgroundSize: "300px 300px",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
           }}
         />
-      </Grid>
+      )}
 
       <Grid
         container
@@ -188,32 +181,25 @@ const BlogEditor = () => {
             </Grid>
           </Grid>
         </Grid>
-
+        {/* 
         <Editor
           editorState={editorState}
           placeholder="click here to write"
           toolbarClassName="toolbarClassName"
           wrapperClassName="wrapperClassName"
           editorClassName="editorClassName"
-          wrapperStyle={{
-            width: "100%",
-          }}
-          editorStyle={{
-            border: `1px solid ${theme.palette.grey[200]}`,
-            fontSize: "80%",
-            padding: "20px",
-            minHeight: "300px",
-            lineHeight: "0",
-          }}
-          onEditorStateChange={onEditorStateChange}
-          // toolbar={{
-          //   inline: { inDropdown: true },
-          //   list: { inDropdown: true },
-          //   textAlign: { inDropdown: true },
-          //   link: { inDropdown: true },
-          //   history: { inDropdown: true },
+          // wrapperStyle={{
+          //   width: "100%",
           // }}
-        />
+          // editorStyle={{
+          //   border: `1px solid ${theme.palette.grey[200]}`,
+          //   fontSize: "80%",
+          //   padding: "20px",
+          //   // minHeight: "300px",
+          //   lineHeight: "0",
+          // }}
+          onEditorStateChange={onEditorStateChange}
+        /> */}
 
         <Grid
           container
@@ -286,7 +272,6 @@ const BlogEditor = () => {
             <Box
               component={Grid}
               container
-              // className={classes.ccrt__blog__editor__dialog__wrapper}
               style={{
                 height: "30vh",
                 width: "100%",
@@ -370,11 +355,6 @@ const useStyles = makeStyles((theme) => ({
     padding: "4px 10px",
     borderRadius: "4px",
   },
-  ccrt__blog__editor__cover_image__wrapper: {
-    height: "300px",
-    width: "100%",
-  },
-
   ccrt__blog__editor__image__add_icon: {
     fontSize: "90%",
     color: "white",
