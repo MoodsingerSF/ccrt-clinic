@@ -19,8 +19,11 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
 import { DEFAULT_COLOR_MINUS_2 } from "../misc/colors";
 import dynamic from "next/dynamic";
-import { EditorState } from "draft-js";
+import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import draftToHtml from "draftjs-to-html";
+import CustomButton from "../components/button/Button";
+// import htmlToDraft from "html-to-draftjs";
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
   { ssr: false }
@@ -39,6 +42,7 @@ const BlogEditor = () => {
   const [blogTitle, setBlogTitle] = useState("");
 
   const [openDialog, setOpenDialog] = useState(false);
+  const [coverImage, setCoverImage] = useState("");
   const [coverPhoto, setCoverPhoto] = useState(null);
   const [coverPhotoPreview, setCoverPhotoPreview] = useState(
     `${"/images/ArtistScreen/logo2.jpg"}`
@@ -64,6 +68,10 @@ const BlogEditor = () => {
     }
   };
 
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
+  };
+
   const uploadBlog = () => {
     if (blogTitle === "") {
       setTitleOkay(false);
@@ -74,13 +82,14 @@ const BlogEditor = () => {
     }
   };
 
-  const onEditorStateChange = (editorState) => {
-    setEditorState(editorState);
-  };
-
-  console.log(tagLists);
+  // console.log(tagLists);
   return (
-    <Grid container justifyContent="center" alignItems="center">
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      className={classes.ccrt__blog__editor__container}
+    >
       <Head>
         <title>Manage Blog</title>
       </Head>
@@ -89,12 +98,40 @@ const BlogEditor = () => {
         <h2>Write your blog</h2>
       </Grid>
 
+      <Grid container justifyContent="center" alignItems="center" item={12}>
+        <textarea
+          disabled
+          value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
+        />
+      </Grid>
+
+      <Grid
+        container
+        item={12}
+        justifyContent="center"
+        alignItems="center"
+        className={classes.ccrt__blog__editor__cover_image__wrapper}
+      >
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          style={{
+            height: "100%",
+            background: "#eff2f4",
+            backgroundImage: `url(${coverPhotoPreview})`,
+            backgroundSize: "400px 250px",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
+      </Grid>
+
       <Grid
         container
         justifyContent="center"
         alignItems="center"
         item
-        md={10}
         className={classNames({
           [classes.ccrt__blog__editor__container_Mobile]: !matchesMd,
           [classes.ccrt__blog__editor__container_Md]: matchesMd,
@@ -169,13 +206,13 @@ const BlogEditor = () => {
             lineHeight: "0",
           }}
           onEditorStateChange={onEditorStateChange}
-          toolbar={{
-            inline: { inDropdown: true },
-            list: { inDropdown: true },
-            textAlign: { inDropdown: true },
-            link: { inDropdown: true },
-            history: { inDropdown: true },
-          }}
+          // toolbar={{
+          //   inline: { inDropdown: true },
+          //   list: { inDropdown: true },
+          //   textAlign: { inDropdown: true },
+          //   link: { inDropdown: true },
+          //   history: { inDropdown: true },
+          // }}
         />
 
         <Grid
@@ -217,14 +254,7 @@ const BlogEditor = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <Button
-            variant="contained"
-            size="small"
-            className={classes.ccrt__blog__submit__buttonStyle}
-            onClick={uploadBlog}
-          >
-            Submit
-          </Button>
+          <CustomButton onClick={uploadBlog} title="Submit" />
         </Grid>
       </Grid>
 
@@ -256,6 +286,7 @@ const BlogEditor = () => {
             <Box
               component={Grid}
               container
+              // className={classes.ccrt__blog__editor__dialog__wrapper}
               style={{
                 height: "30vh",
                 width: "100%",
@@ -273,30 +304,15 @@ const BlogEditor = () => {
                   inputRef.current.click();
                 }
               }}
-              style={{
-                backgroundColor: DEFAULT_COLOR_MINUS_2,
-                borderRadius: 5,
-                height: 45,
-                cursor: "pointer",
-                marginTop: 15,
-              }}
+              className={classes.ccrt__blog__editor__image__button}
               alignItems="center"
               justifyContent="center"
             >
               <AddSharpIcon
-                style={{
-                  fontSize: "90%",
-                  color: "white",
-                  marginRight: "10px",
-                  fontWeight: "bold",
-                }}
+                className={classes.ccrt__blog__editor__image__add_icon}
               />
               <Typography
-                style={{
-                  fontSize: "80%",
-                  color: "white",
-                  textTransform: "uppercase",
-                }}
+                className={classes.ccrt__blog__editor__image__add_icon__text}
               >
                 Choose
               </Typography>
@@ -312,25 +328,13 @@ const BlogEditor = () => {
           </Grid>
         </DialogContent>
         <DialogActions
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: "30px",
-          }}
+          className={classes.ccrt__blog__editor__choose__img__bottom__container}
         >
           <Typography
             onClick={() => {
               setOpenDialog(false);
             }}
-            style={{
-              fontSize: "80%",
-              color: "white",
-              padding: "7px 20px",
-              backgroundColor: DEFAULT_COLOR_MINUS_2,
-              borderRadius: 5,
-              cursor: "pointer",
-              textTransform: "uppercase",
-            }}
+            className={classes.ccrt__blog__editor__choose__img__cancel__button}
           >
             cancel
           </Typography>
@@ -338,15 +342,7 @@ const BlogEditor = () => {
             onClick={() => {
               onSaveCoverPicture();
             }}
-            style={{
-              fontSize: "80%",
-              color: "white",
-              padding: "7px 20px",
-              backgroundColor: DEFAULT_COLOR_MINUS_2,
-              borderRadius: 5,
-              cursor: "pointer",
-              textTransform: "uppercase",
-            }}
+            className={classes.ccrt__blog__editor__choose__img__save__button}
           >
             save
           </Typography>
@@ -357,12 +353,14 @@ const BlogEditor = () => {
 };
 
 const useStyles = makeStyles((theme) => ({
+  ccrt__blog__editor__section: {
+    height: "100vh",
+  },
   ccrt__blog__editor__container_Md: {
     padding: "20px 50px",
-    border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
   },
   ccrt__blog__editor__container_Mobile: {
-    padding: "20px 50px",
+    padding: "20px ",
   },
   ccrt__blog__title__field_Md: {
     marginRight: "10px",
@@ -372,11 +370,51 @@ const useStyles = makeStyles((theme) => ({
     padding: "4px 10px",
     borderRadius: "4px",
   },
-  ccrt__blog__submit__buttonStyle: {
+  ccrt__blog__editor__cover_image__wrapper: {
+    height: "300px",
+    width: "100%",
+  },
+
+  ccrt__blog__editor__image__add_icon: {
+    fontSize: "90%",
+    color: "white",
+    marginRight: "10px",
+    fontWeight: "bold",
+  },
+  ccrt__blog__editor__image__add_icon__text: {
     fontSize: "80%",
-    padding: "5px 40px",
-    marginTop: 10,
-    marginBottom: 10,
+    color: "white",
+    textTransform: "uppercase",
+  },
+  ccrt__blog__editor__image__button: {
+    backgroundColor: DEFAULT_COLOR_MINUS_2,
+    borderRadius: 5,
+    height: 45,
+    cursor: "pointer",
+    marginTop: 15,
+  },
+  ccrt__blog__editor__choose__img__bottom__container: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: "30px",
+  },
+  ccrt__blog__editor__choose__img__cancel__button: {
+    fontSize: "80%",
+    color: "white",
+    padding: "7px 20px",
+    backgroundColor: DEFAULT_COLOR_MINUS_2,
+    borderRadius: 5,
+    cursor: "pointer",
+    textTransform: "uppercase",
+  },
+  ccrt__blog__editor__choose__img__save__button: {
+    fontSize: "80%",
+    color: "white",
+    padding: "7px 20px",
+    backgroundColor: DEFAULT_COLOR_MINUS_2,
+    borderRadius: 5,
+    cursor: "pointer",
+    textTransform: "uppercase",
   },
   ccrt__blog__hashtag__textfield: {
     cursor: "pointer",
