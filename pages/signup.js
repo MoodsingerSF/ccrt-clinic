@@ -199,7 +199,6 @@ const SignupScreen = () => {
                 error={showError && !validateEmail(email)}
                 errorText={formErrors.email}
               />
-
               <SignUpTextField
                 label="Password"
                 type="password"
@@ -238,16 +237,20 @@ const SignupScreen = () => {
                     {TERMS_CONDITIONS}
                   </Typography>
                 }
-                style={{ margin: "10px 0" }}
               />
               {showError && !policy && (
-                <Typography
-                  style={{ color: "red", fontSize: "70%", marginBottom: "5px" }}
-                >
+                <Typography className={classes.ccrt__signup__policyError__text}>
                   {formErrors.policy}
                 </Typography>
               )}
-              <CustomButton onClick={handleSubmitForm} title={SIGN_UP_BUTTON} />
+              <Grid container mt={1}>
+                <CustomButton
+                  icon={null}
+                  title={SIGN_UP_BUTTON}
+                  onClick={handleSubmitForm}
+                  // loading={true}
+                />
+              </Grid>
             </Grid>
             <Grid
               container
@@ -259,12 +262,17 @@ const SignupScreen = () => {
               <Typography style={{ margin: "10px 0" }}>Or</Typography>
             </Grid>
             <Grid container>
-              <CustomButton title={SIGN_UP_WITH_GOOGLE} icon={<GoogleIcon />} />
+              <CustomButton
+                title={SIGN_UP_WITH_GOOGLE}
+                icon={<GoogleIcon />}
+                onCLick={() => {}}
+              />
             </Grid>
             <Grid container style={{ marginTop: "10px" }}>
               <CustomButton
                 title={SIGN_UP_WITH_FACEBOOK}
                 icon={<FacebookIcon />}
+                onCLick={() => {}}
               />
             </Grid>
             <Grid
