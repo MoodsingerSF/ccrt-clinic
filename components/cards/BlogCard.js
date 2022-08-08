@@ -109,11 +109,11 @@ const BlogCard = ({
 };
 
 BlogCard.propTypes = {
-  blogId: PropTypes.string.isRequired,
+  blogId: PropTypes.number.isRequired,
   avatar: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  image: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   tags: PropTypes.array.isRequired,
   showOptions: PropTypes.bool,
