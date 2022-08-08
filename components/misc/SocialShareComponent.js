@@ -6,8 +6,8 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import { DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
-import { useStyles } from "../../styles/blogDetailstyle";
 import PropTypes from "prop-types";
+import { makeStyles } from "@mui/styles";
 
 const SocialShareComponent = ({ justifyContent = "center", link }) => {
   const classes = useStyles();
@@ -52,6 +52,14 @@ const SocialShareComponent = ({ justifyContent = "center", link }) => {
     </Grid>
   );
 };
+
+const useStyles = makeStyles({
+  ccrt__blogDetails__author__share: {
+    display: "inline-block",
+    listStyle: "none",
+    margin: "0 10px",
+  },
+});
 
 SocialShareComponent.propTypes = {
   justifyContent: PropTypes.string,
