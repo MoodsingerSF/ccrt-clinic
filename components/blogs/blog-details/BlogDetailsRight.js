@@ -3,15 +3,23 @@ import Image from "next/image";
 import { Chip, Grid, Typography, useTheme } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
-import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
-import { useStyles } from "../../../styles/blogDetailstyle";
+// import { useStyles } from "../../../styles/BlogDetailStyle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
-// import blog from "../../../public/image/blog/blog1.jpeg";
-import blog1 from "../../../public/image/blogDetails/abc.jpg";
 import SocialShareComponent from "../../misc/SocialShareComponent";
+import PropTypes from "prop-types";
+import { makeStyles } from "@mui/styles";
+import { DEFAULT_COLOR, DEFAULT_COLOR_MINUS_2 } from "../../../misc/colors";
 
-const BlogDetailsRight = () => {
+const BlogDetailsRight = ({
+  title,
+  description,
+  authorName,
+  publishDate,
+  imageUrl,
+  tags,
+  // blogId,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
@@ -33,47 +41,28 @@ const BlogDetailsRight = () => {
             [classes.ccrt__blogDetails__right__title_tablet]: matches,
           })}
         >
-          A Policy Dialogue named Multi-Sectoral Cooperation to Reduce the
-          Burden of Cancer in Bangladesh and Ensuring Patients Access
+          {title}
         </h2>
         <Grid container>
           <span className={classes.ccrt__blogDetails__right__blog_meta}>
             <PersonOutlineIcon
               className={classes.ccrt__blogDetails__right__icon}
             />
-            <span>Joe Willis</span>
+            <span>{authorName}</span>
           </span>
           <span className={classes.ccrt__blogDetails__right__blog_meta}>
             <CalendarMonthOutlinedIcon
               className={classes.ccrt__blogDetails__right__icon}
             />
-            <span>01/06/2020</span>
-          </span>
-          <span className={classes.ccrt__blogDetails__right__blog_meta}>
-            <ModeCommentOutlinedIcon
-              className={classes.ccrt__blogDetails__right__icon}
-            />
-            <span>Comments (05)</span>
+            <span>{publishDate}</span>
           </span>
         </Grid>
       </Grid>
       <Grid container>
-        <Image src={blog1} alt="blog-img" />
+        <Image src={imageUrl} alt="blog-img" />
       </Grid>
       <Grid container style={{ marginTop: "20px" }}>
-        <Typography style={{ textAlign: "justify" }}>
-          A Policy Dialogue named Multi-Sectoral Cooperation to Reduce the
-          Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
-          after the inauguration session” was arranged inviting most of the
-          stakeholders; e.g scientists, academicians, philanthropists, doctors,
-          business persons, cancer survivors, media persons, and volunteers. Dr.
-          Gowhor Rizvi, the renowned Professor and international affairs Advisor
-          of the Prime Minister, was the Chief Guest and Sir Walter Bodmer, a
-          prominent human Geneticist and Head of the Cancer and Immunogenetics
-          Lab of the Oxford University was the Guest of Honor of the Policy
-          Dialogue. Media coverage at ” THE BUSINESS STANDARD” and Daily
-          Jugantor
-        </Typography>
+        <Typography style={{ textAlign: "justify" }}>{description}</Typography>
       </Grid>
       <Grid
         container
@@ -95,22 +84,13 @@ const BlogDetailsRight = () => {
             [classes.ccrt__blogDetails__right__blog__tags__LG]: matchesLG,
           })}
         >
-          <Chip
-            className={classes.ccrt__blogDetails__right__tags}
-            label="cancer"
-          />
-          <Chip
-            className={classes.ccrt__blogDetails__right__tags}
-            label="heart"
-          />
-          <Chip
-            className={classes.ccrt__blogDetails__right__tags}
-            label="brain"
-          />
-          <Chip
-            className={classes.ccrt__blogDetails__right__tags}
-            label="liver"
-          />
+          {tags.map((tag) => (
+            <Chip
+              key={tag}
+              className={classes.ccrt__blogDetails__right__tags}
+              label={tag}
+            />
+          ))}
         </Grid>
         <Grid item xs={12} lg={6} container>
           <SocialShareComponent justifyContent="flex-end" link={"sfvdgh"} />
@@ -118,6 +98,67 @@ const BlogDetailsRight = () => {
       </Grid>
     </Grid>
   );
+};
+
+const useStyles = makeStyles({
+  ccrt__blogDetails__right__section__mobile: {
+    padding: "0 20px",
+  },
+  ccrt__blogDetails__right__section__tablet: {
+    padding: "15px 25px 30px",
+  },
+  ccrt__blogDetails__right__section__desktop_Lg: {
+    border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
+  },
+  ccrt__blogDetails__right__title__mobile: {
+    fontSize: "100%",
+    textAlign: "justify",
+    fontWeight: "700",
+    margin: "0 0 13px",
+    color: DEFAULT_COLOR,
+  },
+  ccrt__blogDetails__right__title_tablet: {
+    textAlign: "justify",
+    lineHeight: "35px",
+    margin: "0 0 13px",
+    color: DEFAULT_COLOR,
+  },
+  ccrt__blogDetails__right__blog_meta: {
+    fontSize: "16px",
+    marginRight: "20px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  ccrt__blogDetails__right__icon: {
+    fontSize: "20px",
+    marginRight: "5px",
+  },
+  ccrt__blogDetails__right__blog__tags__mobile: {
+    justifyContent: "right",
+  },
+  ccrt__blogDetails__right__blog__tags__tablet: {
+    justifyContent: "right",
+  },
+  ccrt__blogDetails__right__blog__tags__laptop: {
+    justifyContent: "right",
+  },
+  ccrt__blogDetails__right__blog__tags__LG: {
+    justifyContent: "left",
+  },
+  ccrt__blogDetails__right__tags: {
+    margin: "5px",
+  },
+});
+
+BlogDetailsRight.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  authorName: PropTypes.string.isRequired,
+  publishDate: PropTypes.string.isRequired,
+  imageUrl: PropTypes.any,
+  tags: PropTypes.array.isRequired,
+  // blogId: PropTypes.string.isRequired,
 };
 
 export default BlogDetailsRight;
