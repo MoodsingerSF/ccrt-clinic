@@ -1,7 +1,7 @@
 import { createStyles, makeStyles } from "@mui/styles";
 import { DEFAULT_COLOR, DEFAULT_COLOR_MINUS_2 } from "../misc/colors";
 
-export const useStyles = makeStyles((theme) =>
+export const useStyles = makeStyles(() =>
   createStyles({
     ccrt__blogDetails__section: {
       position: "relative",
