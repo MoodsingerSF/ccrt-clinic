@@ -151,7 +151,6 @@ const useStyles = makeStyles({
     marginBottom: "30px",
   },
 });
-export default PhotoEditingDialog;
 
 PhotoEditingDialog.propTypes = {
   open: PropTypes.bool.isRequired,
@@ -159,5 +158,7 @@ PhotoEditingDialog.propTypes = {
   title: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
-  profilePhotoPreview: PropTypes.object,
+  profilePhotoPreview: PropTypes.string,
 };
+
+export default PhotoEditingDialog;

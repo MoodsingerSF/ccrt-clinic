@@ -104,6 +104,7 @@ const useStyles = makeStyles({
     fontWeight: "600",
   },
   ccrt__dashboard__navbar__profile__image__container__mobile: {
+    position: "relative",
     width: "30px",
     height: "auto",
     borderRadius: "50%",
