@@ -19,11 +19,12 @@ import AddSharpIcon from "@mui/icons-material/AddSharp";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
 import { DEFAULT_COLOR_MINUS_2 } from "../misc/colors";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 // import { EditorState, convertToRaw } from "draft-js";
 // import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 // import draftToHtml from "draftjs-to-html";
 import CustomButton from "../components/button/Button";
+import Editor from "../components/text-editor/Editor";
 // import { parseUrl } from "next/dist/shared/lib/router/utils/parse-url";
 // import htmlToDraft from "html-to-draftjs";
 // const Editor = dynamic(
@@ -50,10 +51,6 @@ const BlogEditor = () => {
     `${"/images/ArtistScreen/logo2.jpg"}`
   );
 
-  // const [editorState, setEditorState] = useState(() =>
-  //   EditorState.createEmpty()
-  // );
-
   const [tagLists, setTagLists] = useState([]);
   // const [suggestions, setSuggestions] = useState(["React", "HTML", "CSS"]);
   const suggestions = ["React", "HTML", "CSS"];
@@ -69,10 +66,6 @@ const BlogEditor = () => {
       setOpenDialog(false);
     }
   };
-
-  // const onEditorStateChange = (editorState) => {
-  //   setEditorState(editorState);
-  // };
 
   const uploadBlog = () => {
     if (blogTitle === "") {
@@ -181,25 +174,8 @@ const BlogEditor = () => {
             </Grid>
           </Grid>
         </Grid>
-        {/* 
-        <Editor
-          editorState={editorState}
-          placeholder="click here to write"
-          toolbarClassName="toolbarClassName"
-          wrapperClassName="wrapperClassName"
-          editorClassName="editorClassName"
-          // wrapperStyle={{
-          //   width: "100%",
-          // }}
-          // editorStyle={{
-          //   border: `1px solid ${theme.palette.grey[200]}`,
-          //   fontSize: "80%",
-          //   padding: "20px",
-          //   // minHeight: "300px",
-          //   lineHeight: "0",
-          // }}
-          onEditorStateChange={onEditorStateChange}
-        /> */}
+
+        <Editor />
 
         <Grid
           container
