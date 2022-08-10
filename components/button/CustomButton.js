@@ -6,7 +6,7 @@ import loadingAnimationData from "../../public/animations/loading3.json";
 
 const CustomButton = ({
   title,
-  icon,
+  icon = null,
   onClick,
   size = "medium",
   loading = false,
@@ -19,7 +19,9 @@ const CustomButton = ({
         startIcon={icon}
         size={size}
         onClick={() => {
-          if (onClick) onClick();
+          if (!loading) {
+            onClick();
+          }
         }}
       >
         {loading ? (
