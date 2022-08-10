@@ -109,7 +109,7 @@ const BlogCard = ({
 };
 
 BlogCard.propTypes = {
-  blogId: PropTypes.number.isRequired,
+  blogId: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,

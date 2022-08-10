@@ -15,3 +15,7 @@ export const setUserId = (dispatch) => {
 export const getUserId = (state) => {
   return () => state["userId"];
 };
+
+export const isSignedIn = (state) => {
+  return () => state["token"] !== null;
+};

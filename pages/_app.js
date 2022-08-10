@@ -9,6 +9,7 @@ import createEmotionCache from "../src/emotion_cache/createEmotionCache";
 import theme from "../themes/theme";
 import AppBar from "../components/appbar/AppBar";
 import { Provider } from "../contexts/user-context/UserContext";
+import LoginChecker from "../components/LoginChecker";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -37,6 +38,7 @@ export default function MyApp(props) {
         </Head>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          <LoginChecker />
           <AppBar />
           <Component {...pageProps} />
         </ThemeProvider>

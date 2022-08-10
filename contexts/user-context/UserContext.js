@@ -6,11 +6,12 @@ import {
   getAuthorizationToken,
   setUserId,
   getUserId,
+  isSignedIn,
 } from "./UserContextFunctions";
 
 export const { Context, Provider } = CreateContext(
   reducer,
   { setAuthorizationToken, setUserId },
-  { getAuthorizationToken, getUserId },
+  { getAuthorizationToken, getUserId, isSignedIn },
   state
 );
