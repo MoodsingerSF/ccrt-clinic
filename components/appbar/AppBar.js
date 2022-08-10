@@ -1,15 +1,24 @@
 import { Avatar, Grid, Typography } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
-import Image from "next/image";
+// import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
-import logo from "../../public/image/logo/logo.png";
+import React, { useContext, useState } from "react";
+// import logo from "../../public/image/logo/logo.png";
 import AppBarLink from "./AppBarLink";
 import { Context } from "../../contexts/user-context/UserContext";
+import ProfileMenu from "../menu/ProfileMenu";
 const AppBar = () => {
   const classes = useStyles();
   const router = useRouter();
   const { isSignedIn } = useContext(Context);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleProfileClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleProfileClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <Grid
       container
@@ -23,7 +32,7 @@ const AppBar = () => {
         className={classes.app_bar_content_container}
       >
         <Grid item xs={2} className={classes.image_container}>
-          <Image src={logo} layout="fill" objectFit="contain"></Image>
+          {/* <Image src={logo} layout="fill" objectFit="contain"></Image> */}
         </Grid>
         <Grid
           item
@@ -55,7 +64,19 @@ const AppBar = () => {
           {!isSignedIn() && <AppBarLink name="Login" link="/login" />}
           <AppBarLink name="Contact" link="/" />
           <AppBarLink name="FAQ" link="/" />
-          {isSignedIn() && <Avatar className={classes.avatar}></Avatar>}
+          {isSignedIn() && (
+            <Avatar
+              className={classes.avatar}
+              onClick={handleProfileClick}
+            ></Avatar>
+          )}
+          {open && (
+            <ProfileMenu
+              open={open}
+              onClose={handleProfileClose}
+              anchorEl={anchorEl}
+            />
+          )}
         </Grid>
       </Grid>
     </Grid>

@@ -1,7 +1,6 @@
 import React from "react";
 import { Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import theme from "../../src/themes/theme";
+import { createStyles, makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 
 const DialogActionButton = ({ onClick, title }) => {
@@ -16,17 +15,19 @@ const DialogActionButton = ({ onClick, title }) => {
   );
 };
 
-const useStyles = makeStyles({
-  ccrt__photo__editing__dialog__action__button: {
-    fontSize: "80%",
-    color: "#fff",
-    padding: "7px 15px",
-    backgroundColor: theme.palette.custom.DEFAULT_COLOR_MINUS_2,
-    borderRadius: "5px",
-    cursor: "pointer",
-    textTransform: "uppercase",
-  },
-});
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    ccrt__photo__editing__dialog__action__button: {
+      fontSize: "80%",
+      color: "#fff",
+      padding: "7px 15px",
+      backgroundColor: theme.palette.custom.DEFAULT_COLOR_MINUS_2,
+      borderRadius: "5px",
+      cursor: "pointer",
+      textTransform: "uppercase",
+    },
+  })
+);
 export default DialogActionButton;
 
 DialogActionButton.propTypes = {

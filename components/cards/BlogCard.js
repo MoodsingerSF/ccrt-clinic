@@ -24,7 +24,7 @@ const BlogCard = ({
   date,
   image,
   title,
-  tags,
+  tags = [],
   showOptions = false,
 }) => {
   const classes = useStyles();

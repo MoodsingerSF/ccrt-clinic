@@ -10,8 +10,7 @@ import {
 } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import theme from "../../src/themes/theme";
-import { makeStyles } from "@mui/styles";
+import { createStyles, makeStyles } from "@mui/styles";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import UserDataRow from "./user-profile/UserDataRow";
 const PhotoEditingDialog = dynamic(() =>
@@ -127,30 +126,32 @@ const DashboardProfile = () => {
   );
 };
 
-const useStyles = makeStyles({
-  ccrt_dashboard__profile__section: {
-    position: "relative",
-  },
-  ccrt_dashboard__profile__top__bg: {
-    position: "relative",
-    background: theme.palette.custom.DEFAULT_COLOR_MINUS_20,
-  },
-  ccrt_dashboard__profile__top__profile__wrapper: {
-    position: "absolute",
-    top: "30%",
-    borderRadius: "50%",
-    overflow: "hidden",
-    background: theme.palette.custom.DEFAULT_COLOR_MINUS_18,
-  },
-  ccrt_dashboard__profile__change__icon_button: {
-    position: "absolute",
-    color: "#fff",
-    opacity: "0",
-    transition: "opacity 0.6s ease",
-    "&:hover": {
-      opacity: "1",
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    ccrt_dashboard__profile__section: {
+      position: "relative",
     },
-  },
-});
+    ccrt_dashboard__profile__top__bg: {
+      position: "relative",
+      background: theme.palette.custom.DEFAULT_COLOR_MINUS_20,
+    },
+    ccrt_dashboard__profile__top__profile__wrapper: {
+      position: "absolute",
+      top: "30%",
+      borderRadius: "50%",
+      overflow: "hidden",
+      background: theme.palette.custom.DEFAULT_COLOR_MINUS_18,
+    },
+    ccrt_dashboard__profile__change__icon_button: {
+      position: "absolute",
+      color: "#fff",
+      opacity: "0",
+      transition: "opacity 0.6s ease",
+      "&:hover": {
+        opacity: "1",
+      },
+    },
+  })
+);
 
 export default DashboardProfile;
