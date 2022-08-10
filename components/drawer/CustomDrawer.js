@@ -1,19 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { Drawer, Typography, Box, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
-import { SidebarData } from "../../data/dashboardMenu/data";
+import { DashboardOptions } from "../../data/dashboardMenu/data";
 import { DEFAULT_COLOR, DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
+import { Context } from "../../contexts/user-context/UserContext";
 
 const CustomDrawer = ({ isDrawerOpen, setIsDrawerOpen }) => {
   const classes = useStyles();
-
+  const { getRole } = useContext(Context);
   const [selected, setSelected] = useState(0);
 
   const handleClickTest = (index) => {
     setSelected(index);
   };
+  const userRole = getRole();
+  // console.log(userRole);
+  // console.log(userRole === Role.USER);
   return (
     <>
       <Drawer
@@ -23,35 +27,38 @@ const CustomDrawer = ({ isDrawerOpen, setIsDrawerOpen }) => {
         onClose={() => setIsDrawerOpen(false)}
       >
         <Box p={2} className={classes.ccrt__dashboard__drawer}>
-          <Typography varient="h1" component="div">
+          <Typography variant="h1" component="div">
             Dashboard
           </Typography>
         </Box>
         <Box className={classes.ccrt__dashboard__sidebar__menu}>
           <ul className={classes.ccrt__dashboard__sidebar__menu__items}>
-            {SidebarData.map((item, index) => {
-              return (
-                <li
-                  key={index}
-                  className={
-                    selected === index
-                      ? classes.ccrt__dashboard__sidebar__menu__item__active
-                      : classes.ccrt__dashboard__sidebar__menu__item
-                  }
-                  onClick={() => handleClickTest(index)}
-                >
-                  <Link href={item.route}>
-                    <Grid
-                      container
-                      className={
-                        classes.ccrt__dashboard__sidebar__menu__item__link
-                      }
-                    >
-                      {item.heading}
-                    </Grid>
-                  </Link>
-                </li>
-              );
+            {DashboardOptions.map((item, index) => {
+              console.log(item.allowedRoles.includes(userRole));
+              if (item.allowedRoles.includes(userRole)) {
+                return (
+                  <li
+                    key={index}
+                    className={
+                      selected === index
+                        ? classes.ccrt__dashboard__sidebar__menu__item__active
+                        : classes.ccrt__dashboard__sidebar__menu__item
+                    }
+                    onClick={() => handleClickTest(index)}
+                  >
+                    <Link href={item.route}>
+                      <Grid
+                        container
+                        className={
+                          classes.ccrt__dashboard__sidebar__menu__item__link
+                        }
+                      >
+                        {item.heading}
+                      </Grid>
+                    </Link>
+                  </li>
+                );
+              } else return null;
             })}
           </ul>
         </Box>

@@ -12,7 +12,7 @@ const DashboardMobileNavbar = dynamic(() =>
 );
 const CustomDrawer = dynamic(() => import("../drawer/CustomDrawer"));
 
-const DashboardNavber = () => {
+const DashboardNavbar = () => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -42,4 +42,4 @@ const useStyles = makeStyles({
   },
 });
 
-export default DashboardNavber;
+export default DashboardNavbar;

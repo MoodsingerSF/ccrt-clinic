@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import Head from "next/head";
 import {
   Autocomplete,
@@ -19,11 +19,17 @@ import {
   isBlogTitleCorrect,
   isCoverPhotoCorrect,
   isTagListCorrect,
-} from "../controllers/BlogEditController";
+} from "../controllers/BlogController";
+import { createBlog } from "../controllers/BlogController";
+import { Context } from "../contexts/user-context/UserContext";
+import { SNACKBAR_INITIAL_STATE } from "../misc/constants";
+import CustomSnackbar from "../components/snackbar/CustomSnackbar";
+import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
 
 const BlogEditor = () => {
   const classes = useStyles();
   const theme = useTheme();
+  const { getUserId } = useContext(Context);
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
 
   const inputRef = useRef();
@@ -36,6 +42,8 @@ const BlogEditor = () => {
   );
   const [tagList, setTagList] = useState([]);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
 
   const suggestions = ["React", "HTML", "CSS"];
 
@@ -48,17 +56,37 @@ const BlogEditor = () => {
     const isCorrect =
       isBlogTitleCorrect(blogTitle) &&
       isTagListCorrect(tagList) &&
-      isCoverPhotoCorrect(coverPhoto);
+      isCoverPhotoCorrect(coverPhoto) &&
+      editorStateRef.current !== null;
     return isCorrect;
   };
-  const uploadBlog = () => {
+  const createBlogHandler = async () => {
+    try {
+      setLoading(true);
+      const response = await createBlog(
+        blogTitle,
+        JSON.stringify(editorStateRef.current),
+        getUserId(),
+        coverPhoto,
+        tagList
+      );
+      if (response.status === 200) {
+        handleSnackbarOpen("Blog has been created successfully.", setSnackbar);
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      if (error && error.response) {
+        handleSnackbarOpen(error.response.data.message, setSnackbar);
+      }
+    }
+  };
+  const handleBlogUpload = () => {
     if (!validateInputs()) {
       setError(true);
+      return;
     }
-    if (editorStateRef && editorStateRef.current) {
-      console.log(editorStateRef.current.isEmpty());
-      console.log(JSON.stringify(editorStateRef.current));
-    }
+    createBlogHandler();
   };
 
   return (
@@ -223,9 +251,20 @@ const BlogEditor = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <CustomButton onClick={uploadBlog} title="Submit" />
+          <CustomButton
+            loading={loading}
+            onClick={handleBlogUpload}
+            title="Submit"
+          />
         </Grid>
       </Grid>
+      <CustomSnackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        onClose={() => {
+          handleSnackbarClose(setSnackbar);
+        }}
+      />
     </Grid>
   );
 };

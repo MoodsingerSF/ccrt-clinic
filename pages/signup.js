@@ -193,13 +193,13 @@ const SignupScreen = () => {
                   Choose your role
                 </Typography>
                 <Grid container justifyContent="flex-start" alignItems="center">
-                  {USER_TYPES.map((item) => {
+                  {USER_TYPES.map((role) => {
                     return (
                       <CustomCheckbox
-                        key={item.name}
-                        name={item.name}
-                        checked={userType === item.value}
-                        value={item.value}
+                        key={role.name}
+                        name={role.name}
+                        checked={userType === role.value}
+                        value={role.value}
                         onChange={handleUserTypeChange}
                       />
                     );

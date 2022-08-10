@@ -58,7 +58,8 @@ h1 {
 
 .editor-inner {
   position: relative;
-  height: 30vh;
+  min-height: 30vh;
+  /* background: red; */
 }
 
 .editor-input {

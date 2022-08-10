@@ -11,10 +11,10 @@ const DashboardSidebar = dynamic(() =>
 );
 import Overview from "../../components/dashboard/Overview";
 import DoctorsRequest from "../../components/dashboard/DoctorsRequest";
-import DashboardNavber from "../../components/dashboard/DashboardNavber";
 import CreateNewAdmin from "../../components/dashboard/CreateNewAdmin";
 import DashboardBlogs from "../../components/dashboard/DashboardBlogs";
 import DashboardProfile from "../../components/dashboard/DashboardProfile";
+// import DashboardNavbar from "../../components/dashboard/DashboardNavbar";
 // import CustomDrawer from "../../components/drawer/CustomDrawer";
 
 const Dashboard = () => {
@@ -25,7 +25,6 @@ const Dashboard = () => {
   const router = useRouter();
 
   const getComponent = (route) => {
-    // console.log(route);
     if (typeof route !== "undefined" && route.length !== 1) return null;
     if (typeof route === "undefined" || route[0] === "user-profile") {
       return <DashboardProfile />;
@@ -39,9 +38,6 @@ const Dashboard = () => {
       return <DashboardBlogs />;
     }
   };
-  // useEffect(() => {
-  //   setOptopnTitle("Dashboard");
-  // }, []);
 
   return (
     <Grid
@@ -74,7 +70,7 @@ const Dashboard = () => {
               className={classes.ccrt__dashboard__right__container}
             >
               <Grid container item xs={12}>
-                <DashboardNavber />
+                {/* <DashboardNavbar /> */}
                 {getComponent(router.query.route)}
               </Grid>
             </Grid>
@@ -94,7 +90,7 @@ const Dashboard = () => {
               item
               xs={12}
             >
-              <DashboardNavber />
+              {/* <DashboardNavbar /> */}
               {getComponent(router.query.route)}
             </Grid>
           </Grid>

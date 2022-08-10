@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { DEFAULT_COLOR, DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
-import { SidebarData } from "../../data/dashboardMenu/data";
+import { DashboardOptions } from "../../data/dashboardMenu/data";
+import { Context } from "../../contexts/user-context/UserContext";
 
 const DashboardSidebar = () => {
   const classes = useStyles();
 
   const [selected, setSelected] = useState(0);
-
+  const { getRole } = useContext(Context);
   const handleClickTest = (index) => {
     setSelected(index);
   };
@@ -25,29 +26,32 @@ const DashboardSidebar = () => {
       </Grid>
       <Grid container className={classes.ccrt__dashboard__sidebar__menu}>
         <ul className={classes.ccrt__dashboard__sidebar__menu__items}>
-          {SidebarData.map((item, index) => {
-            return (
-              <li
-                key={index}
-                className={
-                  selected === index
-                    ? classes.ccrt__dashboard__sidebar__menu__item__active
-                    : classes.ccrt__dashboard__sidebar__menu__item
-                }
-                onClick={() => handleClickTest(index)}
-              >
-                <Link href={item.route}>
-                  <Grid
-                    container
-                    className={
-                      classes.ccrt__dashboard__sidebar__menu__item__link
-                    }
-                  >
-                    {item.heading}
-                  </Grid>
-                </Link>
-              </li>
-            );
+          {DashboardOptions.map((item, index) => {
+            if (item.allowedRoles.includes(getRole())) {
+              return (
+                <li
+                  key={index}
+                  className={
+                    selected === index
+                      ? classes.ccrt__dashboard__sidebar__menu__item__active
+                      : classes.ccrt__dashboard__sidebar__menu__item
+                  }
+                  onClick={() => handleClickTest(index)}
+                >
+                  <Link href={item.route}>
+                    <Grid
+                      container
+                      className={
+                        classes.ccrt__dashboard__sidebar__menu__item__link
+                      }
+                    >
+                      {item.heading}
+                    </Grid>
+                  </Link>
+                </li>
+              );
+            }
+            return null;
           })}
         </ul>
       </Grid>

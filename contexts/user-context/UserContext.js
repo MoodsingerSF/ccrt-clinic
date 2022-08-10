@@ -7,11 +7,31 @@ import {
   setUserId,
   getUserId,
   isSignedIn,
+  setUser,
+  getUser,
+  getFirstName,
+  getLastName,
+  getEmail,
+  getRole,
+  getProfileImageUrl,
+  getFullName,
+  logout,
 } from "./UserContextFunctions";
 
 export const { Context, Provider } = CreateContext(
   reducer,
-  { setAuthorizationToken, setUserId },
-  { getAuthorizationToken, getUserId, isSignedIn },
+  { setAuthorizationToken, setUserId, setUser, logout },
+  {
+    getAuthorizationToken,
+    getUserId,
+    isSignedIn,
+    getUser,
+    getFirstName,
+    getLastName,
+    getEmail,
+    getRole,
+    getProfileImageUrl,
+    getFullName,
+  },
   state
 );

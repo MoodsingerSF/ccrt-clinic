@@ -28,7 +28,7 @@ const UpdateProfileModal = ({ open, onClose, editableValue }) => {
       // if everything is alright, send verification code
       setLoading(true);
       //api
-      console.log(editValue);
+      // console.log(editValue);
       setLoading(false);
     } else {
       setShowError(true);

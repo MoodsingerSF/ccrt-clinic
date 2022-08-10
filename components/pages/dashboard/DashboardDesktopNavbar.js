@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import { Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import logo from "../../../public/image/logo/logo.png";
-import profile from "../../../public/image/profile/profile.png";
 import SearchField from "../../search-fields/SearchField";
+import { Context } from "../../../contexts/user-context/UserContext";
 
 const DashboardDesktopNavbar = () => {
   const classes = useStyles();
+  const { getFullName, getProfileImageUrl } = useContext(Context);
   return (
     <Grid container className={classes.ccrt__dashboard__navbar}>
       <Grid
@@ -25,12 +26,18 @@ const DashboardDesktopNavbar = () => {
       </Grid>
       <Grid container justifyContent="flex-end" alignItems="center" item sm={3}>
         <Typography className={classes.ccrt__dashboard__navbar__profile__name}>
-          Azizul Islam
+          {getFullName()}
         </Typography>
         <Grid
           className={classes.ccrt__dashboard__navbar__profile__image__container}
         >
-          <Image src={profile} alt="profile" />
+          {getProfileImageUrl() && (
+            <Image
+              loader={(url) => url}
+              src={getProfileImageUrl()}
+              alt="profile"
+            />
+          )}
         </Grid>
       </Grid>
     </Grid>
