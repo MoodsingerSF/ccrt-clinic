@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { Grid, Typography, useTheme } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
-import { useStyles } from "../styles/loginstyles";
+import { useStyles } from "../styles/LoginStyles";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { formErrors } from "../data/signup/data";
@@ -29,13 +29,24 @@ import {
 import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
 import { login } from "../controllers/LoginController";
 import { StatusCodes } from "http-status-codes";
+import {
+  setAuthorizationToken,
+  setUserId,
+} from "../controllers/LocalStorageController";
+import { Context } from "../contexts/user-context/UserContext";
+import { useRouter } from "next/router";
 
 const LoginScreen = () => {
+  const router = useRouter();
   const theme = useTheme();
   const classes = useStyles();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
   const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
+  const {
+    setAuthorizationToken: setAuthorizationTokenInProvider,
+    setUserId: setUserIdInProvider,
+  } = useContext(Context);
   const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -53,13 +64,16 @@ const LoginScreen = () => {
       setLoading(true);
       const response = await login(email, password);
       if (response.status === 200) {
-        const jwtToken = response.headers.authorization.replace(
+        const authorizationToken = response.headers.authorization.replace(
           AUTHORIZATION_HEADER_PREFIX,
           ""
         );
         const userId = response.headers.userid;
-        console.log(jwtToken);
-        console.log(userId);
+        setAuthorizationToken(authorizationToken);
+        setUserId(userId);
+        setAuthorizationTokenInProvider(authorizationToken);
+        setUserIdInProvider(userId);
+        router.replace("/");
       }
       setLoading(false);
     } catch (error) {
