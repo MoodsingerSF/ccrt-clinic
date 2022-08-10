@@ -1,11 +1,12 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
+import "../styles/globals.css";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider } from "@emotion/react";
-import theme from "../src/themes/theme";
 import createEmotionCache from "../src/emotion_cache/createEmotionCache";
+import theme from "../themes/theme";
 
 // Client-side cache shared for the whole session
 // of the user in the browser.
