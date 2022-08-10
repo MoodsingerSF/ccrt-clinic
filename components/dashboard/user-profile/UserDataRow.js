@@ -50,7 +50,9 @@ const UserDataRow = ({ title, value, icon, editable = false }) => {
           xs={12}
           md={7}
         >
-          <Typography>{value}</Typography>
+          <Typography style={{ marginLeft: IsDesktop ? "0px" : "40px" }}>
+            {value}
+          </Typography>
           <Grid>
             {editable ? (
               <IconButton onClick={() => setOpenUpdateProfileModal(editable)}>
