@@ -3,53 +3,40 @@ import Head from "next/head";
 import {
   Autocomplete,
   Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Grid,
   TextField,
   Typography,
   useTheme,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import AddSharpIcon from "@mui/icons-material/AddSharp";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
 import { DEFAULT_COLOR_MINUS_2 } from "../misc/colors";
-import dynamic from "next/dynamic";
-import { EditorState } from "draft-js";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-const Editor = dynamic(
-  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
-  { ssr: false }
-);
+import Editor from "../components/text-editor/Editor";
+import CustomButton from "../components/button/CustomButton";
+import Image from "next/image";
+import {
+  isBlogTitleCorrect,
+  isCoverPhotoCorrect,
+  isTagListCorrect,
+} from "../controllers/BlogEditController";
 
 const BlogEditor = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const inputRef = useRef();
-
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
 
-  const [titleOkay, setTitleOkay] = useState(true);
-  const [tagsOkay, setTagsOkay] = useState(true);
+  const inputRef = useRef();
+  const editorStateRef = useRef();
 
   const [blogTitle, setBlogTitle] = useState("");
-
-  const [openDialog, setOpenDialog] = useState(false);
   const [coverPhoto, setCoverPhoto] = useState(null);
   const [coverPhotoPreview, setCoverPhotoPreview] = useState(
     `${"/images/ArtistScreen/logo2.jpg"}`
   );
+  const [tagList, setTagList] = useState([]);
+  const [error, setError] = useState(false);
 
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
-
-  const [tagLists, setTagLists] = useState([]);
-  // const [suggestions, setSuggestions] = useState(["React", "HTML", "CSS"]);
   const suggestions = ["React", "HTML", "CSS"];
 
   const onCoverPhotoChange = (event) => {
@@ -57,30 +44,30 @@ const BlogEditor = () => {
     setCoverPhotoPreview(URL.createObjectURL(event.target.files[0]));
   };
 
-  //saving cover photo
-  const onSaveCoverPicture = () => {
-    if (coverPhoto !== null) {
-      setOpenDialog(false);
-    }
+  const validateInputs = () => {
+    const isCorrect =
+      isBlogTitleCorrect(blogTitle) &&
+      isTagListCorrect(tagList) &&
+      isCoverPhotoCorrect(coverPhoto);
+    return isCorrect;
   };
-
   const uploadBlog = () => {
-    if (blogTitle === "") {
-      setTitleOkay(false);
-      // return;
+    if (!validateInputs()) {
+      setError(true);
     }
-    if (tagLists.length === 0) {
-      setTagsOkay(false);
+    if (editorStateRef && editorStateRef.current) {
+      console.log(editorStateRef.current.isEmpty());
+      console.log(JSON.stringify(editorStateRef.current));
     }
   };
 
-  const onEditorStateChange = (editorState) => {
-    setEditorState(editorState);
-  };
-
-  console.log(tagLists);
   return (
-    <Grid container justifyContent="center" alignItems="center">
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      className={classes.ccrt__blog__editor__container}
+    >
       <Head>
         <title>Manage Blog</title>
       </Head>
@@ -89,12 +76,27 @@ const BlogEditor = () => {
         <h2>Write your blog</h2>
       </Grid>
 
+      {coverPhoto !== null && (
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          style={{ height: "30vh", width: "60vw", position: "relative" }}
+        >
+          <Image
+            loader={(src) => src}
+            src={coverPhotoPreview}
+            layout="fill"
+            objectFit="contain"
+          />
+        </Grid>
+      )}
+
       <Grid
         container
         justifyContent="center"
         alignItems="center"
         item
-        md={10}
         className={classNames({
           [classes.ccrt__blog__editor__container_Mobile]: !matchesMd,
           [classes.ccrt__blog__editor__container_Md]: matchesMd,
@@ -114,8 +116,12 @@ const BlogEditor = () => {
               type="text"
               value={blogTitle}
               onChange={(e) => setBlogTitle(e.target.value)}
-              error={!titleOkay}
-              helperText={titleOkay === false ? "Enter title" : ""}
+              error={error && !isBlogTitleCorrect(blogTitle)}
+              helperText={
+                error && !isBlogTitleCorrect(blogTitle)
+                  ? "Title can not be empty"
+                  : ""
+              }
               label="Write your blog title here"
               variant="outlined"
               size="small"
@@ -131,52 +137,50 @@ const BlogEditor = () => {
               alignItems="center"
               className={classes.ccrt__blog__editor__choose__img__container}
             >
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
+              <Box
+                component={Grid}
+                container
+                item
                 onClick={() => {
-                  setOpenDialog(true);
+                  if (inputRef && inputRef.current) {
+                    inputRef.current.click();
+                  }
                 }}
+                className={classes.ccrt__blog__editor__image__button}
+                alignItems="center"
+                justifyContent="center"
               >
-                Choose cover image
-              </Button>
+                <Typography
+                  className={classes.ccrt__blog__editor__image__add_icon__text}
+                >
+                  Choose Cover Image
+                </Typography>
+                <input
+                  ref={inputRef}
+                  type="file"
+                  name="file"
+                  accept="image/*"
+                  onChange={onCoverPhotoChange}
+                  hidden
+                />
+              </Box>
               <Typography style={{ paddingLeft: 5, fontSize: "70%" }}>
                 {coverPhoto !== null ? (
                   <span> {coverPhoto.name}</span>
                 ) : (
-                  <span>File not choosen</span>
+                  <span>File is not chosen</span>
                 )}
               </Typography>
             </Grid>
+            {error && !isCoverPhotoCorrect(coverPhoto) && (
+              <Typography className={classes.error_text}>
+                You must choose a cover photo
+              </Typography>
+            )}
           </Grid>
         </Grid>
 
-        <Editor
-          editorState={editorState}
-          placeholder="click here to write"
-          toolbarClassName="toolbarClassName"
-          wrapperClassName="wrapperClassName"
-          editorClassName="editorClassName"
-          wrapperStyle={{
-            width: "100%",
-          }}
-          editorStyle={{
-            border: `1px solid ${theme.palette.grey[200]}`,
-            fontSize: "80%",
-            padding: "20px",
-            minHeight: "300px",
-            lineHeight: "0",
-          }}
-          onEditorStateChange={onEditorStateChange}
-          toolbar={{
-            inline: { inDropdown: true },
-            list: { inDropdown: true },
-            textAlign: { inDropdown: true },
-            link: { inDropdown: true },
-            history: { inDropdown: true },
-          }}
-        />
+        <Editor editorStateRef={editorStateRef} />
 
         <Grid
           container
@@ -193,16 +197,18 @@ const BlogEditor = () => {
               options={suggestions}
               getOptionLabel={(option) => option}
               onChange={(event, newValue) => {
-                setTagLists(() => newValue);
+                setTagList(() => newValue);
               }}
               freeSolo
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  placeholder="Choose at least one hashtag!"
-                  error={!tagsOkay}
+                  placeholder="You must choose at-least one tag."
+                  error={error && !isTagListCorrect(tagList)}
                   helperText={
-                    tagsOkay === false ? "Enter at least one tag" : ""
+                    error && !isTagListCorrect(tagList)
+                      ? "Enter at least one tag"
+                      : ""
                   }
                 />
               )}
@@ -217,152 +223,22 @@ const BlogEditor = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <Button
-            variant="contained"
-            size="small"
-            className={classes.ccrt__blog__submit__buttonStyle}
-            onClick={uploadBlog}
-          >
-            Submit
-          </Button>
+          <CustomButton onClick={uploadBlog} title="Submit" />
         </Grid>
       </Grid>
-
-      <Dialog
-        open={openDialog}
-        onClose={() => {
-          setOpenDialog(false);
-        }}
-        PaperProps={{
-          style: {
-            width: "40%",
-            height: "80%",
-          },
-        }}
-      >
-        <DialogTitle>
-          <Typography style={{ color: DEFAULT_COLOR_MINUS_2 }}>
-            Choose blog cover image
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
-          <Grid
-            item
-            xs={12}
-            container
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Box
-              component={Grid}
-              container
-              style={{
-                height: "30vh",
-                width: "100%",
-                backgroundImage: `url(${coverPhotoPreview})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            ></Box>
-            <Box
-              component={Grid}
-              container
-              item
-              onClick={() => {
-                if (inputRef && inputRef.current) {
-                  inputRef.current.click();
-                }
-              }}
-              style={{
-                backgroundColor: DEFAULT_COLOR_MINUS_2,
-                borderRadius: 5,
-                height: 45,
-                cursor: "pointer",
-                marginTop: 15,
-              }}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <AddSharpIcon
-                style={{
-                  fontSize: "90%",
-                  color: "white",
-                  marginRight: "10px",
-                  fontWeight: "bold",
-                }}
-              />
-              <Typography
-                style={{
-                  fontSize: "80%",
-                  color: "white",
-                  textTransform: "uppercase",
-                }}
-              >
-                Choose
-              </Typography>
-              <input
-                ref={inputRef}
-                type="file"
-                name="file"
-                accept="image/*"
-                onChange={onCoverPhotoChange}
-                hidden
-              />
-            </Box>
-          </Grid>
-        </DialogContent>
-        <DialogActions
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: "30px",
-          }}
-        >
-          <Typography
-            onClick={() => {
-              setOpenDialog(false);
-            }}
-            style={{
-              fontSize: "80%",
-              color: "white",
-              padding: "7px 20px",
-              backgroundColor: DEFAULT_COLOR_MINUS_2,
-              borderRadius: 5,
-              cursor: "pointer",
-              textTransform: "uppercase",
-            }}
-          >
-            cancel
-          </Typography>
-          <Typography
-            onClick={() => {
-              onSaveCoverPicture();
-            }}
-            style={{
-              fontSize: "80%",
-              color: "white",
-              padding: "7px 20px",
-              backgroundColor: DEFAULT_COLOR_MINUS_2,
-              borderRadius: 5,
-              cursor: "pointer",
-              textTransform: "uppercase",
-            }}
-          >
-            save
-          </Typography>
-        </DialogActions>
-      </Dialog>
     </Grid>
   );
 };
 
 const useStyles = makeStyles((theme) => ({
+  ccrt__blog__editor__section: {
+    height: "100vh",
+  },
   ccrt__blog__editor__container_Md: {
     padding: "20px 50px",
-    border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
   },
   ccrt__blog__editor__container_Mobile: {
-    padding: "20px 50px",
+    padding: "20px ",
   },
   ccrt__blog__title__field_Md: {
     marginRight: "10px",
@@ -372,11 +248,48 @@ const useStyles = makeStyles((theme) => ({
     padding: "4px 10px",
     borderRadius: "4px",
   },
-  ccrt__blog__submit__buttonStyle: {
+  ccrt__blog__editor__image__add_icon: {
+    fontSize: "90%",
+    color: "white",
+    marginRight: "10px",
+    fontWeight: "bold",
+  },
+  ccrt__blog__editor__image__add_icon__text: {
     fontSize: "80%",
-    padding: "5px 40px",
-    marginTop: 10,
-    marginBottom: 10,
+    color: "white",
+    textTransform: "Capitalize",
+  },
+  ccrt__blog__editor__image__button: {
+    backgroundColor: DEFAULT_COLOR_MINUS_2,
+    borderRadius: 5,
+    height: 45,
+    width: 200,
+    cursor: "pointer",
+
+    // marginTop: 15,
+  },
+  ccrt__blog__editor__choose__img__bottom__container: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: "30px",
+  },
+  ccrt__blog__editor__choose__img__cancel__button: {
+    fontSize: "80%",
+    color: "white",
+    padding: "7px 20px",
+    backgroundColor: DEFAULT_COLOR_MINUS_2,
+    borderRadius: 5,
+    cursor: "pointer",
+    textTransform: "uppercase",
+  },
+  ccrt__blog__editor__choose__img__save__button: {
+    fontSize: "80%",
+    color: "white",
+    padding: "7px 20px",
+    backgroundColor: DEFAULT_COLOR_MINUS_2,
+    borderRadius: 5,
+    cursor: "pointer",
+    textTransform: "uppercase",
   },
   ccrt__blog__hashtag__textfield: {
     cursor: "pointer",
@@ -390,6 +303,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "50px",
     zIndex: "99",
     background: theme.palette.grey[100],
+  },
+  error_text: {
+    fontSize: "70%",
+    color: theme.palette.error.main,
   },
 }));
 export default BlogEditor;

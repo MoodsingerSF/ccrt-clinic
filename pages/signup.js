@@ -22,14 +22,22 @@ import {
 import SignUpTextField from "../components/textfields/SignUpTextField";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
-import { useStyles } from "../styles/signupstyles";
+import { useStyles } from "../styles/SignupStyles";
 import {
+  sendOtp,
+  signUp,
+  USER_TYPES,
   validateConfirmPassword,
   validateEmail,
   validateName,
   validatePassword,
-} from "../controllers/signupController";
+} from "../controllers/SignupController";
 import CustomButton from "../components/button/CustomButton";
+import CustomCheckbox from "../components/checkbox/CustomCheckbox";
+import CustomSnackbar from "../components/snackbar/CustomSnackbar";
+import { SNACKBAR_INITIAL_STATE } from "../misc/constants";
+import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
+import { useRouter } from "next/router";
 const VerificationCodeModal = dynamic(() =>
   import("../components/modal/VerificationCodeModal")
 );
@@ -41,13 +49,14 @@ const SignupDesktopSidebar = dynamic(() =>
 );
 
 const SignupScreen = () => {
+  const router = useRouter();
   const theme = useTheme();
   const classes = useStyles();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
   const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
-
-  const [userType, setUserType] = useState("user");
+  const [otpId, setOtpId] = useState("");
+  const [userType, setUserType] = useState(USER_TYPES[0].value);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -56,8 +65,9 @@ const SignupScreen = () => {
   const [policy, setPolicy] = useState(false);
   const [showError, setShowError] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-
-  const handleOpen = () => setOpenModal(true);
+  const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
+  const [loading, setLoading] = useState(false);
+  const handleOpenVerificationCodeModal = () => setOpenModal(true);
   const handleCloseVerificationCodeModal = () => setOpenModal(false);
 
   const handleUserTypeChange = (e) => {
@@ -83,12 +93,40 @@ const SignupScreen = () => {
     setPolicy(!policy);
   };
 
+  const handleSendOtpCode = async () => {
+    try {
+      setLoading(true);
+      const response = await sendOtp(email);
+
+      if (response.status === 200) {
+        setOtpId(response.data["otpId"]);
+        handleOpenVerificationCodeModal();
+      }
+      setLoading(false);
+    } catch (error) {
+      if (error && error.response) {
+        handleSnackbarOpen(error.response.data.message, setSnackbar);
+      }
+      setLoading(false);
+    }
+  };
+
+  const handleSignUp = async () => {
+    try {
+      await signUp(userType, firstName, lastName, email, password);
+      router.push("/login");
+    } catch (error) {
+      if (error && error.response) {
+        handleSnackbarOpen(error.response.data.message, setSnackbar);
+      }
+    }
+  };
+
   const handleSubmitForm = () => {
     if (
       validate(firstName, lastName, email, password, confirmedPassword, policy)
     ) {
-      // if everything is alright, send verification code
-      handleOpen();
+      handleSendOtpCode();
     } else {
       setShowError(true);
     }
@@ -146,33 +184,26 @@ const SignupScreen = () => {
               [classes.ccrt__signup__right__Md]: matchesMD,
             })}
           >
-            <h2>{SIGN_UP_TITLE}</h2>
+            <Typography className={classes.sign_up_title}>
+              {SIGN_UP_TITLE}
+            </Typography>
             <Grid container>
               <Grid container>
-                <Typography>Choose your role</Typography>
+                <Typography className={classes.field_title}>
+                  Choose your role
+                </Typography>
                 <Grid container justifyContent="flex-start" alignItems="center">
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        size="small"
-                        value="user"
-                        checked={userType === "user"}
+                  {USER_TYPES.map((item) => {
+                    return (
+                      <CustomCheckbox
+                        key={item.name}
+                        name={item.name}
+                        checked={userType === item.value}
+                        value={item.value}
                         onChange={handleUserTypeChange}
                       />
-                    }
-                    label={<Typography>User</Typography>}
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        size="small"
-                        value="doctor"
-                        checked={userType === "doctor"}
-                        onChange={handleUserTypeChange}
-                      />
-                    }
-                    label={<Typography>Doctor</Typography>}
-                  />
+                    );
+                  })}
                 </Grid>
               </Grid>
               <SignUpTextField
@@ -245,10 +276,9 @@ const SignupScreen = () => {
               )}
               <Grid container mt={1}>
                 <CustomButton
-                  icon={null}
                   title={SIGN_UP_BUTTON}
                   onClick={handleSubmitForm}
-                  // loading={true}
+                  loading={loading}
                 />
               </Grid>
             </Grid>
@@ -265,14 +295,14 @@ const SignupScreen = () => {
               <CustomButton
                 title={SIGN_UP_WITH_GOOGLE}
                 icon={<GoogleIcon />}
-                onCLick={() => {}}
+                onClick={() => {}}
               />
             </Grid>
             <Grid container style={{ marginTop: "10px" }}>
               <CustomButton
                 title={SIGN_UP_WITH_FACEBOOK}
                 icon={<FacebookIcon />}
-                onCLick={() => {}}
+                onClick={() => {}}
               />
             </Grid>
             <Grid
@@ -295,10 +325,20 @@ const SignupScreen = () => {
               handleCloseVerificationCodeModal={
                 handleCloseVerificationCodeModal
               }
+              onResend={handleSendOtpCode}
+              otpId={otpId}
+              handleSignUp={handleSignUp}
             />
           )}
         </Grid>
       </Grid>
+      <CustomSnackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        onClose={() => {
+          handleSnackbarClose(setSnackbar);
+        }}
+      />
     </>
   );
 };

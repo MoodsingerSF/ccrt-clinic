@@ -11,7 +11,7 @@ import {
 
 import PropTypes from "prop-types";
 import { formErrors } from "../../data/signup/data";
-import { validateName } from "../../controllers/signupController";
+import { validateName } from "../../controllers/SignupController";
 
 const UpdateProfileModal = ({ open, onClose, editableValue }) => {
   const theme = useTheme();

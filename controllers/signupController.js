@@ -1,7 +1,15 @@
-import { EMAIL_REGEX, NAME_REGEX } from "../misc/constants";
+import axios from "axios";
+import { EMAIL_REGEX, NAME_REGEX, SERVER_PATH } from "../misc/constants";
 
 const MINIMUM_PASSWORD_LENGTH = 6;
+const USER = "USER";
+const DOCTOR = "DOCTOR";
+// const ADMIN = "ADMIN";
 
+export const USER_TYPES = [
+  { name: "user", value: USER },
+  { name: "doctor", value: DOCTOR },
+];
 export const validateName = (name) => {
   return NAME_REGEX.test(name);
 };
@@ -16,4 +24,40 @@ export const validatePassword = (password) => {
 
 export const validateConfirmPassword = (confirmPassword, password) => {
   return password !== "" && confirmPassword === password;
+};
+
+export const sendOtp = async (email) => {
+  const data = { email };
+  const response = await axios.post(SERVER_PATH + "otp", data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response;
+};
+
+export const verifyOtp = async (otpId, code) => {
+  const data = { otpId, code };
+  const response = await axios.post(SERVER_PATH + "otp/validation", data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response;
+};
+
+export const signUp = async (
+  userType,
+  firstName,
+  lastName,
+  email,
+  password
+) => {
+  const data = { userType, firstName, lastName, email, password };
+  const response = await axios.post(SERVER_PATH + "users", data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response;
 };

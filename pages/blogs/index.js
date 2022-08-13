@@ -13,18 +13,21 @@ const BlogScreen = () => {
   return (
     <>
       <Head>
-        <title>Blog</title>
+        <title>Blogs</title>
       </Head>
       <Grid container>
         <Grid container justifyContent="center" alignItems="center">
           <Grid container className={classes.ccrt__blog__header}>
-            <span className={classes.ccrt__blog__header__wrapper}>
-              <Image src={img} alt="bg_img" />
-            </span>
+            <Image src={img} alt="bg_img" layout="fill" />
           </Grid>
-          <h2 className={classes.ccrt__blog__header__title}>Blog</h2>
+          <h2 className={classes.ccrt__blog__header__title}>Blogs</h2>
         </Grid>
-        <Grid container justifyContent="flex-start" alignItems="center">
+        <Grid
+          container
+          style={{ background: "white" }}
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
           {blogData.map((blog) => {
             return (
               <Grid item xs={12} sm={6} md={4} lg={3} key={blog.blogId}>
@@ -36,7 +39,7 @@ const BlogScreen = () => {
                   date={blog.date}
                   image={blog.image}
                   title={blog.title}
-                  description={blog.description}
+                  tags={blog.tags}
                 />
               </Grid>
             );

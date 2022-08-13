@@ -21,10 +21,17 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
 import CustomButton from "../button/CustomButton";
+import { verifyOtp } from "../../controllers/SignupController";
+import { StatusCodes } from "http-status-codes";
+import CustomSnackbar from "../snackbar/CustomSnackbar";
+import { handleSnackbarOpen } from "../../misc/functions";
 
 const VerificationCodeModal = ({
   openModal,
   handleCloseVerificationCodeModal,
+  onResend,
+  otpId,
+  handleSignUp,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -33,9 +40,11 @@ const VerificationCodeModal = ({
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
   const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
   const [seconds, setSeconds] = useState(INITIAL_SECONDS);
+  const [code, setCode] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [showModalContent, setShowModalContent] = useState(true);
-
+  const [snackbar, setSnackbar] = useState(INITIAL_SECONDS);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     let myInterval = setInterval(() => {
       if (seconds > 0) {
@@ -50,6 +59,23 @@ const VerificationCodeModal = ({
       clearInterval(myInterval);
     };
   }, [seconds]);
+
+  const onSignUp = async () => {
+    try {
+      setLoading(true);
+      await verifyOtp(otpId, code);
+      await handleSignUp();
+      // setLoading(false);
+      // handleCloseVerificationCodeModal();
+    } catch (error) {
+      if (error && error.response) {
+        if (error.response.status === StatusCodes.EXPECTATION_FAILED) {
+          handleSnackbarOpen(error.response.data.message, setSnackbar);
+        }
+      }
+      setLoading(false);
+    }
+  };
 
   return (
     <Modal open={openModal} onClose={handleCloseVerificationCodeModal}>
@@ -79,6 +105,8 @@ const VerificationCodeModal = ({
             fullWidth
             color="primary"
             placeholder="Enter Code"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
           />
         </Grid>
         <Grid container justifyContent="center" alignItems="center">
@@ -93,6 +121,7 @@ const VerificationCodeModal = ({
                 setSeconds(INITIAL_SECONDS);
                 setDisabled(true);
                 setShowModalContent(true);
+                onResend();
                 //api
               }}
             >
@@ -106,8 +135,13 @@ const VerificationCodeModal = ({
           </Typography>
         </Grid>
         <Grid container justifyContent="center" alignItems="center">
-          <CustomButton title={VERIFY_BUTTON} />
+          <CustomButton
+            loading={loading}
+            title={VERIFY_BUTTON}
+            onClick={onSignUp}
+          />
         </Grid>
+        <CustomSnackbar open={snackbar.open} message={snackbar.message} />
       </Grid>
     </Modal>
   );
@@ -169,5 +203,8 @@ const useStyles = makeStyles({
 VerificationCodeModal.propTypes = {
   openModal: PropTypes.bool.isRequired,
   handleCloseVerificationCodeModal: PropTypes.func.isRequired,
+  onResend: PropTypes.func.isRequired,
+  otpId: PropTypes.string.isRequired,
+  handleSignUp: PropTypes.func.isRequired,
 };
 export default VerificationCodeModal;

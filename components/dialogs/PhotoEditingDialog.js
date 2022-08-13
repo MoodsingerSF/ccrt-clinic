@@ -11,8 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import AddSharpIcon from "@mui/icons-material/AddSharp";
-import { makeStyles } from "@mui/styles";
-import theme from "../../src/themes/theme";
+import { createStyles, makeStyles } from "@mui/styles";
 import DialogActionButton from "../button/DialogActionButton";
 import PropTypes from "prop-types";
 
@@ -114,43 +113,45 @@ const PhotoEditingDialog = ({
     </Grid>
   );
 };
-const useStyles = makeStyles({
-  ccrt__photo__editing__dialog__title: {
-    color: theme.palette.custom.DEFAULT_COLOR,
-    fontWeight: "600",
-    textAlign: "center",
-  },
-  ccrt__photo__editing__dialog__content: {
-    height: "200px",
-    width: "200px",
-    borderRadius: "50%",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  },
-  ccrt__photo__editing__dialog__content__add__wrapper: {
-    backgroundColor: theme.palette.custom.DEFAULT_COLOR_MINUS_2,
-    borderRadius: 5,
-    height: 45,
-    cursor: "pointer",
-    marginTop: "25px",
-  },
-  ccrt__photo__editing__dialog__content__add__icon: {
-    fontSize: "90%",
-    color: "white",
-    marginRight: "10px",
-    fontWeight: "bold",
-  },
-  ccrt__photo__editing__dialog__content__add__button__title: {
-    fontSize: "80%",
-    color: "white",
-    textTransform: "uppercase",
-  },
-  ccrt__photo__editing__dialog__action__wrapper: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: "30px",
-  },
-});
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    ccrt__photo__editing__dialog__title: {
+      color: theme.palette.custom.DEFAULT_COLOR,
+      fontWeight: "600",
+      textAlign: "center",
+    },
+    ccrt__photo__editing__dialog__content: {
+      height: "200px",
+      width: "200px",
+      borderRadius: "50%",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    },
+    ccrt__photo__editing__dialog__content__add__wrapper: {
+      backgroundColor: theme.palette.custom.DEFAULT_COLOR_MINUS_2,
+      borderRadius: 5,
+      height: 45,
+      cursor: "pointer",
+      marginTop: "25px",
+    },
+    ccrt__photo__editing__dialog__content__add__icon: {
+      fontSize: "90%",
+      color: "white",
+      marginRight: "10px",
+      fontWeight: "bold",
+    },
+    ccrt__photo__editing__dialog__content__add__button__title: {
+      fontSize: "80%",
+      color: "white",
+      textTransform: "uppercase",
+    },
+    ccrt__photo__editing__dialog__action__wrapper: {
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: "30px",
+    },
+  })
+);
 
 PhotoEditingDialog.propTypes = {
   open: PropTypes.bool.isRequired,

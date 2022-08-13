@@ -10,7 +10,7 @@ import {
   validateEmail,
   validateName,
   validatePassword,
-} from "../../controllers/signupController";
+} from "../../controllers/SignupController";
 import { BOX_SHADOW } from "../../misc/colors";
 import {
   CREATE_BUTTON,
