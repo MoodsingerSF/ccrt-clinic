@@ -15,6 +15,7 @@ import DashboardNavber from "../../components/dashboard/DashboardNavber";
 import CreateNewAdmin from "../../components/dashboard/CreateNewAdmin";
 import DashboardBlogs from "../../components/dashboard/DashboardBlogs";
 import DashboardProfile from "../../components/dashboard/DashboardProfile";
+import DoctorTimeSlot from "../../components/dashboard/doctor/DoctorTimeSlot";
 // import CustomDrawer from "../../components/drawer/CustomDrawer";
 
 const Dashboard = () => {
@@ -37,6 +38,8 @@ const Dashboard = () => {
       return <CreateNewAdmin />;
     } else if (route[0] === "user-blogs") {
       return <DashboardBlogs />;
+    } else if (route[0] === "time-schedule") {
+      return <DoctorTimeSlot />;
     }
   };
   // useEffect(() => {
