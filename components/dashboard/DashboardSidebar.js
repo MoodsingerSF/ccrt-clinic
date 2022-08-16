@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Grid, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { makeStyles, createStyles } from "@mui/styles";
 import { DEFAULT_COLOR, DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
 import { SidebarData } from "../../data/dashboardMenu/data";
 
@@ -55,46 +55,50 @@ const DashboardSidebar = () => {
   );
 };
 
-const useStyles = makeStyles({
-  ccrt__dashboard__sidebar__container: {
-    padding: "10px 0",
-    height: "100vh",
-    width: "100%",
-  },
-  ccrt__dashboard__sidebar__header: {
-    color: "#FFFFFF",
-    textTransform: "capitalize",
-    borderBottom: "2px solid #ffffff",
-    paddingBottom: "10px",
-  },
-  ccrt__dashboard__sidebar__menu: {
-    marginTop: "10px",
-  },
-  ccrt__dashboard__sidebar__menu__items: {
-    padding: "0",
-    margin: "0",
-    width: "100%",
-    listStyle: "none",
-  },
-  ccrt__dashboard__sidebar__menu__item: {
-    cursor: "pointer",
-    borderLeft: `5px solid ${DEFAULT_COLOR_MINUS_2}`,
-    "&:hover": {
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    ccrt__dashboard__sidebar__container: {
+      padding: "10px 0",
+      minHeight: "100vh",
+      width: "100%",
+    },
+    ccrt__dashboard__sidebar__header: {
+      color: "#FFFFFF",
+      textTransform: "capitalize",
+      borderBottom: "2px solid #ffffff",
+      paddingBottom: "10px",
+    },
+    ccrt__dashboard__sidebar__menu: {
+      marginTop: "10px",
+    },
+    ccrt__dashboard__sidebar__menu__items: {
+      padding: "0",
+      margin: "0",
+      width: "100%",
+      listStyle: "none",
+    },
+    ccrt__dashboard__sidebar__menu__item: {
+      cursor: "pointer",
+      borderLeft: `5px solid ${DEFAULT_COLOR_MINUS_2}`,
+      "&:hover": {
+        background: DEFAULT_COLOR,
+        borderLeft: "5px solid #FFFFFF",
+      },
+    },
+    ccrt__dashboard__sidebar__menu__item__link: {
+      textDecoration: "none",
+      color: "#FFF",
+      width: "100%",
+      cursor: "pointer",
+      padding: "10px",
+      fontSize: "85%",
+      fontWeight: "500",
+    },
+    ccrt__dashboard__sidebar__menu__item__active: {
       background: DEFAULT_COLOR,
+      cursor: "pointer",
       borderLeft: "5px solid #FFFFFF",
     },
-  },
-  ccrt__dashboard__sidebar__menu__item__link: {
-    textDecoration: "none",
-    color: "#FFF",
-    width: "100%",
-    cursor: "pointer",
-    padding: "10px",
-  },
-  ccrt__dashboard__sidebar__menu__item__active: {
-    background: DEFAULT_COLOR,
-    cursor: "pointer",
-    borderLeft: "5px solid #FFFFFF",
-  },
-});
+  })
+);
 export default DashboardSidebar;
