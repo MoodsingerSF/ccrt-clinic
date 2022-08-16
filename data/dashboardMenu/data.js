@@ -19,6 +19,10 @@ export const SidebarData = [
     route: "user-blogs",
     heading: "Blogs",
   },
+  {
+    route: "time-schedule",
+    heading: "Time Schedule",
+  },
 ];
 
 export const DoctorTableData = [

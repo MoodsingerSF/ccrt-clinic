@@ -1,26 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { Grid, useTheme } from "@mui/material";
 import { useStyles } from "../../styles/dashBoardstyle";
-// import classNames from "classnames";
 import useMediaQuery from "@mui/material/useMediaQuery";
-// import DashboardSidebar from "../../components/dashboard/DashboardSidebar";
+import DehazeIcon from "@mui/icons-material/Dehaze";
 const DashboardSidebar = dynamic(() =>
   import("../../components/dashboard/DashboardSidebar")
 );
 import Overview from "../../components/dashboard/Overview";
 import DoctorsRequest from "../../components/dashboard/DoctorsRequest";
-import DashboardNavber from "../../components/dashboard/DashboardNavber";
+// import DashboardNavber from "../../components/dashboard/DashboardNavber";
 import CreateNewAdmin from "../../components/dashboard/CreateNewAdmin";
 import DashboardBlogs from "../../components/dashboard/DashboardBlogs";
 import DashboardProfile from "../../components/dashboard/DashboardProfile";
-// import CustomDrawer from "../../components/drawer/CustomDrawer";
+import DoctorTimeSlot from "../../components/dashboard/doctor/DoctorTimeSlot";
+import CustomDrawer from "../../components/drawer/CustomDrawer";
 
 const Dashboard = () => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const router = useRouter();
 
@@ -37,6 +39,8 @@ const Dashboard = () => {
       return <CreateNewAdmin />;
     } else if (route[0] === "user-blogs") {
       return <DashboardBlogs />;
+    } else if (route[0] === "time-schedule") {
+      return <DoctorTimeSlot />;
     }
   };
   // useEffect(() => {
@@ -44,62 +48,59 @@ const Dashboard = () => {
   // }, []);
 
   return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      className={classes.ccrt__dashboard__section}
-    >
-      <Grid container className={classes.ccrt__dashboard__container}>
-        {matchesMD ? (
+    <Grid container className={classes.ccrt__dashboard__container}>
+      {matchesMD ? (
+        <>
           <Grid
             container
+            justifyContent="center"
             alignItems="flex-start"
             item
-            xs={3}
-            className={classes.ccrt__dashboard__left__container}
+            xs={2}
           >
-            <DashboardSidebar />
-          </Grid>
-        ) : null}
-
-        {matchesMD ? (
-          <Grid container>
-            <Grid container item xs={3}></Grid>
             <Grid
               container
-              alignItems="flex-start"
               item
-              xs={9}
-              className={classes.ccrt__dashboard__right__container}
+              xs={2}
+              className={classes.ccrt__dashboard__left__container}
             >
-              <Grid container item xs={12}>
-                <DashboardNavber />
-                {getComponent(router.query.route)}
-              </Grid>
+              <DashboardSidebar />
             </Grid>
           </Grid>
-        ) : (
           <Grid
             container
+            justifyContent="center"
             alignItems="flex-start"
             item
-            xs={12}
+            xs={10}
             className={classes.ccrt__dashboard__right__container}
           >
-            <Grid
-              container
-              justifyContent="center"
-              alignItems="center"
-              item
-              xs={12}
-            >
-              <DashboardNavber />
+            <Grid container item>
               {getComponent(router.query.route)}
             </Grid>
           </Grid>
-        )}
-      </Grid>
+        </>
+      ) : (
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="flex-start"
+          item
+          xs={12}
+          className={classes.ccrt__dashboard__right__container}
+        >
+          <Grid container item>
+            <Grid container style={{ zIndex: "99" }}>
+              <DehazeIcon onClick={() => setIsDrawerOpen(true)} />
+            </Grid>
+            {getComponent(router.query.route)}
+          </Grid>
+        </Grid>
+      )}
+      <CustomDrawer
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+      />
     </Grid>
   );
 };
