@@ -16,6 +16,7 @@ import DashboardBlogs from "../../components/dashboard/DashboardBlogs";
 import DashboardProfile from "../../components/dashboard/DashboardProfile";
 import DoctorTimeSlot from "../../components/dashboard/doctor/DoctorTimeSlot";
 import CustomDrawer from "../../components/drawer/CustomDrawer";
+import BlogRequest from "../../components/dashboard/blog-request/BlogRequest";
 
 const Dashboard = () => {
   const classes = useStyles();
@@ -41,6 +42,8 @@ const Dashboard = () => {
       return <DashboardBlogs />;
     } else if (route[0] === "time-schedule") {
       return <DoctorTimeSlot />;
+    } else if (route[0] === "blog-request") {
+      return <BlogRequest />;
     }
   };
   // useEffect(() => {
