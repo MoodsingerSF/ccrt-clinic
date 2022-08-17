@@ -3,9 +3,9 @@ import Link from "next/link";
 import { Drawer, Typography, Box, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
-import { DashboardOptions } from "../../data/dashboardMenu/data";
 import { DEFAULT_COLOR, DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
 import { Context } from "../../contexts/user-context/UserContext";
+import { DASHBOARD_ROUTES } from "../dashboard/Routes";
 
 const CustomDrawer = ({ isDrawerOpen, setIsDrawerOpen }) => {
   const classes = useStyles();
@@ -33,7 +33,7 @@ const CustomDrawer = ({ isDrawerOpen, setIsDrawerOpen }) => {
         </Box>
         <Box className={classes.ccrt__dashboard__sidebar__menu}>
           <ul className={classes.ccrt__dashboard__sidebar__menu__items}>
-            {DashboardOptions.map((item, index) => {
+            {DASHBOARD_ROUTES.map((item, index) => {
               console.log(item.allowedRoles.includes(userRole));
               if (item.allowedRoles.includes(userRole)) {
                 return (
@@ -46,7 +46,7 @@ const CustomDrawer = ({ isDrawerOpen, setIsDrawerOpen }) => {
                     }
                     onClick={() => handleClickTest(index)}
                   >
-                    <Link href={item.route}>
+                    <Link href={item.path}>
                       <Grid
                         container
                         className={

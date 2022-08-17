@@ -1,4 +1,5 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+import React from "react";
 import {
   retrieveAuthorizationToken,
   retrieveUserId,
@@ -6,17 +7,22 @@ import {
 import { Context } from "../contexts/user-context/UserContext";
 import { retrieveUserDetails } from "../controllers/UserController";
 import { getModifiedUserState } from "./data-middleware/UserDataMiddleware";
-const LoginChecker = () => {
+import { Grid, Typography } from "@mui/material";
+// eslint-disable-next-line react/prop-types
+const LoginChecker = ({ children }) => {
   const { setAuthorizationToken, setUserId, setUser } = useContext(Context);
-
+  const [loading, setLoading] = useState(false);
   const retrieveUserDetailsHelper = async () => {
     try {
+      setLoading(true);
       const response = await retrieveUserDetails();
       if (response.status === 200) {
         setUser(getModifiedUserState(response.data));
       }
+      setLoading(false);
     } catch (error) {
       //
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -28,7 +34,22 @@ const LoginChecker = () => {
     }
   }, []);
 
-  return null;
+  return (
+    <>
+      {loading ? (
+        <Grid
+          container
+          style={{ zIndex: 100, height: "100vh" }}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography>loading...</Typography>
+        </Grid>
+      ) : (
+        children
+      )}
+    </>
+  );
 };
 
 export default LoginChecker;

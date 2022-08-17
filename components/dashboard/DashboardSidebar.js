@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { DEFAULT_COLOR, DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
-import { DashboardOptions } from "../../data/dashboardMenu/data";
 import { Context } from "../../contexts/user-context/UserContext";
+import { DASHBOARD_ROUTES } from "./Routes";
 
 const DashboardSidebar = () => {
   const classes = useStyles();
@@ -26,7 +26,7 @@ const DashboardSidebar = () => {
       </Grid>
       <Grid container className={classes.ccrt__dashboard__sidebar__menu}>
         <ul className={classes.ccrt__dashboard__sidebar__menu__items}>
-          {DashboardOptions.map((item, index) => {
+          {DASHBOARD_ROUTES.map((item, index) => {
             if (item.allowedRoles.includes(getRole())) {
               return (
                 <li
@@ -38,7 +38,7 @@ const DashboardSidebar = () => {
                   }
                   onClick={() => handleClickTest(index)}
                 >
-                  <Link href={item.route}>
+                  <Link href={item.path}>
                     <Grid
                       container
                       className={

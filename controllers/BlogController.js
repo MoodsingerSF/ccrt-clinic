@@ -1,4 +1,5 @@
 import axios from "axios";
+import { VerificationStatus } from "../enums/VerificationStatus";
 import { AUTHORIZATION_HEADER_PREFIX, SERVER_PATH } from "../misc/constants";
 import { retrieveAuthorizationToken } from "./LocalStorageController";
 
@@ -33,4 +34,28 @@ export const createBlog = async (
     },
   });
   return response;
+};
+
+export const getPendingBlogs = async (page = 0, limit = 15) => {
+  console.log(VerificationStatus.PENDING.value);
+  const { data } = await axios.get(SERVER_PATH + "blogs", {
+    params: {
+      status: VerificationStatus.PENDING.value,
+      page,
+      limit,
+    },
+  });
+  return data;
+};
+
+export const getAcceptedBlogs = async (page = 0, limit = 15) => {
+  console.log(VerificationStatus.ACCEPTED.value);
+  const { data } = await axios.get(SERVER_PATH + "blogs", {
+    params: {
+      status: VerificationStatus.ACCEPTED.value,
+      page,
+      limit,
+    },
+  });
+  return data;
 };

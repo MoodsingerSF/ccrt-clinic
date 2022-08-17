@@ -1,102 +1,49 @@
-import React from "react";
-import dynamic from "next/dynamic";
+import React, { useContext } from "react";
 import { useRouter } from "next/router";
-import { Grid, useTheme } from "@mui/material";
-import { useStyles } from "../../styles/dashBoardstyle";
-// import classNames from "classnames";
-import useMediaQuery from "@mui/material/useMediaQuery";
-// import DashboardSidebar from "../../components/dashboard/DashboardSidebar";
-const DashboardSidebar = dynamic(() =>
-  import("../../components/dashboard/DashboardSidebar")
-);
-import Overview from "../../components/dashboard/Overview";
-import DoctorsRequest from "../../components/dashboard/DoctorsRequest";
-import CreateNewAdmin from "../../components/dashboard/CreateNewAdmin";
-import DashboardBlogs from "../../components/dashboard/DashboardBlogs";
-import DashboardProfile from "../../components/dashboard/DashboardProfile";
-// import DashboardNavbar from "../../components/dashboard/DashboardNavbar";
-// import CustomDrawer from "../../components/drawer/CustomDrawer";
+import { Context } from "../../contexts/user-context/UserContext";
+import NotFoundComponent from "../../components/misc/NotFoundComponent";
+import { DASHBOARD_ROUTES } from "../../components/dashboard/Routes";
+import ForbiddenComponent from "../../components/misc/ForbiddenComponent";
+import DashboardWrapper from "../../components/dashboard/DashboardWrapper";
+// import { Grid, Typography } from "@mui/material";
 
 const Dashboard = () => {
-  const classes = useStyles();
-  const theme = useTheme();
-  const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
-
+  const { getRole } = useContext(Context);
   const router = useRouter();
 
   const getComponent = (route) => {
     if (typeof route !== "undefined" && route.length !== 1) return null;
-    if (typeof route === "undefined" || route[0] === "user-profile") {
-      return <DashboardProfile />;
-    } else if (route[0] === "overview") {
-      return <Overview />;
-    } else if (route[0] === "doctor-request") {
-      return <DoctorsRequest />;
-    } else if (route[0] === "create-new-admin") {
-      return <CreateNewAdmin />;
-    } else if (route[0] === "user-blogs") {
-      return <DashboardBlogs />;
+    if (typeof route === "undefined") {
+      // router.replace("/dashboard/profile");
+      return DASHBOARD_ROUTES[0].path;
     }
+    for (let r of DASHBOARD_ROUTES) {
+      if (route[0] === r.path) {
+        return r.allowedRoles.includes(getRole()) === true ? (
+          <DashboardWrapper>{r.component}</DashboardWrapper>
+        ) : (
+          <ForbiddenComponent />
+        );
+      }
+    }
+    return <NotFoundComponent />;
   };
 
   return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      className={classes.ccrt__dashboard__section}
-    >
-      <Grid container className={classes.ccrt__dashboard__container}>
-        {matchesMD ? (
-          <Grid
-            container
-            alignItems="flex-start"
-            item
-            xs={3}
-            className={classes.ccrt__dashboard__left__container}
-          >
-            <DashboardSidebar />
-          </Grid>
-        ) : null}
-
-        {matchesMD ? (
-          <Grid container>
-            <Grid container item xs={3}></Grid>
-            <Grid
-              container
-              alignItems="flex-start"
-              item
-              xs={9}
-              className={classes.ccrt__dashboard__right__container}
-            >
-              <Grid container item xs={12}>
-                {/* <DashboardNavbar /> */}
-                {getComponent(router.query.route)}
-              </Grid>
-            </Grid>
-          </Grid>
-        ) : (
-          <Grid
-            container
-            alignItems="flex-start"
-            item
-            xs={12}
-            className={classes.ccrt__dashboard__right__container}
-          >
-            <Grid
-              container
-              justifyContent="center"
-              alignItems="center"
-              item
-              xs={12}
-            >
-              {/* <DashboardNavbar /> */}
-              {getComponent(router.query.route)}
-            </Grid>
-          </Grid>
-        )}
-      </Grid>
-    </Grid>
+    <>
+      {
+        getComponent(router.query.route)
+        // : null
+        // <Grid
+        //   container
+        //   style={{ minHeight: "100vh" }}
+        //   justifyContent="center"
+        //   alignItems={"center"}
+        // >
+        //   <Typography>loading...</Typography>
+        // </Grid>
+      }
+    </>
   );
 };
 
