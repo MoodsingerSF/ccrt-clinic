@@ -52,7 +52,7 @@ const AppBar = () => {
             <AppBarLink name="Departments" link="/" />
             <AppBarLink name="Product&Service" link="/" />
             <AppBarLink name="Blogs" link="/blogs" />
-            <AppBarLink name="Contact" link="/login" />
+            <AppBarLink name="Contact" link="/contact" />
             <AppBarLink name="FAQ" link="/login" />
             <AppBarLink name="Login" link="/login" />
           </Grid>
