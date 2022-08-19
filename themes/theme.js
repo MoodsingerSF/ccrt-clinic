@@ -14,6 +14,9 @@ const theme = createTheme({
     error: {
       main: red.A400,
     },
+    custom: {
+      footer_bg: "#f2f7ff",
+    },
   },
   typography: {
     fontSize: 16,
