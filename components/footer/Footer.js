@@ -37,11 +37,11 @@ const Footer = () => {
 
 const useStyles = makeStyles((theme) => ({
   ccrt__footer__container__mobile: {
+    background: theme.palette.custom.FOOTER_BG,
     padding: "0 30px",
   },
   ccrt__footer__container__desktop: {
-    background: theme.palette.custom.footer_bg,
-    marginTop: "30px",
+    background: theme.palette.custom.FOOTER_BG,
     padding: "0 80px",
   },
   ccrt__footer__bottom__divider: {

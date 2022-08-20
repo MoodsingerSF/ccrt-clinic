@@ -15,7 +15,7 @@ const theme = createTheme({
       main: red.A400,
     },
     custom: {
-      footer_bg: "#f2f7ff",
+      FOOTER_BG: "#f2f7ff",
       DEFAULT_COLOR: "#631976",
       DEFAULT_COLOR_MINUS_2: "#7b1f92",
       DEFAULT_COLOR_MINUS_20: "#f7e8fa",

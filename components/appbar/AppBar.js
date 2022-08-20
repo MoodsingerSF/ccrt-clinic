@@ -59,8 +59,8 @@ const AppBar = () => {
             <AppBarLink name="Departments" link="/" />
             <AppBarLink name="Product&Service" link="/" />
             <AppBarLink name="Blogs" link="/blogs" />
-            <AppBarLink name="Contact" link="/" />
-            <AppBarLink name="FAQ" link="/" />
+            <AppBarLink name="Contact" link="/contact" />
+            <AppBarLink name="FAQ" link="/faq" />
             {!isSignedIn() && <AppBarLink name="Login" link="/login" />}
           </Grid>
           <Grid
@@ -116,13 +116,7 @@ const AppBar = () => {
               }}
             />
           </Grid>
-          <Grid
-            container
-            item
-            xs={2}
-            justifyContent="flex-end"
-            // className={classes.ccrt_app_bar__logo}
-          >
+          <Grid container item xs={2} justifyContent="flex-end">
             <IconButton
               size="large"
               color="inherit"
@@ -144,20 +138,10 @@ const useStyles = makeStyles((theme) =>
     ccrt_app_bar__container: {
       height: "12vh",
       background: "#fff",
+      zIndex: "1",
       boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
     },
-    // ccrt_app_bar__logo: {
-    // app_bar_container: {
-    //   position: "fixed",
-    //   top: "0",
-    //   background: "#fff",
-    //   zIndex: "1",
-    //   boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-    // },
-    // app_bar_content_container: {
-    //   height: "12vh",
-    //   width: "95%",
-    // },
+
     ccrt_app_bar__logo: {
       position: "relative",
       margin: "5px 0px",
