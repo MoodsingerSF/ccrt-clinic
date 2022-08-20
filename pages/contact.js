@@ -48,9 +48,11 @@ const Contact = () => {
 const useStyles = makeStyles((theme) => ({
   ccrt_contact__page_container__mobile: {
     padding: "0 10px",
+    marginBottom: "10px",
   },
   ccrt_contact__page_container__desktop: {
     padding: "0 70px",
+    marginBottom: "10px",
   },
 }));
 export default Contact;
