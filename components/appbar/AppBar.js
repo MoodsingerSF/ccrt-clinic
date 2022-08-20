@@ -10,12 +10,14 @@ import {
   Avatar,
 } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
+
 import logo from "../../public/image/logo/logo2.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import AppbarDrawer from "../drawer/AppbarDrawer";
 import AppBarLink from "./AppBarLink";
-import ProfileMenu from "../menu/ProfileMenu";
+
 import { Context } from "../../contexts/user-context/UserContext";
+import ProfileMenu from "../menu/ProfileMenu";
 
 const AppBar = () => {
   const classes = useStyles();
@@ -25,8 +27,6 @@ const AppBar = () => {
 
   const { isSignedIn } = useContext(Context);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [openAppbarDrawer, setOpenAppbarDrawer] = useState(false);
-
   const open = Boolean(anchorEl);
   const handleProfileClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,6 +34,8 @@ const AppBar = () => {
   const handleProfileClose = () => {
     setAnchorEl(null);
   };
+
+  const [openAppbarDrawer, setOpenAppbarDrawer] = useState(false);
 
   const appbarDrawerOpen = () => {
     setOpenAppbarDrawer(true);
@@ -55,8 +57,9 @@ const AppBar = () => {
             <AppBarLink name="Departments" link="/" />
             <AppBarLink name="Product&Service" link="/" />
             <AppBarLink name="Blogs" link="/blogs" />
-            <AppBarLink name="Contact" link="/" />
-            <AppBarLink name="FAQ" link="/" />
+            <AppBarLink name="Contact" link="/contact" />
+            <AppBarLink name="FAQ" link="/faq" />
+
             {!isSignedIn() && <AppBarLink name="Login" link="/login" />}
           </Grid>
           <Grid
@@ -134,6 +137,7 @@ const useStyles = makeStyles((theme) =>
     ccrt_app_bar__container: {
       height: "12vh",
       background: "#fff",
+      zIndex: "1",
       boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
     },
     ccrt_app_bar__logo: {

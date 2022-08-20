@@ -77,7 +77,7 @@ const AppbarDrawer = ({ open, onClose }) => {
           />
           <AppbarDrawerLink
             name="Contact"
-            link="#"
+            link="/contact"
             icon={<AccountBoxIcon fontSize="small" />}
           />
           <AppbarDrawerLink
