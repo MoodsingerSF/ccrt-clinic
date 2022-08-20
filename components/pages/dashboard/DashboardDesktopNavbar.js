@@ -10,15 +10,15 @@ const DashboardDesktopNavbar = () => {
   const classes = useStyles();
   return (
     <Grid container className={classes.ccrt__dashboard__navbar}>
-      <Grid container justifyContent="start" alignItems="center" item sm={2}>
-        <Grid
-          container
-          justifyContent="flex-start"
-          alignItems="center"
-          className={classes.ccrt__dashboard__navbar__logo__container}
-        >
-          <Image src={logo} alt="logo" />
-        </Grid>
+      <Grid
+        container
+        item
+        sm={2}
+        justifyContent="flex-start"
+        alignItems="center"
+        className={classes.ccrt__dashboard__navbar__logo__container}
+      >
+        <Image src={logo} alt="logo" layout="fill" objectFit="contain" />
       </Grid>
       <Grid container justifyContent="center" alignItems="center" item xs={7}>
         <SearchField placeholder="Search..." />
@@ -42,6 +42,7 @@ const useStyles = makeStyles({
     padding: "10px 0",
   },
   ccrt__dashboard__navbar__logo__container: {
+    position: "relative",
     width: "90px",
     height: "auto",
   },
