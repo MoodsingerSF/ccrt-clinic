@@ -12,16 +12,10 @@ export const useStyles = makeStyles((theme) =>
       background: theme.palette.primary.main,
     },
     containerDesktopMd: {
-      // borderRadius: "26px",
-      // width: "900px",
-      // height: "95vh",
-      width: "90%",
-      // margin: "10px auto",
+      width: "100%",
     },
     containerDesktopLg: {
-      width: "70%",
-      // width: "1154px",
-      // borderRadius: "26px",
+      width: "100%",
     },
     ccrt__signup__right: {
       background: "#fff",
@@ -33,16 +27,14 @@ export const useStyles = makeStyles((theme) =>
       padding: "20px 50px",
     },
     ccrt__signup__right__Md: {
-      // width: "729px",
       width: "50%",
       padding: "20px 90px",
-      // borderTopRightRadius: "25px",
-      // borderBottomRightRadius: "25px",
     },
     linkStyle: {
       textDecoration: "none",
       color: theme.palette.primary.main,
-      fontWeight: "500",
+      fontWeight: "bold",
+      fontSize: "90%",
       marginLeft: "10px",
     },
     termsTextStyle__Mobile: {
@@ -56,6 +48,13 @@ export const useStyles = makeStyles((theme) =>
       color: "red",
       fontSize: "70%",
       marginBottom: "15px",
+    },
+    sign_up_title: {
+      fontSize: "180%",
+      fontWeight: "bold",
+    },
+    field_title: {
+      // fontWeight: 500,
     },
   })
 );

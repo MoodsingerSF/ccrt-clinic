@@ -1,5 +1,9 @@
 export const SidebarData = [
   {
+    route: "user-profile",
+    heading: "Profile",
+  },
+  {
     route: "overview",
     heading: "Overview",
   },
@@ -14,6 +18,10 @@ export const SidebarData = [
   {
     route: "user-blogs",
     heading: "Blogs",
+  },
+  {
+    route: "time-schedule",
+    heading: "Time Schedule",
   },
 ];
 

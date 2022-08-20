@@ -16,6 +16,10 @@ const theme = createTheme({
     },
     custom: {
       footer_bg: "#f2f7ff",
+      DEFAULT_COLOR: "#631976",
+      DEFAULT_COLOR_MINUS_2: "#7b1f92",
+      DEFAULT_COLOR_MINUS_20: "#f7e8fa",
+      DEFAULT_COLOR_MINUS_18: "#ecccf4",
     },
   },
   typography: {

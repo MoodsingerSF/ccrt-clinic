@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { Grid, Typography, useTheme } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
-import { useStyles } from "../styles/loginstyles";
+import { useStyles } from "../styles/LoginStyles";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { formErrors } from "../data/signup/data";
@@ -12,7 +12,7 @@ import SignUpTextField from "../components/textfields/SignUpTextField";
 import {
   validateEmail,
   validatePassword,
-} from "../controllers/signupController";
+} from "../controllers/SignupController";
 import {
   FORGOT__PASSWORD,
   HEADER_TITLE,
@@ -21,14 +21,33 @@ import {
   LOGIN_WITH_GOOGLE,
 } from "../data/login/data";
 import CustomButton from "../components/button/CustomButton";
+import CustomSnackbar from "../components/snackbar/CustomSnackbar";
+import {
+  AUTHORIZATION_HEADER_PREFIX,
+  SNACKBAR_INITIAL_STATE,
+} from "../misc/constants";
+import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
+import { login } from "../controllers/LoginController";
+import { StatusCodes } from "http-status-codes";
+import {
+  setAuthorizationToken,
+  setUserId,
+} from "../controllers/LocalStorageController";
+import { Context } from "../contexts/user-context/UserContext";
+import { useRouter } from "next/router";
 
 const LoginScreen = () => {
+  const router = useRouter();
   const theme = useTheme();
   const classes = useStyles();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
   const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
-
+  const {
+    setAuthorizationToken: setAuthorizationTokenInProvider,
+    setUserId: setUserIdInProvider,
+  } = useContext(Context);
+  const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showError, setShowError] = useState(false);
@@ -40,12 +59,36 @@ const LoginScreen = () => {
   const handlePassword = (e) => {
     setPassword(e.target.value);
   };
+  const onLogin = async () => {
+    try {
+      setLoading(true);
+      const response = await login(email, password);
+      if (response.status === 200) {
+        const authorizationToken = response.headers.authorization.replace(
+          AUTHORIZATION_HEADER_PREFIX,
+          ""
+        );
+        const userId = response.headers.userid;
+        setAuthorizationToken(authorizationToken);
+        setUserId(userId);
+        setAuthorizationTokenInProvider(authorizationToken);
+        setUserIdInProvider(userId);
+        router.replace("/");
+      }
+      setLoading(false);
+    } catch (error) {
+      if (error && error.response) {
+        const status = error.response.status;
+        if (status === StatusCodes.FORBIDDEN) {
+          openSnackbar("Username and password haven't matched.");
+        }
+      }
+      setLoading(false);
+    }
+  };
   const handleSubmitForm = () => {
     if (validate(email, password)) {
-      // if everything is alright, send verification code
-      setLoading(true);
-      //api
-      // setLoading(false);
+      onLogin();
     } else {
       setShowError(true);
     }
@@ -54,6 +97,10 @@ const LoginScreen = () => {
     let isEverythingAllRight = true;
     isEverythingAllRight = validateEmail(email) && validatePassword(password);
     return isEverythingAllRight;
+  };
+
+  const openSnackbar = (message) => {
+    handleSnackbarOpen(message, setSnackbar);
   };
 
   return (
@@ -145,6 +192,11 @@ const LoginScreen = () => {
           </Grid>
         </Grid>
       </Grid>
+      <CustomSnackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        onClose={() => handleSnackbarClose(setSnackbar)}
+      />
     </>
   );
 };

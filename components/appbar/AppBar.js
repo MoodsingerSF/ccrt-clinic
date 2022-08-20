@@ -1,3 +1,4 @@
+import React, { useContext, useState } from "react";
 import {
   Grid,
   IconButton,
@@ -5,20 +6,32 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { Avatar } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
 import logo from "../../public/image/logo/logo2.png";
-import AppBarLink from "./AppBarLink";
 import MenuIcon from "@mui/icons-material/Menu";
 import AppbarDrawer from "../drawer/AppbarDrawer";
+import AppBarLink from "./AppBarLink";
+import { Context } from "../../contexts/user-context/UserContext";
+import ProfileMenu from "../menu/ProfileMenu";
 
 const AppBar = () => {
   const classes = useStyles();
   const router = useRouter();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
+
+  const { isSignedIn } = useContext(Context);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleProfileClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleProfileClose = () => {
+    setAnchorEl(null);
+  };
 
   const [openAppbarDrawer, setOpenAppbarDrawer] = useState(false);
 
@@ -38,23 +51,17 @@ const AppBar = () => {
       {matches ? (
         <Grid container>
           <Grid item xs={2} className={classes.ccrt_app_bar__logo}>
-            <Image src={logo} layout="fill" objectFit="contain"></Image>
+            <Image src={logo} layout="fill" objectFit="contain" />
           </Grid>
           <Grid container alignItems="center" item xs={2}></Grid>
-          <Grid
-            container
-            justifyContent="center"
-            alignItems="center"
-            item
-            xs={6}
-          >
+          <Grid container alignItems="center" item xs={6}>
             <AppBarLink name="Home" link="/" />
             <AppBarLink name="Departments" link="/" />
             <AppBarLink name="Product&Service" link="/" />
             <AppBarLink name="Blogs" link="/blogs" />
-            <AppBarLink name="Contact" link="/contact" />
-            <AppBarLink name="FAQ" link="/login" />
-            <AppBarLink name="Login" link="/login" />
+            <AppBarLink name="Contact" link="/" />
+            <AppBarLink name="FAQ" link="/" />
+            {!isSignedIn() && <AppBarLink name="Login" link="/login" />}
           </Grid>
           <Grid
             item
@@ -63,19 +70,34 @@ const AppBar = () => {
             justifyContent={"center"}
             alignItems="center"
           >
-            <Grid container justifyContent={"center"} alignItems="center">
-              <Typography
-                className={classes.sign_up_title}
-              >{`Haven't registered yet?`}</Typography>
-              <Typography
-                className={classes.sign_up_button_style}
-                onClick={() => {
-                  router.push("/signup");
-                }}
-              >
-                Register Now
-              </Typography>
-            </Grid>
+            {isSignedIn() && (
+              <Avatar
+                className={classes.avatar}
+                onClick={handleProfileClick}
+              ></Avatar>
+            )}
+            {open && (
+              <ProfileMenu
+                open={open}
+                onClose={handleProfileClose}
+                anchorEl={anchorEl}
+              />
+            )}
+            {!isSignedIn() && (
+              <Grid container justifyContent={"center"} alignItems="center">
+                <Typography
+                  className={classes.sign_up_title}
+                >{`Haven't registered yet?`}</Typography>
+                <Typography
+                  className={classes.sign_up_button_style}
+                  onClick={() => {
+                    router.push("/signup");
+                  }}
+                >
+                  Register Now
+                </Typography>
+              </Grid>
+            )}
           </Grid>
         </Grid>
       ) : (
@@ -99,7 +121,7 @@ const AppBar = () => {
             item
             xs={2}
             justifyContent="flex-end"
-            className={classes.ccrt_app_bar__logo}
+            // className={classes.ccrt_app_bar__logo}
           >
             <IconButton
               size="large"
@@ -124,6 +146,18 @@ const useStyles = makeStyles((theme) =>
       background: "#fff",
       boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
     },
+    // ccrt_app_bar__logo: {
+    // app_bar_container: {
+    //   position: "fixed",
+    //   top: "0",
+    //   background: "#fff",
+    //   zIndex: "1",
+    //   boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+    // },
+    // app_bar_content_container: {
+    //   height: "12vh",
+    //   width: "95%",
+    // },
     ccrt_app_bar__logo: {
       position: "relative",
       margin: "5px 0px",
@@ -144,6 +178,10 @@ const useStyles = makeStyles((theme) =>
       "&:hover": {
         background: theme.palette.primary.main,
       },
+    },
+    avatar: {
+      border: `1px dashed ${theme.palette.primary.main}`,
+      cursor: "pointer",
     },
   })
 );
