@@ -1,19 +1,21 @@
 import React, { useContext, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import {
   Grid,
   IconButton,
   Typography,
   useMediaQuery,
   useTheme,
+  Avatar,
 } from "@mui/material";
-import { Avatar } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
-import Image from "next/image";
-import { useRouter } from "next/router";
+
 import logo from "../../public/image/logo/logo2.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import AppbarDrawer from "../drawer/AppbarDrawer";
 import AppBarLink from "./AppBarLink";
+
 import { Context } from "../../contexts/user-context/UserContext";
 import ProfileMenu from "../menu/ProfileMenu";
 
@@ -43,11 +45,7 @@ const AppBar = () => {
   };
 
   return (
-    <Grid
-      container
-      // justifyContent="space-between"
-      className={classes.ccrt_app_bar__container}
-    >
+    <Grid container className={classes.ccrt_app_bar__container}>
       {matches ? (
         <Grid container>
           <Grid item xs={2} className={classes.ccrt_app_bar__logo}>
@@ -61,6 +59,7 @@ const AppBar = () => {
             <AppBarLink name="Blogs" link="/blogs" />
             <AppBarLink name="Contact" link="/contact" />
             <AppBarLink name="FAQ" link="/faq" />
+
             {!isSignedIn() && <AppBarLink name="Login" link="/login" />}
           </Grid>
           <Grid
@@ -141,7 +140,6 @@ const useStyles = makeStyles((theme) =>
       zIndex: "1",
       boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
     },
-
     ccrt_app_bar__logo: {
       position: "relative",
       margin: "5px 0px",
