@@ -1,39 +1,45 @@
 import React from "react";
 import { Grid, Typography } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
+import News from "../components/home-page/news/News";
 export default function Home() {
   const classes = useStyles();
   return (
-    <Grid
-      container
-      justifyContent={"flex-end"}
-      alignItems="center"
-      style={{ minHeight: "88vh" }}
-    >
+    <Grid container>
       <Grid
         container
-        item
-        xs={4}
-        flexDirection={"column"}
+        justifyContent={"flex-end"}
         alignItems="center"
-        justifyContent={"center"}
-        style={{ marginRight: 30 }}
+        style={{ minHeight: "88vh" }}
       >
         <Grid
-          item
           container
+          item
+          xs={4}
           flexDirection={"column"}
-          alignItems="flex-end"
+          alignItems="center"
           justifyContent={"center"}
+          style={{ marginRight: 30 }}
         >
-          <Typography className={classes.cover_header_1}>Cancer</Typography>
-          <Typography className={classes.cover_header_2}>support</Typography>
-          <Typography className={classes.cover_sub_header}>is just</Typography>
-          <Typography className={classes.cover_sub_header}>
-            a click away
-          </Typography>
+          <Grid
+            item
+            container
+            flexDirection={"column"}
+            alignItems="flex-end"
+            justifyContent={"center"}
+          >
+            <Typography className={classes.cover_header_1}>Cancer</Typography>
+            <Typography className={classes.cover_header_2}>support</Typography>
+            <Typography className={classes.cover_sub_header}>
+              is just
+            </Typography>
+            <Typography className={classes.cover_sub_header}>
+              a click away
+            </Typography>
+          </Grid>
         </Grid>
       </Grid>
+      <News />
     </Grid>
   );
 }
