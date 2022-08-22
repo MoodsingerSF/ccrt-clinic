@@ -8,6 +8,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 import { Navigation } from "swiper";
+import Heading from "../section-heading/Heading";
 
 const Doctor = () => {
   const classes = useStyles();
@@ -21,19 +22,10 @@ const Doctor = () => {
       alignItems="center"
       style={{
         padding: matches ? "0 80px" : "0 10px",
-        margin: matches ? "50px 0" : "20px 0",
+        margin: matches ? "50px 0 0 0" : "20px 0 0 0",
       }}
     >
-      <Typography
-        variant="h4"
-        gutterBottom
-        style={{
-          fontSize: matches ? "200%" : "130%",
-        }}
-        className={classes.ccrt__doctor__card__section__title}
-      >
-        Our Popular Doctors
-      </Typography>
+      <Heading title="Our Popular Doctors" />
       <Grid container>
         <Swiper
           slidesPerView={1}
@@ -47,15 +39,15 @@ const Doctor = () => {
           breakpoints={{
             600: {
               slidesPerView: 2,
-              spaceBetween: 20,
+              spaceBetween: 10,
             },
             900: {
               slidesPerView: 3,
-              spaceBetween: 40,
+              spaceBetween: 20,
             },
             1200: {
               slidesPerView: 5,
-              spaceBetween: 50,
+              spaceBetween: 20,
             },
           }}
         >
@@ -65,7 +57,6 @@ const Doctor = () => {
               className={classes.ccrt__doctor__card__swiper_slide}
             >
               <DoctorCard
-                key={doctor.id}
                 image={doctor.image}
                 name={doctor.name}
                 specialist={doctor.specialist}
@@ -89,19 +80,12 @@ const useStyles = makeStyles((theme) =>
       height: "100%",
     },
     ccrt__doctor__card__swiper_slide: {
-      margin: "30px 0",
+      margin: "30px 0 0 0",
       transition: "transform 0.12s ease",
       "&:hover": {
         transform: "scale(1.1)",
         cursor: "pointer",
       },
-    },
-
-    ccrt__doctor__card__section__title: {
-      color: theme.palette.custom.SECOND_DEFAULT_COLOR,
-      fontWeight: "600",
-      textTransform: "uppercase",
-      marginBottom: "50px",
     },
   })
 );
