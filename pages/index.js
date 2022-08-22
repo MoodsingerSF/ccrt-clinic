@@ -2,6 +2,7 @@ import React from "react";
 import { Grid, Typography } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import News from "../components/home-page/news/News";
+import Doctor from "../components/home-page/doctor/Doctor";
 export default function Home() {
   const classes = useStyles();
   return (
@@ -40,6 +41,7 @@ export default function Home() {
         </Grid>
       </Grid>
       <News />
+      <Doctor />
     </Grid>
   );
 }
