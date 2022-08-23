@@ -5,6 +5,7 @@ import News from "../components/home-page/news/News";
 import Doctor from "../components/home-page/doctor/Doctor";
 import Review from "../components/home-page/review/Review";
 import Sponsor from "../components/home-page/sponsor/Sponsor";
+import Blog from "../components/home-page/blogs/Blog";
 export default function Home() {
   const classes = useStyles();
   return (
@@ -46,6 +47,7 @@ export default function Home() {
       <Doctor />
       <Sponsor />
       <Review />
+      <Blog />
     </Grid>
   );
 }
