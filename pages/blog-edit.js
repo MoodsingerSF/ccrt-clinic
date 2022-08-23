@@ -112,7 +112,7 @@ const BlogEditor = () => {
           style={{ height: "30vh", width: "60vw", position: "relative" }}
         >
           <Image
-            loader={(src) => src}
+            loader={({ src }) => src}
             src={coverPhotoPreview}
             layout="fill"
             objectFit="contain"

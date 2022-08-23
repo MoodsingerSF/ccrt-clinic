@@ -13,15 +13,16 @@ export const blogData = [
     cook together with your guests. Add 1 cup of frozen peas along
     with the mussels, if you like.`,
     description: `A Policy Dialogue named Multi-Sectoral Cooperation to Reduce
-     the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
-      after the inauguration session” was arranged inviting most of the stakeholders;
-       e.g scientists, academicians, philanthropists, doctors, business persons, cancer
-        survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
-         Professor and international affairs Advisor of the Prime Minister, was
-          the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
-           and Head of the Cancer and Immunogenetics Lab of the Oxford University
-            was the Guest of Honor of the Policy Dialogue. Media coverage at ”
-             THE BUSINESS STANDARD” and Daily Jugantor`,
+    the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
+    after the inauguration session” was arranged inviting most of the stakeholders;
+    e.g scientists, academicians, philanthropists, doctors, business persons, cancer
+    survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
+    Professor and international affairs Advisor of the Prime Minister, was
+    the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
+    and Head of the Cancer and Immunogenetics Lab of the Oxford University
+    was the Guest of Honor of the Policy Dialogue. Media coverage at ”
+    THE BUSINESS STANDARD” and Daily Jugantor`,
+    status: "pending",
     tags: ["hello", "world", "rajib"],
   },
   {
@@ -34,15 +35,16 @@ export const blogData = [
     title: "Title2",
     tags: ["hello", "world", "rajib"],
     description: `A Policy Dialogue named Multi-Sectoral Cooperation to Reduce
-     the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
-      after the inauguration session” was arranged inviting most of the stakeholders;
-       e.g scientists, academicians, philanthropists, doctors, business persons, cancer
-        survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
-         Professor and international affairs Advisor of the Prime Minister, was
-          the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
-           and Head of the Cancer and Immunogenetics Lab of the Oxford University
-            was the Guest of Honor of the Policy Dialogue. Media coverage at ”
-             THE BUSINESS STANDARD” and Daily Jugantor`,
+    the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
+    after the inauguration session” was arranged inviting most of the stakeholders;
+    e.g scientists, academicians, philanthropists, doctors, business persons, cancer
+    survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
+    Professor and international affairs Advisor of the Prime Minister, was
+    the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
+    and Head of the Cancer and Immunogenetics Lab of the Oxford University
+    was the Guest of Honor of the Policy Dialogue. Media coverage at ”
+    THE BUSINESS STANDARD” and Daily Jugantor`,
+    status: "pending",
   },
   {
     userId: "user3",
@@ -56,14 +58,15 @@ export const blogData = [
     tags: ["hello", "world", "rajib"],
     description: `A Policy Dialogue named Multi-Sectoral Cooperation to Reduce
      the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
-      after the inauguration session” was arranged inviting most of the stakeholders;
-       e.g scientists, academicians, philanthropists, doctors, business persons, cancer
-        survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
-         Professor and international affairs Advisor of the Prime Minister, was
-          the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
-           and Head of the Cancer and Immunogenetics Lab of the Oxford University
-            was the Guest of Honor of the Policy Dialogue. Media coverage at ”
-             THE BUSINESS STANDARD” and Daily Jugantor`,
+    after the inauguration session” was arranged inviting most of the stakeholders;
+    e.g scientists, academicians, philanthropists, doctors, business persons, cancer
+    survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
+    Professor and international affairs Advisor of the Prime Minister, was
+    the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
+    and Head of the Cancer and Immunogenetics Lab of the Oxford University
+    was the Guest of Honor of the Policy Dialogue. Media coverage at ”
+    THE BUSINESS STANDARD” and Daily Jugantor`,
+    status: "pending",
   },
   {
     userId: "user1",
@@ -84,15 +87,16 @@ export const blogData = [
       "sjgdhgas",
     ],
     description: `A Policy Dialogue named Multi-Sectoral Cooperation to Reduce
-     the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
-      after the inauguration session” was arranged inviting most of the stakeholders;
-       e.g scientists, academicians, philanthropists, doctors, business persons, cancer
-        survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
-         Professor and international affairs Advisor of the Prime Minister, was
-          the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
-           and Head of the Cancer and Immunogenetics Lab of the Oxford University
-            was the Guest of Honor of the Policy Dialogue. Media coverage at ”
-             THE BUSINESS STANDARD” and Daily Jugantor`,
+    the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
+    after the inauguration session” was arranged inviting most of the stakeholders;
+    e.g scientists, academicians, philanthropists, doctors, business persons, cancer
+    survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
+    Professor and international affairs Advisor of the Prime Minister, was
+    the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
+    and Head of the Cancer and Immunogenetics Lab of the Oxford University
+    was the Guest of Honor of the Policy Dialogue. Media coverage at ”
+    THE BUSINESS STANDARD” and Daily Jugantor`,
+    status: "pending",
   },
   {
     userId: "user2",
@@ -113,15 +117,16 @@ export const blogData = [
       "sjgdhgas",
     ],
     description: `A Policy Dialogue named Multi-Sectoral Cooperation to Reduce
-     the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
-      after the inauguration session” was arranged inviting most of the stakeholders;
-       e.g scientists, academicians, philanthropists, doctors, business persons, cancer
-        survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
-         Professor and international affairs Advisor of the Prime Minister, was
-          the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
-           and Head of the Cancer and Immunogenetics Lab of the Oxford University
-            was the Guest of Honor of the Policy Dialogue. Media coverage at ”
-             THE BUSINESS STANDARD” and Daily Jugantor`,
+    the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
+    after the inauguration session” was arranged inviting most of the stakeholders;
+    e.g scientists, academicians, philanthropists, doctors, business persons, cancer
+    survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
+    Professor and international affairs Advisor of the Prime Minister, was
+    the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
+    and Head of the Cancer and Immunogenetics Lab of the Oxford University
+    was the Guest of Honor of the Policy Dialogue. Media coverage at ”
+    THE BUSINESS STANDARD” and Daily Jugantor`,
+    status: "pending",
   },
   {
     userId: "user3",
@@ -142,15 +147,16 @@ export const blogData = [
       "sjgdhgas",
     ],
     description: `A Policy Dialogue named Multi-Sectoral Cooperation to Reduce
-     the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
-      after the inauguration session” was arranged inviting most of the stakeholders;
-       e.g scientists, academicians, philanthropists, doctors, business persons, cancer
-        survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
-         Professor and international affairs Advisor of the Prime Minister, was
-          the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
-           and Head of the Cancer and Immunogenetics Lab of the Oxford University
-            was the Guest of Honor of the Policy Dialogue. Media coverage at ”
-             THE BUSINESS STANDARD” and Daily Jugantor`,
+    the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
+    after the inauguration session” was arranged inviting most of the stakeholders;
+    e.g scientists, academicians, philanthropists, doctors, business persons, cancer
+    survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
+    Professor and international affairs Advisor of the Prime Minister, was
+    the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
+    and Head of the Cancer and Immunogenetics Lab of the Oxford University
+    was the Guest of Honor of the Policy Dialogue. Media coverage at ”
+    THE BUSINESS STANDARD” and Daily Jugantor`,
+    status: "pending",
   },
   {
     userId: "user1",
@@ -171,15 +177,16 @@ export const blogData = [
       "sjgdhgas",
     ],
     description: `A Policy Dialogue named Multi-Sectoral Cooperation to Reduce
-     the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
-      after the inauguration session” was arranged inviting most of the stakeholders;
-       e.g scientists, academicians, philanthropists, doctors, business persons, cancer
-        survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
-         Professor and international affairs Advisor of the Prime Minister, was
-          the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
-           and Head of the Cancer and Immunogenetics Lab of the Oxford University
-            was the Guest of Honor of the Policy Dialogue. Media coverage at ”
-             THE BUSINESS STANDARD” and Daily Jugantor`,
+    the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
+    after the inauguration session” was arranged inviting most of the stakeholders;
+    e.g scientists, academicians, philanthropists, doctors, business persons, cancer
+    survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
+    Professor and international affairs Advisor of the Prime Minister, was
+    the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
+    and Head of the Cancer and Immunogenetics Lab of the Oxford University
+    was the Guest of Honor of the Policy Dialogue. Media coverage at ”
+    THE BUSINESS STANDARD” and Daily Jugantor`,
+    status: "pending",
   },
   {
     userId: "user2",
@@ -200,15 +207,16 @@ export const blogData = [
       "sjgdhgas",
     ],
     description: `A Policy Dialogue named Multi-Sectoral Cooperation to Reduce
-     the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
-      after the inauguration session” was arranged inviting most of the stakeholders;
-       e.g scientists, academicians, philanthropists, doctors, business persons, cancer
-        survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
-         Professor and international affairs Advisor of the Prime Minister, was
-          the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
-           and Head of the Cancer and Immunogenetics Lab of the Oxford University
-            was the Guest of Honor of the Policy Dialogue. Media coverage at ”
-             THE BUSINESS STANDARD” and Daily Jugantor`,
+    the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
+    after the inauguration session” was arranged inviting most of the stakeholders;
+    e.g scientists, academicians, philanthropists, doctors, business persons, cancer
+    survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
+    Professor and international affairs Advisor of the Prime Minister, was
+    the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
+    and Head of the Cancer and Immunogenetics Lab of the Oxford University
+    was the Guest of Honor of the Policy Dialogue. Media coverage at ”
+    THE BUSINESS STANDARD” and Daily Jugantor`,
+    status: "pending",
   },
   {
     userId: "user3",
@@ -221,15 +229,16 @@ export const blogData = [
 
     tags: ["hello", "jahfdhg", "sjgdhgas"],
     description: `A Policy Dialogue named Multi-Sectoral Cooperation to Reduce
-     the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
-      after the inauguration session” was arranged inviting most of the stakeholders;
-       e.g scientists, academicians, philanthropists, doctors, business persons, cancer
-        survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
-         Professor and international affairs Advisor of the Prime Minister, was
-          the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
-           and Head of the Cancer and Immunogenetics Lab of the Oxford University
-            was the Guest of Honor of the Policy Dialogue. Media coverage at ”
-             THE BUSINESS STANDARD” and Daily Jugantor`,
+    the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
+    after the inauguration session” was arranged inviting most of the stakeholders;
+    e.g scientists, academicians, philanthropists, doctors, business persons, cancer
+    survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
+    Professor and international affairs Advisor of the Prime Minister, was
+    the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
+    and Head of the Cancer and Immunogenetics Lab of the Oxford University
+    was the Guest of Honor of the Policy Dialogue. Media coverage at ”
+    THE BUSINESS STANDARD” and Daily Jugantor`,
+    status: "pending",
   },
   {
     userId: "user1",
@@ -249,15 +258,16 @@ export const blogData = [
       "sjgdhgas",
     ],
     description: `A Policy Dialogue named Multi-Sectoral Cooperation to Reduce
-     the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
-      after the inauguration session” was arranged inviting most of the stakeholders;
-       e.g scientists, academicians, philanthropists, doctors, business persons, cancer
-        survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
-         Professor and international affairs Advisor of the Prime Minister, was
-          the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
-           and Head of the Cancer and Immunogenetics Lab of the Oxford University
-            was the Guest of Honor of the Policy Dialogue. Media coverage at ”
-             THE BUSINESS STANDARD” and Daily Jugantor`,
+    the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
+    after the inauguration session” was arranged inviting most of the stakeholders;
+    e.g scientists, academicians, philanthropists, doctors, business persons, cancer
+    survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
+    Professor and international affairs Advisor of the Prime Minister, was
+    the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
+    and Head of the Cancer and Immunogenetics Lab of the Oxford University
+    was the Guest of Honor of the Policy Dialogue. Media coverage at ”
+    THE BUSINESS STANDARD” and Daily Jugantor`,
+    status: "pending",
   },
   {
     userId: "user2",
@@ -270,15 +280,16 @@ export const blogData = [
 
     tags: ["hello"],
     description: `A Policy Dialogue named Multi-Sectoral Cooperation to Reduce
-     the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
-      after the inauguration session” was arranged inviting most of the stakeholders;
-       e.g scientists, academicians, philanthropists, doctors, business persons, cancer
-        survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
-         Professor and international affairs Advisor of the Prime Minister, was
-          the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
-           and Head of the Cancer and Immunogenetics Lab of the Oxford University
-            was the Guest of Honor of the Policy Dialogue. Media coverage at ”
-             THE BUSINESS STANDARD” and Daily Jugantor`,
+    the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
+    after the inauguration session” was arranged inviting most of the stakeholders;
+    e.g scientists, academicians, philanthropists, doctors, business persons, cancer
+    survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
+    Professor and international affairs Advisor of the Prime Minister, was
+    the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
+    and Head of the Cancer and Immunogenetics Lab of the Oxford University
+    was the Guest of Honor of the Policy Dialogue. Media coverage at ”
+    THE BUSINESS STANDARD” and Daily Jugantor`,
+    status: "pending",
   },
   {
     userId: "user3",
@@ -291,14 +302,15 @@ export const blogData = [
 
     tags: ["hello", "world", "rajib"],
     description: `A Policy Dialogue named Multi-Sectoral Cooperation to Reduce
-     the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
-      after the inauguration session” was arranged inviting most of the stakeholders;
-       e.g scientists, academicians, philanthropists, doctors, business persons, cancer
-        survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
-         Professor and international affairs Advisor of the Prime Minister, was
-          the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
-           and Head of the Cancer and Immunogenetics Lab of the Oxford University
-            was the Guest of Honor of the Policy Dialogue. Media coverage at ”
-             THE BUSINESS STANDARD” and Daily Jugantor`,
+    the Burden of Cancer in Bangladesh and Ensuring Patients Access” was held
+    after the inauguration session” was arranged inviting most of the stakeholders;
+    e.g scientists, academicians, philanthropists, doctors, business persons, cancer
+    survivors, media persons, and volunteers. Dr. Gowhor Rizvi, the renowned
+    Professor and international affairs Advisor of the Prime Minister, was
+    the Chief Guest and Sir Walter Bodmer, a prominent human Geneticist
+    and Head of the Cancer and Immunogenetics Lab of the Oxford University
+    was the Guest of Honor of the Policy Dialogue. Media coverage at ”
+    THE BUSINESS STANDARD” and Daily Jugantor`,
+    status: "pending",
   },
 ];

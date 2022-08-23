@@ -7,32 +7,35 @@ import { VerificationStatus } from "../enums/VerificationStatus";
 
 const useBlogs = (page, verificationStatus) => {
   const [blogs, setBlogs] = useState([]);
+  const [totalBlogs, setTotalBlogs] = useState(0);
   const [error, setError] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const retrieveBlogs = async (page) => {
     try {
       setLoading(true);
-      let temp = [];
+      let responseData = [];
       if (verificationStatus === VerificationStatus.PENDING) {
-        temp = await getPendingBlogs(page);
+        responseData = await getPendingBlogs(page);
       } else if (verificationStatus === VerificationStatus.ACCEPTED) {
-        temp = await getAcceptedBlogs(page);
+        responseData = await getAcceptedBlogs(page);
       }
-      if (temp.length === 0) {
+      setTotalBlogs(responseData.totalBlogs);
+      if (responseData.blogs.length === 0) {
         setHasMore(false);
       }
-      setBlogs((prev) => [...prev, ...temp]);
-      setLoading(true);
+      if (page === 0) setBlogs(responseData.blogs);
+      else setBlogs((prev) => [...prev, ...responseData.blogs]);
+      setLoading(false);
     } catch (error) {
       setError(true);
-      setLoading(true);
+      setLoading(false);
     }
   };
   useEffect(() => {
     retrieveBlogs(page);
   }, [page]);
-  return { blogs, loading, hasMore, error };
+  return { blogs, totalBlogs, loading, hasMore, error };
 };
 
 export default useBlogs;

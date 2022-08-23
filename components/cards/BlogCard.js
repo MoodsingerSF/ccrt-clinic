@@ -16,6 +16,8 @@ import PropTypes from "prop-types";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DashboardBlogsOptionsPopup from "../modal/DashboardBlogsOptionsPopup";
 import { createStyles, makeStyles } from "@mui/styles";
+import { capitalize } from "lodash";
+import { prettyDate } from "../../controllers/DateController";
 
 const BlogCard = ({
   blogId,
@@ -26,20 +28,19 @@ const BlogCard = ({
   title,
   tags = [],
   showOptions = false,
+  onSuccessfulDelete = () => {},
+  openSnackbar = () => {},
 }) => {
   const classes = useStyles();
   const router = useRouter();
 
-  const [openOptionsPopup, setOpenOptionsPopup] = useState(false);
-
-  const handleClickOpenOptionsPopup = () => {
-    setOpenOptionsPopup(!openOptionsPopup);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
-
-  // const handleCloseOptionsPopup = () => {
-  //   setOpenOptionsPopup(false);
-  // };
-
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <Grid
       container
@@ -49,13 +50,12 @@ const BlogCard = ({
     >
       <Card>
         <CardHeader
-          avatar={<Avatar>{avatar}</Avatar>}
+          avatar={
+            <Avatar>{avatar ? avatar : capitalize(name).charAt(0)}</Avatar>
+          }
           action={
             showOptions && (
-              <IconButton
-                aria-label="settings"
-                onClick={handleClickOpenOptionsPopup}
-              >
+              <IconButton aria-label="settings" onClick={handleClick}>
                 <MoreVertIcon />
               </IconButton>
             )
@@ -65,16 +65,20 @@ const BlogCard = ({
             subheader: classes.ccrt__blog__subheader,
           }}
           title={name}
-          subheader={date}
+          subheader={prettyDate(date)}
         />
         <CardMedia
-          height="194"
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", position: "relative", height: 194 }}
           onClick={() => {
             router.push("/blogs/" + blogId);
           }}
         >
-          <Image src={image} alt="blog" />
+          <Image
+            loader={({ src }) => src}
+            src={image}
+            alt="blog"
+            layout="fill"
+          />
         </CardMedia>
         <CardContent>
           <Typography
@@ -85,15 +89,11 @@ const BlogCard = ({
           >
             {title}
           </Typography>
-          {/* <Typography variant="body2" color="text.secondary">
-            {description}
-          </Typography> */}
           <Grid container mt={2}>
             {tags.map((tag) => (
               <Chip
                 key={tag}
                 label="#cancer"
-                // size="small"
                 component="a"
                 href="#basic-chip"
                 clickable
@@ -103,7 +103,13 @@ const BlogCard = ({
           </Grid>
         </CardContent>
       </Card>
-      {openOptionsPopup && <DashboardBlogsOptionsPopup blogId={blogId} />}
+      <DashboardBlogsOptionsPopup
+        anchorEl={anchorEl}
+        blogId={blogId}
+        onClose={handleClose}
+        onSuccessfulDelete={onSuccessfulDelete}
+        openSnackbar={openSnackbar}
+      />
     </Grid>
   );
 };
@@ -113,10 +119,12 @@ BlogCard.propTypes = {
   avatar: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
-  image: PropTypes.object.isRequired,
+  image: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   tags: PropTypes.array.isRequired,
   showOptions: PropTypes.bool,
+  onSuccessfulDelete: PropTypes.func,
+  openSnackbar: PropTypes.func,
 };
 
 const useStyles = makeStyles((theme) =>
@@ -127,6 +135,7 @@ const useStyles = makeStyles((theme) =>
     },
     ccrt__blog__creator_name: {
       fontWeight: "bold",
+      textTransform: "capitalize",
     },
     ccrt__blog__subheader: {
       fontSize: "80%",

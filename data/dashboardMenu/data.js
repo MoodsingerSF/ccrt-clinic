@@ -26,6 +26,14 @@ export const DashboardOptions = [
     heading: "Blogs",
     allowedRoles: [Role.ADMIN, Role.DOCTOR, Role.USER],
   },
+  {
+    route: "time-schedule",
+    heading: "Time Schedule",
+  },
+  {
+    route: "blog-request",
+    heading: "Blog request",
+  },
 ];
 
 export const DoctorTableData = [

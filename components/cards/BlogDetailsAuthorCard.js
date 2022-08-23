@@ -8,6 +8,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
 import { DEFAULT_COLOR, DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
+import { capitalize } from "lodash";
 const BlogDetailsAuthorCard = ({ name, avatar }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -29,7 +30,7 @@ const BlogDetailsAuthorCard = ({ name, avatar }) => {
           [classes.ccrt__blogDetails__author__avatar__tablet]: matches,
         })}
       >
-        {avatar}
+        {avatar ? avatar : capitalize(name).charAt(0)}
       </Avatar>
       <Grid
         container
@@ -52,12 +53,12 @@ const BlogDetailsAuthorCard = ({ name, avatar }) => {
 };
 const useStyles = makeStyles({
   ccrt__blogDetails__author__containerMobile: {
-    margin: "40px 0 0 0",
+    margin: "0px 0 0 0",
     padding: "20px 10px 0",
     border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
   },
   ccrt__blogDetails__container__container__Tablet: {
-    margin: "20px 0 0 0",
+    margin: "0px 0 0 0",
     padding: "20px 10px 0",
     border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
   },
@@ -79,6 +80,7 @@ const useStyles = makeStyles({
     fontWeight: "700",
     margin: "0 0 2px",
     color: DEFAULT_COLOR,
+    textTransform: "capitalize",
   },
   ccrt__blogDetails__author__subtitle: {
     fontSize: "18px",

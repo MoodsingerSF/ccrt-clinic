@@ -70,7 +70,7 @@ const DashboardMobileNavbar = ({ setIsDrawerOpen }) => {
         >
           {getProfileImageUrl() && (
             <Image
-              loader={(url) => url}
+              loader={({ url }) => url}
               src={getProfileImageUrl()}
               alt="profile"
             />

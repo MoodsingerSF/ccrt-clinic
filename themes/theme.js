@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material/styles";
-import { purple, red } from "@mui/material/colors";
+import { grey, purple, red } from "@mui/material/colors";
 
 // Create a theme instance.
 const theme = createTheme({
@@ -19,6 +19,7 @@ const theme = createTheme({
       DEFAULT_COLOR_MINUS_2: "#7b1f92",
       DEFAULT_COLOR_MINUS_20: "#f7e8fa",
       DEFAULT_COLOR_MINUS_18: "#ecccf4",
+      TABLE_HOVER_COLOR: grey[50],
     },
   },
   typography: {

@@ -1,97 +1,80 @@
 import React, { useState } from "react";
-// import { useRouter } from "next/router";
-import { makeStyles } from "@mui/styles";
-import { Grid } from "@mui/material";
+import { Menu, MenuItem } from "@mui/material";
+import PropTypes from "prop-types";
 import ConfirmationModal from "./ConfirmationModal";
-// import { blogData } from "../../data/blog/data";
-// import PropTypes from "prop-types";
+import { deleteBlog } from "../../controllers/BlogController";
+import LoaderBackdrop from "../backdrops/LoaderBackdrop";
 
-const DashboardBlogsOptionsPopup = () => {
-  const classes = useStyles();
-  // const router = useRouter();
+const DashboardBlogsOptionsPopup = ({
+  blogId,
+  anchorEl,
+  onClose,
+  onSuccessfulDelete = () => {},
+  openSnackbar = () => {},
+}) => {
+  const open = Boolean(anchorEl);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const onConfirmDelete = async () => {
+    try {
+      setOpenDeleteDialog(false);
+      setDeleting(true);
+      const isDeleted = await deleteBlog(blogId);
+      setDeleting(false);
 
-  const [confirmOption, setConfirmOption] = useState(false);
-
-  const handleOpenConfirmOptionModel = () => {
-    setConfirmOption(true);
+      if (isDeleted) {
+        onSuccessfulDelete();
+        openSnackbar("Blog has been deleted successfully.");
+      } else {
+        openSnackbar("Blog couldn't be deleted. Please try again.");
+      }
+    } catch (error) {
+      setDeleting(false);
+      if (error && error.response) {
+        openSnackbar(error.response.body.message);
+      }
+    }
   };
-
-  const handleCloseConfirmOptionModel = () => setConfirmOption(false);
-
-  const handleEditBlog = () => {};
-
-  const handleDeleteBlogs = () => {
-    // blogData.filter((blog) => blog.blogId !== blogId);
-    // console.log(blogId);
-    setConfirmOption(false);
-  };
-
   return (
-    <Grid
-      container
-      className={classes.ccrt__dashboard_blogs__card__right__icon__popup}
-    >
-      <Grid container>
-        <ul
-          className={
-            classes.ccrt__dashboard_blogs__card__right__icon__popup__ul
-          }
+    <>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={onClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={onClose}>Edit</MenuItem>
+        <MenuItem
+          onClick={() => {
+            onClose();
+            setOpenDeleteDialog(true);
+          }}
         >
-          <li
-            onClick={handleEditBlog}
-            className={
-              classes.ccrt__dashboard_blogs__card__right__icon__popup__li
-            }
-          >
-            Edit
-          </li>
-          <li
-            onClick={handleOpenConfirmOptionModel}
-            className={
-              classes.ccrt__dashboard_blogs__card__right__icon__popup__li
-            }
-          >
-            Delete
-          </li>
-        </ul>
-      </Grid>
-      {confirmOption && (
+          Delete
+        </MenuItem>
+      </Menu>
+      {openDeleteDialog && (
         <ConfirmationModal
           title={`Do you want to delete this blog?`}
-          onNegativeFeedback={handleCloseConfirmOptionModel}
-          onPositiveFeedback={handleDeleteBlogs}
+          onNegativeFeedback={() => {
+            setOpenDeleteDialog(false);
+          }}
+          onPositiveFeedback={onConfirmDelete}
         />
       )}
-    </Grid>
+      <LoaderBackdrop open={deleting} />
+    </>
   );
 };
 
-const useStyles = makeStyles({
-  ccrt__dashboard_blogs__card__right__icon__popup: {
-    position: "absolute",
-    top: "13%",
-    right: "3%",
-    background: "#fff",
-    boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
-    width: "40%",
-  },
-  ccrt__dashboard_blogs__card__right__icon__popup__ul: {
-    listStyle: "none",
-    width: "100%",
-    padding: "0",
-    margin: "0",
-  },
-  ccrt__dashboard_blogs__card__right__icon__popup__li: {
-    width: "100%",
-    padding: "5px",
-    cursor: "pointer",
-    "&:hover": {
-      background: "#eeeeee",
-    },
-  },
-});
+DashboardBlogsOptionsPopup.propTypes = {
+  blogId: PropTypes.string.isRequired,
+  anchorEl: PropTypes.any,
+  onClose: PropTypes.func.isRequired,
+  onSuccessfulDelete: PropTypes.func,
+  openSnackbar: PropTypes.func,
+};
 export default DashboardBlogsOptionsPopup;
-
-// DashboardBlogsOptionsPopup.propTypes = {
-//   blogId: PropTypes.string,
-// };

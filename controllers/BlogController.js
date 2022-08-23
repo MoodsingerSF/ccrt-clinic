@@ -1,8 +1,17 @@
 import axios from "axios";
-import { VerificationStatus } from "../enums/VerificationStatus";
+import { StatusCodes } from "http-status-codes";
 import { AUTHORIZATION_HEADER_PREFIX, SERVER_PATH } from "../misc/constants";
 import { retrieveAuthorizationToken } from "./LocalStorageController";
-
+const processBlogData = (data) => {
+  return {
+    ...data,
+    fullName: data.creator.firstName + " " + data.creator.lastName,
+    tags: extractTagNames(data.tags),
+    avatar: data.creator.profileImageUrl,
+    imageUrl:
+      "https://moodsinger.com/album-arts-m/be50b66f17dc4e689c4ed7c017247854/default.jpg",
+  };
+};
 export const isBlogTitleCorrect = (title) => {
   return title !== "";
 };
@@ -36,26 +45,87 @@ export const createBlog = async (
   return response;
 };
 
+const extractTagNames = (tags) => {
+  return tags.map((item) => item.name);
+};
+
 export const getPendingBlogs = async (page = 0, limit = 15) => {
-  console.log(VerificationStatus.PENDING.value);
   const { data } = await axios.get(SERVER_PATH + "blogs", {
     params: {
-      status: VerificationStatus.PENDING.value,
+      status: "PENDING",
       page,
       limit,
     },
   });
-  return data;
+  const { blogs, totalBlogs } = data;
+  return { blogs: blogs.map((item) => processBlogData(item)), totalBlogs };
 };
 
 export const getAcceptedBlogs = async (page = 0, limit = 15) => {
-  console.log(VerificationStatus.ACCEPTED.value);
   const { data } = await axios.get(SERVER_PATH + "blogs", {
     params: {
-      status: VerificationStatus.ACCEPTED.value,
+      status: "ACCEPTED",
       page,
       limit,
     },
   });
-  return data;
+  const { blogs, totalBlogs } = data;
+  return { blogs: blogs.map((item) => processBlogData(item)), totalBlogs };
+};
+
+const blogRequestHandler = async (blogId, status) => {
+  const response = await axios.put(
+    SERVER_PATH + "blogs/" + blogId + "/verification-status",
+    { verificationStatus: status },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return response.status === StatusCodes.OK;
+};
+export const acceptBlog = async (blogId) => {
+  const res = await blogRequestHandler(blogId, "ACCEPTED");
+  return res;
+};
+
+export const rejectBlog = async (blogId) => {
+  const res = await blogRequestHandler(blogId, "REJECTED");
+  return res;
+};
+
+export const retrieveBlogDetails = async (blogId) => {
+  const response = await axios.get(SERVER_PATH + "blogs/" + blogId);
+  return {
+    status: response.status,
+    data: processBlogData(response.data),
+  };
+};
+
+export const retrieveUserBlogs = async (userId, page, limit) => {
+  const response = await axios.get(SERVER_PATH + "users/" + userId + "/blogs", {
+    params: {
+      page,
+      limit,
+    },
+    headers: {
+      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+    },
+  });
+  return {
+    status: response.status,
+    data: response.data.map((item) => processBlogData(item)),
+  };
+};
+
+export const deleteBlog = async (blogId) => {
+  const response = await axios.delete(SERVER_PATH + "blogs/" + blogId, {
+    headers: {
+      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+    },
+  });
+  return response.status === StatusCodes.NO_CONTENT;
 };

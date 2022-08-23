@@ -9,10 +9,12 @@ import DashboardWrapper from "../../components/dashboard/DashboardWrapper";
 
 const Dashboard = () => {
   const { getRole } = useContext(Context);
+
   const router = useRouter();
 
   const getComponent = (route) => {
     if (typeof route !== "undefined" && route.length !== 1) return null;
+
     if (typeof route === "undefined") {
       // router.replace("/dashboard/profile");
       return DASHBOARD_ROUTES[0].path;

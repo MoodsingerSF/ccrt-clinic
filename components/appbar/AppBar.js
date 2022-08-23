@@ -86,6 +86,10 @@ const AppBar = () => {
 const useStyles = makeStyles((theme) =>
   createStyles({
     app_bar_container: {
+      position: "fixed",
+      top: "0",
+      background: "#fff",
+      zIndex: "1",
       boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
     },
     app_bar_content_container: {
