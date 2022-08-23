@@ -2,9 +2,9 @@ import React from "react";
 import { Role } from "../../enums/Role";
 import CreateNewAdmin from "./CreateNewAdmin";
 import DashboardBlogRequests from "./DashboardBlogRequests";
-import DashboardBlogs from "./DashboardBlogs";
 import DashboardProfile from "./DashboardProfile";
 import DoctorsRequest from "./DoctorsRequest";
+import MyBlogs from "./MyBlogs";
 import Overview from "./Overview";
 
 export const DASHBOARD_ROUTES = [
@@ -36,7 +36,7 @@ export const DASHBOARD_ROUTES = [
   {
     path: "my-blogs",
     heading: "My Blogs",
-    component: <DashboardBlogs />,
+    component: <MyBlogs />,
     allowedRoles: [Role.ADMIN, Role.DOCTOR, Role.USER],
   },
   {

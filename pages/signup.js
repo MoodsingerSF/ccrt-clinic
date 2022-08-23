@@ -56,7 +56,7 @@ const SignupScreen = () => {
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
   const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
   const [otpId, setOtpId] = useState("");
-  const [userType, setUserType] = useState(USER_TYPES[0].value);
+  const [userType, setUserType] = useState(USER_TYPES[0]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -196,10 +196,10 @@ const SignupScreen = () => {
                   {USER_TYPES.map((role) => {
                     return (
                       <CustomCheckbox
-                        key={role.name}
-                        name={role.name}
-                        checked={userType === role.value}
-                        value={role.value}
+                        key={role}
+                        name={role}
+                        checked={userType === role}
+                        value={role}
                         onChange={handleUserTypeChange}
                       />
                     );

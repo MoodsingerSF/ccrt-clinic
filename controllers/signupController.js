@@ -1,10 +1,9 @@
 import axios from "axios";
-import { Role } from "../enums/Role";
 import { EMAIL_REGEX, NAME_REGEX, SERVER_PATH } from "../misc/constants";
 
 const MINIMUM_PASSWORD_LENGTH = 6;
 
-export const USER_TYPES = [Role.USER, Role.USER];
+export const USER_TYPES = ["USER", "DOCTOR"];
 export const validateName = (name) => {
   return NAME_REGEX.test(name);
 };

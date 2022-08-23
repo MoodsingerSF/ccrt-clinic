@@ -9,6 +9,7 @@ const DashboardBlogsOptionsPopup = ({
   blogId,
   anchorEl,
   onClose,
+  openBlogEditor = () => {},
   onSuccessfulDelete = () => {},
   openSnackbar = () => {},
 }) => {
@@ -46,7 +47,14 @@ const DashboardBlogsOptionsPopup = ({
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={onClose}>Edit</MenuItem>
+        <MenuItem
+          onClick={() => {
+            onClose();
+            openBlogEditor();
+          }}
+        >
+          Edit
+        </MenuItem>
         <MenuItem
           onClick={() => {
             onClose();
@@ -75,6 +83,8 @@ DashboardBlogsOptionsPopup.propTypes = {
   anchorEl: PropTypes.any,
   onClose: PropTypes.func.isRequired,
   onSuccessfulDelete: PropTypes.func,
+  openBlogEditor: PropTypes.func,
+
   openSnackbar: PropTypes.func,
 };
 export default DashboardBlogsOptionsPopup;

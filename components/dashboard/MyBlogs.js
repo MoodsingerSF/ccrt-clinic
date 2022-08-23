@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import BlogCard from "../cards/BlogCard";
 import { makeStyles } from "@mui/styles";
-import Link from "next/link";
 import { DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
 import { retrieveUserId } from "../../controllers/LocalStorageController";
 import LoaderComponent from "../misc/LoaderComponent";
@@ -15,7 +14,8 @@ import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
 import { retrieveUserBlogs } from "../../controllers/BlogController";
 import DashboardTitle from "./DashboardTitle";
 import NoContentToShowComponent from "../misc/NoContentToShowComponent";
-const DashboardBlogs = () => {
+import BlogEditorBackdrop from "../backdrops/BlogEditorBackdrop";
+const MyBlogs = () => {
   const classes = useStyles();
   // eslint-disable-next-line no-unused-vars
   const [page, setPage] = useState(0);
@@ -25,6 +25,7 @@ const DashboardBlogs = () => {
   const [error, setError] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [hasMore, setHasMore] = useState(true);
+  const [openBlogEditor, setOpenBlogEditor] = useState(false);
   const [loading, setLoading] = useState(false);
   const retrieveBlogs = async (page) => {
     try {
@@ -59,11 +60,14 @@ const DashboardBlogs = () => {
           <DashboardTitle title={"My Blogs"} />
         </Grid>
         <Grid container item sm={3}>
-          <Link href="/blog-edit">
-            <a className={classes.ccrt__dashboard__blogs__creat__blog__link}>
-              Create new blog
-            </a>
-          </Link>
+          <Typography
+            onClick={() => {
+              setOpenBlogEditor(true);
+            }}
+            className={classes.ccrt__dashboard__blogs__create__blog__link}
+          >
+            Create new blog
+          </Typography>
         </Grid>
       </Grid>
       <Grid container>
@@ -90,6 +94,7 @@ const DashboardBlogs = () => {
                     image={blog.imageUrl}
                     title={blog.title}
                     description={blog.description}
+                    tags={blog.tags}
                     showOptions={true}
                     onSuccessfulDelete={() => {
                       onSuccessfulDelete(blog.blogId);
@@ -113,6 +118,18 @@ const DashboardBlogs = () => {
           handleSnackbarClose(setSnackbar);
         }}
       />
+      <BlogEditorBackdrop
+        open={openBlogEditor}
+        onClose={() => {
+          setOpenBlogEditor(false);
+        }}
+        openSnackbar={(message) => {
+          handleSnackbarOpen(message, setSnackbar);
+        }}
+        onSuccessfulCreation={(blog) => {
+          setBlogs((prev) => [blog, ...prev]);
+        }}
+      />
     </Grid>
   );
 };
@@ -127,7 +144,7 @@ const useStyles = makeStyles({
     right: "4%",
     cursor: "pointer",
   },
-  ccrt__dashboard__blogs__creat__blog__link: {
+  ccrt__dashboard__blogs__create__blog__link: {
     textDecoration: "none",
     background: DEFAULT_COLOR_MINUS_2,
     fontSize: "80%",
@@ -138,6 +155,7 @@ const useStyles = makeStyles({
     padding: "10px 20px",
     fontWeight: "500",
     borderRadius: 5,
+    cursor: "pointer",
   },
 });
-export default DashboardBlogs;
+export default MyBlogs;

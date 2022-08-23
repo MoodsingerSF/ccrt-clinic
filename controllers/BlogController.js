@@ -42,7 +42,30 @@ export const createBlog = async (
       "Content-Type": "multipart/form-data",
     },
   });
-  return response;
+  return { status: response.status, data: processBlogData(response.data) };
+};
+
+export const updateBlog = async (
+  blogId,
+  title,
+  description,
+  creatorUserId,
+  image,
+  tags
+) => {
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("description", description);
+  formData.append("creatorUserId", creatorUserId);
+  formData.append("image", image);
+  formData.append("tagStrings", tags.join(","));
+  const response = await axios.put(SERVER_PATH + "blogs/" + blogId, formData, {
+    headers: {
+      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return { status: response.status, data: processBlogData(response.data) };
 };
 
 const extractTagNames = (tags) => {
