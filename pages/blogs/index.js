@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import { Grid } from "@mui/material";
 import { useStyles } from "../../styles/blogstyle";
 import img from "../../public/image/ccrt-bg/CCRT_bg.jpg";
 import BlogCard from "../../components/cards/BlogCard";
-import { blogData } from "../../data/blog/data";
+import useBlogs from "../../hooks/useBlogs";
+import { VerificationStatus } from "../../enums/VerificationStatus";
+import LoaderBackdrop from "../../components/backdrops/LoaderBackdrop";
 
 const BlogScreen = () => {
   const classes = useStyles();
-
+  // eslint-disable-next-line no-unused-vars
+  const [page, setPage] = useState(0);
+  const { blogs, loading } = useBlogs(page, VerificationStatus.ACCEPTED);
   return (
     <>
       <Head>
@@ -28,22 +32,26 @@ const BlogScreen = () => {
           justifyContent="flex-start"
           alignItems="flex-start"
         >
-          {blogData.map((blog) => {
-            return (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={blog.blogId}>
-                <BlogCard
-                  key={blog.blogId}
-                  blogId={blog.blogId}
-                  avatar={blog.avatar}
-                  name={blog.name}
-                  date={blog.date}
-                  image={blog.image}
-                  title={blog.title}
-                  tags={blog.tags}
-                />
-              </Grid>
-            );
-          })}
+          {!loading ? (
+            blogs.map((blog) => {
+              return (
+                <Grid item xs={12} sm={6} md={4} lg={3} key={blog.blogId}>
+                  <BlogCard
+                    key={blog.blogId}
+                    blogId={blog.blogId}
+                    avatar={blog.avatar}
+                    name={blog.fullName}
+                    date={blog.creationTime}
+                    image={blog.imageUrl}
+                    title={blog.title}
+                    tags={blog.tags}
+                  />
+                </Grid>
+              );
+            })
+          ) : (
+            <LoaderBackdrop open={loading} />
+          )}
         </Grid>
       </Grid>
     </>

@@ -1,27 +1,38 @@
-export const SidebarData = [
+import { Role } from "../../enums/Role";
+
+export const DashboardOptions = [
   {
-    route: "user-profile",
+    route: "profile",
     heading: "Profile",
+    allowedRoles: [Role.ADMIN, Role.DOCTOR, Role.USER],
   },
   {
     route: "overview",
     heading: "Overview",
+    allowedRoles: [Role.ADMIN],
   },
   {
-    route: "doctor-request",
+    route: "doctor-signup-requests",
     heading: "Doctor request",
+    allowedRoles: [Role.ADMIN],
   },
   {
-    route: "create-new-admin",
+    route: "new-admins",
     heading: "Create new admin",
+    allowedRoles: [Role.ADMIN],
   },
   {
-    route: "user-blogs",
+    route: "blogs",
     heading: "Blogs",
+    allowedRoles: [Role.ADMIN, Role.DOCTOR, Role.USER],
   },
   {
     route: "time-schedule",
     heading: "Time Schedule",
+  },
+  {
+    route: "blog-request",
+    heading: "Blog request",
   },
 ];
 

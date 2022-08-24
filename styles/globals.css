@@ -41,11 +41,13 @@ h1 {
 .rtl {
   text-align: right;
 }
+.editor-container-editable {
+  border: 1px solid #eee;
+  border-radius: 2px;
+  margin: 20px auto 20px auto;
+}
 
 .editor-container {
-  border: 1px solid #eee;
-  margin: 20px auto 20px auto;
-  border-radius: 2px;
   width: 100%;
   color: #000;
   position: relative;
@@ -58,7 +60,8 @@ h1 {
 
 .editor-inner {
   position: relative;
-  height: 30vh;
+  min-height: 30vh;
+  /* background: red; */
 }
 
 .editor-input {

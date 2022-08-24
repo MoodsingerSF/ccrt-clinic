@@ -1,15 +1,17 @@
 import React from "react";
-import Image from "next/image";
-import { Chip, Grid, Typography, useTheme } from "@mui/material";
+import { Chip, Grid, useTheme } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
-// import { useStyles } from "../../../styles/BlogDetailStyle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
 import SocialShareComponent from "../../misc/SocialShareComponent";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
 import { DEFAULT_COLOR, DEFAULT_COLOR_MINUS_2 } from "../../../misc/colors";
+import { prettyDate } from "../../../controllers/DateController";
+import Editor from "../../text-editor/Editor";
+import Image from "next/image";
+import { DOMAIN_ADDRESS } from "../../../misc/constants";
 
 const BlogDetailsRight = ({
   title,
@@ -18,7 +20,7 @@ const BlogDetailsRight = ({
   publishDate,
   imageUrl,
   tags,
-  // blogId,
+  blogId,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -48,22 +50,31 @@ const BlogDetailsRight = ({
             <PersonOutlineIcon
               className={classes.ccrt__blogDetails__right__icon}
             />
-            <span>{authorName}</span>
+            <span style={{ textTransform: "capitalize" }}>{authorName}</span>
           </span>
           <span className={classes.ccrt__blogDetails__right__blog_meta}>
             <CalendarMonthOutlinedIcon
               className={classes.ccrt__blogDetails__right__icon}
             />
-            <span>{publishDate}</span>
+            <span>{prettyDate(publishDate)}</span>
           </span>
         </Grid>
       </Grid>
-      <Grid container>
-        <Image src={imageUrl} alt="blog-img" />
+      <Grid
+        container
+        style={{ position: "relative", height: 200 }}
+        justifyContent="flex-start"
+        alignItems="center"
+      >
+        <Image
+          loader={({ src }) => src}
+          src={imageUrl}
+          alt="blog-img"
+          layout="fill"
+          objectFit="contain"
+        />
       </Grid>
-      <Grid container style={{ marginTop: "20px" }}>
-        <Typography style={{ textAlign: "justify" }}>{description}</Typography>
-      </Grid>
+      <Editor readOnly={true} initialEditorState={description} />
       <Grid
         container
         alignItems="center"
@@ -93,7 +104,10 @@ const BlogDetailsRight = ({
           ))}
         </Grid>
         <Grid item xs={12} lg={6} container>
-          <SocialShareComponent justifyContent="flex-end" link={"sfvdgh"} />
+          <SocialShareComponent
+            justifyContent="flex-end"
+            link={DOMAIN_ADDRESS + "blogs/" + blogId}
+          />
         </Grid>
       </Grid>
     </Grid>
@@ -158,7 +172,7 @@ BlogDetailsRight.propTypes = {
   publishDate: PropTypes.string.isRequired,
   imageUrl: PropTypes.any,
   tags: PropTypes.array.isRequired,
-  // blogId: PropTypes.string.isRequired,
+  blogId: PropTypes.string.isRequired,
 };
 
 export default BlogDetailsRight;

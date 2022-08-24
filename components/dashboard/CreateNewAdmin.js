@@ -16,6 +16,10 @@ import {
   CREATE_BUTTON,
   CREATE_NEW_ADMIN_TITLE,
 } from "../../data/dashboard/data";
+import { createAdmin } from "../../controllers/UserController";
+import CustomSnackbar from "../snackbar/CustomSnackbar";
+import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";
+import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
 
 const CreateNewAdmin = () => {
   const classes = useStyles();
@@ -28,15 +32,41 @@ const CreateNewAdmin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showError, setShowError] = useState(false);
-
-  const handleSubmitForm = () => {
+  const [loading, setLoading] = useState(false);
+  const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
+  const handleSubmitForm = async () => {
     if (validate(firstName, lastName, email, password)) {
-      // if everything is alright, send verification code
+      try {
+        setLoading(true);
+        const isCreated = await createAdmin(
+          firstName,
+          lastName,
+          email,
+          password
+        );
+        setLoading(false);
+        if (isCreated) {
+          setFirstName("");
+          setLastName("");
+          setEmail("");
+          setPassword("");
+          openSnackbar("A new admin has been added successfully.");
+        } else {
+          openSnackbar("Admin couldn't be created.");
+        }
+      } catch (error) {
+        setLoading(false);
+        if (error && error.response) {
+          openSnackbar(error.response.data.message);
+        }
+      }
     } else {
       setShowError(true);
     }
   };
-
+  const openSnackbar = (message) => {
+    handleSnackbarOpen(message, setSnackbar);
+  };
   const handleFirstName = (e) => {
     setFirstName(e.target.value);
   };
@@ -140,12 +170,19 @@ const CreateNewAdmin = () => {
                 icon={null}
                 title={CREATE_BUTTON}
                 onClick={handleSubmitForm}
-                // loading={true}
+                loading={loading}
               />
             </Grid>
           </Grid>
         </Grid>
       </Grid>
+      <CustomSnackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        onClose={() => {
+          handleSnackbarClose(setSnackbar);
+        }}
+      />
     </Grid>
   );
 };

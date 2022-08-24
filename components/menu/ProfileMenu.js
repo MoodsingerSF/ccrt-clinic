@@ -1,11 +1,14 @@
 import { Avatar, Divider, ListItemIcon, Menu, MenuItem } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
+import { Context } from "../../contexts/user-context/UserContext";
+import { clearStorage } from "../../controllers/LocalStorageController";
 const ProfileMenu = ({ anchorEl, open, onClose }) => {
   const router = useRouter();
+  const { logout } = useContext(Context);
   return (
     <Menu
       anchorEl={anchorEl}
@@ -48,7 +51,7 @@ const ProfileMenu = ({ anchorEl, open, onClose }) => {
           router.push("/");
         }}
       >
-        <Avatar /> Profile
+        <Avatar /> Home
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -56,7 +59,7 @@ const ProfileMenu = ({ anchorEl, open, onClose }) => {
           router.push("/dashboard/profile");
         }}
       >
-        <Avatar /> Profile
+        <Avatar /> Dashboard
       </MenuItem>
 
       <Divider />
@@ -67,7 +70,13 @@ const ProfileMenu = ({ anchorEl, open, onClose }) => {
         </ListItemIcon>
         Settings
       </MenuItem>
-      <MenuItem>
+      <MenuItem
+        onClick={() => {
+          logout();
+          clearStorage();
+          router.replace("/");
+        }}
+      >
         <ListItemIcon>
           <LogoutOutlinedIcon fontSize="small" />
         </ListItemIcon>

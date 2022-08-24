@@ -42,10 +42,14 @@ export default function MyApp(props) {
         </Head>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <LoginChecker />
           <AppBar />
-          <Component {...pageProps} />
-          <Footer />
+
+          <LoginChecker>
+          
+            <Component {...pageProps} />
+            <Footer />
+          </LoginChecker>
+
         </ThemeProvider>
       </CacheProvider>
     </Provider>
