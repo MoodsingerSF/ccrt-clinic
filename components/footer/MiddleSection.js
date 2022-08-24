@@ -28,7 +28,7 @@ const MiddleSection = () => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ccrt__footer__middle__section: {
     color: "inherit",
     textDecoration: "none",
