@@ -22,9 +22,8 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
 import CustomButton from "../button/CustomButton";
 import { verifyOtp } from "../../controllers/SignupController";
-import { StatusCodes } from "http-status-codes";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
-import { handleSnackbarOpen } from "../../misc/functions";
+import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
 
 const VerificationCodeModal = ({
   openModal,
@@ -68,12 +67,10 @@ const VerificationCodeModal = ({
       // setLoading(false);
       // handleCloseVerificationCodeModal();
     } catch (error) {
-      if (error && error.response) {
-        if (error.response.status === StatusCodes.EXPECTATION_FAILED) {
-          handleSnackbarOpen(error.response.data.message, setSnackbar);
-        }
-      }
       setLoading(false);
+      if (error && error.response) {
+        handleSnackbarOpen(error.response.data.message, setSnackbar);
+      }
     }
   };
 
@@ -141,7 +138,13 @@ const VerificationCodeModal = ({
             onClick={onSignUp}
           />
         </Grid>
-        <CustomSnackbar open={snackbar.open} message={snackbar.message} />
+        <CustomSnackbar
+          open={snackbar.open}
+          message={snackbar.message}
+          onClose={() => {
+            handleSnackbarClose(setSnackbar);
+          }}
+        />
       </Grid>
     </Modal>
   );

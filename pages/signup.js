@@ -112,14 +112,8 @@ const SignupScreen = () => {
   };
 
   const handleSignUp = async () => {
-    try {
-      await signUp(userType, firstName, lastName, email, password);
-      router.push("/login");
-    } catch (error) {
-      if (error && error.response) {
-        handleSnackbarOpen(error.response.data.message, setSnackbar);
-      }
-    }
+    await signUp(userType, firstName, lastName, email, password);
+    router.push("/login");
   };
 
   const handleSubmitForm = () => {
