@@ -1,15 +1,30 @@
-import { Avatar, Grid, Typography } from "@mui/material";
-import { createStyles, makeStyles } from "@mui/styles";
-// import Image from "next/image";
-import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
-// import logo from "../../public/image/logo/logo.png";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import {
+  Grid,
+  IconButton,
+  Typography,
+  useMediaQuery,
+  useTheme,
+  Avatar,
+} from "@mui/material";
+import { createStyles, makeStyles } from "@mui/styles";
+
+import logo from "../../public/image/logo/logo2.png";
+import MenuIcon from "@mui/icons-material/Menu";
+import AppbarDrawer from "../drawer/AppbarDrawer";
 import AppBarLink from "./AppBarLink";
+
 import { Context } from "../../contexts/user-context/UserContext";
 import ProfileMenu from "../menu/ProfileMenu";
+
 const AppBar = () => {
   const classes = useStyles();
   const router = useRouter();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
+
   const { isSignedIn } = useContext(Context);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -19,84 +34,113 @@ const AppBar = () => {
   const handleProfileClose = () => {
     setAnchorEl(null);
   };
+
+  const [openAppbarDrawer, setOpenAppbarDrawer] = useState(false);
+
+  const appbarDrawerOpen = () => {
+    setOpenAppbarDrawer(true);
+  };
+  const appbarDrawerClose = () => {
+    setOpenAppbarDrawer(false);
+  };
+
   return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      className={classes.app_bar_container}
-    >
-      <Grid
-        container
-        justifyContent="space-between"
-        className={classes.app_bar_content_container}
-      >
-        <Grid item xs={2} className={classes.image_container}>
-          {/* <Image src={logo} layout="fill" objectFit="contain"></Image> */}
+    <Grid container className={classes.ccrt_app_bar__container}>
+      {matches ? (
+        <Grid container>
+          <Grid item xs={2} className={classes.ccrt_app_bar__logo}>
+            <Image src={logo} layout="fill" objectFit="contain" />
+          </Grid>
+          <Grid container alignItems="center" item xs={2}></Grid>
+          <Grid container alignItems="center" item xs={6}>
+            <AppBarLink name="Home" link="/" />
+            <AppBarLink name="Departments" link="/" />
+            <AppBarLink name="Product&Service" link="/" />
+            <AppBarLink name="Blogs" link="/blogs" />
+            <AppBarLink name="Contact" link="/contact" />
+            <AppBarLink name="FAQ" link="/faq" />
+
+            {!isSignedIn() && <AppBarLink name="Login" link="/login" />}
+          </Grid>
+          <Grid
+            item
+            xs={2}
+            container
+            justifyContent={"center"}
+            alignItems="center"
+          >
+            {isSignedIn() && (
+              <Avatar
+                className={classes.avatar}
+                onClick={handleProfileClick}
+              ></Avatar>
+            )}
+            {open && (
+              <ProfileMenu
+                open={open}
+                onClose={handleProfileClose}
+                anchorEl={anchorEl}
+              />
+            )}
+            {!isSignedIn() && (
+              <Grid container justifyContent={"center"} alignItems="center">
+                <Typography
+                  className={classes.sign_up_title}
+                >{`Haven't registered yet?`}</Typography>
+                <Typography
+                  className={classes.sign_up_button_style}
+                  onClick={() => {
+                    router.push("/signup");
+                  }}
+                >
+                  Register Now
+                </Typography>
+              </Grid>
+            )}
+          </Grid>
         </Grid>
+      ) : (
         <Grid
-          item
-          xs={2}
           container
-          justifyContent={"center"}
-          alignItems="center"
+          justifyContent="space-between"
+          style={{ padding: "0 20px" }}
         >
-          {!isSignedIn() && (
-            <Grid container justifyContent={"center"} alignItems="center">
-              <Typography
-                className={classes.sign_up_title}
-              >{`Haven't registered yet?`}</Typography>
-              <Typography
-                className={classes.sign_up_button_style}
-                onClick={() => {
-                  router.push("/signup");
-                }}
-              >
-                Register Now
-              </Typography>
-            </Grid>
-          )}
-        </Grid>
-        <Grid container alignItems="center" item xs={4}></Grid>
-        <Grid container alignItems="center" item xs={4}>
-          <AppBarLink name="Home" link="/" />
-          <AppBarLink name="Blogs" link="/blogs" />
-          {!isSignedIn() && <AppBarLink name="Login" link="/login" />}
-          <AppBarLink name="Contact" link="/" />
-          <AppBarLink name="FAQ" link="/" />
-          {isSignedIn() && (
-            <Avatar
-              className={classes.avatar}
-              onClick={handleProfileClick}
-            ></Avatar>
-          )}
-          {open && (
-            <ProfileMenu
-              open={open}
-              onClose={handleProfileClose}
-              anchorEl={anchorEl}
+          <Grid container item xs={2} className={classes.ccrt_app_bar__logo}>
+            <Image
+              src={logo}
+              layout="fill"
+              objectFit="contain"
+              onClick={() => {
+                router.push("/");
+              }}
             />
-          )}
+          </Grid>
+          <Grid container item xs={2} justifyContent="flex-end">
+            <IconButton
+              size="large"
+              color="inherit"
+              aria-label="menu"
+              onClick={appbarDrawerOpen}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
+      <AppbarDrawer open={openAppbarDrawer} onClose={appbarDrawerClose} />
     </Grid>
   );
 };
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    app_bar_container: {
-      position: "fixed",
-      top: "0",
+    ccrt_app_bar__container: {
+      height: "12vh",
       background: "#fff",
       zIndex: "1",
       boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
     },
-    app_bar_content_container: {
-      height: "12vh",
-      width: "95%",
-    },
-    image_container: {
+    ccrt_app_bar__logo: {
       position: "relative",
       margin: "5px 0px",
     },

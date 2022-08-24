@@ -1,5 +1,5 @@
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
 import PropTypes from "prop-types";
 import { createStyles, makeStyles } from "@mui/styles";
 import { Grid } from "@mui/material";
@@ -7,12 +7,7 @@ const AppBarLink = ({ name, link }) => {
   const classes = useStyles();
   return (
     <Grid item xs className={classes.anchorContainerStyle}>
-      <Grid
-        container
-        alignItems="center"
-        justifyContent={"center"}
-        style={{ height: "100%" }}
-      >
+      <Grid container alignItems="center" justifyContent={"center"}>
         <Link href={link}>
           <a className={classes.anchorStyle}>{name}</a>
         </Link>
@@ -29,17 +24,24 @@ AppBarLink.propTypes = {
 const useStyles = makeStyles((theme) =>
   createStyles({
     anchorStyle: {
-      color: "black",
-      fontSize: "80%",
+      width: "100%",
+      color: "inherit",
+      fontSize: "85%",
       textDecoration: "none",
       textAlign: "center",
       padding: 10,
-      fontWeight: 600,
+      fontWeight: 500,
+      transition: "color 0.4s ease",
+      "&:hover": {
+        color: "#fff",
+      },
     },
     anchorContainerStyle: {
-      height: "100%",
+      transition: "background 0.4s ease-in",
+      margin: "0 5px",
       "&:hover": {
         background: theme.palette.secondary.main,
+        // color: "#fff",
       },
     },
   })
