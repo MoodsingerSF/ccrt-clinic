@@ -26,7 +26,7 @@ const BlogCard = ({ image, name }) => {
   );
 };
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     ccrt__home__blog__img__container: {
       position: "relative",

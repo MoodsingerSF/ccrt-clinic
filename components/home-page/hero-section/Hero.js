@@ -6,53 +6,33 @@ import {
   InputAdornment,
   TextField,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
-import classNames from "classnames";
 import Image from "next/image";
 import hero from "../../../public/image/home-page/hero/Cover.png";
 import appoinment from "../../../public/image/home-page/hero/appoinment.png";
 import PhoneIcon from "@mui/icons-material/Phone";
 import SearchIcon from "@mui/icons-material/Search";
 
-// className={classNames({
-//             [classes.ccrt__login__containerMobile]: !matches,
-//             [classes.ccrt__login__containerDesktopSm]: matches,
-//             [classes.ccrt__login__containerDesktopMd]: matchesMD,
-//             [classes.ccrt__login__containerDesktopLg]: matchesLG,
-//           })}
-
 const Hero = () => {
   const classes = useStyles();
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("sm"));
-  const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
     <Grid
       container
-      // justifyContent="cenetr"
-      // alignItems="center"
-      style={{ minHeight: "88vh", position: "relative" }}
+      style={{ marginTop: "12vh", minHeight: "100vh", position: "relative" }}
     >
       <Grid
         item
         xs={6}
         style={{
           // display:
-          minHeight: "88vh",
+          height: "88vh",
           position: "relative",
+          // background: "red",
         }}
       >
-        <Image
-          src={hero}
-          alt="hero"
-          layout="fill"
-          objectFit="contain"
-          style={{}}
-        />
+        <Image src={hero} alt="hero" layout="fill" objectFit="cover" />
       </Grid>
       <Grid
         container
@@ -124,7 +104,7 @@ const Hero = () => {
             position: "relative",
             height: "10vh",
             width: "20vw",
-            marginTop: "30px",
+            marginTop: 15,
             cursor: "pointer",
           }}
         >
@@ -229,7 +209,7 @@ const Hero = () => {
 const useStyles = makeStyles((theme) =>
   createStyles({
     cover_header_1: {
-      fontSize: "440%",
+      fontSize: "380%",
       fontWeight: "700",
       padding: 0,
       margin: 0,
@@ -238,7 +218,7 @@ const useStyles = makeStyles((theme) =>
       letterSpacing: "5px",
     },
     cover_header_2: {
-      fontSize: "360%",
+      fontSize: "300%",
       fontWeight: "700",
       padding: 0,
       margin: 0,
@@ -247,7 +227,7 @@ const useStyles = makeStyles((theme) =>
       letterSpacing: "5px",
     },
     cover_sub_header: {
-      fontSize: "315%",
+      fontSize: "280%",
       fontWeight: "700",
       color: theme.palette.grey[600],
       padding: 0,

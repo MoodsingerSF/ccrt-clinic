@@ -60,7 +60,7 @@ const UpdateProfileModal = ({
   };
 
   return (
-    <Modal open={open} onClose={() => {}}>
+    <Modal open={open} onClose={onClose}>
       <Box sx={box__style} style={{ width: IsDesktop ? "50vw" : "90vw" }}>
         <Typography style={{ marginBottom: "10px", fontWeight: 500 }}>
           {title}

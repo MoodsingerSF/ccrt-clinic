@@ -79,7 +79,7 @@ const News = () => {
   );
 };
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     swiper_slide: {
       //   textAlign: "center",

@@ -4,7 +4,7 @@ import { Grid, Typography, Box } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import { HOME_PAGE_DOCTOR_CARD_BOX_SHADOW } from "../../../misc/colors";
-
+import PropTypes from "prop-types";
 const DoctorCard = ({
   image,
   name,
@@ -85,6 +85,15 @@ const DoctorCard = ({
       </Grid>
     </>
   );
+};
+
+DoctorCard.propTypes = {
+  image: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  specialist: PropTypes.string.isRequired,
+  department: PropTypes.string.isRequired,
+  patient_served: PropTypes.string.isRequired,
+  patient_count: PropTypes.string.isRequired,
 };
 
 const useStyles = makeStyles((theme) =>

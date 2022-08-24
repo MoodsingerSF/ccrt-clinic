@@ -19,8 +19,15 @@ const BlogScreen = () => {
       <Head>
         <title>Blogs</title>
       </Head>
-      <Grid container>
-        <Grid container justifyContent="center" alignItems="center">
+      <Grid container style={{ marginTop: "12vh" }}>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          // style={{
+          //   position: "relative",
+          // }}
+        >
           <Grid container className={classes.ccrt__blog__header}>
             <Image src={img} alt="bg_img" layout="fill" />
           </Grid>

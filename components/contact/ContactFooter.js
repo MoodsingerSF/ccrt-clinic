@@ -116,7 +116,7 @@ const ContactFooter = () => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ccrt_contact__page__contact__info__subtitle: {
     fontSize: "16px",
     // color: "#412cc5",

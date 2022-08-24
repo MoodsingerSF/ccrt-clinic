@@ -30,6 +30,12 @@ const ReviewCard = ({ image, name, description, icon }) => {
     </Box>
   );
 };
+ReviewCard.propTypes = {
+  image: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  icon: PropTypes.element.isRequired,
+};
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__review__card__container: {
@@ -62,10 +68,4 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-ReviewCard.proptypes = {
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  icon: PropTypes.element.isRequired,
-};
 export default ReviewCard;

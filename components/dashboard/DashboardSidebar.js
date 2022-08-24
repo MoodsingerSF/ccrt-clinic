@@ -59,7 +59,7 @@ const DashboardSidebar = () => {
   );
 };
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     ccrt__dashboard__sidebar__container: {
       padding: "10px 0",

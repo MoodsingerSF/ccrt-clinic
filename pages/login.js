@@ -126,7 +126,7 @@ const LoginScreen = () => {
         container
         justifyContent="center"
         alignItems="center"
-        style={{ minHeight: "100vh" }}
+        style={{ minHeight: "100vh", marginTop: "12vh" }}
       >
         <Grid
           container

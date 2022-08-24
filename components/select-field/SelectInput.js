@@ -25,7 +25,7 @@ const SelectInput = ({ value, label, onChange, times }) => {
 SelectInput.propTypes = {
   value: PropTypes.string,
   label: PropTypes.string.isRequired,
-  onchange: PropTypes.func,
-  time: PropTypes.array,
+  onChange: PropTypes.func,
+  times: PropTypes.array,
 };
 export default SelectInput;

@@ -64,7 +64,7 @@ const Sponsor = () => {
   );
 };
 
-const useStyes = makeStyles((theme) =>
+const useStyes = makeStyles(() =>
   createStyles({
     ccrt__sponsor__section: {
       position: "relative",

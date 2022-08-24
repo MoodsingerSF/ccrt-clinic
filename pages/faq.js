@@ -51,7 +51,7 @@ const Faq = () => {
   );
 };
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     ccrt__faq__banner: {
       height: "40vh",

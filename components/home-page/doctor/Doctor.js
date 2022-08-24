@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import { DoctorData } from "../../../data/doctor/data";
 import DoctorCard from "./DoctorCard";
@@ -71,7 +71,7 @@ const Doctor = () => {
   );
 };
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     ccrt__doctor__card__mySwiper: {
       padding: "0 20px",

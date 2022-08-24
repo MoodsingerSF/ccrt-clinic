@@ -11,7 +11,7 @@ export const useStyles = makeStyles(() =>
     },
     ccrt__blog__header__title: {
       position: "absolute",
-      top: "15%",
+      top: "27%",
       color: "white",
       margin: "0",
       fontSize: "32px",

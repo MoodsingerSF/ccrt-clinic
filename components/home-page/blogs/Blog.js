@@ -78,7 +78,7 @@ const Blog = () => {
   );
 };
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     ccrt__home__blog__card__mySwiper: {
       width: "100%",

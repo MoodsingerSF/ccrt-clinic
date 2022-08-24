@@ -27,6 +27,7 @@ const DoctorTimeSlot = () => {
   // const [ScheduleTime, setScheduleTime] = useState("");
   // console.log("sate", ScheduleTime);
   const [clickDay, setClickDay] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [disableDay, setDisableDay] = useState(true);
 
   const handleClickOpen = (day) => {
@@ -47,8 +48,10 @@ const DoctorTimeSlot = () => {
     }
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleDelete = (deleteTime, day) => {
     console.log("You clicked the delete icon.");
+
     // console.log(deleteTime);
     // console.log(day.day);
     // const times = Days.filter((day) =>
