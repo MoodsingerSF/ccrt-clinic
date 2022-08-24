@@ -31,7 +31,7 @@ const NewsCardMobile = ({ picture, title, description }) => {
     </Card>
   );
 };
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     ccrt__news__card__container: {
       borderRadius: "3px",
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) =>
 );
 
 NewsCardMobile.propTypes = {
-  picture: PropTypes.string.isRequired,
+  picture: PropTypes.any.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
 };

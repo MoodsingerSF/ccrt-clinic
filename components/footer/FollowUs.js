@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import FollowLink from "./FollowLink";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -10,8 +10,6 @@ import { FOLLOW_US_TEXT, FOLLOW_US_TITLE } from "../../data/footer/data";
 
 const FollowUs = () => {
   const classes = useStyles();
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
   return (
     <Grid item xs={12} sm={4} container justifyContent="flex-end">
@@ -45,7 +43,7 @@ const FollowUs = () => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ccrt__follow__us__text: {
     marginBottom: "20px",
     textAlign: "right",
