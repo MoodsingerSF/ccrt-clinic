@@ -7,6 +7,7 @@ import Sponsor from "../components/home-page/sponsor/Sponsor";
 import Blog from "../components/home-page/blogs/Blog";
 import Hero from "../components/home-page/hero-section/Hero";
 import Category from "../components/home-page/doctors-category/Category";
+import Footer from "../components/footer/Footer";
 export default function Home() {
   return (
     <Grid container>
@@ -17,6 +18,8 @@ export default function Home() {
       <Review />
       <Blog />
       <Category />
+      <Footer/>
     </Grid>
+
   );
 }

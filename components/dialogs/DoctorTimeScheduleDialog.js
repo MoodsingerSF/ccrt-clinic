@@ -1,23 +1,26 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import PropTypes from "prop-types";
 import { Alert, Snackbar, Typography } from "@mui/material";
+import { AM_PM, Days, hours, minutes } from "../../data/doctor-time/data";
+import SelectInput from "../select-field/SelectInput";
+import { createStyles, makeStyles } from "@mui/styles";
 
-const DoctorTimeScheduleDialog = ({ open, handleClose, setScheduleTime }) => {
+const DoctorTimeScheduleDialog = ({ open, handleClose, clickDay }) => {
+  const classes = useStyles();
+
   const [startHour, setStartHour] = useState("");
   const [startMin, setStartMin] = useState("");
   const [startAMorPM, setStartAMorPM] = useState("");
   const [endHour, setEndHour] = useState("");
   const [endMin, setEndMin] = useState("");
   const [endAMorPM, setEndAMorPM] = useState("");
+  const [ScheduleTime, setScheduleTime] = useState("");
+  console.log(ScheduleTime);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleChangeStartHour = (event) => {
@@ -56,158 +59,72 @@ const DoctorTimeScheduleDialog = ({ open, handleClose, setScheduleTime }) => {
       const endTime = `${endHour}:${endMin} ${endAMorPM}`;
 
       setScheduleTime(`${startTime} - ${endTime}`);
-      // setEndTime(endTime);
       console.log(startTime, endTime);
+      const testDay = Days.find((item) => item.day === clickDay);
+      console.log(testDay);
+      testDay.timeSlot.push(ScheduleTime);
+
+      setStartHour("");
+      setStartMin("");
+      setStartAMorPM("");
+      setEndHour("");
+      setEndMin("");
+      setEndAMorPM("");
+      // setScheduleTime("");
+      handleClose();
     }
   };
 
   return (
-    <div>
+    <>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle
-          style={{
-            textAlign: "center",
-            textTransform: "uppercase",
-            fontSize: "100%",
-          }}
-        >
+        <DialogTitle className={classes.ccrt__time_form__title}>
           Create Your Schedules
         </DialogTitle>
         <DialogContent>
-          <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
-            <InputLabel id="demo-select-small">Hour</InputLabel>
-            <Select
-              value={startHour}
-              label="Hour"
-              onChange={handleChangeStartHour}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={4}>4</MenuItem>
-              <MenuItem value={5}>5</MenuItem>
-              <MenuItem value={6}>6</MenuItem>
-              <MenuItem value={7}>7</MenuItem>
-              <MenuItem value={8}>8</MenuItem>
-              <MenuItem value={9}>9</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
-              <MenuItem value={11}>11</MenuItem>
-              <MenuItem value={12}>12</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
-            <InputLabel id="demo-select-small">Minute</InputLabel>
-            <Select
-              value={startMin}
-              label="Hour"
-              onChange={handleChangeStartMin}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={"00"}>00</MenuItem>
-              <MenuItem value={"01"}>01</MenuItem>
-              <MenuItem value={"02"}>02</MenuItem>
-              <MenuItem value={"03"}>03</MenuItem>
-              <MenuItem value={"04"}>04</MenuItem>
-              <MenuItem value={"05"}>05</MenuItem>
-              <MenuItem value={"06"}>06</MenuItem>
-              <MenuItem value={"07"}>07</MenuItem>
-              <MenuItem value={"08"}>08</MenuItem>
-              <MenuItem value={"09"}>09</MenuItem>
-              <MenuItem value={"10"}>10</MenuItem>
-              <MenuItem value={"11"}>11</MenuItem>
-              <MenuItem value={"12"}>12</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
-            <InputLabel>AM/PM</InputLabel>
-            <Select
-              value={startAMorPM}
-              label="AM/PM"
-              onChange={handleChangeStartAMorPM}
-            >
-              <MenuItem value="AM">AM</MenuItem>
-              <MenuItem value="PM">PM</MenuItem>
-            </Select>
-          </FormControl>
-          <Typography
-            style={{
-              textAlign: "center",
-              fontSize: "100%",
-              fontWeight: "700",
-              margin: "10px 0",
-            }}
-          >
-            To
+          <SelectInput
+            value={startHour}
+            label="Hour"
+            onChange={handleChangeStartHour}
+            times={hours}
+          />
+
+          <SelectInput
+            value={startMin}
+            label="Minute"
+            onChange={handleChangeStartMin}
+            times={minutes}
+          />
+
+          <SelectInput
+            value={startAMorPM}
+            label="AM/PM"
+            onChange={handleChangeStartAMorPM}
+            times={AM_PM}
+          />
+          <Typography className={classes.ccrt__time_form__divider}>
+            To {clickDay}
           </Typography>
-          <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
-            <InputLabel id="demo-select-small">Hour</InputLabel>
-            <Select value={endHour} label="Hour" onChange={handleChangeEndHour}>
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={4}>4</MenuItem>
-              <MenuItem value={5}>5</MenuItem>
-              <MenuItem value={6}>6</MenuItem>
-              <MenuItem value={7}>7</MenuItem>
-              <MenuItem value={8}>8</MenuItem>
-              <MenuItem value={9}>9</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
-              <MenuItem value={11}>11</MenuItem>
-              <MenuItem value={12}>12</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
-            <InputLabel id="demo-select-small">Minute</InputLabel>
-            <Select value={endMin} label="Hour" onChange={handleChangeEndMin}>
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={"00"}>00</MenuItem>
-              <MenuItem value={"01"}>01</MenuItem>
-              <MenuItem value={"02"}>02</MenuItem>
-              <MenuItem value={"03"}>03</MenuItem>
-              <MenuItem value={"04"}>04</MenuItem>
-              <MenuItem value={"05"}>05</MenuItem>
-              <MenuItem value={"06"}>06</MenuItem>
-              <MenuItem value={"07"}>07</MenuItem>
-              <MenuItem value={"08"}>08</MenuItem>
-              <MenuItem value={"09"}>09</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
-              <MenuItem value={11}>11</MenuItem>
-              <MenuItem value={12}>12</MenuItem>
-              <MenuItem value={13}>13</MenuItem>
-              <MenuItem value={14}>14</MenuItem>
-              <MenuItem value={15}>15</MenuItem>
-              <MenuItem value={16}>16</MenuItem>
-              <MenuItem value={17}>17</MenuItem>
-              <MenuItem value={18}>18</MenuItem>
-              <MenuItem value={19}>19</MenuItem>
-              <MenuItem value={20}>20</MenuItem>
-              <MenuItem value={21}>21</MenuItem>
-              <MenuItem value={22}>22</MenuItem>
-              <MenuItem value={23}>23</MenuItem>
-              <MenuItem value={24}>24</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
-            <InputLabel>AM/PM</InputLabel>
-            <Select
-              value={endAMorPM}
-              label="AM/PM"
-              onChange={handleChangeEndAMorPM}
-            >
-              <MenuItem value={"AM"}>AM</MenuItem>
-              <MenuItem value={"PM"}>PM</MenuItem>
-            </Select>
-          </FormControl>
+          <SelectInput
+            value={endHour}
+            label="Hour"
+            onChange={handleChangeEndHour}
+            times={hours}
+          />
+
+          <SelectInput
+            value={endMin}
+            label="Minute"
+            onChange={handleChangeEndMin}
+            times={minutes}
+          />
+
+          <SelectInput
+            value={endAMorPM}
+            label="AM/PM"
+            onChange={handleChangeEndAMorPM}
+            times={AM_PM}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
@@ -227,14 +144,30 @@ const DoctorTimeScheduleDialog = ({ open, handleClose, setScheduleTime }) => {
           Invalid Input Time
         </Alert>
       </Snackbar>
-    </div>
+    </>
   );
 };
 
 DoctorTimeScheduleDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  setScheduleTime: PropTypes.string,
+  // setScheduleTime: PropTypes.string,
+  clickDay: PropTypes.string,
 };
 
+const useStyles = makeStyles(() =>
+  createStyles({
+    ccrt__time_form__title: {
+      textAlign: "center",
+      textTransform: "uppercase",
+      fontSize: "100%",
+    },
+    ccrt__time_form__divider: {
+      textAlign: "center",
+      fontSize: "100%",
+      fontWeight: "700",
+      margin: "10px 0",
+    },
+  })
+);
 export default DoctorTimeScheduleDialog;

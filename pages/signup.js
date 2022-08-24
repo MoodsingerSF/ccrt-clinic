@@ -56,7 +56,7 @@ const SignupScreen = () => {
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
   const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
   const [otpId, setOtpId] = useState("");
-  const [userType, setUserType] = useState(USER_TYPES[0].value);
+  const [userType, setUserType] = useState(USER_TYPES[0]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -112,14 +112,8 @@ const SignupScreen = () => {
   };
 
   const handleSignUp = async () => {
-    try {
-      await signUp(userType, firstName, lastName, email, password);
-      router.push("/login");
-    } catch (error) {
-      if (error && error.response) {
-        handleSnackbarOpen(error.response.data.message, setSnackbar);
-      }
-    }
+    await signUp(userType, firstName, lastName, email, password);
+    router.push("/login");
   };
 
   const handleSubmitForm = () => {
@@ -193,13 +187,13 @@ const SignupScreen = () => {
                   Choose your role
                 </Typography>
                 <Grid container justifyContent="flex-start" alignItems="center">
-                  {USER_TYPES.map((item) => {
+                  {USER_TYPES.map((role) => {
                     return (
                       <CustomCheckbox
-                        key={item.name}
-                        name={item.name}
-                        checked={userType === item.value}
-                        value={item.value}
+                        key={role}
+                        name={role}
+                        checked={userType === role}
+                        value={role}
                         onChange={handleUserTypeChange}
                       />
                     );

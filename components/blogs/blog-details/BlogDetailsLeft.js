@@ -41,6 +41,7 @@ const BlogDetailsLeft = ({ author, tags = [] }) => {
 const useStyles = makeStyles({
   ccrt__blogDetails__search__container: {
     position: "relative",
+    marginBottom: 10,
   },
   ccrt__blogDetails__searchField: {
     paddingRight: "55px",

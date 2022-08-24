@@ -53,6 +53,7 @@ function isIndentPermitted(maxDepth) {
   return totalDepth <= maxDepth;
 }
 
+// eslint-disable-next-line react/prop-types
 export default function ListMaxIndentLevelPlugin({ maxDepth }) {
   const [editor] = useLexicalComposerContext();
 

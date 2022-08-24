@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import classNames from "classnames";
@@ -12,13 +12,14 @@ import {
   useTheme,
 } from "@mui/material";
 import logo from "../../../public/image/logo/logo.png";
-import profile from "../../../public/image/profile/profile.png";
 import { makeStyles } from "@mui/styles";
+import { Context } from "../../../contexts/user-context/UserContext";
 
 const DashboardMobileNavbar = ({ setIsDrawerOpen }) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesTablet = useMediaQuery(theme.breakpoints.up("sm"));
+  const { getFullName, getProfileImageUrl } = useContext(Context);
 
   return (
     <Grid container justifyContent="center" alignItems="center">
@@ -55,7 +56,7 @@ const DashboardMobileNavbar = ({ setIsDrawerOpen }) => {
               matchesTablet,
           })}
         >
-          Azizul Islam
+          {getFullName()}
         </Typography>
         <Grid
           container
@@ -67,7 +68,13 @@ const DashboardMobileNavbar = ({ setIsDrawerOpen }) => {
               matchesTablet,
           })}
         >
-          <Image src={profile} alt="profile" />
+          {getProfileImageUrl() && (
+            <Image
+              loader={({ url }) => url}
+              src={getProfileImageUrl()}
+              alt="profile"
+            />
+          )}
         </Grid>
       </Grid>
       <Grid container mt={1}>

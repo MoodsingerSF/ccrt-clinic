@@ -32,5 +32,6 @@ const MATCHERS = [
 ];
 
 export default function PlaygroundAutoLinkPlugin() {
+  // eslint-disable-next-line react/react-in-jsx-scope
   return <AutoLinkPlugin matchers={MATCHERS} />;
 }

@@ -21,7 +21,7 @@ import PropTypes from "prop-types";
 import ListMaxIndentLevelPlugin from "./plugins/ListMaxIndentLevelPlugin";
 import CodeHighlightPlugin from "./plugins/CodeHighlightPlugin";
 import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
-
+import ClassNames from "classnames";
 function Placeholder() {
   return <div className="editor-placeholder">Enter some rich text...</div>;
 }
@@ -57,16 +57,23 @@ export default function Editor({
     <LexicalComposer initialConfig={editorConfig}>
       {/* console.log(initialConfig); */}
 
-      <div className="editor-container">
+      <div
+        className={ClassNames({
+          "editor-container": true,
+          "editor-container-editable": !readOnly,
+        })}
+      >
         {!readOnly && <ToolbarPlugin />}
         <div className="editor-inner">
           <RichTextPlugin
             contentEditable={<ContentEditable className="editor-input" />}
             placeholder={<Placeholder />}
           />
-          <OnChangePlugin
-            onChange={(editorState) => (editorStateRef.current = editorState)}
-          />
+          {!readOnly && (
+            <OnChangePlugin
+              onChange={(editorState) => (editorStateRef.current = editorState)}
+            />
+          )}
 
           {/* <LexicalOnChangePlugin
             onChange={(editorState) => (editorStateRef.current = editorState)}
@@ -96,7 +103,7 @@ export default function Editor({
 }
 
 Editor.propTypes = {
-  editorStateRef: PropTypes.object.isRequired,
+  editorStateRef: PropTypes.object,
   readOnly: PropTypes.bool,
   initialEditorState: PropTypes.string,
 };

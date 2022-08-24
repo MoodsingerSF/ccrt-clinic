@@ -8,7 +8,7 @@ import { CacheProvider } from "@emotion/react";
 import createEmotionCache from "../src/emotion_cache/createEmotionCache";
 import theme from "../themes/theme";
 import AppBar from "../components/appbar/AppBar";
-import Footer from "../components/footer/Footer";
+// import Footer from "../components/footer/Footer";
 
 // Client-side cache shared for the whole session
 // of the user in the browser.
@@ -42,14 +42,16 @@ export default function MyApp(props) {
         </Head>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <LoginChecker />
           <AppBar />
-          <Component {...pageProps} />
-          <Footer />
+
+          <LoginChecker>
+            {/* <Grid container style={{ minHeight: "100vh" }}> */}
+            <Component {...pageProps} />
+            {/* </Grid> */}
+          </LoginChecker>
         </ThemeProvider>
       </CacheProvider>
     </Provider>
-    // >>>>>>> main
   );
 }
 

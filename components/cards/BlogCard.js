@@ -14,8 +14,16 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import DashboardBlogsOptionsPopup from "../modal/DashboardBlogsOptionsPopup";
 import { createStyles, makeStyles } from "@mui/styles";
+import { capitalize } from "lodash";
+import { prettyDate } from "../../controllers/DateController";
+import dynamic from "next/dynamic";
+const BlogEditorBackdrop = dynamic(() =>
+  import("../backdrops/BlogEditorBackdrop")
+);
+const DashboardBlogsOptionsPopup = dynamic(() =>
+  import("../modal/DashboardBlogsOptionsPopup")
+);
 
 const BlogCard = ({
   blogId,
@@ -25,37 +33,37 @@ const BlogCard = ({
   image,
   title,
   tags = [],
+  description,
   showOptions = false,
+  onSuccessfulDelete = () => {},
+  openSnackbar = () => {},
 }) => {
   const classes = useStyles();
   const router = useRouter();
 
-  const [openOptionsPopup, setOpenOptionsPopup] = useState(false);
-
-  const handleClickOpenOptionsPopup = () => {
-    setOpenOptionsPopup(!openOptionsPopup);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openBlogEditor, setOpenBlogEditor] = useState(false);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
-
-  // const handleCloseOptionsPopup = () => {
-  //   setOpenOptionsPopup(false);
-  // };
-
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <Grid
       container
       justifyContent="center"
-      alignItems="center"
+      alignItems="flex-start"
       className={classes.ccrt__blog__body__container}
     >
-      <Card>
+      <Card style={{ width: "100%" }}>
         <CardHeader
-          avatar={<Avatar>{avatar}</Avatar>}
+          avatar={
+            <Avatar>{avatar ? avatar : capitalize(name).charAt(0)}</Avatar>
+          }
           action={
             showOptions && (
-              <IconButton
-                aria-label="settings"
-                onClick={handleClickOpenOptionsPopup}
-              >
+              <IconButton aria-label="settings" onClick={handleClick}>
                 <MoreVertIcon />
               </IconButton>
             )
@@ -65,16 +73,20 @@ const BlogCard = ({
             subheader: classes.ccrt__blog__subheader,
           }}
           title={name}
-          subheader={date}
+          subheader={prettyDate(date)}
         />
         <CardMedia
-          height="194"
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", position: "relative", height: 194 }}
           onClick={() => {
             router.push("/blogs/" + blogId);
           }}
         >
-          <Image src={image} alt="blog" />
+          <Image
+            loader={({ src }) => src}
+            src={image}
+            alt="blog"
+            layout="fill"
+          />
         </CardMedia>
         <CardContent>
           <Typography
@@ -85,15 +97,11 @@ const BlogCard = ({
           >
             {title}
           </Typography>
-          {/* <Typography variant="body2" color="text.secondary">
-            {description}
-          </Typography> */}
           <Grid container mt={2}>
             {tags.map((tag) => (
               <Chip
                 key={tag}
-                label="#cancer"
-                // size="small"
+                label={tag}
                 component="a"
                 href="#basic-chip"
                 clickable
@@ -103,7 +111,29 @@ const BlogCard = ({
           </Grid>
         </CardContent>
       </Card>
-      {openOptionsPopup && <DashboardBlogsOptionsPopup blogId={blogId} />}
+      {showOptions && (
+        <DashboardBlogsOptionsPopup
+          anchorEl={anchorEl}
+          blogId={blogId}
+          onClose={handleClose}
+          onSuccessfulDelete={onSuccessfulDelete}
+          openSnackbar={openSnackbar}
+          openBlogEditor={() => setOpenBlogEditor(true)}
+        />
+      )}
+      {openBlogEditor && (
+        <BlogEditorBackdrop
+          open={openBlogEditor}
+          onClose={() => setOpenBlogEditor(false)}
+          openSnackbar={openSnackbar}
+          blogId={blogId}
+          title={title}
+          description={description}
+          tags={tags}
+          imageUrl={image}
+          edit={true}
+        />
+      )}
     </Grid>
   );
 };
@@ -113,20 +143,25 @@ BlogCard.propTypes = {
   avatar: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
-  image: PropTypes.object.isRequired,
+  image: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  description: PropTypes.string,
   tags: PropTypes.array.isRequired,
   showOptions: PropTypes.bool,
+  onSuccessfulDelete: PropTypes.func,
+  openSnackbar: PropTypes.func,
 };
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__blog__body__container: {
       padding: "10px",
+
       // boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
     },
     ccrt__blog__creator_name: {
       fontWeight: "bold",
+      textTransform: "capitalize",
     },
     ccrt__blog__subheader: {
       fontSize: "80%",

@@ -35,6 +35,8 @@ import {
 } from "../controllers/LocalStorageController";
 import { Context } from "../contexts/user-context/UserContext";
 import { useRouter } from "next/router";
+import { retrieveUserDetails } from "../controllers/UserController";
+import { getModifiedUserState } from "../components/data-middleware/UserDataMiddleware";
 
 const LoginScreen = () => {
   const router = useRouter();
@@ -46,6 +48,7 @@ const LoginScreen = () => {
   const {
     setAuthorizationToken: setAuthorizationTokenInProvider,
     setUserId: setUserIdInProvider,
+    setUser,
   } = useContext(Context);
   const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
   const [email, setEmail] = useState("");
@@ -58,6 +61,16 @@ const LoginScreen = () => {
   };
   const handlePassword = (e) => {
     setPassword(e.target.value);
+  };
+  const retrieveUserDetailsHelper = async () => {
+    try {
+      const response = await retrieveUserDetails();
+      if (response.status === 200) {
+        setUser(getModifiedUserState(response.data));
+      }
+    } catch (error) {
+      //
+    }
   };
   const onLogin = async () => {
     try {
@@ -73,6 +86,7 @@ const LoginScreen = () => {
         setUserId(userId);
         setAuthorizationTokenInProvider(authorizationToken);
         setUserIdInProvider(userId);
+        await retrieveUserDetailsHelper();
         router.replace("/");
       }
       setLoading(false);
