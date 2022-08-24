@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme) =>
       position: "relative",
     },
     ccrt__doctor__card__name__container: {
-      background: theme.palette.custom.SECOND_DEFAULT_COLOR,
+      background: theme.palette.custom.DEFAULT_COLOR_3,
       padding: "10px 0",
     },
     ccrt__doctor__card__name: {
@@ -139,13 +139,13 @@ const useStyles = makeStyles((theme) =>
       fontSize: "70%",
       textTransform: "uppercase",
       fontWeight: "500",
-      color: "#70b2aa",
+      color: theme.palette.custom.DEFAULT_COLOR_2,
     },
     ccrt__doctor__card__footer__patient_served__count: {
       fontSize: "90%",
       textTransform: "uppercase",
       fontWeight: "700",
-      color: theme.palette.custom.SECOND_DEFAULT_COLOR,
+      color: theme.palette.custom.DEFAULT_COLOR_3,
     },
   })
 );

@@ -25,7 +25,7 @@ const Heading = ({ title }) => {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__doctor__card__section__title: {
-      color: theme.palette.custom.SECOND_DEFAULT_COLOR,
+      color: theme.palette.custom.HEADING,
       fontWeight: "600",
       textTransform: "uppercase",
     },

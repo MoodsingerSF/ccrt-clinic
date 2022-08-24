@@ -19,10 +19,10 @@ const theme = createTheme({
       DEFAULT_COLOR: "#631976",
       DEFAULT_COLOR_2: "#9180BA",
       DEFAULT_COLOR_3: "#9DCB80",
+      HEADING: "#aac984",
       DEFAULT_COLOR_MINUS_2: "#7b1f92",
       DEFAULT_COLOR_MINUS_20: "#f7e8fa",
       DEFAULT_COLOR_MINUS_18: "#ecccf4",
-      SECOND_DEFAULT_COLOR: "#aac984",
     },
   },
   typography: {

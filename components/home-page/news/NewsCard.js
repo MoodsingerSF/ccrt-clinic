@@ -30,7 +30,7 @@ const NewsCard = ({ picture, title, description }) => {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__news__card__container: {
-      border: "2px solid #9e9e9e",
+      border: `2px solid ${theme.palette.grey[600]}`,
       width: "95%",
       minHeight: "30vh",
       position: "relative",
