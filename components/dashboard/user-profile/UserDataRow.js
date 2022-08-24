@@ -11,7 +11,16 @@ import UpdateProfileModal from "../../modal/UpdateProfileModal";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import PropTypes from "prop-types";
 
-const UserDataRow = ({ title, value, icon, editable = false }) => {
+const UserDataRow = ({
+  title,
+  value,
+  icon,
+  editable = false,
+  onSave,
+  validate,
+  onSuccess,
+  openSnackbar,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   const IsDesktop = useMediaQuery(theme.breakpoints.up("md"));
@@ -26,7 +35,10 @@ const UserDataRow = ({ title, value, icon, editable = false }) => {
         container
         justifyContent="center"
         alignItems="center"
-        style={{ width: IsDesktop ? "60vw" : "100vw" }}
+        style={{
+          width: IsDesktop ? "60vw" : "100vw",
+          height: 40,
+        }}
       >
         <Grid
           container
@@ -50,41 +62,58 @@ const UserDataRow = ({ title, value, icon, editable = false }) => {
           xs={12}
           md={7}
         >
-          <Typography style={{ marginLeft: IsDesktop ? "0px" : "40px" }}>
+          <Typography
+            style={{
+              marginLeft: IsDesktop ? "0px" : "40px",
+              fontSize: "80%",
+              fontWeight: 500,
+            }}
+          >
             {value}
           </Typography>
-          <Grid>
-            {editable ? (
-              <IconButton onClick={() => setOpenUpdateProfileModal(editable)}>
-                <DriveFileRenameOutlineIcon />
-              </IconButton>
-            ) : null}
-          </Grid>
+          {editable ? (
+            <IconButton onClick={() => setOpenUpdateProfileModal(editable)}>
+              <DriveFileRenameOutlineIcon style={{ fontSize: "80%" }} />
+            </IconButton>
+          ) : null}
         </Grid>
       </Grid>
-      <UpdateProfileModal
-        open={openUpdateProfileModal}
-        onClose={onClose}
-        editableValue={value}
-      />
+      {editable && (
+        <UpdateProfileModal
+          fieldName={title}
+          open={openUpdateProfileModal}
+          onClose={onClose}
+          editableValue={value}
+          title={`Update ${title}`}
+          validate={validate}
+          onSave={onSave}
+          onSuccess={onSuccess}
+          openSnackbar={openSnackbar}
+        />
+      )}
     </>
   );
 };
-
-const useStyles = makeStyles({
-  ccrt__dashboard__user__data__row: {
-    fontWeight: "500",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 UserDataRow.propTypes = {
   title: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   icon: PropTypes.element.isRequired,
   editable: PropTypes.bool,
+  onSave: PropTypes.func,
+  validate: PropTypes.func,
+  onSuccess: PropTypes.func,
+  openSnackbar: PropTypes.func,
 };
+
+const useStyles = makeStyles({
+  ccrt__dashboard__user__data__row: {
+    fontSize: "80%",
+    fontWeight: "500",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default UserDataRow;

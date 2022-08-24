@@ -5,7 +5,10 @@ import {
   retrieveAuthorizationToken,
   retrieveUserId,
 } from "./LocalStorageController";
-
+const headers = () => ({
+  "Content-Type": "application/json",
+  Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+});
 export const retrieveUserDetails = async () => {
   const response = await axios.get(SERVER_PATH + "users/" + retrieveUserId(), {
     headers: {
@@ -18,10 +21,7 @@ export const retrieveUserDetails = async () => {
 export const createAdmin = async (firstName, lastName, email, password) => {
   const data = { firstName, lastName, email, password };
   const response = await axios.post(SERVER_PATH + "users/admin", data, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
-    },
+    headers: headers(),
   });
   return response.status === StatusCodes.OK;
 };
@@ -47,11 +47,7 @@ export const acceptDoctorRequest = async (userId) => {
     SERVER_PATH + "users/" + userId + "/verification-status",
     { verificationStatus: "ACCEPTED" },
     {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
-      },
+      headers: headers(),
     }
   );
   return response.status === 200;
@@ -62,12 +58,44 @@ export const rejectDoctorRequest = async (userId) => {
     SERVER_PATH + "users/" + userId + "/verification-status",
     { verificationStatus: "REJECTED" },
     {
+      headers: headers(),
+    }
+  );
+  return response.status === 200;
+};
+
+export const updateFirstName = async (firstName) => {
+  await axios.put(
+    SERVER_PATH + "users/" + retrieveUserId(),
+    { firstName },
+    {
+      headers: headers(),
+    }
+  );
+};
+export const updateLastName = async (lastName) => {
+  await axios.put(
+    SERVER_PATH + "users/" + retrieveUserId(),
+    { lastName },
+    {
+      headers: headers(),
+    }
+  );
+};
+
+export const updateProfilePicture = async (profilePicture) => {
+  const formData = new FormData();
+  formData.append("image", profilePicture);
+  const { data } = await axios.put(
+    SERVER_PATH + "users/" + retrieveUserId() + "/profile-picture",
+    formData,
+    {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         Authorization:
           AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
       },
     }
   );
-  return response.status === 200;
+  return data;
 };
