@@ -47,6 +47,7 @@ const HotlineSection = () => {
             endAdornment: (
               <InputAdornment position="end">
                 <Button
+                  style={{}}
                   className={
                     classes.ccrt__home_page__hotline__textfield__button
                   }
@@ -114,6 +115,9 @@ const useStyles = makeStyles((theme) =>
       color: "#fff",
       fontSize: "85%",
       marginRight: "-10px",
+      "&:hover": {
+        background: theme.palette.custom.DEFAULT_COLOR_2,
+      },
     },
     ccrt__home_page__hotline__textfield__button__avatar: {
       background: "#fff",
