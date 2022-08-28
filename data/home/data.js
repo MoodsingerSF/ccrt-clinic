@@ -31,3 +31,7 @@ export const BlogData = [
     name: "prostate cancer",
   },
 ];
+
+export const ASSISTANCE_BUTTON = "request for assistance";
+export const HOTELINE = "Hotline: 96521";
+export const PHONE_CODE = "+880 |";

@@ -1,36 +1,20 @@
 import React from "react";
-import {
-  Avatar,
-  Button,
-  Grid,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Grid } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import Image from "next/image";
 import hero from "../../../public/image/home-page/hero/Cover.png";
-import appoinment from "../../../public/image/home-page/hero/appoinment.png";
-import PhoneIcon from "@mui/icons-material/Phone";
-import SearchIcon from "@mui/icons-material/Search";
+import HotlineSection from "./HotlineSection";
+import HeroRighttSection from "./HeroRighttSection";
 
 const Hero = () => {
   const classes = useStyles();
 
   return (
-    <Grid
-      container
-      style={{ marginTop: "12vh", minHeight: "100vh", position: "relative" }}
-    >
+    <Grid container className={classes.ccrt__hero__section}>
       <Grid
         item
         xs={6}
-        style={{
-          // display:
-          height: "88vh",
-          position: "relative",
-          // background: "red",
-        }}
+        className={classes.ccrt__hero__section__left__container}
       >
         <Image src={hero} alt="hero" layout="fill" objectFit="cover" />
       </Grid>
@@ -43,201 +27,23 @@ const Hero = () => {
         alignItems="flex-end"
         style={{ paddingRight: "50px" }}
       >
-        <Grid
-          container
-          flexDirection={"column"}
-          alignItems="flex-end"
-          justifyContent={"center"}
-          style={{ paddingRight: "20px" }}
-        >
-          {/* <Grid container> */}
-          <TextField
-            style={{
-              background: "#fff",
-              borderRadius: "20px",
-              boxShadow: "inset 0 0 5px rgba(0,0,0,0.5)",
-              margin: "50px 0 30px 0",
-            }}
-            size="small"
-            // fullWidth
-            placeholder="search"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-              classes: { notchedOutline: classes.noBorder },
-            }}
-          />
-          {/* </Grid> */}
-          <Typography
-            // variant="h1"
-            // gutterBottom
-            className={classes.cover_header_1}
-          >
-            Cancer
-          </Typography>
-          <Typography
-            // variant="h2"
-            className={classes.cover_header_2}
-          >
-            support
-          </Typography>
-          <Typography
-            // variant="h3"
-            className={classes.cover_sub_header}
-          >
-            is just
-          </Typography>
-          <Typography
-            // variant="h3"
-            className={classes.cover_sub_header}
-          >
-            a click away
-          </Typography>
-        </Grid>
-        <Grid
-          container
-          style={{
-            // background: "red",
-            position: "relative",
-            height: "10vh",
-            width: "20vw",
-            marginTop: 15,
-            cursor: "pointer",
-          }}
-        >
-          <Image src={appoinment} alt="book a appoinment" />
-        </Grid>
+        <HeroRighttSection />
       </Grid>
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        item
-        xs={12}
-        style={{
-          background: "rgba(232, 232, 232,0.7)",
-          position: "absolute",
-          width: "100%",
-          bottom: "10%",
-          padding: "13px 70px",
-        }}
-      >
-        <Grid
-          item
-          xs={8}
-          style={{
-            position: "relative",
-            // background: "#fff",
-            borderRadius: "10px",
-          }}
-        >
-          <TextField
-            style={{
-              background: "#fff",
-              borderRadius: "20px",
-            }}
-            size="small"
-            fullWidth
-            placeholder="TELL US YOUR PHONE NUMBER"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Typography>+880 |</Typography>
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Button
-                    style={{
-                      background: "#9180BA",
-                      padding: "4px 10px",
-                      borderRadius: "15px",
-                      color: "#fff",
-                      fontSize: "85%",
-                      marginRight: "-10px",
-                    }}
-                  >
-                    <Avatar
-                      sx={{ width: 23, height: 23 }}
-                      style={{
-                        background: "#fff",
-                        marginRight: "10px",
-                      }}
-                    >
-                      <PhoneIcon
-                        style={{ color: "#9DCB80", padding: "3px" }}
-                        fontSize="small"
-                      />
-                    </Avatar>
-                    request for assistance
-                  </Button>
-                </InputAdornment>
-              ),
-              classes: { notchedOutline: classes.noBorder },
-            }}
-          />
-        </Grid>
-        <Grid
-          item
-          xs={4}
-          container
-          flexDirection="row"
-          justifyContent={"flex-end"}
-        >
-          <Avatar style={{ background: "#fff", marginRight: "20px" }}>
-            <PhoneIcon style={{ color: "#9DCB80" }} />
-          </Avatar>
-          <Typography
-            style={{
-              textTransform: "uppercase",
-              fontWeight: "700",
-              fontSize: "150%",
-              color: "#9DCB80",
-            }}
-          >
-            Hotline: 96521
-          </Typography>
-        </Grid>
-      </Grid>
+      <HotlineSection />
     </Grid>
   );
 };
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    cover_header_1: {
-      fontSize: "380%",
-      fontWeight: "700",
-      padding: 0,
-      margin: 0,
-      textTransform: "uppercase",
-      lineHeight: "0.9",
-      letterSpacing: "5px",
+    ccrt__hero__section: {
+      marginTop: "12vh",
+      minHeight: "100vh",
+      position: "relative",
     },
-    cover_header_2: {
-      fontSize: "300%",
-      fontWeight: "700",
-      padding: 0,
-      margin: 0,
-      textTransform: "uppercase",
-      lineHeight: "1",
-      letterSpacing: "5px",
-    },
-    cover_sub_header: {
-      fontSize: "280%",
-      fontWeight: "700",
-      color: theme.palette.grey[600],
-      padding: 0,
-      margin: 0,
-      textTransform: "uppercase",
-      lineHeight: "0.9",
-      letterSpacing: "5px",
-    },
-    noBorder: {
-      border: "none",
+    ccrt__hero__section__left__container: {
+      height: "88vh",
+      position: "relative",
     },
   })
 );

@@ -2,12 +2,13 @@ import React from "react";
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import { DoctorData } from "../../../data/doctor/data";
-import DoctorCard from "./DoctorCard";
+import DoctorCard from "../../cards/doctor-home/DoctorCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper";
 import Heading from "../section-heading/Heading";
+import { HOME_PAGE_DOCTOR_CARD_BOX_SHADOW } from "../../../misc/colors";
 
 const Doctor = () => {
   const classes = useStyles();
@@ -46,7 +47,7 @@ const Doctor = () => {
             },
             1200: {
               slidesPerView: 5,
-              spaceBetween: 20,
+              spaceBetween: 30,
             },
           }}
         >
@@ -56,6 +57,7 @@ const Doctor = () => {
               className={classes.ccrt__doctor__card__swiper_slide}
             >
               <DoctorCard
+                doctorId={doctor.id}
                 image={doctor.image}
                 name={doctor.name}
                 specialist={doctor.specialist}
@@ -81,6 +83,7 @@ const useStyles = makeStyles(() =>
     ccrt__doctor__card__swiper_slide: {
       margin: "30px 0 0 0",
       transition: "transform 0.12s ease",
+      // boxShadow: HOME_PAGE_DOCTOR_CARD_BOX_SHADOW,
       "&:hover": {
         transform: "scale(1.1)",
         cursor: "pointer",

@@ -1,11 +1,14 @@
 import React from "react";
 import Image from "next/image";
+// import { useRouter } from "next/router";
 import { Grid, Typography, Box } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import { HOME_PAGE_DOCTOR_CARD_BOX_SHADOW } from "../../../misc/colors";
 import PropTypes from "prop-types";
+import Link from "next/link";
 const DoctorCard = ({
+  doctorId,
   image,
   name,
   specialist,
@@ -14,80 +17,89 @@ const DoctorCard = ({
   patient_count,
 }) => {
   const classes = useStyles();
+  // const router = useRouter();
 
   return (
-    <>
-      <Box className={classes.ccrt__doctor__card}>
-        <Box className={classes.ccrt__doctor__card__media}>
-          <Image
-            src={image}
-            alt={name}
-            layout="fill"
-            objectFit="cover"
-            style={{
-              borderTopLeftRadius: "10px",
-              borderTopRightRadius: "10px",
-            }}
-          />
-        </Box>
-        <Grid container justifyContent="center" alignItems="center">
-          <Grid
-            container
-            justifyContent="center"
-            alignItems="center"
-            item
-            xs={12}
-            className={classes.ccrt__doctor__card__name__container}
-          >
-            <Typography className={classes.ccrt__doctor__card__name}>
-              {name}
-            </Typography>
-          </Grid>
-          <Grid
-            container
-            justifyContent="center"
-            alignItems="center"
-            item
-            xs={12}
-            className={classes.ccrt__doctor__card__description}
-          >
-            <Typography className={classes.ccrt__doctor__card__subtitle}>
-              {specialist}
-            </Typography>
-            <Typography className={classes.ccrt__doctor__card__dep}>
-              {department}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Box>
-      <Grid container className={classes.ccrt__doctor__card__footer}>
-        <Grid item className={classes.ccrt__doctor__card__footer__icon}>
-          <GroupAddOutlinedIcon fontSize="large" />
-        </Grid>
-        <Grid
-          item
-          flexDirection="column"
-          className={classes.ccrt__doctor__card__footer__container}
+    <Link href={`/doctors/${doctorId}`}>
+      <Grid container>
+        <Box
+          className={classes.ccrt__doctor__card}
+          onLoadMore={() => {
+            router.push("doctors");
+          }}
         >
-          <Typography
-            className={classes.ccrt__doctor__card__footer__patient_served}
+          <Box className={classes.ccrt__doctor__card__media}>
+            <Image
+              src={image}
+              alt={name}
+              layout="fill"
+              objectFit="cover"
+              style={{
+                borderTopLeftRadius: "10px",
+                borderTopRightRadius: "10px",
+              }}
+            />
+          </Box>
+          <Grid container justifyContent="center" alignItems="center">
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              item
+              xs={12}
+              className={classes.ccrt__doctor__card__name__container}
+            >
+              <Typography className={classes.ccrt__doctor__card__name}>
+                {name}
+              </Typography>
+            </Grid>
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              item
+              xs={12}
+              className={classes.ccrt__doctor__card__description}
+            >
+              <Typography className={classes.ccrt__doctor__card__subtitle}>
+                {specialist}
+              </Typography>
+              <Typography className={classes.ccrt__doctor__card__dep}>
+                {department}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Box>
+        <Grid container className={classes.ccrt__doctor__card__footer}>
+          <Grid item className={classes.ccrt__doctor__card__footer__icon}>
+            <GroupAddOutlinedIcon fontSize="large" />
+          </Grid>
+          <Grid
+            item
+            flexDirection="column"
+            className={classes.ccrt__doctor__card__footer__container}
           >
-            {patient_served}
-          </Typography>
-          <Typography
-            className={
-              classes.ccrt__doctor__card__footer__patient_served__count
-            }
-          >
-            {patient_count}
-          </Typography>
+            <Typography
+              className={classes.ccrt__doctor__card__footer__patient_served}
+            >
+              {patient_served}
+            </Typography>
+            <Typography
+              className={
+                classes.ccrt__doctor__card__footer__patient_served__count
+              }
+            >
+              {patient_count}
+            </Typography>
+          </Grid>
         </Grid>
       </Grid>
-    </>
+    </Link>
   );
 };
 
 DoctorCard.propTypes = {
+  doctorId: PropTypes.string.isRequired,
   image: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   specialist: PropTypes.string.isRequired,
