@@ -18,6 +18,7 @@ const ConfirmationModal = ({
   onPositiveFeedback,
   onNegativeFeedback,
   title,
+  subTitle = null,
 }) => {
   return (
     <Modal open={true} onClose={onNegativeFeedback}>
@@ -30,6 +31,14 @@ const ConfirmationModal = ({
         >
           {title}
         </Typography>
+        {subTitle && (
+          <Typography
+            id="modal-modal-title"
+            style={{ fontSize: "80%", marginBottom: "10px" }}
+          >
+            {subTitle}
+          </Typography>
+        )}
         <Grid container justifyContent="center" alignItems="center">
           <Button onClick={onPositiveFeedback}>Yes</Button>
           <Button onClick={onNegativeFeedback}>No</Button>
@@ -45,4 +54,5 @@ ConfirmationModal.propTypes = {
   onPositiveFeedback: PropTypes.func.isRequired,
   onNegativeFeedback: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
+  subTitle: PropTypes.string,
 };

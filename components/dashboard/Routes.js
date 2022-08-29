@@ -3,6 +3,7 @@ import { Role } from "../../enums/Role";
 import CreateNewAdmin from "./CreateNewAdmin";
 import DashboardBlogRequests from "./DashboardBlogRequests";
 import DashboardProfile from "./DashboardProfile";
+import DoctorWeeklyScheduleManager from "./doctor/DoctorWeeklyScheduleManager";
 import DoctorsRequest from "./DoctorsRequest";
 import MyBlogs from "./MyBlogs";
 import Overview from "./Overview";
@@ -44,5 +45,11 @@ export const DASHBOARD_ROUTES = [
     heading: "Blog Requests",
     component: <DashboardBlogRequests />,
     allowedRoles: [Role.ADMIN],
+  },
+  {
+    path: "weekly-time-slots",
+    heading: "Manage Weekly Schedule",
+    component: <DoctorWeeklyScheduleManager />,
+    allowedRoles: [Role.DOCTOR],
   },
 ];

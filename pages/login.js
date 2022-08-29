@@ -95,6 +95,10 @@ const LoginScreen = () => {
         const status = error.response.status;
         if (status === StatusCodes.FORBIDDEN) {
           openSnackbar("Username and password haven't matched.");
+        } else if (status === StatusCodes.LOCKED) {
+          openSnackbar(
+            "Your signup request as a doctor is currently in review."
+          );
         }
       }
       setLoading(false);

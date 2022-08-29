@@ -52,23 +52,27 @@ const AppBar = () => {
             <Image src={logo} layout="fill" objectFit="contain" />
           </Grid>
           <Grid container alignItems="center" item xs={2}></Grid>
-          <Grid container alignItems="center" item xs={6}>
+
+          {isSignedIn() && (
+            <Grid container alignItems="center" item xs={2}></Grid>
+          )}
+          <Grid
+            container
+            justifyContent="flex-end"
+            alignItems="center"
+            item
+            xs
+            // xs={8}
+          >
             <AppBarLink name="Home" link="/" />
             <AppBarLink name="Departments" link="/" />
-            <AppBarLink name="Product&Service" link="/" />
+            {/* <AppBarLink name="Product&Service" link="/" /> */}
             <AppBarLink name="Blogs" link="/blogs" />
             <AppBarLink name="Contact" link="/contact" />
             <AppBarLink name="FAQ" link="/faq" />
 
             {!isSignedIn() && <AppBarLink name="Login" link="/login" />}
-          </Grid>
-          <Grid
-            item
-            xs={2}
-            container
-            justifyContent={"center"}
-            alignItems="center"
-          >
+
             {isSignedIn() && (
               <Avatar
                 className={classes.avatar}
@@ -83,7 +87,14 @@ const AppBar = () => {
               />
             )}
             {!isSignedIn() && (
-              <Grid container justifyContent={"center"} alignItems="center">
+              <Grid
+                item
+                xs={3}
+                container
+                flexDirection="column"
+                justifyContent={"center"}
+                alignItems="center"
+              >
                 <Typography
                   className={classes.sign_up_title}
                 >{`Haven't registered yet?`}</Typography>
@@ -165,6 +176,7 @@ const useStyles = makeStyles((theme) =>
       },
     },
     avatar: {
+      marginRight: "2.5vw",
       border: `1px dashed ${theme.palette.primary.main}`,
       cursor: "pointer",
     },

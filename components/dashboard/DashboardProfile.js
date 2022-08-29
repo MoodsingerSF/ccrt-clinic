@@ -19,11 +19,11 @@ import {
   updateLastName,
   updateProfilePicture,
 } from "../../controllers/UserController";
-import LoaderComponent from "../misc/LoaderComponent";
 import { validateName } from "../../controllers/SignupController";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
 import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
 import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";
+import DashboardLoaderComponent from "./DashboardLoaderComponent";
 const PhotoEditingDialog = dynamic(() =>
   import("../dialogs/PhotoEditingDialog")
 );
@@ -74,9 +74,7 @@ const DashboardProfile = () => {
   return (
     <>
       {loading ? (
-        <Grid container alignItems="center" style={{ height: "80vh" }}>
-          <LoaderComponent />
-        </Grid>
+        <DashboardLoaderComponent />
       ) : !user ? null : (
         <Grid
           container

@@ -8,7 +8,7 @@ const LoaderComponent = () => {
       container
       justifyContent="center"
       alignItems="center"
-      style={{ width: "100vw" }}
+      style={{ width: "100%" }}
     >
       <Lottie
         animationData={animationData}

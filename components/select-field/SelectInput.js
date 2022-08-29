@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const SelectInput = ({ value, label, onChange, times }) => {
   return (
-    <FormControl sx={{ m: 1, minWidth: 130 }} size="small">
+    <FormControl style={{ width: "100%" }} size="small">
       <InputLabel id="demo-select-small" style={{ fontSize: "90%" }}>
         {label}
       </InputLabel>

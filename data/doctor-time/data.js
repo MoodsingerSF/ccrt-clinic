@@ -80,37 +80,150 @@ export const Days = [
   {
     id: "1",
     day: "Saturday",
-    timeSlot: ["1:00 PM - 1:10 PM", "1:10 PM - 1:20 PM"],
+    timeSlots: [
+      {
+        id: "1",
+        startTime: { hour: 1, minute: 0, phase: "PM" },
+        endTime: { hour: 1, minute: 10, phase: "PM" },
+      },
+      {
+        id: "2",
+
+        startTime: { hour: 1, minute: 20, phase: "PM" },
+        endTime: { hour: 1, minute: 30, phase: "PM" },
+      },
+    ],
   },
   {
     id: "2",
     day: "Sunday",
-    timeSlot: ["1:00 PM - 1:10 PM", "12:00 PM - 12:10 PM", "1.20 PM - 1.30 PM"],
+    timeSlots: [
+      {
+        id: "1",
+
+        startTime: { hour: 1, minute: 0, phase: "PM" },
+        endTime: { hour: 1, minute: 10, phase: "PM" },
+      },
+      {
+        id: "2",
+
+        startTime: { hour: 1, minute: 20, phase: "PM" },
+        endTime: { hour: 1, minute: 30, phase: "PM" },
+      },
+      {
+        id: "3",
+
+        startTime: { hour: 1, minute: 30, phase: "PM" },
+        endTime: { hour: 1, minute: 40, phase: "PM" },
+      },
+      {
+        id: "4",
+
+        startTime: { hour: 1, minute: 30, phase: "PM" },
+        endTime: { hour: 1, minute: 40, phase: "PM" },
+      },
+      {
+        id: "5",
+
+        startTime: { hour: 1, minute: 30, phase: "PM" },
+        endTime: { hour: 1, minute: 40, phase: "PM" },
+      },
+      {
+        id: "6",
+
+        startTime: { hour: 1, minute: 30, phase: "PM" },
+        endTime: { hour: 1, minute: 40, phase: "PM" },
+      },
+      {
+        id: "7",
+
+        startTime: { hour: 1, minute: 30, phase: "PM" },
+        endTime: { hour: 1, minute: 40, phase: "PM" },
+      },
+      {
+        id: "8",
+
+        startTime: { hour: 1, minute: 30, phase: "PM" },
+        endTime: { hour: 1, minute: 40, phase: "PM" },
+      },
+    ],
   },
   {
     id: "3",
     day: "Monday",
-    timeSlot: ["1:00 PM - 1:10 PM", "1:20 PM - 1:30 PM"],
+    timeSlots: [],
   },
 
   {
     id: "4",
     day: "Tuesday",
-    timeSlot: ["1:00 PM - 1:10 PM", "1:20 PM - 1:30 PM", "1.30 PM - 1.40 PM"],
+    timeSlots: [
+      {
+        id: "1",
+
+        startTime: { hour: 1, minute: 0, phase: "PM" },
+        endTime: { hour: 1, minute: 10, phase: "PM" },
+      },
+      {
+        id: "2",
+
+        startTime: { hour: 1, minute: 20, phase: "PM" },
+        endTime: { hour: 1, minute: 30, phase: "PM" },
+      },
+    ],
   },
   {
     id: "5",
     day: "Wednesday",
-    timeSlot: ["1:00 PM - 1:10 PM"],
+    timeSlots: [
+      {
+        id: "1",
+
+        startTime: { hour: 1, minute: 0, phase: "PM" },
+        endTime: { hour: 1, minute: 10, phase: "PM" },
+      },
+      {
+        id: "2",
+
+        startTime: { hour: 1, minute: 20, phase: "PM" },
+        endTime: { hour: 1, minute: 30, phase: "PM" },
+      },
+    ],
   },
   {
     id: "6",
     day: "Thursday",
-    timeSlot: ["1:00 PM - 1:10 PM", "1:30 PM - 1:40 PM"],
+    timeSlots: [
+      {
+        id: "1",
+
+        startTime: { hour: 1, minute: 0, phase: "PM" },
+        endTime: { hour: 1, minute: 10, phase: "PM" },
+      },
+      {
+        id: "2",
+
+        startTime: { hour: 1, minute: 20, phase: "PM" },
+        endTime: { hour: 1, minute: 30, phase: "PM" },
+      },
+    ],
   },
   {
     id: "7",
     day: "Friday",
-    timeSlot: ["8:00 PM - 8:10 PM"],
+    timeSlots: [
+      {
+        id: "1",
+
+        startTime: { hour: 1, minute: 0, phase: "PM" },
+        endTime: { hour: 1, minute: 10, phase: "PM" },
+      },
+      {
+        id: "2",
+
+        startTime: { hour: 1, minute: 20, phase: "PM" },
+        endTime: { hour: 1, minute: 30, phase: "PM" },
+      },
+    ],
   },
 ];
