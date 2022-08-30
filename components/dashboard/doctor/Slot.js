@@ -130,7 +130,7 @@ const useStyles = makeStyles(() =>
         fontSize: "20px",
         marginBottom: "3px",
       },
-      // margin: "5px",
+      margin: "5px 5px 5px 0px",
       border: "none",
       height: "35px",
       borderRadius: "3px",
