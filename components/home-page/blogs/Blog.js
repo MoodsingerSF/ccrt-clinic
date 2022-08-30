@@ -7,7 +7,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Autoplay, Navigation, Pagination } from "swiper";
 import Heading from "../section-heading/Heading";
-import { BlogData } from "../../../data/home-blog/data";
+import { BlogData } from "../../../data/home/data";
 import BlogCard from "./BlogCard";
 
 const Blog = () => {
