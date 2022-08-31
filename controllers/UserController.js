@@ -45,9 +45,6 @@ export const retrievePendingDoctors = async (page = 0, limit = 15) => {
       limit,
       status: "PENDING",
     },
-    headers: {
-      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
-    },
   });
   return data.map((doctor) => processUserDetails(doctor));
 };
@@ -116,9 +113,6 @@ export const retrieveAcceptedDoctors = async (page = 0, limit = 15) => {
       page,
       limit,
       status: "ACCEPTED",
-    },
-    headers: {
-      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
     },
   });
   return data.map((doctor) => processUserDetails(doctor));

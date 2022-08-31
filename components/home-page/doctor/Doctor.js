@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
-// import { DoctorData } from "../../../data/doctor/data";
 import DoctorCard from "../../cards/doctor-home/DoctorCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -21,14 +20,16 @@ const Doctor = () => {
     try {
       setLoading(true);
       const data = await retrieveAcceptedDoctors();
+      console.log("doctors", data);
       setDoctors(data);
       setLoading(false);
     } catch (error) {
+      console.log(error);
       setLoading(false);
-      // console.log(error);
     }
   };
   useEffect(() => {
+    console.log("fuck you");
     retrieveDoctors();
   }, []);
 
@@ -85,7 +86,6 @@ const Doctor = () => {
                     name={doctor.fullName}
                     specialization={doctor.specialization}
                     department={doctor.department}
-                    patient_served={doctor.patient_served}
                     patient_count={doctor.patient_count}
                   />
                 </SwiperSlide>
@@ -108,7 +108,6 @@ const useStyles = makeStyles(() =>
     ccrt__doctor__card__swiper_slide: {
       margin: "30px 0 0 0",
       transition: "transform 0.12s ease",
-      // boxShadow: HOME_PAGE_DOCTOR_CARD_BOX_SHADOW,
       "&:hover": {
         transform: "scale(1.1)",
         cursor: "pointer",

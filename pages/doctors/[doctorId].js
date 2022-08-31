@@ -13,6 +13,7 @@ import { retrieveUserDetails } from "../../controllers/UserController";
 import { getActiveSchedule } from "../../controllers/DoctorScheduleController";
 import DoctorScheduleComponent from "../../components/misc/DoctorScheduleComponent";
 import LoaderComponent from "../../components/misc/LoaderComponent";
+import avatar from "../../public/image/doctor/docAvatar2.png";
 const DoctorDetails = ({ doctorId }) => {
   console.log(doctorId);
   const classes = useStyles();
@@ -86,11 +87,18 @@ const DoctorDetails = ({ doctorId }) => {
                           classes.ccrt__doctor__details__page__image__container
                         }
                       >
-                        {doctorDetails && doctorDetails.profileImageUrl && (
+                        {doctorDetails && doctorDetails.profileImageUrl ? (
                           <Image
                             loader={({ src }) => src}
                             src={doctorDetails.profileImageUrl}
                             alt={doctorDetails.fullName}
+                            layout="fill"
+                            objectFit="contain"
+                          />
+                        ) : (
+                          <Image
+                            src={avatar}
+                            alt={doctorDetails.fullName ?? "avatar"}
                             layout="fill"
                             objectFit="contain"
                           />

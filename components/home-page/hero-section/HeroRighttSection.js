@@ -1,21 +1,30 @@
 import React from "react";
 import Image from "next/image";
-import { Grid, InputAdornment, TextField, Typography } from "@mui/material";
+import {
+  Grid,
+  InputAdornment,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import classNames from "classnames";
 import { createStyles, makeStyles } from "@mui/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import appoinment from "../../../public/image/home-page/hero/appoinment.png";
 
 const HeroRighttSection = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
-    <>
+    <Grid container className={classes.ccrt__hero_right__section}>
       <Grid
         container
         flexDirection={"column"}
         alignItems="flex-end"
         justifyContent={"center"}
-        // style={{ paddingRight: "20px" }}
       >
         <TextField
           className={classes.ccrt__home_page__search_field}
@@ -30,52 +39,123 @@ const HeroRighttSection = () => {
             classes: { notchedOutline: classes.noBorder },
           }}
         />
-        <Typography className={classes.cover_header_1}>Cancer</Typography>
-        <Typography className={classes.cover_header_2}>support</Typography>
-        <Typography className={classes.cover_sub_header}>is just</Typography>
-        <Typography className={classes.cover_sub_header}>
-          a click away
-        </Typography>
+        <Grid
+          container
+          flexDirection={"column"}
+          alignItems="flex-end"
+          style={{ margin: "50px 0" }}
+        >
+          <Typography
+            className={classNames({
+              [classes.cover_header_1_tablet]: !matchesMD,
+              [classes.cover_header_1_desktop]: matchesMD,
+            })}
+          >
+            Cancer
+          </Typography>
+          <Typography
+            className={classNames({
+              [classes.cover_header_2_tablet]: !matchesMD,
+              [classes.cover_header_2_desktop]: matchesMD,
+            })}
+          >
+            support
+          </Typography>
+          <Typography
+            className={classNames({
+              [classes.cover_sub_header_tablet]: !matchesMD,
+              [classes.cover_sub_header_desktop]: matchesMD,
+            })}
+          >
+            is just
+          </Typography>
+          <Typography
+            className={classNames({
+              [classes.cover_sub_header_tablet]: !matchesMD,
+              [classes.cover_sub_header_desktop]: matchesMD,
+            })}
+          >
+            a click away
+          </Typography>
+        </Grid>
+        <Grid
+          container
+          justifyContent={"flex-end"}
+          alignItems="center"
+          className={classes.ccrt__book__appoinment__image_wrapper}
+        >
+          <Grid container className={classes.ccrt__book__appoinment__image}>
+            <Image
+              src={appoinment}
+              alt="book a appoinment"
+              layout="fill"
+              objectFit="contain"
+            />
+          </Grid>
+        </Grid>
       </Grid>
-      <Grid container className={classes.ccrt__book__appoinment__image_wrapper}>
-        <Image
-          src={appoinment}
-          alt="book a appoinment"
-          layout="fill"
-          objectFit="contain"
-        />
-      </Grid>
-    </>
+    </Grid>
   );
 };
 
 const useStyles = makeStyles((theme) =>
   createStyles({
+    ccrt__hero_right__section: {
+      height: "75vh",
+    },
     ccrt__home_page__search_field: {
       background: "#fff",
       borderRadius: "20px",
       boxShadow: "inset 0 0 5px rgba(0,0,0,0.5)",
-      margin: "50px 0 50px 0",
+      margin: "20px 0 0 0",
     },
-    cover_header_1: {
+    cover_header_1_tablet: {
+      fontSize: "300%",
+      fontWeight: "700",
+      padding: 0,
+      margin: 0,
+      textTransform: "uppercase",
+      lineHeight: "0.9",
+      // letterSpacing: "5px",
+    },
+    cover_header_1_desktop: {
       fontSize: "380%",
       fontWeight: "700",
       padding: 0,
       margin: 0,
       textTransform: "uppercase",
       lineHeight: "0.9",
-      letterSpacing: "5px",
+      // letterSpacing: "5px",
     },
-    cover_header_2: {
+    cover_header_2_tablet: {
+      fontSize: "250%",
+      fontWeight: "700",
+      padding: 0,
+      margin: 0,
+      textTransform: "uppercase",
+      lineHeight: "1",
+      // letterSpacing: "5px",
+    },
+    cover_header_2_desktop: {
       fontSize: "300%",
       fontWeight: "700",
       padding: 0,
       margin: 0,
       textTransform: "uppercase",
       lineHeight: "1",
-      letterSpacing: "5px",
+      // letterSpacing: "5px",
     },
-    cover_sub_header: {
+    cover_sub_header_tablet: {
+      fontSize: "200%",
+      fontWeight: "700",
+      color: theme.palette.grey[600],
+      padding: 0,
+      margin: 0,
+      textTransform: "uppercase",
+      lineHeight: "0.9",
+      // letterSpacing: "1px",
+    },
+    cover_sub_header_desktop: {
       fontSize: "280%",
       fontWeight: "700",
       color: theme.palette.grey[600],
@@ -83,15 +163,16 @@ const useStyles = makeStyles((theme) =>
       margin: 0,
       textTransform: "uppercase",
       lineHeight: "0.9",
-      letterSpacing: "5px",
+      // letterSpacing: "5px",
     },
     ccrt__book__appoinment__image_wrapper: {
-      position: "relative",
       height: "10vh",
-      width: "15vw",
-      marginTop: 30,
+    },
+    ccrt__book__appoinment__image: {
+      position: "relative",
+      height: "100%",
+      width: "30%",
       cursor: "pointer",
-      background: theme.palette.custom.DEFAULT_COLOR_3,
     },
     noBorder: {
       border: "none",

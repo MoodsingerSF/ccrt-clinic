@@ -1,36 +1,47 @@
 import React from "react";
-import { Grid } from "@mui/material";
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import Image from "next/image";
 import hero from "../../../public/image/home-page/hero/Cover.png";
 import HotlineSection from "./HotlineSection";
 import HeroRighttSection from "./HeroRighttSection";
+import HeroMobile from "../../pages/home/HeroMobile";
 
 const Hero = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
   return (
-    <Grid container className={classes.ccrt__hero__section}>
-      <Grid
-        item
-        xs={6}
-        className={classes.ccrt__hero__section__left__container}
-      >
-        <Image src={hero} alt="hero" layout="fill" objectFit="cover" />
-      </Grid>
-      <Grid
-        container
-        item
-        xs={12}
-        sm={6}
-        flexDirection={"column"}
-        alignItems="flex-end"
-        style={{ paddingRight: "50px" }}
-      >
-        <HeroRighttSection />
-      </Grid>
-      <HotlineSection />
-    </Grid>
+    <>
+      {matches ? (
+        <Grid container className={classes.ccrt__hero__section}>
+          <Grid container>
+            <Grid
+              item
+              xs={6}
+              className={classes.ccrt__hero__section__left__container}
+            >
+              <Image src={hero} alt="hero" layout="fill" objectFit="cover" />
+            </Grid>
+            <Grid
+              // container
+              item
+              xs={12}
+              sm={6}
+              flexDirection={"column"}
+              alignItems="flex-end"
+              style={{ paddingRight: "50px" }}
+            >
+              <HeroRighttSection />
+            </Grid>
+            <HotlineSection />
+          </Grid>
+        </Grid>
+      ) : (
+        <HeroMobile />
+      )}
+    </>
   );
 };
 
