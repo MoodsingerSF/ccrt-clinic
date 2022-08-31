@@ -9,6 +9,7 @@ import FallbackComponent from "../../components/misc/FallbackComponent";
 import DoctorsCategory from "../../components/doctor/doctor-details/DoctorsCategory";
 import DoctorDetailsMiddle from "../../components/doctor/doctor-details/DoctorDetailsMiddle";
 // import NotFoundComponent from "../../components/misc/NotFoundComponent";
+import avatar from "../../public/image/doctor/docAvatar2.png";
 
 const DoctorDetails = ({ doctorId }) => {
   const classes = useStyles();
@@ -68,9 +69,16 @@ const DoctorDetails = ({ doctorId }) => {
                       classes.ccrt__doct__details__page__image__container
                     }
                   >
-                    {DoctorDetails && DoctorDetails.image && (
+                    {DoctorDetails && DoctorDetails.image ? (
                       <Image
                         src={DoctorDetails?.image?.src}
+                        alt={DoctorDetails?.name}
+                        layout="fill"
+                        objectFit="contain"
+                      />
+                    ) : (
+                      <Image
+                        src={avatar}
                         alt={DoctorDetails?.name}
                         layout="fill"
                         objectFit="contain"

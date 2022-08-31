@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) =>
     },
     anchorContainerStyle: {
       transition: "background 0.4s ease-in",
-      margin: "0 5px",
+      // margin: "0 5px",
       "&:hover": {
         background: theme.palette.secondary.main,
         // color: "#fff",

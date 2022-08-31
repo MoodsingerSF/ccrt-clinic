@@ -6,6 +6,8 @@ import {
   InputAdornment,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -18,6 +20,8 @@ import {
 
 const HotlineSection = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
     <Grid
@@ -27,11 +31,20 @@ const HotlineSection = () => {
       item
       xs={12}
       className={classes.ccrt__home_page__hotline__container}
+      style={{
+        position: "absolute",
+        bottom: matchesLG ? "15%" : "10%",
+      }}
     >
       <Grid
         item
-        xs={8}
+        xs={12}
+        md={12}
+        lg={8}
         className={classes.ccrt__home_page__hotline__textfield__wrapper}
+        style={{
+          marginBottom: matchesLG ? "0" : "10px",
+        }}
       >
         <TextField
           className={classes.ccrt__home_page__hotline__textfield}
@@ -47,7 +60,6 @@ const HotlineSection = () => {
             endAdornment: (
               <InputAdornment position="end">
                 <Button
-                  style={{}}
                   className={
                     classes.ccrt__home_page__hotline__textfield__button
                   }
@@ -73,10 +85,12 @@ const HotlineSection = () => {
       </Grid>
       <Grid
         item
-        xs={4}
+        xs={12}
+        md={12}
+        lg={4}
         container
         flexDirection="row"
-        justifyContent={"flex-end"}
+        justifyContent={!matchesLG ? "center" : "flex-end"}
       >
         <Avatar style={{ background: "#fff", marginRight: "20px" }}>
           <PhoneIcon
@@ -95,9 +109,7 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__home_page__hotline__container: {
       background: HOTELINE_BACKGROUND,
-      position: "absolute",
       width: "100%",
-      bottom: "15%",
       padding: "13px 70px",
     },
     ccrt__home_page__hotline__textfield__wrapper: {

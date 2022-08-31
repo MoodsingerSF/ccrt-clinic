@@ -54,8 +54,7 @@ const AppBar = () => {
           <Grid container alignItems="center" item xs={2}></Grid>
           <Grid container alignItems="center" item xs={6}>
             <AppBarLink name="Home" link="/" />
-            <AppBarLink name="Departments" link="/doctors" />
-            <AppBarLink name="Product&Service" link="/" />
+            <AppBarLink name="Doctors" link="/doctors" />
             <AppBarLink name="Blogs" link="/blogs" />
             <AppBarLink name="Contact" link="/contact" />
             <AppBarLink name="FAQ" link="/faq" />

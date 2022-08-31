@@ -1,11 +1,19 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Button, Grid, Typography } from "@mui/material";
+import {
+  Button,
+  Grid,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import PropTypes from "prop-types";
+import avatar from "../../../public/image/doctor/docAvatar2.png";
+
 const DoctorCard = ({
-  image,
+  image = null,
   name,
   specialty,
   degree,
@@ -15,21 +23,34 @@ const DoctorCard = ({
   const router = useRouter();
   const classes = useStyles();
 
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
+
   return (
     <Grid
       container
       className={classes.ccrt__dctr__page__right__content__wrapper}
     >
-      <Grid item xs={3}>
+      <Grid item xs={12} md={3}>
         <Grid container className={classes.ccrt__doct__page__image__container}>
-          <Image src={image} alt="doctor" layout="fill" objectFit="cover" />
+          {image === null ? (
+            <Image
+              src={avatar}
+              alt="doctor"
+              layout="fill"
+              objectFit="contain"
+            />
+          ) : (
+            <Image src={image} alt="doctor" layout="fill" objectFit="contain" />
+          )}
         </Grid>
       </Grid>
-      <Grid item xs={9}>
+      <Grid item xs={12} md={9}>
         <Grid
           container
           flexDirection={"column"}
           justifyContent="center"
+          alignItems={matches ? "flex-start" : "center"}
           className={
             classes.ccrt__dctr__page__right__content__description__wrapper
           }
@@ -48,17 +69,12 @@ const DoctorCard = ({
           </Typography>
           <Grid
             container
+            justifyContent={matches ? "" : "center"}
+            alignItems={matches ? "" : "center"}
             className={
               classes.ccrt__dctr__page__right__content__button__wrapper
             }
           >
-            <Button
-              size="small"
-              variant="contained"
-              className={classes.ccrt__dctr__page__appoinment__button}
-            >
-              get an appoinment
-            </Button>
             <Button
               size="small"
               variant="contained"
@@ -80,7 +96,7 @@ const useStyles = makeStyles((theme) =>
     ccrt__dctr__page__right__content__wrapper: {
       border: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
       margin: "5px 0",
-      padding: "5px",
+      padding: "0 5px",
     },
     ccrt__dctr__page__right__content__description__wrapper: {
       padding: "20px",
@@ -102,7 +118,7 @@ const useStyles = makeStyles((theme) =>
       textTransform: "capitalize",
     },
     ccrt__dctr__page__right__content__button__wrapper: {
-      marginTop: "30px",
+      marginTop: "10px",
     },
     ccrt__dctr__page__appoinment__button: {
       margin: "0 10px 0 0",

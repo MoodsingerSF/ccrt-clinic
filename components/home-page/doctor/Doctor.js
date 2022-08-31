@@ -8,7 +8,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper";
 import Heading from "../section-heading/Heading";
-import { HOME_PAGE_DOCTOR_CARD_BOX_SHADOW } from "../../../misc/colors";
 
 const Doctor = () => {
   const classes = useStyles();
@@ -29,7 +28,7 @@ const Doctor = () => {
       <Grid container>
         <Swiper
           slidesPerView={1}
-          spaceBetween={20}
+          spaceBetween={10}
           slidesPerGroup={1}
           loop={true}
           loopFillGroupWithBlank={true}
@@ -37,6 +36,10 @@ const Doctor = () => {
           modules={[Navigation]}
           className={classes.ccrt__doctor__card__mySwiper}
           breakpoints={{
+            480: {
+              slidesPerView: 2,
+              spaceBetween: 10,
+            },
             600: {
               slidesPerView: 2,
               spaceBetween: 10,
@@ -83,7 +86,6 @@ const useStyles = makeStyles(() =>
     ccrt__doctor__card__swiper_slide: {
       margin: "30px 0 0 0",
       transition: "transform 0.12s ease",
-      // boxShadow: HOME_PAGE_DOCTOR_CARD_BOX_SHADOW,
       "&:hover": {
         transform: "scale(1.1)",
         cursor: "pointer",

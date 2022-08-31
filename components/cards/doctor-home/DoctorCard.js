@@ -1,100 +1,107 @@
 import React from "react";
 import Image from "next/image";
-// import { useRouter } from "next/router";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { Grid, Typography, Box } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import { HOME_PAGE_DOCTOR_CARD_BOX_SHADOW } from "../../../misc/colors";
 import PropTypes from "prop-types";
-import Link from "next/link";
+import avatar from "../../../public/image/doctor/docAvatar2.png";
+
 const DoctorCard = ({
   doctorId,
-  image,
+  image = null,
   name,
-  specialist,
   department,
   patient_served,
   patient_count,
 }) => {
   const classes = useStyles();
-  // const router = useRouter();
+  const router = useRouter();
 
   return (
-    <Link href={`/doctors/${doctorId}`}>
-      <Grid container>
-        <Box
-          className={classes.ccrt__doctor__card}
-          onLoadMore={() => {
-            router.push("doctors");
-          }}
-        >
-          <Box className={classes.ccrt__doctor__card__media}>
+    <Grid container onClick={() => router.push(`/doctors/${doctorId}`)}>
+      <Grid container className={classes.ccrt__doctor__card}>
+        <Grid container className={classes.ccrt__doctor__card__media}>
+          {image === null ? (
             <Image
-              src={image}
+              src={avatar}
               alt={name}
               layout="fill"
-              objectFit="cover"
+              objectFit="contain"
               style={{
                 borderTopLeftRadius: "10px",
                 borderTopRightRadius: "10px",
               }}
             />
-          </Box>
-          <Grid container justifyContent="center" alignItems="center">
-            <Grid
-              container
-              justifyContent="center"
-              alignItems="center"
-              item
-              xs={12}
-              className={classes.ccrt__doctor__card__name__container}
-            >
-              <Typography className={classes.ccrt__doctor__card__name}>
-                {name}
-              </Typography>
-            </Grid>
-            <Grid
-              container
-              justifyContent="center"
-              alignItems="center"
-              item
-              xs={12}
-              className={classes.ccrt__doctor__card__description}
-            >
-              <Typography className={classes.ccrt__doctor__card__subtitle}>
-                {specialist}
-              </Typography>
-              <Typography className={classes.ccrt__doctor__card__dep}>
-                {department}
-              </Typography>
-            </Grid>
-          </Grid>
-        </Box>
-        <Grid container className={classes.ccrt__doctor__card__footer}>
-          <Grid item className={classes.ccrt__doctor__card__footer__icon}>
-            <GroupAddOutlinedIcon fontSize="large" />
+          ) : (
+            <Image
+              src={image}
+              alt={name}
+              layout="fill"
+              objectFit="contain"
+              style={{
+                borderTopLeftRadius: "10px",
+                borderTopRightRadius: "10px",
+              }}
+            />
+          )}
+        </Grid>
+        <Grid container justifyContent="center" alignItems="center">
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            item
+            xs={12}
+            className={classes.ccrt__doctor__card__name__container}
+          >
+            <Typography className={classes.ccrt__doctor__card__name}>
+              {name}
+            </Typography>
           </Grid>
           <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
             item
-            flexDirection="column"
-            className={classes.ccrt__doctor__card__footer__container}
+            xs={12}
+            className={classes.ccrt__doctor__card__description}
           >
-            <Typography
-              className={classes.ccrt__doctor__card__footer__patient_served}
-            >
-              {patient_served}
+            <Typography className={classes.ccrt__doctor__card__subtitle}>
+              Specialist
             </Typography>
-            <Typography
-              className={
-                classes.ccrt__doctor__card__footer__patient_served__count
-              }
-            >
-              {patient_count}
+            <Typography className={classes.ccrt__doctor__card__dep}>
+              {department}
             </Typography>
           </Grid>
         </Grid>
       </Grid>
-    </Link>
+      <Grid container className={classes.ccrt__doctor__card__footer}>
+        <Grid item className={classes.ccrt__doctor__card__footer__icon}>
+          <GroupAddOutlinedIcon fontSize="large" />
+        </Grid>
+        <Grid
+          item
+          flexDirection="column"
+          className={classes.ccrt__doctor__card__footer__container}
+        >
+          <Typography
+            className={classes.ccrt__doctor__card__footer__patient_served}
+          >
+            {patient_served}
+          </Typography>
+          <Typography
+            className={
+              classes.ccrt__doctor__card__footer__patient_served__count
+            }
+          >
+            {patient_count}
+          </Typography>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 
@@ -112,11 +119,10 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__doctor__card: {
       boxShadow: HOME_PAGE_DOCTOR_CARD_BOX_SHADOW,
-      minHeight: "50vh",
       borderRadius: "10px",
     },
     ccrt__doctor__card__media: {
-      height: "30vh",
+      minHeight: "27vh",
       position: "relative",
     },
     ccrt__doctor__card__name__container: {
@@ -154,7 +160,6 @@ const useStyles = makeStyles((theme) =>
     },
     ccrt__doctor__card__footer__icon: {
       marginRight: "5px",
-      // color: "#aac984",
     },
     ccrt__doctor__card__footer__patient_served: {
       fontSize: "70%",

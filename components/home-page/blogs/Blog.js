@@ -20,7 +20,6 @@ const Blog = () => {
       justifyContent="center"
       alignItems="center"
       style={{
-        padding: matches ? "0 80px" : "0 10px",
         margin: matches ? "50px 0 0 0" : "20px 0 0 0",
       }}
     >
@@ -57,10 +56,6 @@ const Blog = () => {
             1400: {
               slidesPerView: 5,
               spaceBetween: 20,
-            },
-            1536: {
-              slidesPerView: 6,
-              spaceBetween: 30,
             },
           }}
         >

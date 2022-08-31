@@ -1,27 +1,45 @@
 import React from "react";
+import { useRouter } from "next/router";
 import {
-  Checkbox,
+  FormControl,
   FormControlLabel,
-  FormGroup,
+  Radio,
+  RadioGroup,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 
-const DoctorsCategory = ({ title }) => {
+const DoctorsCategory = ({ title, filter }) => {
   const classes = useStyles();
+  const router = useRouter();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
-    <FormGroup>
-      <FormControlLabel
-        control={<Checkbox size="small" />}
-        label={
-          <Typography className={classes.ccrt__dctr__page__left__menu__list}>
-            {title}
-          </Typography>
-        }
-      />
-    </FormGroup>
+    <FormControl style={{ width: matches ? "100%" : null }}>
+      <RadioGroup column>
+        <FormControlLabel
+          control={
+            <Radio
+              size="small"
+              value={title}
+              checked={filter === title}
+              onChange={(e) =>
+                router.push("/doctors?category=" + e.target.value)
+              }
+            />
+          }
+          label={
+            <Typography className={classes.ccrt__dctr__page__left__menu__list}>
+              {title}
+            </Typography>
+          }
+        />
+      </RadioGroup>
+    </FormControl>
   );
 };
 
@@ -39,5 +57,6 @@ const useStyles = makeStyles((theme) =>
 );
 DoctorsCategory.propTypes = {
   title: PropTypes.string.isRequired,
+  filter: PropTypes.string.isRequired,
 };
 export default DoctorsCategory;

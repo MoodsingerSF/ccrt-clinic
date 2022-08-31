@@ -1,27 +1,27 @@
 export const CategoryData = [
   {
     id: "1",
-    title: "lung cancer",
+    title: "all",
   },
   {
     id: "2",
-    title: "colorectal cancer",
+    title: "lung cancer",
   },
   {
     id: "3",
-    title: "thyroid cancer",
+    title: "colorectal cancer",
   },
   {
     id: "4",
-    title: "prostate cancer",
+    title: "thyroid cancer",
   },
   {
     id: "5",
-    title: "kidny (renal) cancer",
+    title: "prostate cancer",
   },
   {
     id: "6",
-    title: "prostate cancer",
+    title: "kidny (renal) cancer",
   },
   {
     id: "7",
