@@ -1,75 +1,100 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
-import { DoctorData } from "../../../data/doctor/data";
+// import { DoctorData } from "../../../data/doctor/data";
 import DoctorCard from "../../cards/doctor-home/DoctorCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper";
 import Heading from "../section-heading/Heading";
-import { HOME_PAGE_DOCTOR_CARD_BOX_SHADOW } from "../../../misc/colors";
+import { retrieveAcceptedDoctors } from "../../../controllers/UserController";
+import LoaderComponent from "../../misc/LoaderComponent";
 
 const Doctor = () => {
   const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const retrieveDoctors = async () => {
+    try {
+      setLoading(true);
+      const data = await retrieveAcceptedDoctors();
+      setDoctors(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      // console.log(error);
+    }
+  };
+  useEffect(() => {
+    retrieveDoctors();
+  }, []);
 
   return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      style={{
-        padding: matches ? "0 80px" : "0 10px",
-        margin: matches ? "50px 0 0 0" : "20px 0 0 0",
-      }}
-    >
-      <Heading title="Our Popular Doctors" />
-      <Grid container>
-        <Swiper
-          slidesPerView={1}
-          spaceBetween={20}
-          slidesPerGroup={1}
-          loop={true}
-          loopFillGroupWithBlank={true}
-          navigation={true}
-          modules={[Navigation]}
-          className={classes.ccrt__doctor__card__mySwiper}
-          breakpoints={{
-            600: {
-              slidesPerView: 2,
-              spaceBetween: 10,
-            },
-            900: {
-              slidesPerView: 3,
-              spaceBetween: 20,
-            },
-            1200: {
-              slidesPerView: 5,
-              spaceBetween: 30,
-            },
+    <>
+      {loading ? (
+        <Grid container style={{ height: "25vh" }}>
+          <LoaderComponent />
+        </Grid>
+      ) : doctors.length === 0 ? null : (
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          style={{
+            padding: matches ? "0 80px" : "0 10px",
+            margin: matches ? "50px 0 0 0" : "20px 0 0 0",
           }}
         >
-          {DoctorData.map((doctor) => (
-            <SwiperSlide
-              key={doctor.id}
-              className={classes.ccrt__doctor__card__swiper_slide}
+          <Heading title="Our Popular Doctors" />
+          <Grid container>
+            <Swiper
+              slidesPerView={1}
+              spaceBetween={20}
+              slidesPerGroup={1}
+              loop={false}
+              loopFillGroupWithBlank={true}
+              navigation={true}
+              modules={[Navigation]}
+              className={classes.ccrt__doctor__card__mySwiper}
+              breakpoints={{
+                600: {
+                  slidesPerView: 2,
+                  spaceBetween: 10,
+                },
+                900: {
+                  slidesPerView: 3,
+                  spaceBetween: 20,
+                },
+                1200: {
+                  slidesPerView: 5,
+                  spaceBetween: 30,
+                },
+              }}
             >
-              <DoctorCard
-                doctorId={doctor.id}
-                image={doctor.image}
-                name={doctor.name}
-                specialist={doctor.specialist}
-                department={doctor.department}
-                patient_served={doctor.patient_served}
-                patient_count={doctor.patient_count}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </Grid>
-    </Grid>
+              {doctors.map((doctor) => (
+                <SwiperSlide
+                  key={doctor.userId}
+                  className={classes.ccrt__doctor__card__swiper_slide}
+                >
+                  <DoctorCard
+                    doctorId={doctor.userId}
+                    image={doctor.profileImageUrl}
+                    name={doctor.fullName}
+                    specialization={doctor.specialization}
+                    department={doctor.department}
+                    patient_served={doctor.patient_served}
+                    patient_count={doctor.patient_count}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </Grid>
+        </Grid>
+      )}
+    </>
   );
 };
 

@@ -5,10 +5,10 @@ import PropTypes from "prop-types";
 
 const DoctorDetailsMiddle = ({
   name,
-  specialty,
+  specialization,
   degree,
   education,
-  experiance,
+  experience,
 }) => {
   const classes = useStyles();
   return (
@@ -28,7 +28,7 @@ const DoctorDetailsMiddle = ({
       <Typography
         className={classes.ccrt__doct__details__page__dctr__specialty}
       >
-        <strong>Specialty - </strong> {specialty}
+        <strong>Specialty - </strong> {specialization}
         <br />
         <strong>Degree - </strong>
         {degree}
@@ -45,7 +45,7 @@ const DoctorDetailsMiddle = ({
         <Typography
           className={classes.ccrt__doct__details__page__experiance__description}
         >
-          {experiance}
+          {experience}
         </Typography>
       </Grid>
     </Grid>
@@ -86,9 +86,9 @@ const useStyles = makeStyles((theme) =>
 
 DoctorDetailsMiddle.propTypes = {
   name: PropTypes.string.isRequired,
-  specialty: PropTypes.string.isRequired,
+  specialization: PropTypes.string.isRequired,
   degree: PropTypes.string.isRequired,
   education: PropTypes.string.isRequired,
-  experiance: PropTypes.string.isRequired,
+  experience: PropTypes.string.isRequired,
 };
 export default DoctorDetailsMiddle;

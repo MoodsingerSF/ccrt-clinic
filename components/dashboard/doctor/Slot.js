@@ -16,11 +16,12 @@ const Slot = ({
   enabled,
   startTime,
   endTime,
-  openSnackbar,
-  onSuccessfulEnabling,
-  onSuccessfulDisabling,
-  openLoader,
-  closeLoader,
+  openSnackbar = () => {},
+  onSuccessfulEnabling = () => {},
+  onSuccessfulDisabling = () => {},
+  openLoader = () => {},
+  closeLoader = () => {},
+  editable = false,
 }) => {
   const classes = useStyles();
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
@@ -63,22 +64,28 @@ const Slot = ({
         color={enabled ? "primary" : "error"}
         clickable={enabled}
         className={classes.ccrt__doctor__time__slot__chip}
-        onDelete={() => {
-          setOpenConfirmationModal(true);
-        }}
+        onDelete={
+          editable
+            ? () => {
+                setOpenConfirmationModal(true);
+              }
+            : null
+        }
         deleteIcon={
-          enabled ? (
-            <Tooltip title="Disable slot">
-              <VisibilityOffIcon fontSize="small" />
-            </Tooltip>
-          ) : (
-            <Tooltip title="Enable slot">
-              <VisibilityIcon fontSize="small" />
-            </Tooltip>
-          )
+          editable ? (
+            enabled ? (
+              <Tooltip title="Disable slot">
+                <VisibilityOffIcon fontSize="small" />
+              </Tooltip>
+            ) : (
+              <Tooltip title="Enable slot">
+                <VisibilityIcon fontSize="small" />
+              </Tooltip>
+            )
+          ) : null
         }
       />
-      {openConfirmationModal && (
+      {editable && openConfirmationModal && (
         <ConfirmationModal
           title={`Are you sure you want to ${
             enabled ? "disable" : "enable"
@@ -110,11 +117,12 @@ Slot.propTypes = {
   enabled: PropTypes.bool.isRequired,
   startTime: PropTypes.object.isRequired,
   endTime: PropTypes.object.isRequired,
-  openLoader: PropTypes.func.isRequired,
-  closeLoader: PropTypes.func.isRequired,
-  onSuccessfulEnabling: PropTypes.func.isRequired,
-  onSuccessfulDisabling: PropTypes.func.isRequired,
-  openSnackbar: PropTypes.func.isRequired,
+  openLoader: PropTypes.func,
+  closeLoader: PropTypes.func,
+  onSuccessfulEnabling: PropTypes.func,
+  onSuccessfulDisabling: PropTypes.func,
+  openSnackbar: PropTypes.func,
+  editable: PropTypes.bool,
 };
 
 const useStyles = makeStyles(() =>

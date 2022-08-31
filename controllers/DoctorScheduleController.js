@@ -65,6 +65,22 @@ export const getSchedule = async () => {
   return data;
 };
 
+export const getActiveSchedule = async (doctorId) => {
+  const response = await axios.get(
+    SERVER_PATH + "doctors/" + doctorId + "/schedule",
+    {
+      params: {
+        status: "active",
+      },
+    }
+  );
+  const data = {};
+  Object.keys(response.data).forEach((key) => {
+    data[key] = response.data[key].map((item) => parseSlot(item));
+  });
+  return data;
+};
+
 export const createSlot = async (dayCode, startTime, endTime) => {
   const response = await axios.post(
     SERVER_PATH + "doctors/" + retrieveUserId() + "/schedule",

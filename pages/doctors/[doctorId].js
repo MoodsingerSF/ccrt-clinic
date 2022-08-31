@@ -1,123 +1,185 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Button, Grid, Typography } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import { CategoryData } from "../../data/doctors-by-category/data";
-import { CATEGORY_TITLE, DoctorData } from "../../data/doctor/data";
+import { CATEGORY_TITLE } from "../../data/doctor/data";
 import FallbackComponent from "../../components/misc/FallbackComponent";
 import DoctorsCategory from "../../components/doctor/doctor-details/DoctorsCategory";
 import DoctorDetailsMiddle from "../../components/doctor/doctor-details/DoctorDetailsMiddle";
-// import NotFoundComponent from "../../components/misc/NotFoundComponent";
-
+import PropTypes from "prop-types";
+import { retrieveUserDetails } from "../../controllers/UserController";
+import { getActiveSchedule } from "../../controllers/DoctorScheduleController";
+import DoctorScheduleComponent from "../../components/misc/DoctorScheduleComponent";
+import LoaderComponent from "../../components/misc/LoaderComponent";
 const DoctorDetails = ({ doctorId }) => {
+  console.log(doctorId);
   const classes = useStyles();
   const router = useRouter();
   if (router.isFallback) return <FallbackComponent />;
-
-  const [DoctorDetails, setDoctorDetails] = useState(null);
+  const scheduleRef = useRef(null);
+  const [doctorDetails, setDoctorDetails] = useState(null);
   const [loading, setLoading] = useState(false);
-  //   const [found, setFound] = useState(true);
-  const getDoctorDetails = (blogId) => {
-    setLoading(true);
-    const item = DoctorData.find((item) => item.id === blogId);
-    setDoctorDetails(item);
-    setLoading(false);
+  const [scheduleLoading, setScheduleLoading] = useState(false);
+  const [schedule, setSchedule] = useState(null);
+  const getDoctorDetails = async (doctorId) => {
+    try {
+      setLoading(true);
+      const data = await retrieveUserDetails(doctorId);
+      setLoading(false);
+      setDoctorDetails(data);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const getSchedule = async (doctorId) => {
+    try {
+      setScheduleLoading(true);
+      const schedule = await getActiveSchedule(doctorId);
+      setSchedule(schedule);
+      setScheduleLoading(false);
+    } catch (error) {
+      setScheduleLoading(false);
+    }
   };
 
   useEffect(() => {
     getDoctorDetails(doctorId);
+    getSchedule(doctorId);
   }, [doctorId]);
 
   return (
     <>
       {loading ? (
         <FallbackComponent />
-      ) : (
+      ) : !doctorDetails ? null : (
         <Grid container justifyContent={"center"} alignItems="center">
-          <Grid
-            container
-            spacing={4}
-            className={classes.ccrt__doct__details__page__container}
-          >
+          <Grid container style={{ width: "95%" }}>
             <Grid
               container
-              item
-              md={12}
-              lg={8}
-              className={classes.ccrt__doct__details__page__left__container}
+              spacing={4}
+              className={classes.ccrt__doctor__details__page__container}
             >
-              <Grid
-                container
-                spacing={4}
-                alignItems="flex-start"
-                style={{
-                  position: "relative",
-                }}
-              >
-                <Grid
-                  item
-                  xs={12}
-                  sm={4}
-                  lg={3}
-                  style={{ margin: " 0 0 20px 0" }}
-                >
+              <Grid container item md={12} lg={8}>
+                <Grid container xs={12}>
                   <Grid
                     container
-                    className={
-                      classes.ccrt__doct__details__page__image__container
-                    }
+                    spacing={4}
+                    alignItems="flex-start"
+                    style={{
+                      position: "relative",
+                    }}
                   >
-                    {DoctorDetails && DoctorDetails.image && (
-                      <Image
-                        src={DoctorDetails?.image?.src}
-                        alt={DoctorDetails?.name}
-                        layout="fill"
-                        objectFit="contain"
-                      />
-                    )}
-                  </Grid>
-                  <Grid container style={{ marginTop: "20px" }}>
-                    <Button fullWidth size="small" variant="outlined">
-                      get an appoinment
-                    </Button>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={4}
+                      lg={3}
+                      style={{ margin: " 0 0 20px 0" }}
+                    >
+                      <Grid
+                        container
+                        className={
+                          classes.ccrt__doctor__details__page__image__container
+                        }
+                      >
+                        {doctorDetails && doctorDetails.profileImageUrl && (
+                          <Image
+                            loader={({ src }) => src}
+                            src={doctorDetails.profileImageUrl}
+                            alt={doctorDetails.fullName}
+                            layout="fill"
+                            objectFit="contain"
+                          />
+                        )}
+                      </Grid>
+                      <Grid container style={{ marginTop: "20px" }}>
+                        <Button
+                          fullWidth
+                          size="small"
+                          variant="outlined"
+                          onClick={() =>
+                            window.scrollTo(0, scheduleRef.current.offsetTop)
+                          }
+                        >
+                          get an appointment
+                        </Button>
+                      </Grid>
+                    </Grid>
+                    <DoctorDetailsMiddle
+                      name={doctorDetails.fullName}
+                      specialization={doctorDetails.specialization}
+                      degree={doctorDetails.degree}
+                      education={doctorDetails.education}
+                      experience={doctorDetails.experience}
+                    />
                   </Grid>
                 </Grid>
-                <DoctorDetailsMiddle
-                  name={DoctorDetails?.name}
-                  specialty={DoctorDetails?.specialty}
-                  degree={DoctorDetails?.degree}
-                  education={DoctorDetails?.education}
-                  experiance={DoctorDetails?.experiance}
-                />
+              </Grid>
+
+              <Grid
+                item
+                md={12}
+                lg={4}
+                className={
+                  classes.ccrt__doctor__details__page__right__container
+                }
+              >
+                <Grid
+                  container
+                  justifyContent={"center"}
+                  alignItems="center"
+                  className={
+                    classes.ccrt__doctor__details__page__right__container__wrapper
+                  }
+                >
+                  <Typography
+                    className={
+                      classes.ccrt__doctor__details__page__right__container__title
+                    }
+                  >
+                    {CATEGORY_TITLE}
+                  </Typography>
+                  <Grid container justifyContent={"center"} alignItems="center">
+                    {CategoryData.map((item) => (
+                      <DoctorsCategory key={item.id} title={item.title} />
+                    ))}
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
             <Grid
-              item
-              md={12}
-              lg={4}
-              className={classes.ccrt__doct__details__page__right__container}
+              container
+              justifyContent="center"
+              style={{ marginBottom: 20 }}
+              ref={scheduleRef}
             >
-              <Grid
-                container
-                justifyContent={"center"}
-                alignItems="center"
-                className={
-                  classes.ccrt__doct__details__page__right__container__wrapper
-                }
-              >
-                <Typography
-                  className={
-                    classes.ccrt__doct__details__page__right__container__title
-                  }
-                >
-                  {CATEGORY_TITLE}
-                </Typography>
-                <Grid container justifyContent={"center"} alignItems="center">
-                  {CategoryData.map((item) => (
-                    <DoctorsCategory key={item.id} title={item.title} />
-                  ))}
-                </Grid>
+              <Grid container item xs={12}>
+                {scheduleLoading ? (
+                  <Grid container style={{ height: "25vh" }}>
+                    <LoaderComponent />
+                  </Grid>
+                ) : schedule ? (
+                  <Grid container justifyContent={"center"}>
+                    <Grid
+                      container
+                      flexDirection="column"
+                      justifyContent={"center"}
+                      alignItems="center"
+                    >
+                      <Typography className={classes.title}>
+                        Doctor Weekly Schedule
+                      </Typography>
+                      <Typography style={{ fontSize: "80%" }}>
+                        (Please click on a time slot to book an appointment.)
+                      </Typography>
+                    </Grid>
+                    <DoctorScheduleComponent schedule={schedule} />
+                  </Grid>
+                ) : null}
               </Grid>
             </Grid>
           </Grid>
@@ -143,23 +205,27 @@ export async function getStaticPaths() {
   };
 }
 
+DoctorDetails.propTypes = {
+  doctorId: PropTypes.string,
+};
+
 const useStyles = makeStyles((theme) =>
   createStyles({
-    ccrt__doct__details__page__container: {
-      width: "95vw",
+    ccrt__doctor__details__page__container: {
+      // width: "95vw",
       marginTop: "12vh",
     },
-    ccrt__doct__details__page__image__container: {
+    ccrt__doctor__details__page__image__container: {
       position: "relative",
       minHeight: "25vh",
     },
 
-    ccrt__doct__details__page__right__container__wrapper: {
+    ccrt__doctor__details__page__right__container__wrapper: {
       boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
       padding: "20px 0px",
-      margin: "20px 0",
+      margin: "0px 0",
     },
-    ccrt__doct__details__page__right__container__title: {
+    ccrt__doctor__details__page__right__container__title: {
       textTransform: "uppercase",
       marginBottom: "10px",
       fontWeight: "500",
@@ -169,6 +235,10 @@ const useStyles = makeStyles((theme) =>
       textAlign: "center",
       padding: "0 0 15px 0",
       fontSize: "120%",
+    },
+    title: {
+      fontWeight: "bold",
+      color: theme.palette.custom.DEFAULT_COLOR_3,
     },
   })
 );

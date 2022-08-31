@@ -10,12 +10,13 @@ import Slot from "./Slot";
 const ScheduleRow = ({
   day,
   slots,
-  openSnackbar,
-  onSuccess,
-  onSuccessfulEnabling,
-  onSuccessfulDisabling,
-  openLoader,
-  closeLoader,
+  openSnackbar = () => {},
+  onSuccess = () => {},
+  onSuccessfulEnabling = () => {},
+  onSuccessfulDisabling = () => {},
+  openLoader = () => {},
+  closeLoader = () => {},
+  editable = false,
 }) => {
   const classes = useStyles();
   const [openAddSlotDialog, setOpenAddSlotDialog] = useState(false);
@@ -38,7 +39,7 @@ const ScheduleRow = ({
 
   return (
     <>
-      <TableRow key={day}>
+      <TableRow key={day} style={{ height: 45 }}>
         <TableCell style={{ fontWeight: "bold", textTransform: "capitalize" }}>
           {day}
         </TableCell>
@@ -57,34 +58,39 @@ const ScheduleRow = ({
                 openSnackbar={openSnackbar}
                 onSuccessfulDisabling={onSuccessfulDisabling}
                 onSuccessfulEnabling={onSuccessfulEnabling}
+                editable={editable}
               />
             );
           })}
-          <Button
-            color="primary"
-            onClick={() => setOpenAddSlotDialog(true)}
-            startIcon={
-              <AddIcon
-                fontSize="small"
-                className={classes.ccrt__doctor__add__time__slot__icon}
-              />
-            }
-            style={{
-              fontSize: "80%",
-            }}
-          >
-            Add New Slot
-          </Button>
+          {editable && (
+            <Button
+              color="primary"
+              onClick={() => setOpenAddSlotDialog(true)}
+              startIcon={
+                <AddIcon
+                  fontSize="small"
+                  className={classes.ccrt__doctor__add__time__slot__icon}
+                />
+              }
+              style={{
+                fontSize: "80%",
+              }}
+            >
+              Add New Slot
+            </Button>
+          )}
         </TableCell>
       </TableRow>
-      <DoctorTimeScheduleDialog
-        open={openAddSlotDialog}
-        onClose={() => {
-          setOpenAddSlotDialog(false);
-        }}
-        onAddTimeSlot={addTimeSlot}
-        day={day}
-      />
+      {editable && (
+        <DoctorTimeScheduleDialog
+          open={openAddSlotDialog}
+          onClose={() => {
+            setOpenAddSlotDialog(false);
+          }}
+          onAddTimeSlot={addTimeSlot}
+          day={day}
+        />
+      )}
     </>
   );
 };
@@ -92,12 +98,13 @@ const ScheduleRow = ({
 ScheduleRow.propTypes = {
   day: PropTypes.string.isRequired,
   slots: PropTypes.array.isRequired,
-  openSnackbar: PropTypes.func.isRequired,
-  onSuccess: PropTypes.func.isRequired,
-  openLoader: PropTypes.func.isRequired,
-  closeLoader: PropTypes.func.isRequired,
-  onSuccessfulEnabling: PropTypes.func.isRequired,
-  onSuccessfulDisabling: PropTypes.func.isRequired,
+  openSnackbar: PropTypes.func,
+  onSuccess: PropTypes.func,
+  openLoader: PropTypes.func,
+  closeLoader: PropTypes.func,
+  onSuccessfulEnabling: PropTypes.func,
+  onSuccessfulDisabling: PropTypes.func,
+  editable: PropTypes.bool,
 };
 
 const useStyles = makeStyles(() =>

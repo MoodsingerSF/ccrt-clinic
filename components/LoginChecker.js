@@ -15,10 +15,8 @@ const LoginChecker = ({ children }) => {
   const retrieveUserDetailsHelper = async () => {
     try {
       setLoading(true);
-      const response = await retrieveUserDetails();
-      if (response.status === 200) {
-        setUser(getModifiedUserState(response.data));
-      }
+      const data = await retrieveUserDetails(retrieveUserId());
+      setUser(getModifiedUserState(data));
       setLoading(false);
     } catch (error) {
       //

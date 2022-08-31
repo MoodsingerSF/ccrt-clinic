@@ -24,6 +24,7 @@ import CustomSnackbar from "../snackbar/CustomSnackbar";
 import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
 import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";
 import DashboardLoaderComponent from "./DashboardLoaderComponent";
+import { retrieveUserId } from "../../controllers/LocalStorageController";
 const PhotoEditingDialog = dynamic(() =>
   import("../dialogs/PhotoEditingDialog")
 );
@@ -60,9 +61,9 @@ const DashboardProfile = () => {
   const getUserDetails = async () => {
     try {
       setLoading(true);
-      const response = await retrieveUserDetails();
+      const data = await retrieveUserDetails(retrieveUserId());
       setLoading(false);
-      dispatch({ type: "initialize", payload: response.data });
+      dispatch({ type: "initialize", payload: data });
     } catch (error) {
       setLoading(false);
     }

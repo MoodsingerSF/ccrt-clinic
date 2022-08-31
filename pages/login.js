@@ -62,12 +62,10 @@ const LoginScreen = () => {
   const handlePassword = (e) => {
     setPassword(e.target.value);
   };
-  const retrieveUserDetailsHelper = async () => {
+  const retrieveUserDetailsHelper = async (userId) => {
     try {
-      const response = await retrieveUserDetails();
-      if (response.status === 200) {
-        setUser(getModifiedUserState(response.data));
-      }
+      const data = await retrieveUserDetails(userId);
+      setUser(getModifiedUserState(data));
     } catch (error) {
       //
     }
@@ -86,7 +84,7 @@ const LoginScreen = () => {
         setUserId(userId);
         setAuthorizationTokenInProvider(authorizationToken);
         setUserIdInProvider(userId);
-        await retrieveUserDetailsHelper();
+        await retrieveUserDetailsHelper(userId);
         router.replace("/");
       }
       setLoading(false);

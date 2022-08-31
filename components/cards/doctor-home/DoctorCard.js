@@ -11,7 +11,7 @@ const DoctorCard = ({
   doctorId,
   image,
   name,
-  specialist,
+  specialization,
   department,
   patient_served,
   patient_count,
@@ -25,11 +25,12 @@ const DoctorCard = ({
         <Box
           className={classes.ccrt__doctor__card}
           onLoadMore={() => {
-            router.push("doctors");
+            // router.push("doctors");
           }}
         >
           <Box className={classes.ccrt__doctor__card__media}>
             <Image
+              loader={({ src }) => src}
               src={image}
               alt={name}
               layout="fill"
@@ -62,7 +63,7 @@ const DoctorCard = ({
               className={classes.ccrt__doctor__card__description}
             >
               <Typography className={classes.ccrt__doctor__card__subtitle}>
-                {specialist}
+                {specialization}
               </Typography>
               <Typography className={classes.ccrt__doctor__card__dep}>
                 {department}
@@ -100,9 +101,9 @@ const DoctorCard = ({
 
 DoctorCard.propTypes = {
   doctorId: PropTypes.string.isRequired,
-  image: PropTypes.object.isRequired,
+  image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  specialist: PropTypes.string.isRequired,
+  specialization: PropTypes.string.isRequired,
   department: PropTypes.string.isRequired,
   patient_served: PropTypes.string.isRequired,
   patient_count: PropTypes.string.isRequired,

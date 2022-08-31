@@ -65,7 +65,7 @@ const AppBar = () => {
             // xs={8}
           >
             <AppBarLink name="Home" link="/" />
-            <AppBarLink name="Doctors" link="/" />
+            <AppBarLink name="Doctors" link="/doctors" />
             {/* <AppBarLink name="Product&Service" link="/" /> */}
 
             <AppBarLink name="Blogs" link="/blogs" />
