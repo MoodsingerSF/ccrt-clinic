@@ -15,7 +15,7 @@ import DoctorScheduleComponent from "../../components/misc/DoctorScheduleCompone
 import LoaderComponent from "../../components/misc/LoaderComponent";
 import avatar from "../../public/image/doctor/docAvatar2.png";
 const DoctorDetails = ({ doctorId }) => {
-  console.log(doctorId);
+  // console.log(doctorId);
   const classes = useStyles();
   const router = useRouter();
   if (router.isFallback) return <FallbackComponent />;
@@ -24,6 +24,7 @@ const DoctorDetails = ({ doctorId }) => {
   const [loading, setLoading] = useState(false);
   const [scheduleLoading, setScheduleLoading] = useState(false);
   const [schedule, setSchedule] = useState(null);
+
   const getDoctorDetails = async (doctorId) => {
     try {
       setLoading(true);
@@ -51,6 +52,13 @@ const DoctorDetails = ({ doctorId }) => {
     getDoctorDetails(doctorId);
     getSchedule(doctorId);
   }, [doctorId]);
+
+  // ===========================================================================
+  // console.log(new Date().toUTCString());
+
+  // const handleClickSchedule = (time) => {
+  //   console.log("Clicked The Time", time);
+  // };
 
   return (
     <>
@@ -185,7 +193,11 @@ const DoctorDetails = ({ doctorId }) => {
                         (Please click on a time slot to book an appointment.)
                       </Typography>
                     </Grid>
-                    <DoctorScheduleComponent schedule={schedule} />
+                    <DoctorScheduleComponent
+                      schedule={schedule}
+                      // onClick={handleClickSchedule}
+                      clickable={true}
+                    />
                   </Grid>
                 ) : null}
               </Grid>

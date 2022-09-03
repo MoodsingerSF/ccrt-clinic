@@ -20,16 +20,13 @@ const Doctor = () => {
     try {
       setLoading(true);
       const data = await retrieveAcceptedDoctors();
-      console.log("doctors", data);
       setDoctors(data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
       setLoading(false);
     }
   };
   useEffect(() => {
-    console.log("fuck you");
     retrieveDoctors();
   }, []);
 

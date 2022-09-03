@@ -1,12 +1,12 @@
 import { Button, TableCell, TableRow } from "@mui/material";
 import React, { useState } from "react";
 import { createSlot } from "../../../controllers/DoctorScheduleController";
-
 import AddIcon from "@mui/icons-material/Add";
 import { createStyles, makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import DoctorTimeScheduleDialog from "../../dialogs/DoctorTimeScheduleDialog";
 import Slot from "./Slot";
+
 const ScheduleRow = ({
   day,
   slots,
@@ -17,6 +17,8 @@ const ScheduleRow = ({
   openLoader = () => {},
   closeLoader = () => {},
   editable = false,
+  clickable = false,
+  // onClick,
 }) => {
   const classes = useStyles();
   const [openAddSlotDialog, setOpenAddSlotDialog] = useState(false);
@@ -59,6 +61,8 @@ const ScheduleRow = ({
                 onSuccessfulDisabling={onSuccessfulDisabling}
                 onSuccessfulEnabling={onSuccessfulEnabling}
                 editable={editable}
+                clickable={clickable}
+                // onClick={onClick}
               />
             );
           })}
@@ -105,13 +109,12 @@ ScheduleRow.propTypes = {
   onSuccessfulEnabling: PropTypes.func,
   onSuccessfulDisabling: PropTypes.func,
   editable: PropTypes.bool,
+  clickable: PropTypes.bool,
 };
 
 const useStyles = makeStyles(() =>
   createStyles({
     ccrt__doctor__add__time__slot__icon: {
-      // marginLeft: "5px",
-      // marginTop: "4px",
       cursor: "pointer",
       fontSize: "18px",
     },
@@ -128,8 +131,6 @@ const useStyles = makeStyles(() =>
         marginBottom: "3px",
       },
       margin: "5px",
-      // backgroundColor: theme.palette.custom.DEFAULT_COLOR_MINUS_2,
-      // color: "#FFFFFF",
       border: "none",
       height: "35px",
       borderRadius: "3px",

@@ -18,6 +18,8 @@ const DoctorScheduleComponent = ({
   openLoader,
   closeLoader,
   editable = false,
+  clickable = false,
+  // onClick,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -81,6 +83,8 @@ const DoctorScheduleComponent = ({
                     }),
                   }));
                 }}
+                clickable={clickable}
+                // onClick={onClick}
               />
             );
           })}
@@ -96,6 +100,7 @@ DoctorScheduleComponent.propTypes = {
   openLoader: PropTypes.func,
   closeLoader: PropTypes.func,
   editable: PropTypes.bool,
+  clickable: PropTypes.bool,
 };
 const useStyles = makeStyles((theme) =>
   createStyles({

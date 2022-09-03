@@ -10,6 +10,8 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { createStyles, makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import ConfirmationModal from "../../modal/ConfirmationModal";
+import TimeSlotBookDialog from "../../dialogs/TimeSlotBookDialog";
+import TimeSlotBookUserInfoModal from "../../dialogs/TimeSlotBookUserInfoModal";
 const Slot = ({
   day,
   slotId,
@@ -22,9 +24,15 @@ const Slot = ({
   openLoader = () => {},
   closeLoader = () => {},
   editable = false,
+  clickable = false,
 }) => {
   const classes = useStyles();
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
+  const [openTimeSlotBookedDialog, setopenTimeSlotBookedDialog] =
+    useState(false);
+  const [openUserInfoModal, setOpenUserInfoModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+
   const handleEnableSlot = async (slotId) => {
     try {
       openLoader();
@@ -64,6 +72,13 @@ const Slot = ({
         color={enabled ? "primary" : "error"}
         clickable={enabled}
         className={classes.ccrt__doctor__time__slot__chip}
+        onClick={
+          clickable
+            ? () => {
+                setopenTimeSlotBookedDialog(true);
+              }
+            : null
+        }
         onDelete={
           editable
             ? () => {
@@ -107,6 +122,28 @@ const Slot = ({
           }}
         />
       )}
+      {clickable && openTimeSlotBookedDialog && (
+        <TimeSlotBookDialog
+          title="booked slot for"
+          onNegativeFeedback={() => {
+            setopenTimeSlotBookedDialog(false);
+          }}
+          onPositiveFeedback={(date) => {
+            setSelectedDate(date);
+            setOpenUserInfoModal(true);
+          }}
+          timeSlot={getSlotTimeAsString({ startTime, endTime })}
+          day={day}
+        />
+      )}
+      {openUserInfoModal && (
+        <TimeSlotBookUserInfoModal
+          onNegativeFeedback={() => {
+            setOpenUserInfoModal(false);
+          }}
+          selectedDate={selectedDate}
+        />
+      )}
     </>
   );
 };
@@ -123,6 +160,7 @@ Slot.propTypes = {
   onSuccessfulDisabling: PropTypes.func,
   openSnackbar: PropTypes.func,
   editable: PropTypes.bool,
+  clickable: PropTypes.bool,
 };
 
 const useStyles = makeStyles(() =>
