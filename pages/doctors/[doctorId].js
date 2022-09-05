@@ -18,13 +18,13 @@ const DoctorDetails = ({ doctorId }) => {
   // console.log(doctorId);
   const classes = useStyles();
   const router = useRouter();
+
   if (router.isFallback) return <FallbackComponent />;
   const scheduleRef = useRef(null);
   const [doctorDetails, setDoctorDetails] = useState(null);
   const [loading, setLoading] = useState(false);
   const [scheduleLoading, setScheduleLoading] = useState(false);
   const [schedule, setSchedule] = useState(null);
-
   const getDoctorDetails = async (doctorId) => {
     try {
       setLoading(true);

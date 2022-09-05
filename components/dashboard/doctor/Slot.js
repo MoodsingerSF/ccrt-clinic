@@ -11,7 +11,7 @@ import { createStyles, makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import ConfirmationModal from "../../modal/ConfirmationModal";
 import TimeSlotBookDialog from "../../dialogs/TimeSlotBookDialog";
-import TimeSlotBookUserInfoModal from "../../dialogs/TimeSlotBookUserInfoModal";
+import TimeSlotBookUserInfoDialog from "../../dialogs/TimeSlotBookUserInfoDialog";
 const Slot = ({
   day,
   slotId,
@@ -137,7 +137,7 @@ const Slot = ({
         />
       )}
       {openUserInfoModal && (
-        <TimeSlotBookUserInfoModal
+        <TimeSlotBookUserInfoDialog
           onNegativeFeedback={() => {
             setOpenUserInfoModal(false);
           }}
