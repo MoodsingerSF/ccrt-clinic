@@ -70,6 +70,7 @@ const AppBar = () => {
             <AppBarLink name="Blogs" link="/blogs" />
             <AppBarLink name="Contact" link="/contact" />
             <AppBarLink name="FAQ" link="/faq" />
+            <AppBarLink name="Prescription" link="/prescription" />
 
             {!isSignedIn() && <AppBarLink name="Login" link="/login" />}
 
