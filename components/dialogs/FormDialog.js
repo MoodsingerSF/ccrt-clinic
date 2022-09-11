@@ -35,13 +35,13 @@ const FormDialog = ({ onClose, addSection }) => {
 
   return (
     <Dialog open={true} onClose={onClose} fullWidth>
-      <DialogTitle>Add your report name</DialogTitle>
+      <DialogTitle>Add Your Report or Test</DialogTitle>
       <DialogContent>
         <Grid container>
           <TextField
             fullWidth
             autoFocus
-            placeholder="Enter your report name"
+            placeholder="Enter your report or test name"
             type="text"
             value={title}
             variant="standard"
@@ -55,7 +55,7 @@ const FormDialog = ({ onClose, addSection }) => {
                 color: "red",
               }}
             >
-              you have to given report name
+              you have to given report or test name
             </Typography>
           )}
         </Grid>

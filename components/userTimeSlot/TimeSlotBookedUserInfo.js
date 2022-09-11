@@ -15,12 +15,10 @@ const TimeSlotBookedUserInfo = ({
   const classes = useStyles();
   const [preview, setPreview] = useState(null);
   return (
-    <Grid container style={{ marginBottom: "20px" }}>
+    <Grid container className={classes.ccrt__content__wrapper}>
       <Typography className={classes.ccrt__content__header}>
         {title}
-        <small style={{ color: "black", fontSize: "75%", marginLeft: "5px" }}>
-          (if any)
-        </small>
+        <small className={classes.ccrt__content__header__small}>(if any)</small>
       </Typography>
 
       {isFilePicked ? (
@@ -60,13 +58,20 @@ const TimeSlotBookedUserInfo = ({
 
 const useStyles = makeStyles((theme) =>
   createStyles({
+    ccrt__content__wrapper: {
+      marginBottom: "20px",
+    },
     ccrt__content__header: {
       textTransform: "capitalize",
       fontWeight: "500",
-      fontSize: "100%",
       marginBottom: "5px",
       fontSize: "85%",
       color: `${theme.palette.grey[700]}`,
+    },
+    ccrt__content__header__small: {
+      color: "black",
+      fontSize: "75%",
+      marginLeft: "5px",
     },
     ccrt_image_preview_wrapper: {
       position: "relative",
