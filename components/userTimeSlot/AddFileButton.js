@@ -16,14 +16,8 @@ const AddFileButton = ({ setOpenFormDialog }) => {
       onClick={() => setOpenFormDialog(true)}
     >
       <AddIcon fontSize="small" />
-      <Typography
-        style={{
-          textTransform: "uppercase",
-          fontWeight: "500",
-          fontSize: "90%",
-        }}
-      >
-        Add section
+      <Typography className={classes.ccrt__add__report_or_test__button}>
+        Add All Reports and tests
       </Typography>
     </Grid>
   );
@@ -38,6 +32,11 @@ const useStyles = makeStyles((theme) =>
       margin: "10px 0",
       cursor: "pointer",
       padding: "10px",
+    },
+    ccrt__add__report_or_test__button: {
+      textTransform: "uppercase",
+      fontWeight: "500",
+      fontSize: "90%",
     },
   })
 );

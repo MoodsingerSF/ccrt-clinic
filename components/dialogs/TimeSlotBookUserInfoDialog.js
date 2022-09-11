@@ -10,6 +10,13 @@ import {
   useTheme,
   useMediaQuery,
   Button,
+  TextField,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  MenuItem,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
@@ -18,6 +25,42 @@ import classNames from "classnames";
 import FormDialog from "./FormDialog";
 import TimeSlotBookedUserInfo from "../userTimeSlot/TimeSlotBookedUserInfo";
 import AddFileButton from "../userTimeSlot/AddFileButton";
+import { validateField } from "../../controllers/TimeSlotBookedUserInfoController";
+
+const cancers = [
+  {
+    value: "breast cancer",
+    label: "breast cancer",
+  },
+  {
+    value: "lung cancer",
+    label: "lung cancer",
+  },
+  {
+    value: "stomach cancer",
+    label: "stomach cancer",
+  },
+  {
+    value: "bone cancer",
+    label: "bone cancer",
+  },
+  {
+    value: "brain cancer",
+    label: "brain cancer",
+  },
+  {
+    value: "ovarian cancer",
+    label: "ovarian cancer",
+  },
+  {
+    value: "prostate cancer",
+    label: "prostate cancer",
+  },
+  {
+    value: "testicular cancer",
+    label: "testicular cancer",
+  },
+];
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -48,21 +91,55 @@ const TimeSlotBookUserInfoDialog = ({ onNegativeFeedback }) => {
 
   const [fileList, dispatch] = useReducer(reducer, []);
 
-  const [xrayFile, setXrayFile] = useState(null);
+  const [prescription, setPrescription] = useState(null);
   const [ecgFile, setEcgFile] = useState(null);
   const [openFormDialog, setOpenFormDialog] = useState(false);
 
-  const onXrayFileDrop = (file) => {
-    setXrayFile(file);
+  const [patientName, setPatientName] = useState("");
+  const [gender, setGender] = useState("female");
+  const [date, setDate] = useState("");
+  const [cancerType, setCancerType] = useState("");
+  const [showError, setShowError] = useState(false);
+
+  const onPrescriptionFileDrop = (file) => {
+    setPrescription(file);
   };
 
   const onEcgFileDrop = (file) => {
     setEcgFile(file);
   };
 
+  const handleChangePatientName = (e) => {
+    setPatientName(e.target.value);
+  };
+
+  const handleChangeCancerType = (e) => {
+    setCancerType(e.target.value);
+  };
+
+  const handleChangeGender = (e) => {
+    setGender(e.target.value);
+  };
+
+  const handleChangeDate = (e) => {
+    setDate(e.target.value);
+  };
+
   const submitFiles = () => {
-    // Api call
-    console.log("Submit Files");
+    if (validate(patientName, cancerType, date)) {
+      // Api call
+      console.log("Submit Files");
+    } else {
+      setShowError(true);
+    }
+  };
+  const validate = (patientName, cancerType, date) => {
+    let isEverythingAllRight = true;
+    isEverythingAllRight =
+      !validateField(patientName) &&
+      !validateField(cancerType) &&
+      !validateField(date);
+    return isEverythingAllRight;
   };
 
   return (
@@ -96,18 +173,140 @@ const TimeSlotBookUserInfoDialog = ({ onNegativeFeedback }) => {
                 [classes.ccrt__dialog__content__section_large]: matchesMd,
               })}
             >
+              <Grid
+                container
+                flexDirection={"column"}
+                className={classes.ccrt__content__wrapper}
+              >
+                <Typography className={classes.ccrt__content__header}>
+                  Name:
+                </Typography>
+                <TextField
+                  size="small"
+                  placeholder="Enter your name"
+                  value={patientName}
+                  onChange={handleChangePatientName}
+                />
+                {showError && validateField(patientName) && (
+                  <Typography
+                    style={{
+                      color: "red",
+                      fontSize: "70%",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    Required
+                  </Typography>
+                )}
+              </Grid>
+
+              <Grid container className={classes.ccrt__content__wrapper}>
+                <FormControl>
+                  <FormLabel
+                    id="demo-row-radio-buttons-group-label"
+                    className={classes.ccrt__content__header}
+                  >
+                    Gender
+                  </FormLabel>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                    value={gender}
+                    onChange={handleChangeGender}
+                  >
+                    <FormControlLabel
+                      value="female"
+                      control={<Radio size="small" />}
+                      label="Female"
+                    />
+                    <FormControlLabel
+                      value="male"
+                      control={<Radio size="small" />}
+                      label="Male"
+                    />
+                    <FormControlLabel
+                      value="other"
+                      control={<Radio size="small" />}
+                      label="Other"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+
+              <Grid
+                container
+                flexDirection={"column"}
+                className={classes.ccrt__content__wrapper}
+              >
+                <Typography className={classes.ccrt__content__header}>
+                  Date of birth:
+                </Typography>
+                <TextField
+                  size="small"
+                  placeholder="dd/mm/yyyy"
+                  value={date}
+                  onChange={handleChangeDate}
+                />
+                {showError && validateField(date) && (
+                  <Typography
+                    style={{
+                      color: "red",
+                      fontSize: "70%",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    Required
+                  </Typography>
+                )}
+              </Grid>
+
+              <Grid
+                container
+                flexDirection={"column"}
+                className={classes.ccrt__content__wrapper}
+              >
+                <Typography className={classes.ccrt__content__header}>
+                  type of cancer:
+                </Typography>
+                <TextField
+                  size="small"
+                  id="outlined-select-currency"
+                  select
+                  value={cancerType}
+                  onChange={handleChangeCancerType}
+                >
+                  {cancers.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                {showError && validateField(cancerType) && (
+                  <Typography
+                    style={{
+                      color: "red",
+                      fontSize: "70%",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    Required
+                  </Typography>
+                )}
+              </Grid>
+
               <TimeSlotBookedUserInfo
-                title="x-ray report"
-                onFileDrop={onXrayFileDrop}
-                onFileRemove={() => setXrayFile(null)}
-                isFilePicked={xrayFile}
+                title="previous/current prescription"
+                onFileDrop={onPrescriptionFileDrop}
+                onFileRemove={() => setPrescription(null)}
+                isFilePicked={prescription}
               />
-              <TimeSlotBookedUserInfo
+              {/* <TimeSlotBookedUserInfo
                 title="ECG report"
                 onFileDrop={onEcgFileDrop}
                 onFileRemove={() => setEcgFile(null)}
                 isFilePicked={ecgFile}
-              />
+              /> */}
               {fileList.length !== 0 && (
                 <Grid container>
                   {fileList.map((item, index) => (
@@ -153,7 +352,7 @@ const TimeSlotBookUserInfoDialog = ({ onNegativeFeedback }) => {
   );
 };
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__toolbar: {
       display: "flex",
@@ -174,6 +373,16 @@ const useStyles = makeStyles(() =>
     ccrt__dialog__content__section__small: {
       position: "relative",
       width: "95%",
+    },
+    ccrt__content__wrapper: {
+      marginBottom: "20px",
+    },
+    ccrt__content__header: {
+      textTransform: "capitalize",
+      fontWeight: "500",
+      marginBottom: "5px",
+      fontSize: "85%",
+      color: `${theme.palette.grey[700]}`,
     },
   })
 );
