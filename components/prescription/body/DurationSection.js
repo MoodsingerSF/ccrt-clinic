@@ -59,9 +59,9 @@ const DurationSection = ({ durations, setDurations, showAddedForm }) => {
                 key={item.id}
                 className={classes.ccrt_prescription__durstion__item}
               >
-                <Typography style={{ marginRight: "5px" }}>
+                {/* <Typography style={{ marginRight: "5px" }}>
                   {index + 1}.
-                </Typography>
+                </Typography> */}
                 <Typography>{item.day}</Typography>
               </Grid>
             ))}

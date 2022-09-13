@@ -7,6 +7,8 @@ import DoctorWeeklyScheduleManager from "./doctor/DoctorWeeklyScheduleManager";
 import DoctorsRequest from "./DoctorsRequest";
 import MyBlogs from "./MyBlogs";
 import Overview from "./Overview";
+import Appointment from "./Appointment";
+import DoctorHistory from "./DoctorHistory";
 
 export const DASHBOARD_ROUTES = [
   {
@@ -30,7 +32,6 @@ export const DASHBOARD_ROUTES = [
   {
     path: "new-admins",
     heading: "Create new admin",
-
     component: <CreateNewAdmin />,
     allowedRoles: [Role.ADMIN],
   },
@@ -50,6 +51,18 @@ export const DASHBOARD_ROUTES = [
     path: "weekly-time-slots",
     heading: "Manage Weekly Schedule",
     component: <DoctorWeeklyScheduleManager />,
+    allowedRoles: [Role.DOCTOR],
+  },
+  {
+    path: "appointment",
+    heading: "Appointment",
+    component: <Appointment />,
+    allowedRoles: [Role.DOCTOR],
+  },
+  {
+    path: "apointment-history",
+    heading: "History",
+    component: <DoctorHistory />,
     allowedRoles: [Role.DOCTOR],
   },
 ];
