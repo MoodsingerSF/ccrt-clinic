@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import {
@@ -25,6 +25,9 @@ import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
 import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";
 import DashboardLoaderComponent from "./DashboardLoaderComponent";
 import { retrieveUserId } from "../../controllers/LocalStorageController";
+import DoctorInfoForm from "../../pages/doctorInfoForm";
+import { Context } from "../../contexts/user-context/UserContext";
+import { Role } from "../../enums/Role";
 const PhotoEditingDialog = dynamic(() =>
   import("../dialogs/PhotoEditingDialog")
 );
@@ -45,6 +48,7 @@ const reducer = (state, action) => {
   }
 };
 const DashboardProfile = () => {
+  const { getRole } = useContext(Context);
   const classes = useStyles();
 
   const theme = useTheme();
@@ -166,6 +170,9 @@ const DashboardProfile = () => {
               value={user.email}
               icon={<MailOutlineIcon />}
             />
+            {getRole() === Role.DOCTOR && (
+              <DoctorInfoForm headingShow={false} />
+            )}
           </Grid>
           <PhotoEditingDialog
             open={openEditDialog}

@@ -8,7 +8,6 @@ import DoctorsRequest from "./DoctorsRequest";
 import MyBlogs from "./MyBlogs";
 import Overview from "./Overview";
 import Appointment from "./Appointment";
-import DoctorHistory from "./DoctorHistory";
 
 export const DASHBOARD_ROUTES = [
   {
@@ -57,12 +56,6 @@ export const DASHBOARD_ROUTES = [
     path: "appointment",
     heading: "Appointment",
     component: <Appointment />,
-    allowedRoles: [Role.DOCTOR],
-  },
-  {
-    path: "apointment-history",
-    heading: "History",
-    component: <DoctorHistory />,
-    allowedRoles: [Role.DOCTOR],
+    allowedRoles: [Role.ADMIN, Role.DOCTOR, Role.USER],
   },
 ];
