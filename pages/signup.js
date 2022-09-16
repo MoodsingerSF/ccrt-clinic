@@ -26,7 +26,9 @@ import { useStyles } from "../styles/SignupStyles";
 import {
   sendOtp,
   signUp,
+  USER_GENDER,
   USER_TYPES,
+  validateBirthDate,
   validateConfirmPassword,
   validateEmail,
   validateName,
@@ -38,6 +40,7 @@ import CustomSnackbar from "../components/snackbar/CustomSnackbar";
 import { SNACKBAR_INITIAL_STATE } from "../misc/constants";
 import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
 import { useRouter } from "next/router";
+// import BasicDatePicker from "../components/misc/BasicDatePicker";
 const VerificationCodeModal = dynamic(() =>
   import("../components/modal/VerificationCodeModal")
 );
@@ -57,9 +60,13 @@ const SignupScreen = () => {
   const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
   const [otpId, setOtpId] = useState("");
   const [userType, setUserType] = useState(USER_TYPES[0]);
+  const [userGender, setUserGender] = useState(USER_GENDER[0]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  console.log(birthDate);
+  const [specialization, setSpecialization] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
   const [policy, setPolicy] = useState(false);
@@ -73,6 +80,9 @@ const SignupScreen = () => {
   const handleUserTypeChange = (e) => {
     setUserType(e.target.value);
   };
+  const handleUserGenderChange = (e) => {
+    setUserGender(e.target.value);
+  };
 
   const handleFirstName = (e) => {
     setFirstName(e.target.value);
@@ -82,6 +92,12 @@ const SignupScreen = () => {
   };
   const handleEmail = (e) => {
     setEmail(e.target.value);
+  };
+  const handleBirthDate = (e) => {
+    setBirthDate(e.target.value);
+  };
+  const handleSpecialization = (e) => {
+    setSpecialization(e.target.value);
   };
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -118,7 +134,15 @@ const SignupScreen = () => {
 
   const handleSubmitForm = () => {
     if (
-      validate(firstName, lastName, email, password, confirmedPassword, policy)
+      validate(
+        firstName,
+        lastName,
+        email,
+        password,
+        confirmedPassword,
+        policy,
+        birthDate
+      )
     ) {
       handleSendOtpCode();
     } else {
@@ -132,7 +156,8 @@ const SignupScreen = () => {
     email,
     password,
     confirmPassword,
-    policy
+    policy,
+    birthDate
   ) => {
     let isEverythingAllRight = true;
     isEverythingAllRight =
@@ -141,12 +166,13 @@ const SignupScreen = () => {
       validateEmail(email) &&
       validatePassword(password) &&
       validateConfirmPassword(confirmPassword, password) &&
+      validateBirthDate(birthDate) &&
       policy;
     return isEverythingAllRight;
   };
 
   return (
-    <>
+    <Grid container style={{ minHeight: "100vh" }}>
       <Head>
         <title>Sign Up</title>
       </Head>
@@ -160,6 +186,7 @@ const SignupScreen = () => {
           container
           alignItems="center"
           justifyContent="center"
+          style={{ minHeight: "88vh" }}
           className={classNames({
             [classes.containerMobile]: !matches,
             [classes.containerDesktopSm]: matches,
@@ -170,8 +197,9 @@ const SignupScreen = () => {
           {matches ? <SignupDesktopSidebar /> : <SignupMobileHeader />}
           <Grid
             item
-            sm={12}
+            xs={12}
             md={8}
+            style={{ minHeight: "88vh" }}
             className={classNames({
               [classes.ccrt__signup__right]: !matches,
               [classes.ccrt__signup__right__Sm]: matches,
@@ -181,8 +209,12 @@ const SignupScreen = () => {
             <Typography className={classes.sign_up_title}>
               {SIGN_UP_TITLE}
             </Typography>
-            <Grid container>
-              <Grid container>
+            <Grid
+              container
+              justifyContent={"space-between"}
+              style={{ marginBottom: "10px" }}
+            >
+              <Grid item xs={12} md={6}>
                 <Typography className={classes.field_title}>
                   Choose your role
                 </Typography>
@@ -200,74 +232,142 @@ const SignupScreen = () => {
                   })}
                 </Grid>
               </Grid>
-              <SignUpTextField
-                label="First Name"
-                type="text"
-                value={firstName}
-                onChange={handleFirstName}
-                error={showError && !validateName(firstName)}
-                errorText={formErrors.name}
-              />
-              <SignUpTextField
-                label="Last Name"
-                type="text"
-                value={lastName}
-                onChange={handleLastName}
-                error={showError && !validateName(lastName)}
-                errorText={formErrors.name}
-              />
-              <SignUpTextField
-                label="Email"
-                type="email"
-                value={email}
-                onChange={handleEmail}
-                error={showError && !validateEmail(email)}
-                errorText={formErrors.email}
-              />
-              <SignUpTextField
-                label="Password"
-                type="password"
-                value={password}
-                onChange={handlePassword}
-                error={showError && !validatePassword(password)}
-                errorText={formErrors.password}
-              />
-              <SignUpTextField
-                label="Confirm Password"
-                type="password"
-                value={confirmedPassword}
-                onChange={handleConfirmPassword}
-                error={
-                  showError &&
-                  !validateConfirmPassword(confirmedPassword, password)
-                }
-                errorText={formErrors.confirmPassword}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    size="small"
-                    checked={policy}
-                    onChange={handlePolicy}
+              <Grid item xs={12} md={6}>
+                <Typography className={classes.field_title}>Gender</Typography>
+                <Grid container justifyContent="flex-start" alignItems="center">
+                  {USER_GENDER.map((gender) => {
+                    return (
+                      <CustomCheckbox
+                        key={gender}
+                        name={gender}
+                        checked={userGender === gender}
+                        value={gender}
+                        onChange={handleUserGenderChange}
+                      />
+                    );
+                  })}
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                  <SignUpTextField
+                    label="First Name"
+                    type="text"
+                    value={firstName}
+                    onChange={handleFirstName}
+                    error={showError && !validateName(firstName)}
+                    errorText={formErrors.name}
                   />
-                }
-                label={
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <SignUpTextField
+                    label="Last Name"
+                    type="text"
+                    value={lastName}
+                    onChange={handleLastName}
+                    error={showError && !validateName(lastName)}
+                    errorText={formErrors.name}
+                  />
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                  <SignUpTextField
+                    label="Email"
+                    type="email"
+                    value={email}
+                    onChange={handleEmail}
+                    error={showError && !validateEmail(email)}
+                    errorText={formErrors.email}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <SignUpTextField
+                    label="Birth Date"
+                    type="date"
+                    value={birthDate}
+                    onChange={handleBirthDate}
+                    error={showError && !validateBirthDate(birthDate)}
+                    errorText={formErrors.birthDate}
+                  />
+                  {/* <BasicDatePicker
+                    label={"Date of birth"}
+                    value={birthDate}
+                    onChange={(newValue) => setBirthDate(newValue)}
+                  /> */}
+                </Grid>
+              </Grid>
+
+              <Grid item xs={12}>
+                {userType === "DOCTOR" && (
+                  <SignUpTextField
+                    label="Specialization"
+                    type="text"
+                    value={specialization}
+                    onChange={handleSpecialization}
+                    error={showError && !validateName(specialization)}
+                    errorText={formErrors.specialization}
+                  />
+                )}
+              </Grid>
+
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                  <SignUpTextField
+                    label="Password"
+                    type="password"
+                    value={password}
+                    onChange={handlePassword}
+                    error={showError && !validatePassword(password)}
+                    errorText={formErrors.password}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <SignUpTextField
+                    label="Confirm Password"
+                    type="password"
+                    value={confirmedPassword}
+                    onChange={handleConfirmPassword}
+                    error={
+                      showError &&
+                      !validateConfirmPassword(confirmedPassword, password)
+                    }
+                    errorText={formErrors.confirmPassword}
+                  />
+                </Grid>
+              </Grid>
+
+              <Grid container flexDirection={"column"}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      size="small"
+                      checked={policy}
+                      onChange={handlePolicy}
+                    />
+                  }
+                  label={
+                    <Typography
+                      className={classNames({
+                        [classes.termsTextStyle__Mobile]: !matches,
+                        [classes.termsTextStyle__DesktopMd]: matchesMD,
+                      })}
+                    >
+                      {TERMS_CONDITIONS}
+                    </Typography>
+                  }
+                />
+                {showError && !policy && (
                   <Typography
-                    // className={classes.termsTextStyle}
-                    className={classNames({
-                      [classes.termsTextStyle__Mobile]: !matches,
-                      [classes.termsTextStyle__DesktopMd]: matchesMD,
-                    })}
+                    className={classes.ccrt__signup__policyError__text}
                   >
-                    {TERMS_CONDITIONS}
+                    {formErrors.policy}
                   </Typography>
-                }
-              />
-              {showError && !policy && (
-                <Typography className={classes.ccrt__signup__policyError__text}>
-                  {formErrors.policy}
-                </Typography>
-              )}
+                )}
+              </Grid>
               <Grid container mt={1}>
                 <CustomButton
                   title={SIGN_UP_BUTTON}
@@ -333,7 +433,7 @@ const SignupScreen = () => {
           handleSnackbarClose(setSnackbar);
         }}
       />
-    </>
+    </Grid>
   );
 };
 

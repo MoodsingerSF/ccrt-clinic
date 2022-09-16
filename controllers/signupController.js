@@ -1,9 +1,15 @@
 import axios from "axios";
-import { EMAIL_REGEX, NAME_REGEX, SERVER_PATH } from "../misc/constants";
+import {
+  BIRTHDATE_REGEX,
+  EMAIL_REGEX,
+  NAME_REGEX,
+  SERVER_PATH,
+} from "../misc/constants";
 
 const MINIMUM_PASSWORD_LENGTH = 6;
 
 export const USER_TYPES = ["USER", "DOCTOR"];
+export const USER_GENDER = ["Male", "Female", "Others"];
 export const validateName = (name) => {
   return NAME_REGEX.test(name);
 };
@@ -18,6 +24,10 @@ export const validatePassword = (password) => {
 
 export const validateConfirmPassword = (confirmPassword, password) => {
   return password !== "" && confirmPassword === password;
+};
+
+export const validateBirthDate = (birthDate) => {
+  return BIRTHDATE_REGEX.test(birthDate);
 };
 
 export const sendOtp = async (email) => {

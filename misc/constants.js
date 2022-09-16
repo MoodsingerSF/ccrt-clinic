@@ -2,7 +2,9 @@ export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const NAME_REGEX = /^[a-zA-Z\- ]+$/;
 export const EMPTY_OR_WHITESPACE = /^\s*$/;
 export const NUMBER_REGEX = /^-?\d+\.?\d*$/;
-export const SERVER_PATH = "http://127.0.0.1:8080/ccrt_clinic/";
+export const BIRTHDATE_REGEX =
+  /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
+export const SERVER_PATH = "http://127.0.0.1:8080/";
 export const SNACKBAR_INITIAL_STATE = { open: false, message: "" };
 export const SNACKBAR_TIMEOUT = 6000;
 export const AUTHORIZATION_HEADER_PREFIX = "Bearer ";
