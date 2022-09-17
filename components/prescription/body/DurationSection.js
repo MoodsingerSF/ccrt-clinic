@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import {
-  FormControl,
-  FormLabel,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import PropTypes from "prop-types";
-import { validateInput } from "../../../controllers/drugAddedFormController";
+import {
+  numberInput,
+  validateInput,
+} from "../../../controllers/drugAddedFormController";
+import DurationAddedForm from "./DurationAddedForm";
 
 function* generateId(i) {
   while (true) {
@@ -20,26 +18,29 @@ const getId = generateId(0);
 const DurationSection = ({ durations, setDurations, showAddedForm }) => {
   const classes = useStyles();
   const [days, setDays] = useState("");
+  const [unit, setUnit] = useState("");
   const [showError, setShowError] = useState(false);
 
   const keyPress = (e) => {
     if (e.key === "Enter") {
-      if (validate(days)) {
+      if (validate(days, unit)) {
         const duration = {
           id: getId.next().value,
           day: days,
+          unit,
         };
         setDurations([...durations, duration]);
         setDays("");
+        setUnit("");
       } else {
         setShowError(true);
       }
     }
   };
 
-  const validate = (days) => {
+  const validate = (days, unit) => {
     let isEverythingAllRight = true;
-    isEverythingAllRight = !validateInput(days);
+    isEverythingAllRight = numberInput(days) && !validateInput(unit);
     return isEverythingAllRight;
   };
 
@@ -51,7 +52,7 @@ const DurationSection = ({ durations, setDurations, showAddedForm }) => {
       <Grid container>
         {durations && (
           <Grid container>
-            {durations.map((item, index) => (
+            {durations.map((item) => (
               <Grid
                 container
                 justifyContent={"flex-start"}
@@ -59,40 +60,23 @@ const DurationSection = ({ durations, setDurations, showAddedForm }) => {
                 key={item.id}
                 className={classes.ccrt_prescription__durstion__item}
               >
-                {/* <Typography style={{ marginRight: "5px" }}>
-                  {index + 1}.
-                </Typography> */}
-                <Typography>{item.day}</Typography>
+                <Typography>
+                  {item.day} {item.unit}
+                </Typography>
               </Grid>
             ))}
           </Grid>
         )}
         {showAddedForm && (
-          <Grid container>
-            <FormControl
-              className={classes.ccrt_prescription__durstion__form_control}
-            >
-              <FormLabel id="demo-row-radio-buttons-group-label">
-                How many days
-              </FormLabel>
-
-              <TextField
-                size="small"
-                variant="outlined"
-                placeholder="7 days"
-                value={days}
-                onKeyDown={keyPress}
-                onChange={(e) => setDays(e.target.value)}
-              />
-              {showError && !validate(days) && (
-                <Typography
-                  style={{ color: "red", fontSize: "70%", marginBottom: "5px" }}
-                >
-                  This field is required
-                </Typography>
-              )}
-            </FormControl>
-          </Grid>
+          <DurationAddedForm
+            onKeyDown={keyPress}
+            days={days}
+            setDays={setDays}
+            showError={showError}
+            validate={validate}
+            unit={unit}
+            setUnit={setUnit}
+          />
         )}
       </Grid>
     </Grid>
@@ -112,9 +96,6 @@ const useStyles = makeStyles((theme) =>
       background: "#f1ffff",
       margin: "20px 0 5px 0",
       height: "70px",
-    },
-    ccrt_prescription__durstion__form_control: {
-      padding: "20px 0 0 20px",
     },
   })
 );

@@ -36,13 +36,23 @@ const DrugSection = ({ showAddedForm, drugLists, setDrugLists }) => {
                   <Typography
                     className={classes.ccrt__prescription__drug__perDay}
                   >
-                    {item.perDay}
+                    {item.perDay ? (
+                      item.perDay
+                    ) : (
+                      <>
+                        {item.morning ? "1" : "0"}
+                        {"+"}
+                        {item.noon ? "1" : "0"}
+                        {"+"}
+                        {item.night ? "1" : "0"}
+                      </>
+                    )}
                   </Typography>
-                  <Typography
+                  {/* <Typography
                     className={classes.ccrt__prescription__drug__when}
                   >
                     ({item.when})
-                  </Typography>
+                  </Typography> */}
                 </Grid>
               </Grid>
             ))}
