@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, IconButton, Typography } from "@mui/material";
+import { Button, Grid, IconButton, Typography } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import ClearIcon from "@mui/icons-material/Clear";
 import PropTypes from "prop-types";
@@ -10,10 +10,29 @@ const TimeSlotBookedUserInfo = ({
   isFilePicked,
   onFileDrop,
   title,
-  onFileRemove,
+  // onFileRemove,
+  // isStoreFile,
 }) => {
   const classes = useStyles();
+
   const [preview, setPreview] = useState(null);
+  const [showButtons, setShowButtons] = useState(true);
+  const [uploadNewFile, setUploadNewFile] = useState(false);
+
+  // console.log(isFilePicked);
+
+  const submitFiles = () => {
+    if (preview) {
+      setShowButtons(false);
+      // setLoading(true)
+      // Api call
+      console.log("Submit Files");
+      // setLoading(false);
+    } else {
+      setShowButtons(true);
+    }
+  };
+
   return (
     <Grid container className={classes.ccrt__content__wrapper}>
       <Typography className={classes.ccrt__content__header}>
@@ -22,35 +41,73 @@ const TimeSlotBookedUserInfo = ({
       </Typography>
 
       {isFilePicked ? (
-        <Grid
-          container
-          justifyContent={"center"}
-          alignItems="center"
-          className={classes.ccrt_image_preview_wrapper}
-          style={{
-            backgroundImage: `url(${preview})`,
-          }}
-        >
-          <IconButton
-            className={classes.ccrt__image__wrapper__clear__button}
-            onClick={() => {
-              setPreview(null);
-              onFileRemove();
+        uploadNewFile ? (
+          <TimeSlotBookedUserInfoTextField
+            onFileDrop={(e) => {
+              onFileDrop(e.target.files[0]);
+              setPreview(URL.createObjectURL(e.target.files[0]));
+            }}
+          />
+        ) : (
+          <Grid
+            container
+            justifyContent={"center"}
+            alignItems="center"
+            className={classes.ccrt_image_preview_wrapper}
+            style={{
+              backgroundImage: `url(${preview})`,
             }}
           >
-            <ClearIcon
-              fontSize="small"
-              className={classes.ccrt__clear__button}
-            />
-          </IconButton>
-        </Grid>
+            <IconButton
+              className={classes.ccrt__image__wrapper__clear__button}
+              onClick={() => {
+                setShowButtons(true);
+                setUploadNewFile(true);
+              }}
+            >
+              <ClearIcon
+                fontSize="small"
+                className={classes.ccrt__clear__button}
+              />
+            </IconButton>
+          </Grid>
+        )
       ) : (
-        <TimeSlotBookedUserInfoTextField
-          onFileDrop={(e) => {
-            onFileDrop(e.target.files[0]);
-            setPreview(URL.createObjectURL(e.target.files[0]));
-          }}
-        />
+        <>
+          <TimeSlotBookedUserInfoTextField
+            onFileDrop={(e) => {
+              onFileDrop(e.target.files[0]);
+              setPreview(URL.createObjectURL(e.target.files[0]));
+            }}
+          />
+        </>
+      )}
+      {showButtons && (
+        <Grid
+          container
+          justifyContent={"flex-end"}
+          alignItems="center"
+          style={{ marginTop: "10px" }}
+        >
+          <Button
+            size="small"
+            variant="contained"
+            style={{ marginRight: "10px", fontSize: "75%" }}
+            onClick={() => {
+              setUploadNewFile(false);
+            }}
+          >
+            cancel
+          </Button>
+          <Button
+            size="small"
+            variant="contained"
+            style={{ fontSize: "75%" }}
+            onClick={submitFiles}
+          >
+            Save
+          </Button>
+        </Grid>
       )}
     </Grid>
   );
@@ -98,9 +155,10 @@ const useStyles = makeStyles((theme) =>
 
 TimeSlotBookedUserInfo.propTypes = {
   title: PropTypes.string.isRequired,
-  isFilePicked: PropTypes.bool.isRequired,
+  isFilePicked: PropTypes.object,
   onFileDrop: PropTypes.func.isRequired,
-  onFileRemove: PropTypes.func.isRequired,
+  // onFileRemove: PropTypes.func.isRequired,
+  // isStoreFile: PropTypes.object,
 };
 
 export default TimeSlotBookedUserInfo;
