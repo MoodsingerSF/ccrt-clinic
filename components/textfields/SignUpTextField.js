@@ -7,13 +7,14 @@ const SignUpTextField = ({
   placehlder = "",
   value,
   onChange,
-  // shrink = false,
   error = false,
   errorText = "",
+  variant = "standard",
 }) => {
   return (
     <Grid style={{ marginBottom: "10px" }}>
       <TextField
+        variant={variant}
         size="small"
         fullWidth
         label={label}
@@ -21,9 +22,6 @@ const SignUpTextField = ({
         placeholder={placehlder}
         value={value}
         onChange={(e) => onChange(e)}
-        InputLabelProps={{
-          shrink: true,
-        }}
       />
       {error && (
         <Typography style={{ color: "red", fontSize: "70%" }}>
@@ -42,6 +40,7 @@ SignUpTextField.propTypes = {
   error: PropTypes.bool,
   errorText: PropTypes.string,
   placehlder: PropTypes.string,
+  variant: PropTypes.string,
 };
 
 export default SignUpTextField;

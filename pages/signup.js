@@ -254,6 +254,7 @@ const SignupScreen = () => {
                 <Grid item xs={12} md={6}>
                   <SignUpTextField
                     label="First Name"
+                    variant="outlined"
                     type="text"
                     value={firstName}
                     onChange={handleFirstName}
@@ -264,6 +265,7 @@ const SignupScreen = () => {
                 <Grid item xs={12} md={6}>
                   <SignUpTextField
                     label="Last Name"
+                    variant="outlined"
                     type="text"
                     value={lastName}
                     onChange={handleLastName}
@@ -277,6 +279,7 @@ const SignupScreen = () => {
                 <Grid item xs={12} md={6}>
                   <SignUpTextField
                     label="Email"
+                    variant="outlined"
                     type="email"
                     value={email}
                     onChange={handleEmail}
@@ -286,7 +289,9 @@ const SignupScreen = () => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <SignUpTextField
-                    label="Birth Date"
+                    // label="Birth Date"
+                    variant="outlined"
+                    // shrink={true}
                     type="date"
                     value={birthDate}
                     onChange={handleBirthDate}
@@ -305,6 +310,7 @@ const SignupScreen = () => {
                 {userType === "DOCTOR" && (
                   <SignUpTextField
                     label="Specialization"
+                    variant="outlined"
                     type="text"
                     value={specialization}
                     onChange={handleSpecialization}
@@ -318,6 +324,7 @@ const SignupScreen = () => {
                 <Grid item xs={12} md={6}>
                   <SignUpTextField
                     label="Password"
+                    variant="outlined"
                     type="password"
                     value={password}
                     onChange={handlePassword}
@@ -328,6 +335,7 @@ const SignupScreen = () => {
                 <Grid item xs={12} md={6}>
                   <SignUpTextField
                     label="Confirm Password"
+                    variant="outlined"
                     type="password"
                     value={confirmedPassword}
                     onChange={handleConfirmPassword}

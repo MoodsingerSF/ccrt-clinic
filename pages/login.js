@@ -128,7 +128,7 @@ const LoginScreen = () => {
         container
         justifyContent="center"
         alignItems="center"
-        style={{ minHeight: "100vh", marginTop: "12vh" }}
+        style={{ minHeight: "88vh", marginTop: "12vh" }}
       >
         <Grid
           container
@@ -141,22 +141,26 @@ const LoginScreen = () => {
         >
           <h2>{HEADER_TITLE}</h2>
           <Grid container>
-            <SignUpTextField
-              label="Email"
-              type="email"
-              value={email}
-              onChange={handleEmail}
-              error={showError && !validateEmail(email)}
-              errorText={formErrors.email}
-            />
-            <SignUpTextField
-              label="Password"
-              type="password"
-              value={password}
-              onChange={handlePassword}
-              error={showError && !validatePassword(password)}
-              errorText={formErrors.password}
-            />
+            <Grid item xs={12}>
+              <SignUpTextField
+                label="Email"
+                type="email"
+                value={email}
+                onChange={handleEmail}
+                error={showError && !validateEmail(email)}
+                errorText={formErrors.email}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <SignUpTextField
+                label="Password"
+                type="password"
+                value={password}
+                onChange={handlePassword}
+                error={showError && !validatePassword(password)}
+                errorText={formErrors.password}
+              />
+            </Grid>
             <Grid container>
               <Link href="#">
                 <a className={classes.ccrt__login__forgot__password}>
