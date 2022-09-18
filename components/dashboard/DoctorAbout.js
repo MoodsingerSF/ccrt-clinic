@@ -72,7 +72,7 @@ const DoctorAbout = ({
               fontSize: "80%",
               fontWeight: 500,
               width: IsDesktop ? "90%" : "79%",
-              textAlign: "center",
+              textAlign: IsDesktop ? "center" : "justify",
             }}
           >
             {showMore ? `${value}` : `${value.substring(0, 100)}`}

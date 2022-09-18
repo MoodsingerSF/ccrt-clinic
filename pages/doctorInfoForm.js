@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid } from "@mui/material";
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import DoctorEducationSection from "../components/doctor-info-form/DoctorEducationSection";
@@ -9,6 +9,10 @@ import DoctorExperianceSection from "../components/doctor-info-form/DoctorExperi
 
 const DoctorInfoForm = ({ headingShow = true }) => {
   const classes = useStyles();
+
+  const theme = useTheme();
+  const IsDesktop = useMediaQuery(theme.breakpoints.up("md"));
+
   const [education, setEducation] = useState([
     // {
     //   id: "1",
@@ -75,7 +79,7 @@ const DoctorInfoForm = ({ headingShow = true }) => {
       <h1 className={classes.ccrt__doctor__info__form__heading}>
         {headingShow && "Doctor details"}
       </h1>
-      <Grid container className={classes.ccrt__doctor__info__form__section}>
+      <Grid container style={{ width: IsDesktop ? "75%" : "100%" }}>
         <Grid container>
           <DoctorEducationSection
             education={education}
@@ -106,9 +110,6 @@ const useStyles = makeStyles((theme) => ({
   ccrt__doctor__info__form__heading: {
     width: "100%",
     textAlign: "center",
-  },
-  ccrt__doctor__info__form__section: {
-    width: "75%",
   },
 }));
 
