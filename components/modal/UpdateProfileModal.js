@@ -49,12 +49,6 @@ const UpdateProfileModal = ({
     }
   };
 
-  // const validate = (editedValue) => {
-  //   let isEverythingAllRight = true;
-  //   isEverythingAllRight = validateName(editedValue);
-  //   return isEverythingAllRight && editableValue !== editedValue;
-  // };
-
   const handleChangeValue = (e) => {
     setEditedValue(e.target.value);
   };
@@ -70,6 +64,7 @@ const UpdateProfileModal = ({
           value={editedValue}
           size="small"
           fullWidth
+          multiline
           onChange={(e) => handleChangeValue(e)}
           error={showError && !validate(editedValue)}
         />

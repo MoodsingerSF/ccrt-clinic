@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import InfoIcon from "@mui/icons-material/Info";
 import { createStyles, makeStyles } from "@mui/styles";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import UserDataRow from "./user-profile/UserDataRow";
@@ -28,6 +29,8 @@ import { retrieveUserId } from "../../controllers/LocalStorageController";
 import DoctorInfoForm from "../../pages/doctorInfoForm";
 import { Context } from "../../contexts/user-context/UserContext";
 import { Role } from "../../enums/Role";
+import DoctorPriceTag from "./DoctorPriceTag";
+import DoctorAbout from "./DoctorAbout";
 const PhotoEditingDialog = dynamic(() =>
   import("../dialogs/PhotoEditingDialog")
 );
@@ -126,6 +129,22 @@ const DashboardProfile = () => {
                 <AddAPhotoIcon />
               </IconButton>
             </Avatar>
+            {getRole() === Role.DOCTOR && (
+              <DoctorPriceTag
+                title="Fee"
+                price={"500"}
+                editable={true}
+                // validate={(newFee) => validateName(newFee)}
+                // onSave={updateFee}
+                // onSuccess={(newFee) => {
+                //   dispatch({
+                //     type: "fee",
+                //     payload: { fee: newFee },
+                //   });
+                // }}
+                // openSnackbar={openSnackbar}
+              />
+            )}
           </Grid>
           <Grid
             container
@@ -171,7 +190,26 @@ const DashboardProfile = () => {
               icon={<MailOutlineIcon />}
             />
             {getRole() === Role.DOCTOR && (
-              <DoctorInfoForm headingShow={false} />
+              <>
+                <DoctorAbout
+                  title={"About"}
+                  value={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                when an unknown printer took a galley of type and scrambled it to make a type specimen book.`}
+                  icon={<InfoIcon />}
+                  editable={true}
+                  validate={(newAbout) => validateName(newAbout)}
+                  // onSave={updateAbout}
+                  // onSuccess={(newAbout) => {
+                  //   dispatch({
+                  //     type: "about",
+                  //     payload: { about: newAbout },
+                  //   });
+                  // }}
+                  // openSnackbar={openSnackbar}
+                />
+                <DoctorInfoForm headingShow={false} />
+              </>
             )}
           </Grid>
           <PhotoEditingDialog
