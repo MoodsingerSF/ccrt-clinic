@@ -7,7 +7,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import AppointmentDetailsShowReportRow from "../dashboard/AppointmentDetailsShowReportRow";
 
 const AppointmentDetailsShowBackdrop = ({
-  patient,
+  // patient,
+  patientName,
+  gender,
+  dateOfBirth,
+  typeOfCancer,
+  fileList,
   onNegativeFeedback,
   open,
 }) => {
@@ -33,18 +38,15 @@ const AppointmentDetailsShowBackdrop = ({
       </Tooltip>
       <Grid container justifyContent={"center"} alignItems="center">
         <Grid className={classes.ccrt__appointment__details__wrapper}>
-          <AppointmentDetailsTypography heading="name" text={patient.name} />
-          <AppointmentDetailsTypography
-            heading="Gender"
-            text={patient.gender}
-          />
+          <AppointmentDetailsTypography heading="name" text={patientName} />
+          <AppointmentDetailsTypography heading="Gender" text={gender} />
           <AppointmentDetailsTypography
             heading="Date of birth"
-            text={patient.dateOfBirth}
+            text={dateOfBirth}
           />
           <AppointmentDetailsTypography
             heading="Type of Cancer"
-            text={patient.typeOfCancer}
+            text={typeOfCancer}
           />
           <Grid container justifyContent={"center"} alignItems="center">
             <Grid container>
@@ -57,7 +59,7 @@ const AppointmentDetailsShowBackdrop = ({
                 Reports:
               </Typography>
             </Grid>
-            {patient.fileList.map((fileItem) => (
+            {fileList.map((fileItem) => (
               <AppointmentDetailsShowReportRow
                 key={fileItem.id}
                 fileItem={fileItem}

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import React from "react";
 import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -7,7 +6,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Typography } from "@mui/material";
 
 const BasicDatePicker = ({
-  label,
+  label = "",
   value,
   onChange,
   error = false,
@@ -22,7 +21,6 @@ const BasicDatePicker = ({
           onChange={onChange}
           renderInput={(params) => (
             <TextField
-              fullWidth
               size="small"
               {...params}
               InputLabelProps={{
@@ -41,4 +39,5 @@ const BasicDatePicker = ({
     </>
   );
 };
+
 export default BasicDatePicker;
