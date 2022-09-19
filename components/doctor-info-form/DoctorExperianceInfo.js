@@ -3,7 +3,9 @@ import { Grid, IconButton, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import DoctorFormExperianceModal from "../modal/DoctorFormExperianceModal";
+import ConfirmationModal from "../modal/ConfirmationModal";
 
 const DoctorExperianceInfo = ({
   id,
@@ -19,6 +21,13 @@ const DoctorExperianceInfo = ({
   const classes = useStyles();
 
   const [showEditableModal, setShowEditableModal] = useState(false);
+  const [confirmationModal, setConfirmationModal] = useState(false);
+
+  const handleDeleteSection = (id) => {
+    // console.log(id);
+    const items = experiances.filter((item) => item.id !== id);
+    setExperiances(items);
+  };
 
   return (
     <>
@@ -55,6 +64,12 @@ const DoctorExperianceInfo = ({
         >
           <EditIcon fontSize="small" />
         </IconButton>
+        <IconButton
+          className={classes.ccrt__doctor__training__info__delete}
+          onClick={() => setConfirmationModal(true)}
+        >
+          <DeleteIcon fontSize="small" />
+        </IconButton>
       </Grid>
       {showEditableModal && (
         <DoctorFormExperianceModal
@@ -70,6 +85,13 @@ const DoctorExperianceInfo = ({
           start={startYear}
           end={endYear}
           editable={true}
+        />
+      )}
+      {confirmationModal && (
+        <ConfirmationModal
+          onPositiveFeedback={() => handleDeleteSection(id)}
+          onNegativeFeedback={() => setConfirmationModal(false)}
+          title={"You want to delete this section"}
         />
       )}
     </>
@@ -93,9 +115,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "80%",
     fontWeight: "300",
   },
-  ccrt__doctor__training__info__edit: {
+  ccrt__doctor__training__info__delete: {
     position: "absolute",
     right: "0",
+  },
+  ccrt__doctor__training__info__edit: {
+    position: "absolute",
+    right: "50px",
   },
 }));
 

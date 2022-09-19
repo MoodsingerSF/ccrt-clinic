@@ -120,7 +120,7 @@ const Appointment = () => {
       meetingLink: "iwgfiywegfyiwgiyfgwiyi",
     },
   ]);
-  const [filterValue, setFilterValue] = useState("upcomming");
+  const [filterValue, setFilterValue] = useState("pending");
   const [value, setValue] = useState(dayjs());
   // const [filterDate, setFilterDate] = useState(dateString);
   // console.log(filterDate);
