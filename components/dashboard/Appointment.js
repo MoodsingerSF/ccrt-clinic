@@ -64,7 +64,7 @@ const Appointment = () => {
         { id: "1", title: "X-ray", file: test },
         { id: "2", title: "Blood test", file: test },
       ],
-      status: "upcomming",
+      status: "pending",
       fee: "500",
       meetingLink: "iwgfiywegfyiwgiyfgwiyi",
     },
@@ -115,7 +115,7 @@ const Appointment = () => {
         { id: "1", title: "X-ray", file: test },
         { id: "2", title: "Blood test", file: test },
       ],
-      status: "upcomming",
+      status: "pending",
       fee: "500",
       meetingLink: "iwgfiywegfyiwgiyfgwiyi",
     },
@@ -170,7 +170,7 @@ const Appointment = () => {
             value={filterValue}
             onChange={(e) => setFilterValue(e.target.value)}
           >
-            <MenuItem value="upcomming">Upcomming</MenuItem>
+            <MenuItem value="pending">Pending</MenuItem>
             <MenuItem value="finished">Completed</MenuItem>
             <MenuItem value="cancelled">Cancelled</MenuItem>
           </TextField>
@@ -209,13 +209,13 @@ const Appointment = () => {
                       Cancellation Time
                     </th>
                   )} */}
-                  {filterValue === "upcomming" && getRole() === Role.DOCTOR && (
+                  {filterValue === "pending" && getRole() === Role.DOCTOR && (
                     <th className={classes.ccrt__table__heading}>
                       Prescription
                     </th>
                   )}
 
-                  {filterValue === "upcomming" && (
+                  {filterValue === "pending" && (
                     <th className={classes.ccrt__table__heading}>
                       Meeting Link
                     </th>

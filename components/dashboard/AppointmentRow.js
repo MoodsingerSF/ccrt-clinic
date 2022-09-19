@@ -55,7 +55,7 @@ const AppointmentRow = ({
               >
                 doctor details
               </button>
-              {status === "upcomming" && (
+              {status === "pending" && (
                 <button
                   style={{ textTransform: "capitalize" }}
                   onClick={() => setAppointmentDetailsBackdrop(true)}
@@ -67,7 +67,7 @@ const AppointmentRow = ({
           )}
           {getRole() === Role.DOCTOR && (
             <>
-              {status === "upcomming" && (
+              {status === "pending" && (
                 <AppointmentTableButton
                   title={"complete"}
                   onClick={() => setShowConfirmationModal(true)}
@@ -78,7 +78,7 @@ const AppointmentRow = ({
                 onClick={() => setAppointmentDetailsBackdrop(true)}
               />
 
-              {status === "upcomming" && (
+              {status === "pending" && (
                 <AppointmentTableButton
                   title={" cancel"}
                   onClick={() => setShowConfirmationModal(true)}
@@ -112,7 +112,7 @@ const AppointmentRow = ({
         )}
         {getRole() === Role.DOCTOR && (
           <>
-            {status === "upcomming" && (
+            {status === "pending" && (
               <td className={classes.ccrt__table__cell}>
                 <AppointmentTableButton
                   title={"add prescription"}
@@ -123,7 +123,7 @@ const AppointmentRow = ({
           </>
         )}
 
-        {status === "upcomming" && (
+        {status === "pending" && (
           <td className={classes.ccrt__table__cell}>
             <AppointmentTableButton
               title={"link"}
