@@ -5,5 +5,5 @@ export const validateInput = (name) => {
 };
 
 export const validateDate = (date) => {
-  return date == null || date == undefined;
+  return date === null || date === undefined;
 };

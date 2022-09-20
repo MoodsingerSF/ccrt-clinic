@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  Modal,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, IconButton, Modal, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DoctorInfoFormTextField from "../textfields/DoctorInfoFormTextField";
 import { makeStyles } from "@mui/styles";
@@ -15,23 +8,25 @@ import {
   validateDate,
   validateInput,
 } from "../../controllers/DoctorInfoFormController";
-import { addEducation } from "../../controllers/UserController";
-import loadingAnimationData from "../../public/animations/loading3.json";
-import Lottie from "lottie-react";
+import {
+  addEducation,
+  updateEducation,
+} from "../../controllers/UserController";
 import BasicDatePicker from "../misc/BasicDatePicker";
-import { processDate } from "../../misc/functions";
+
+import CustomButton from "../button/CustomButton";
 
 const DoctorFormEducationModal = ({
   open,
   onNegativeFeedback,
   onPositiveFeedback,
   setEducation,
-  id = "",
+  id = null,
   institute = "",
   degreeName = "",
   subjectName = "",
-  start = "",
-  end = "",
+  start = null,
+  end = null,
   editable = false,
 }) => {
   const classes = useStyles();
@@ -65,27 +60,28 @@ const DoctorFormEducationModal = ({
     }
   };
 
-  const handleSubmitEditEducation = () => {
-    if (validate(degree, subject, institutionName, startDate, endDate)) {
-      const degree = {
-        id: id,
+  const handleSubmitEditEducation = async () => {
+    try {
+      if (!validate(degree, subject, institutionName, startDate, endDate)) {
+        setShowError(true);
+        return;
+      }
+      setLoading(true);
+      const data = await updateEducation(
         degree,
         subject,
         institutionName,
         startDate,
         endDate,
-      };
-      setEducation((prev) =>
-        prev.map((item) => (item.id === id ? degree : item))
+        id
       );
-      setDegree("");
-      setSubject("");
-      setInstitutionName("");
-      setStartDate("");
-      setEndDate("");
+      setEducation((prev) =>
+        prev.map((item) => (item.id === id ? data : item))
+      );
+      setLoading(false);
       onNegativeFeedback();
-    } else {
-      setShowError(true);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -95,8 +91,8 @@ const DoctorFormEducationModal = ({
       !validateInput(degree) &&
       !validateInput(subject) &&
       !validateInput(institutionName) &&
-      validateDate(startDate) &&
-      validateDate(endDate);
+      !validateDate(startDate) &&
+      !validateDate(endDate);
     return isEverythingAllRight;
   };
 
@@ -167,7 +163,7 @@ const DoctorFormEducationModal = ({
                 onChange={(newValue) => {
                   setStartDate(newValue);
                 }}
-                error={showError && !validateDate(startDate)}
+                error={showError && validateDate(startDate)}
                 errorText={"Required"}
                 format={true}
               />
@@ -179,7 +175,7 @@ const DoctorFormEducationModal = ({
                 onChange={(newValue) => {
                   setEndDate(newValue);
                 }}
-                error={showError && !validateDate(endDate)}
+                error={showError && validateDate(endDate)}
                 errorText={"Required"}
                 format={true}
               />
@@ -192,14 +188,15 @@ const DoctorFormEducationModal = ({
           alignItems="center"
           className={classes.ccrt__modal__footer__container}
         >
-          <Button
-            variant="contained"
+          <CustomButton
+            icon={null}
+            title={editable ? "update" : "save"}
             onClick={
               editable ? handleSubmitEditEducation : handleSubmitEducation
             }
-          >
-            {loading ? "..." : editable ? "update" : "save"}
-          </Button>
+            size="medium"
+            loading={loading}
+          />
         </Grid>
       </Box>
     </Modal>
@@ -230,12 +227,12 @@ DoctorFormEducationModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onNegativeFeedback: PropTypes.func.isRequired,
   setEducation: PropTypes.func.isRequired,
-  id: PropTypes.string,
+  id: PropTypes.number,
   institute: PropTypes.string,
   degree: PropTypes.string,
   subject: PropTypes.string,
-  start: PropTypes.string,
-  end: PropTypes.string,
+  start: PropTypes.number,
+  end: PropTypes.number,
   editable: PropTypes.bool,
 };
 

@@ -6,6 +6,9 @@ import DoctorEducationSection from "../components/doctor-info-form/DoctorEducati
 import DoctorTrainingSection from "../components/doctor-info-form/DoctorTrainingSection";
 import DoctorAwardSection from "../components/doctor-info-form/DoctorAwardSection";
 import DoctorExperianceSection from "../components/doctor-info-form/DoctorExperianceSection";
+import CustomSnackbar from "../components/snackbar/CustomSnackbar";
+import { SNACKBAR_INITIAL_STATE } from "../misc/constants";
+import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
 
 const DoctorInfoForm = ({ headingShow = true, educationList }) => {
   const classes = useStyles();
@@ -14,7 +17,6 @@ const DoctorInfoForm = ({ headingShow = true, educationList }) => {
   const IsDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   const [education, setEducation] = useState(educationList);
-  console.log(education);
   const [training, setTraining] = useState([
     // {
     //   id: "0",
@@ -59,6 +61,10 @@ const DoctorInfoForm = ({ headingShow = true, educationList }) => {
     // },
   ]);
   // console.log(award);
+  const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
+  const openSnackbar = (message) => {
+    handleSnackbarOpen(message, setSnackbar);
+  };
 
   return (
     <Grid
@@ -75,6 +81,7 @@ const DoctorInfoForm = ({ headingShow = true, educationList }) => {
           <DoctorEducationSection
             education={education}
             setEducation={setEducation}
+            openSnackbar={openSnackbar}
           />
         </Grid>
         <Grid container>
@@ -93,6 +100,13 @@ const DoctorInfoForm = ({ headingShow = true, educationList }) => {
           <DoctorAwardSection award={award} setAward={setAward} />
         </Grid>
       </Grid>
+      <CustomSnackbar
+        open={snackbar.open}
+        onClose={() => {
+          handleSnackbarClose(setSnackbar);
+        }}
+        message={snackbar.message}
+      />
     </Grid>
   );
 };

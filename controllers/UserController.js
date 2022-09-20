@@ -114,7 +114,6 @@ export const retrieveAcceptedDoctors = async (page = 0, limit = 15) => {
   });
   return data.map((doctor) => processUserDetails(doctor));
 };
-
 export const addEducation = async (
   degree,
   subject,
@@ -142,6 +141,36 @@ export const addEducation = async (
   );
   return response.data;
 };
+
+export const updateEducation = async (
+  degree,
+  subject,
+  institutionName,
+  startDate,
+  endDate,
+  id
+) => {
+  const data = {
+    degree,
+    subject,
+    institutionName,
+    startDate: processDate(startDate),
+    endDate: processDate(endDate),
+  };
+  const response = await axios.put(
+    SERVER_PATH + "users/" + retrieveUserId() + "/education/" + id,
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return response.data;
+};
+
 export const deleteEducation = async (Id) => {
   const response = await axios.delete(
     SERVER_PATH + "users/" + retrieveUserId() + "/education/" + Id,
