@@ -16,10 +16,11 @@ import LoaderComponent from "../../components/misc/LoaderComponent";
 import avatar from "../../public/image/doctor/docAvatar2.png";
 const DoctorDetails = ({ doctorId }) => {
   // console.log(doctorId);
-  const classes = useStyles();
   const router = useRouter();
 
   if (router.isFallback) return <FallbackComponent />;
+  const classes = useStyles();
+
   const scheduleRef = useRef(null);
   const [doctorDetails, setDoctorDetails] = useState(null);
   const [loading, setLoading] = useState(false);
