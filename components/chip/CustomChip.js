@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import React from "react";
 import PropTypes from "prop-types";
-const CustomChip = ({ title, color = "#f1c40f" }) => {
+const CustomChip = ({ title, color = "#2ecc71" }) => {
   return (
     <Typography
       style={{
@@ -9,8 +9,11 @@ const CustomChip = ({ title, color = "#f1c40f" }) => {
         fontWeight: 500,
         background: color,
         borderRadius: 25,
-        padding: "4px 10px",
+        padding: "4px 16px",
         textAlign: "center",
+        textTransform: "capitalize",
+        marginRight: 5,
+        marginBottom: 5,
       }}
     >
       {title}

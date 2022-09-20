@@ -15,7 +15,6 @@ import DoctorScheduleComponent from "../../components/misc/DoctorScheduleCompone
 import LoaderComponent from "../../components/misc/LoaderComponent";
 import avatar from "../../public/image/doctor/docAvatar2.png";
 const DoctorDetails = ({ doctorId }) => {
-  // console.log(doctorId);
   const router = useRouter();
 
   if (router.isFallback) return <FallbackComponent />;
@@ -53,13 +52,6 @@ const DoctorDetails = ({ doctorId }) => {
     getDoctorDetails(doctorId);
     getSchedule(doctorId);
   }, [doctorId]);
-
-  // ===========================================================================
-  // console.log(new Date().toUTCString());
-
-  // const handleClickSchedule = (time) => {
-  //   console.log("Clicked The Time", time);
-  // };
 
   return (
     <>

@@ -5,13 +5,29 @@ import {
   retrieveAuthorizationToken,
   retrieveUserId,
 } from "./LocalStorageController";
-
+export const WEEK_DAYS = [
+  "saturday",
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+];
 export const getSlotTimeAsString = ({ startTime, endTime }) => {
   return `${prettyTime(
     startTime.hour,
     startTime.minute,
     startTime.phase
   )} - ${prettyTime(endTime.hour, endTime.minute, endTime.phase)}`;
+};
+
+const processScheduleData = (schedule) => {
+  const data = {};
+  WEEK_DAYS.map((day) => {
+    data[day] = schedule[day].map((item) => parseSlot(item));
+  });
+  return data;
 };
 
 const prettyTime = (hour, minute, phase) => {
@@ -41,9 +57,8 @@ const parseTime = (time) => {
 };
 
 const stringifyTime = (hour, minute, phase) => {
-  return `${
-    phase === "PM" ? hour + 12 : hour < 10 ? `0${hour}` : hour
-  }:${minute}:00`;
+  const newHour = phase === "PM" ? parseInt(hour) + 12 : parseInt(hour);
+  return `${newHour < 10 ? `0${newHour}` : newHour}:${minute}:00`;
 };
 
 const parseSlot = (slot) => {
@@ -58,11 +73,7 @@ export const getSchedule = async () => {
   const response = await axios.get(
     SERVER_PATH + "doctors/" + retrieveUserId() + "/schedule"
   );
-  const data = {};
-  Object.keys(response.data).forEach((key) => {
-    data[key] = response.data[key].map((item) => parseSlot(item));
-  });
-  return data;
+  return processScheduleData(response.data);
 };
 
 export const getActiveSchedule = async (doctorId) => {
@@ -74,14 +85,14 @@ export const getActiveSchedule = async (doctorId) => {
       },
     }
   );
-  const data = {};
-  Object.keys(response.data).forEach((key) => {
-    data[key] = response.data[key].map((item) => parseSlot(item));
-  });
-  return data;
+  return processScheduleData(response.data);
 };
 
 export const createSlot = async (dayCode, startTime, endTime) => {
+  console.log(
+    "start time",
+    stringifyTime(startTime.hour, startTime.minute, startTime.phase)
+  );
   const response = await axios.post(
     SERVER_PATH + "doctors/" + retrieveUserId() + "/schedule",
     {
