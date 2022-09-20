@@ -12,99 +12,88 @@ import DoctorInfoFormTextField from "../textfields/DoctorInfoFormTextField";
 import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import {
+  validateDate,
   validateInput,
-  validateYear,
 } from "../../controllers/DoctorInfoFormController";
-
-function* generateId(i) {
-  while (true) {
-    yield i++;
-  }
-}
-const getId = generateId(0);
+import { addEducation } from "../../controllers/UserController";
+import BasicDatePicker from "../misc/BasicDatePicker";
 
 const DoctorFormEducationModal = ({
   open,
   onNegativeFeedback,
-  education,
+  onPositiveFeedback,
   setEducation,
   id = "",
   institute = "",
-  degree = "",
-  subject = "",
+  degreeName = "",
+  subjectName = "",
   start = "",
   end = "",
   editable = false,
 }) => {
   const classes = useStyles();
   const [showError, setShowError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const [degreeName, setDegreeName] = useState(degree);
-  const [subjectName, setSubjectName] = useState(subject);
-  const [instituteName, setInstituteName] = useState(institute);
-  const [startYear, setStartYear] = useState(start);
-  const [endYear, setEndYear] = useState(end);
+  const [degree, setDegree] = useState(degreeName);
+  const [subject, setSubject] = useState(subjectName);
+  const [institutionName, setInstitutionName] = useState(institute);
+  const [startDate, setStartDate] = useState(start);
+  const [endDate, setEndDate] = useState(end);
 
-  const handleSubmitEducation = () => {
-    if (validate(degreeName, subjectName, instituteName, startYear, endYear)) {
-      const degree = {
-        id: getId.next().value.toLocaleString(),
-        degreeName,
-        subjectName,
-        instituteName,
-        startYear,
-        endYear,
-      };
-      setEducation([...education, degree]);
-      setDegreeName("");
-      setSubjectName("");
-      setInstituteName("");
-      setStartYear("");
-      setEndYear("");
-      onNegativeFeedback();
-    } else {
-      setShowError(true);
+  const handleSubmitEducation = async () => {
+    try {
+      if (!validate(degree, subject, institutionName, startDate, endDate)) {
+        setShowError(true);
+        return;
+      }
+      setLoading(true);
+      const data = await addEducation(
+        degree,
+        subject,
+        institutionName,
+        startDate,
+        endDate
+      );
+      setLoading(false);
+      onPositiveFeedback(data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const handleSubmitEditEducation = () => {
-    if (validate(degreeName, subjectName, instituteName, startYear, endYear)) {
+    if (validate(degree, subject, institutionName, startDate, endDate)) {
       const degree = {
         id: id,
-        degreeName,
-        subjectName,
-        instituteName,
-        startYear,
-        endYear,
+        degree,
+        subject,
+        institutionName,
+        startDate,
+        endDate,
       };
       setEducation((prev) =>
         prev.map((item) => (item.id === id ? degree : item))
       );
-      setDegreeName("");
-      setSubjectName("");
-      setInstituteName("");
-      setStartYear("");
-      setEndYear("");
+      setDegree("");
+      setSubject("");
+      setInstitutionName("");
+      setStartDate("");
+      setEndDate("");
       onNegativeFeedback();
     } else {
       setShowError(true);
     }
   };
 
-  const validate = (
-    degreeName,
-    subjectName,
-    instituteName,
-    startYear,
-    endYear
-  ) => {
+  const validate = (degree, subject, institutionName, startDate, endDate) => {
     let isEverythingAllRight = true;
     isEverythingAllRight =
-      !validateInput(degreeName) &&
-      !validateInput(subjectName) &&
-      !validateInput(instituteName) &&
-      validateYear(startYear) &&
-      validateYear(endYear);
+      !validateInput(degree) &&
+      !validateInput(subject) &&
+      !validateInput(institutionName) &&
+      validateDate(startDate) &&
+      validateDate(endDate);
     return isEverythingAllRight;
   };
 
@@ -141,49 +130,55 @@ const DoctorFormEducationModal = ({
           <Grid container item xs={12} spacing={2}>
             <Grid item xs={12} md={12} lg={6}>
               <DoctorInfoFormTextField
-                placeholder={"Degree name"}
-                value={degreeName}
-                onChange={(e) => setDegreeName(e.target.value)}
-                error={showError && validateInput(degreeName)}
+                label={"Degree name"}
+                value={degree}
+                onChange={(e) => setDegree(e.target.value)}
+                error={showError && validateInput(degree)}
                 errorText={"Required"}
               />
             </Grid>
             <Grid item xs={12} md={12} lg={6}>
               <DoctorInfoFormTextField
-                placeholder={"Subject"}
-                value={subjectName}
-                onChange={(e) => setSubjectName(e.target.value)}
-                error={showError && validateInput(subjectName)}
+                label={"Subject Name"}
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                error={showError && validateInput(subject)}
                 errorText={"Required"}
               />
             </Grid>
           </Grid>
           <Grid item xs={12}>
             <DoctorInfoFormTextField
-              placeholder={"Institute name"}
-              value={instituteName}
-              onChange={(e) => setInstituteName(e.target.value)}
-              error={showError && validateInput(instituteName)}
+              label={"Institution Name"}
+              value={institutionName}
+              onChange={(e) => setInstitutionName(e.target.value)}
+              error={showError && validateInput(institutionName)}
               errorText={"Required"}
             />
           </Grid>
           <Grid container item xs={12} spacing={2}>
             <Grid item xs={12} md={12} lg={6}>
-              <DoctorInfoFormTextField
-                placeholder={"Start year"}
-                value={startYear}
-                onChange={(e) => setStartYear(e.target.value)}
-                error={showError && !validateYear(startYear)}
+              <BasicDatePicker
+                label={"Start date"}
+                value={startDate}
+                onChange={(newValue) => {
+                  setStartDate(newValue);
+                }}
+                error={showError && !validateDate(startDate)}
                 errorText={"Required"}
+                format={true}
               />
             </Grid>
             <Grid item xs={12} md={12} lg={6}>
-              <DoctorInfoFormTextField
-                placeholder={"End year"}
-                value={endYear}
-                onChange={(e) => setEndYear(e.target.value)}
-                error={showError && !validateYear(endYear)}
+              <BasicDatePicker
+                label={"End date"}
+                value={endDate}
+                onChange={(newValue) => {
+                  setEndDate(newValue);
+                }}
+                error={showError && !validateDate(endDate)}
                 errorText={"Required"}
+                format={true}
               />
             </Grid>
           </Grid>
@@ -195,11 +190,12 @@ const DoctorFormEducationModal = ({
           className={classes.ccrt__modal__footer__container}
         >
           <Button
+            variant="contained"
             onClick={
               editable ? handleSubmitEditEducation : handleSubmitEducation
             }
           >
-            {editable ? "update" : "save"}
+            {loading ? "..." : editable ? "update" : "save"}
           </Button>
         </Grid>
       </Box>
@@ -230,12 +226,12 @@ const useStyles = makeStyles(() => ({
 DoctorFormEducationModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onNegativeFeedback: PropTypes.func.isRequired,
-  education: PropTypes.array.isRequired,
+  onPositiveFeedback: PropTypes.func.isRequired,
   setEducation: PropTypes.func.isRequired,
   id: PropTypes.string,
   institute: PropTypes.string,
-  degree: PropTypes.string,
-  subject: PropTypes.string,
+  degreeName: PropTypes.string,
+  subjectName: PropTypes.string,
   start: PropTypes.string,
   end: PropTypes.string,
   editable: PropTypes.bool,

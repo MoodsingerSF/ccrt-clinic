@@ -6,6 +6,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoctorFormEducationModal from "../modal/DoctorFormEducationModal";
 import ConfirmationModal from "../modal/ConfirmationModal";
+import axios from "axios";
+import { deleteEducation } from "../../controllers/UserController";
 
 const DoctorEducationInfo = ({
   id,
@@ -22,9 +24,15 @@ const DoctorEducationInfo = ({
   const [confirmationModal, setConfirmationModal] = useState(false);
 
   const handleDeleteSection = (id) => {
-    // console.log(id);
-    const items = education.filter((item) => item.id !== id);
-    setEducation(items);
+    console.log(id);
+    try {
+      const response = deleteEducation(id);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+    // const items = education.filter((item) => item.id !== id);
+    // setEducation(items);
   };
 
   return (
@@ -77,8 +85,8 @@ const DoctorEducationInfo = ({
           setEducation={setEducation}
           id={id}
           institute={instituteName}
-          degree={degreeName}
-          subject={subjectName}
+          degreeName={degreeName}
+          subjectName={subjectName}
           start={startYear}
           end={endYear}
           editable={true}
@@ -95,7 +103,17 @@ const DoctorEducationInfo = ({
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+DoctorEducationInfo.propTypes = {
+  instituteName: PropTypes.string.isRequired,
+  degreeName: PropTypes.string.isRequired,
+  subjectName: PropTypes.string.isRequired,
+  startYear: PropTypes.number.isRequired,
+  endYear: PropTypes.number.isRequired,
+  education: PropTypes.array.isRequired,
+  setEducation: PropTypes.func.isRequired,
+};
+
+const useStyles = makeStyles(() => ({
   ccrt__education__section__content__container: {
     position: "relative",
     margin: "10px 0",
@@ -122,13 +140,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-DoctorEducationInfo.propTypes = {
-  instituteName: PropTypes.string.isRequired,
-  degreeName: PropTypes.string.isRequired,
-  subjectName: PropTypes.string.isRequired,
-  startYear: PropTypes.string.isRequired,
-  endYear: PropTypes.string.isRequired,
-  education: PropTypes.array.isRequired,
-  setEducation: PropTypes.func.isRequired,
-};
 export default DoctorEducationInfo;

@@ -70,6 +70,7 @@ const DashboardProfile = () => {
       setLoading(true);
       const data = await retrieveUserDetails(retrieveUserId());
       setLoading(false);
+      console.log(data);
       dispatch({ type: "initialize", payload: data });
     } catch (error) {
       setLoading(false);
@@ -208,7 +209,10 @@ const DashboardProfile = () => {
                   // }}
                   // openSnackbar={openSnackbar}
                 />
-                <DoctorInfoForm headingShow={false} />
+                <DoctorInfoForm
+                  headingShow={false}
+                  educationList={user.education}
+                />
               </>
             )}
           </Grid>

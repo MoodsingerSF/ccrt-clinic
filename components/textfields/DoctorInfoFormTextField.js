@@ -4,8 +4,8 @@ import { Grid, TextField, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 // import PropTypes from "prop-types";
 const DoctorInfoFormTextField = ({
-  // eslint-disable-next-line react/prop-types
-  placeholder,
+  label,
+  placeholder = null,
   type,
   value,
   onChange,
@@ -18,6 +18,7 @@ const DoctorInfoFormTextField = ({
       <TextField
         fullWidth
         size="small"
+        label={label}
         placeholder={placeholder}
         type={type}
         value={value}

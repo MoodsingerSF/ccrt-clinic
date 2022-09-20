@@ -11,6 +11,7 @@ const BasicDatePicker = ({
   onChange,
   error = false,
   errorText = "",
+  format = false,
 }) => {
   return (
     <>
@@ -22,7 +23,7 @@ const BasicDatePicker = ({
           renderInput={(params) => (
             <TextField fullWidth size="small" {...params} />
           )}
-          inputFormat="YYYY-MM-DD"
+          inputFormat={format ? "YYYY-MM-DD" : "DD-MM-YYYY"}
         />
       </LocalizationProvider>
       {error && (
@@ -39,5 +40,6 @@ BasicDatePicker.propTypes = {
   onChange: PropTypes.func.isRequired,
   error: PropTypes.bool,
   errorText: PropTypes.string,
+  format: PropTypes.bool,
 };
 export default BasicDatePicker;
