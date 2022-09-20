@@ -10,7 +10,7 @@ import {
 const MINIMUM_PASSWORD_LENGTH = 6;
 
 export const USER_TYPES = ["USER", "DOCTOR"];
-export const USER_GENDERS = ["Male", "Female", "Others"];
+export const USER_GENDERS = ["MALE", "FEMALE", "OTHER"];
 export const validateName = (name) => {
   return NAME_REGEX.test(name);
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -103,7 +103,7 @@ const SignupScreen = () => {
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
-  const handlefee = (e) => {
+  const handleFee = (e) => {
     setFee(e.target.value);
   };
   const handlePassword = (e) => {
@@ -143,7 +143,8 @@ const SignupScreen = () => {
       password,
       gender,
       birthDate,
-      spe
+      specializationList,
+      fee
     );
     router.push("/login");
   };
@@ -343,7 +344,7 @@ const SignupScreen = () => {
                       variant="outlined"
                       type="fext"
                       value={fee}
-                      onChange={handlefee}
+                      onChange={handleFee}
                       error={showError && !validateFee(fee)}
                       errorText={formErrors.fee}
                     />

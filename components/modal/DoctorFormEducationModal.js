@@ -207,7 +207,7 @@ const DoctorFormEducationModal = ({
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ccrt__modal__appbar__container: {
     boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   },

@@ -7,6 +7,7 @@ import DoctorTrainingSection from "../components/doctor-info-form/DoctorTraining
 import DoctorAwardSection from "../components/doctor-info-form/DoctorAwardSection";
 import DoctorExperianceSection from "../components/doctor-info-form/DoctorExperianceSection";
 
+// eslint-disable-next-line react/prop-types
 const DoctorInfoForm = ({ headingShow = true }) => {
   const classes = useStyles();
 
@@ -106,7 +107,7 @@ const DoctorInfoForm = ({ headingShow = true }) => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ccrt__doctor__info__form__heading: {
     width: "100%",
     textAlign: "center",

@@ -1,6 +1,7 @@
 import { FormControlLabel, Radio, Typography } from "@mui/material";
 import React from "react";
 import PropTypes from "prop-types";
+import { capitalize, lowerCase } from "lodash";
 const CustomCheckbox = ({ name, checked, value, onChange }) => {
   return (
     <FormControlLabel
@@ -14,8 +15,8 @@ const CustomCheckbox = ({ name, checked, value, onChange }) => {
         />
       }
       label={
-        <Typography style={{ textTransform: "capitalize", fontSize: "90%" }}>
-          {name}
+        <Typography style={{ fontSize: "90%" }}>
+          {capitalize(lowerCase(name))}
         </Typography>
       }
     />

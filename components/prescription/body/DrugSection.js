@@ -4,17 +4,17 @@ import DrugAddedForm from "./DrugAddedForm";
 import PropTypes from "prop-types";
 import { makeStyles, createStyles } from "@mui/styles";
 
-const DrugSection = ({ showAddedForm, drugLists, setDrugLists }) => {
+const DrugSection = ({ showAddedForm, drugList, setDrugList }) => {
   const classes = useStyles();
   return (
     <Grid container justifyContent={"center"} alignItems="center">
-      <Typography className={classes.ccrt__prescription__drugsection__heading}>
+      <Typography className={classes.ccrt__prescription__drug_section__heading}>
         Drugs
       </Typography>
       <Grid container>
-        {drugLists && (
+        {drugList && (
           <Grid container>
-            {drugLists.map((item, index) => (
+            {drugList.map((item, index) => (
               <Grid
                 key={item.id}
                 container
@@ -59,16 +59,21 @@ const DrugSection = ({ showAddedForm, drugLists, setDrugLists }) => {
           </Grid>
         )}
         {showAddedForm && (
-          <DrugAddedForm drugLists={drugLists} setDrugLists={setDrugLists} />
+          <DrugAddedForm drugLists={drugList} setDrugLists={setDrugList} />
         )}
       </Grid>
     </Grid>
   );
 };
 
+DrugSection.propTypes = {
+  showAddedForm: PropTypes.bool.isRequired,
+  drugList: PropTypes.array.isRequired,
+  setDrugList: PropTypes.func.isRequired,
+};
 const useStyles = makeStyles((theme) =>
   createStyles({
-    ccrt__prescription__drugsection__heading: {
+    ccrt__prescription__drug_section__heading: {
       width: "100%",
       textAlign: "center",
       padding: "20px 0",
@@ -102,7 +107,4 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-DrugSection.propTypes = {
-  showAddedForm: PropTypes.bool.isRequired,
-};
 export default DrugSection;

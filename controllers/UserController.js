@@ -21,6 +21,7 @@ const processUserDetails = (user) => {
     specialization: "Oncology",
     patient_count: 0,
     degree: " MBBS, FCPS (Surgery)",
+    specializations: user.specializations.map((item) => item.name),
     education: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac augue imperdiet, porttitor urna in, accumsan nisl. Integer aliquet ex eu libero pulvinar blandit. Sed sodales urna ac eleifend suscipit. Quisque eget sollicitudin augue. Fusce pharetra dui non risus dapibus, quis efficitur ipsum congue. Fusce ut lobortis ligula. Nullam eget nisi urna. Sed ac viverra lacus. Quisque ultricies ac ex sit amet faucibus.`,
     experience: `Cras purus lorem, aliquet non ornare nec, cursus at neque. Phasellus egestas cursus nisi ut porttitor. Maecenas suscipit orci vitae luctus elementum. Sed suscipit dolor in lorem sollicitudin, id rhoncus nibh feugiat. Praesent a dolor malesuada mauris hendrerit venenatis sit amet nec massa. Integer rutrum eros eget purus laoreet, suscipit finibus purus pellentesque.`,
   };

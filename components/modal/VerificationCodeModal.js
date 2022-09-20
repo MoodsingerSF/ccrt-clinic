@@ -33,13 +33,7 @@ const VerificationCodeModal = ({
   handleSignUp,
 }) => {
   const classes = useStyles();
-<<<<<<< HEAD
-  const [seconds, setSeconds] = useState(INITIAL_SECONDS);
-  const [disabled, setDisabled] = useState(true);
-  const [showContent, setShowContent] = useState(true);
-=======
   const theme = useTheme();
->>>>>>> 80ce2ff62be1467f4904e4d8b0f2cbce73452eea
 
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));

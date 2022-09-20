@@ -149,7 +149,7 @@ const useStyles = makeStyles((theme) =>
     ccrt_app_bar__container: {
       height: "12vh",
       background: "#fff",
-      zIndex: 1000,
+      zIndex: 99,
       position: "fixed",
       top: 0,
       left: 0,
