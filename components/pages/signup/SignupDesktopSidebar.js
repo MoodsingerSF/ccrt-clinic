@@ -53,6 +53,7 @@ const useStyles = makeStyles({
   },
   ccrt__signup__left__Lg: {
     padding: "30px 20px",
+    // minHeight: "88vh",
   },
   ccrt__signup__left__title: {
     color: "white",

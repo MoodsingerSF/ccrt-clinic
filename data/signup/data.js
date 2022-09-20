@@ -11,7 +11,9 @@ export const SIGN_UP_WITH_FACEBOOK = "Signup with facebook";
 export const formErrors = {
   name: "Name should contain only english alphabet, -, _ and whitespace",
   email: "Email address is not valid",
+  birthDate: "Invalid birth date",
   password: "Password must be at-least 6 characters long",
   confirmPassword: "Passwords haven't matched",
   policy: "You have to accept our policy to create an account.",
+  specialization: "Requird",
 };

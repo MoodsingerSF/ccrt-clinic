@@ -4,26 +4,27 @@ import PropTypes from "prop-types";
 const SignUpTextField = ({
   label,
   type,
+  placeholder = "",
   value,
   onChange,
   error = false,
   errorText = "",
+  variant = "standard",
 }) => {
   return (
-    <Grid container item xs={12}>
+    <Grid style={{ marginBottom: "10px" }}>
       <TextField
+        variant={variant}
+        size="small"
         fullWidth
-        variant="standard"
         label={label}
         type={type}
+        placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e)}
-        style={{ marginBottom: "5px" }}
       />
       {error && (
-        <Typography
-          style={{ color: "red", fontSize: "70%", marginBottom: "5px" }}
-        >
+        <Typography style={{ color: "red", fontSize: "70%" }}>
           {errorText}
         </Typography>
       )}
@@ -38,6 +39,8 @@ SignUpTextField.propTypes = {
   onChange: PropTypes.func.isRequired,
   error: PropTypes.bool,
   errorText: PropTypes.string,
+  placeholder: PropTypes.string,
+  variant: PropTypes.string,
 };
 
 export default SignUpTextField;
