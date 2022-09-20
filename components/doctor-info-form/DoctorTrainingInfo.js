@@ -13,8 +13,9 @@ const DoctorTrainingInfo = ({
   programName,
   startYear,
   endYear,
-  training,
-  setTraining,
+  training = [],
+  setTraining = () => {},
+  editable = false,
 }) => {
   const classes = useStyles();
   const [showEditableModal, setShowEditableModal] = useState(false);
@@ -54,18 +55,22 @@ const DoctorTrainingInfo = ({
         >
           {startYear} - {endYear}
         </Typography>
-        <IconButton
-          className={classes.ccrt__doctor__training__info__edit}
-          onClick={() => setShowEditableModal(true)}
-        >
-          <EditIcon fontSize="small" />
-        </IconButton>
-        <IconButton
-          className={classes.ccrt__doctor__training__info__delete}
-          onClick={() => setConfirmationModal(true)}
-        >
-          <DeleteIcon fontSize="small" />
-        </IconButton>
+        {editable && (
+          <>
+            <IconButton
+              className={classes.ccrt__doctor__training__info__edit}
+              onClick={() => setShowEditableModal(true)}
+            >
+              <EditIcon fontSize="small" />
+            </IconButton>
+            <IconButton
+              className={classes.ccrt__doctor__training__info__delete}
+              onClick={() => setConfirmationModal(true)}
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </>
+        )}
       </Grid>
 
       {showEditableModal && (
@@ -93,7 +98,7 @@ const DoctorTrainingInfo = ({
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ccrt__training__section__content__container: {
     position: "relative",
     margin: "10px 0",
@@ -126,8 +131,9 @@ DoctorTrainingInfo.propTypes = {
   programName: PropTypes.string.isRequired,
   startYear: PropTypes.string.isRequired,
   endYear: PropTypes.string.isRequired,
-  training: PropTypes.array.isRequired,
-  setTraining: PropTypes.func.isRequired,
+  training: PropTypes.array,
+  setTraining: PropTypes.func,
+  editable: PropTypes.bool,
 };
 
 export default DoctorTrainingInfo;

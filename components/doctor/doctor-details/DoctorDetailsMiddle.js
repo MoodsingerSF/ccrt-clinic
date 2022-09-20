@@ -2,13 +2,20 @@ import React from "react";
 import { Grid, Typography } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import PropTypes from "prop-types";
+import DoctorEducationInfo from "../../doctor-info-form/DoctorEducationInfo";
+import DoctorAwardInfo from "../../doctor-info-form/DoctorAwardInfo";
+import DoctorExperianceInfo from "../../doctor-info-form/DoctorExperianceInfo";
+import CustomChip from "../../chip/CustomChip";
+import DoctorTrainingInfo from "../../doctor-info-form/DoctorTrainingInfo";
 
 const DoctorDetailsMiddle = ({
   name,
-  specialization,
-  degree,
+  about,
+  specializations,
+  awards,
   education,
-  experience,
+  experiences,
+  trainings,
 }) => {
   const classes = useStyles();
   return (
@@ -25,28 +32,66 @@ const DoctorDetailsMiddle = ({
       <Typography className={classes.ccrt__doct__details__page__dctr__name}>
         {name}
       </Typography>
-      <Typography
-        className={classes.ccrt__doct__details__page__dctr__specialty}
-      >
-        <strong>Specialty - </strong> {specialization}
-        <br />
-        <strong>Degree - </strong>
-        {degree}
-      </Typography>
+      <Grid container>
+        {specializations.map((item) => (
+          <CustomChip key={item} title={item} />
+        ))}
+      </Grid>
+
+      {about && (
+        <Typography
+          className={classes.ccrt__doct__details__page__education__description}
+        >
+          {about}
+        </Typography>
+      )}
       <Grid
         container
         className={classes.ccrt__doct__details__page__description__container}
       >
-        <Typography
-          className={classes.ccrt__doct__details__page__education__description}
-        >
-          {education}
-        </Typography>
-        <Typography
-          className={classes.ccrt__doct__details__page__experiance__description}
-        >
-          {experience}
-        </Typography>
+        {education.map((item) => (
+          <DoctorEducationInfo
+            key={item.id}
+            id={item.id}
+            instituteName={item.institutionName}
+            degreeName={item.degree}
+            subjectName={item.subject}
+            startYear={item.startDate}
+            endYear={item.endDate}
+            education={education}
+          />
+        ))}
+        {trainings.map((item) => (
+          <DoctorTrainingInfo
+            key={item.id}
+            id={item.id}
+            instituteName={item.instituteName}
+            programName={item.programName}
+            startYear={item.startYear}
+            endYear={item.endYear}
+          />
+        ))}
+        {awards.map((item) => (
+          <DoctorAwardInfo
+            key={item.id}
+            id={item.id}
+            title={item.title}
+            year={item.year}
+            award={item}
+          />
+        ))}
+        {experiences.map((item) => (
+          <DoctorExperianceInfo
+            key={item.id}
+            id={item.id}
+            organization={item.organization}
+            jobTitle={item.jobTitle}
+            department={item.department}
+            division={item.division}
+            startYear={item.startYear}
+            endYear={item.endYear}
+          />
+        ))}
       </Grid>
     </Grid>
   );
@@ -72,7 +117,7 @@ const useStyles = makeStyles((theme) =>
     },
     ccrt__doct__details__page__education__description: {
       textAlign: "justify",
-      fontSize: "95%",
+      fontSize: "85%",
       color: "#6d6d6d",
       marginBottom: "15px",
     },
@@ -86,9 +131,11 @@ const useStyles = makeStyles((theme) =>
 
 DoctorDetailsMiddle.propTypes = {
   name: PropTypes.string.isRequired,
-  specialization: PropTypes.string.isRequired,
-  degree: PropTypes.string.isRequired,
-  education: PropTypes.string.isRequired,
-  experience: PropTypes.string.isRequired,
+  specializations: PropTypes.array.isRequired,
+  awards: PropTypes.array.isRequired,
+  education: PropTypes.array.isRequired,
+  experiences: PropTypes.array.isRequired,
+  trainings: PropTypes.array.isRequired,
+  about: PropTypes.string,
 };
 export default DoctorDetailsMiddle;

@@ -39,6 +39,7 @@ const TimeSlotBookDialog = ({
     if (foundDate && !foundDate.isBooked) setSelectedDate(selected);
   };
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   // console.log(getAllDate);
   const retrieveNextAvailableDays = () => {
@@ -84,7 +85,7 @@ const TimeSlotBookDialog = ({
   }, [slotId]);
 
   return (
-    <Dialog open={true} onClose={onNegativeFeedback} style={{ width: "100%" }}>
+    <Dialog open={true} onClose={onNegativeFeedback} maxWidth="md">
       <DialogTitle>
         <Typography
           style={{
@@ -106,32 +107,44 @@ const TimeSlotBookDialog = ({
           container
           justifyContent="center"
           alignItems="center"
-          style={{ width: "50vw", height: "18vh" }}
+          style={{ width: "37vw", height: "18vh" }}
         >
           {loading ? (
             <LoaderComponent />
           ) : (
-            <ToggleButtonGroup
-              value={selectedDate}
-              exclusive
-              onChange={handleChangeSelectedDate}
-              aria-label="Platform"
-            >
-              {possibleDates.map((dateItem, index) => (
-                <ToggleButton
-                  key={index}
-                  className={classNames({
-                    [classes.selected]: dateItem.isBooked,
-                    [classes.nonSelected]: !dateItem.isBooked,
-                  })}
-                  value={dateItem.date}
+            <Grid container>
+              <Grid container justifyContent="center" alignItems="center">
+                <ToggleButtonGroup
+                  value={selectedDate}
+                  exclusive
+                  onChange={handleChangeSelectedDate}
+                  aria-label="Platform"
                 >
-                  <Typography style={{ fontSize: "80%", fontWeight: 500 }}>
-                    {prettyDate(dateItem.date)}
+                  {possibleDates.map((dateItem, index) => (
+                    <ToggleButton
+                      key={index}
+                      className={classNames({
+                        [classes.selected]: dateItem.isBooked,
+                        [classes.nonSelected]: !dateItem.isBooked,
+                      })}
+                      value={dateItem.date}
+                    >
+                      <Typography style={{ fontSize: "80%", fontWeight: 500 }}>
+                        {prettyDate(dateItem.date)}
+                      </Typography>
+                    </ToggleButton>
+                  ))}
+                </ToggleButtonGroup>
+              </Grid>
+              {error && (
+                <Grid container justifyContent="center" alignItems="center">
+                  <Typography style={{ fontSize: "75%", color: "red" }}>
+                    You must select a date on which you want to make an
+                    appointment
                   </Typography>
-                </ToggleButton>
-              ))}
-            </ToggleButtonGroup>
+                </Grid>
+              )}
+            </Grid>
           )}
         </Grid>
       </DialogContent>
@@ -140,6 +153,7 @@ const TimeSlotBookDialog = ({
         <Button
           onClick={() => {
             if (!selectedDate) {
+              setError(true);
               return;
             } else {
               onPositiveFeedback(selectedDate);

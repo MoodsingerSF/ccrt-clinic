@@ -9,7 +9,7 @@ import DoctorAwardInfo from "./DoctorAwardInfo";
 
 const DoctorAwardSection = ({ award, setAward }) => {
   const classes = useStyles();
-  const [showAwardgModal, setShowAwardgModal] = useState(false);
+  const [showAwardModal, setShowAwardModal] = useState(false);
 
   return (
     <>
@@ -23,7 +23,7 @@ const DoctorAwardSection = ({ award, setAward }) => {
           Award
         </Typography>
         {award.length === 0 && (
-          <IconButton onClick={() => setShowAwardgModal(true)}>
+          <IconButton onClick={() => setShowAwardModal(true)}>
             <AddIcon />
           </IconButton>
         )}
@@ -44,16 +44,16 @@ const DoctorAwardSection = ({ award, setAward }) => {
           <Button
             fullWidth
             variant="outlined"
-            onClick={() => setShowAwardgModal(true)}
+            onClick={() => setShowAwardModal(true)}
           >
             <AddIcon fontSize="small" /> add another
           </Button>
         )}
       </Grid>
-      {showAwardgModal && (
+      {showAwardModal && (
         <DoctorFormAwardModal
-          open={showAwardgModal}
-          onNegativeFeedback={() => setShowAwardgModal(false)}
+          open={showAwardModal}
+          onNegativeFeedback={() => setShowAwardModal(false)}
           award={award}
           setAward={setAward}
         />
@@ -62,7 +62,7 @@ const DoctorAwardSection = ({ award, setAward }) => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ccrt__award__section__wrapper: {
     padding: "10px",
     borderRadius: "5px",

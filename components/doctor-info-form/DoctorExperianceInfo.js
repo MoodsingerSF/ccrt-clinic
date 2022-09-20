@@ -15,8 +15,9 @@ const DoctorExperianceInfo = ({
   division,
   startYear,
   endYear,
-  experiances,
-  setExperiances,
+  experiances = [],
+  setExperiances = () => {},
+  editable = false,
 }) => {
   const classes = useStyles();
 
@@ -58,18 +59,22 @@ const DoctorExperianceInfo = ({
         >
           {startYear} - {endYear}
         </Typography>
-        <IconButton
-          className={classes.ccrt__doctor__training__info__edit}
-          onClick={() => setShowEditableModal(true)}
-        >
-          <EditIcon fontSize="small" />
-        </IconButton>
-        <IconButton
-          className={classes.ccrt__doctor__training__info__delete}
-          onClick={() => setConfirmationModal(true)}
-        >
-          <DeleteIcon fontSize="small" />
-        </IconButton>
+        {editable && (
+          <>
+            <IconButton
+              className={classes.ccrt__doctor__training__info__edit}
+              onClick={() => setShowEditableModal(true)}
+            >
+              <EditIcon fontSize="small" />
+            </IconButton>
+            <IconButton
+              className={classes.ccrt__doctor__training__info__delete}
+              onClick={() => setConfirmationModal(true)}
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </>
+        )}
       </Grid>
       {showEditableModal && (
         <DoctorFormExperianceModal
@@ -98,7 +103,7 @@ const DoctorExperianceInfo = ({
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ccrt__experiance__section__content__container: {
     position: "relative",
     margin: "10px 0",
@@ -133,8 +138,9 @@ DoctorExperianceInfo.propTypes = {
   division: PropTypes.string.isRequired,
   startYear: PropTypes.string.isRequired,
   endYear: PropTypes.string.isRequired,
-  experiances: PropTypes.array.isRequired,
-  setExperiances: PropTypes.func.isRequired,
+  experiances: PropTypes.array,
+  setExperiances: PropTypes.func,
+  editable: PropTypes.bool,
 };
 
 export default DoctorExperianceInfo;

@@ -69,7 +69,7 @@ const DoctorEducationSection = ({ education, setEducation }) => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ccrt__education__section__wrapper: {
     padding: "10px",
     borderRadius: "5px",

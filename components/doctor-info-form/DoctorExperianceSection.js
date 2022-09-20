@@ -66,7 +66,7 @@ const DoctorExperianceSection = ({ experiances, setExperiances }) => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ccrt__experiance__section__wrapper: {
     padding: "10px",
     borderRadius: "5px",

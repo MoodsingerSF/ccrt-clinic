@@ -64,7 +64,7 @@ const DoctorTrainingSection = ({ training, setTraining }) => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ccrt__training__section__wrapper: {
     padding: "10px",
     borderRadius: "5px",
