@@ -11,6 +11,10 @@ const DoctorEducationSection = ({ education, setEducation }) => {
   const classes = useStyles();
   const [showEducationModal, setShowEducationModal] = useState(false);
 
+  const handleAddedEducation = (data) => {
+    setEducation((prev) => [...prev, data]);
+  };
+
   return (
     <>
       <Grid
@@ -33,11 +37,11 @@ const DoctorEducationSection = ({ education, setEducation }) => {
             <DoctorEducationInfo
               key={item.id}
               id={item.id}
-              instituteName={item.instituteName}
-              degreeName={item.degreeName}
-              subjectName={item.subjectName}
-              startYear={item.startYear}
-              endYear={item.endYear}
+              instituteName={item.institutionName}
+              degreeName={item.degree}
+              subjectName={item.subject}
+              startYear={item.startDate}
+              endYear={item.endDate}
               education={education}
               setEducation={setEducation}
             />
@@ -57,7 +61,7 @@ const DoctorEducationSection = ({ education, setEducation }) => {
         <DoctorFormEducationModal
           open={showEducationModal}
           onNegativeFeedback={() => setShowEducationModal(false)}
-          education={education}
+          onPositiveFeedback={(data) => handleAddedEducation(data)}
           setEducation={setEducation}
         />
       )}
@@ -79,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 DoctorEducationSection.propTypes = {
-  education: PropTypes.array.isRequired,
+  education: PropTypes.array,
   setEducation: PropTypes.func.isRequired,
 };
 export default DoctorEducationSection;

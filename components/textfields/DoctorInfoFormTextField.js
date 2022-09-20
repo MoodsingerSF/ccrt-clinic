@@ -3,7 +3,8 @@ import { Grid, TextField, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 const DoctorInfoFormTextField = ({
-  placeholder,
+  label,
+  placeholder = null,
   type,
   value,
   onChange,
@@ -16,6 +17,7 @@ const DoctorInfoFormTextField = ({
       <TextField
         fullWidth
         size="small"
+        label={label}
         placeholder={placeholder}
         type={type}
         value={value}

@@ -7,65 +7,56 @@ import DoctorTrainingSection from "../components/doctor-info-form/DoctorTraining
 import DoctorAwardSection from "../components/doctor-info-form/DoctorAwardSection";
 import DoctorExperianceSection from "../components/doctor-info-form/DoctorExperianceSection";
 
-const DoctorInfoForm = ({ headingShow = true }) => {
+const DoctorInfoForm = ({ headingShow = true, educationList }) => {
   const classes = useStyles();
 
   const theme = useTheme();
   const IsDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
-  const [education, setEducation] = useState([
-    {
-      id: "1",
-      degreeName: "Bachelor of Medicine",
-      subjectName: "Medicine",
-      instituteName: "Medical University of the Americas",
-      startYear: "2016",
-      endYear: "2021",
-    },
-  ]);
-  // console.log(education);
+  const [education, setEducation] = useState(educationList);
+  console.log(education);
   const [training, setTraining] = useState([
-    {
-      id: "0",
-      programName: "Clinician Investigator Program",
-      instituteName: "The University of British Columbia, Vancouver",
-      startYear: "2008",
-      endYear: "2010",
-    },
-    {
-      id: "2",
-      programName: "Clinician Investigator Program",
-      instituteName: "The University of British Columbia, Vancouver",
-      startYear: "2012",
-      endYear: "2014",
-    },
-    {
-      id: "3",
-      programName: "Clinician Investigator Program",
-      instituteName: "The University of British Columbia, Vancouver",
-      startYear: "2011",
-      endYear: "2013",
-    },
+    // {
+    //   id: "0",
+    //   programName: "Clinician Investigator Program",
+    //   instituteName: "The University of British Columbia, Vancouver",
+    //   startYear: "2008",
+    //   endYear: "2010",
+    // },
+    // {
+    //   id: "2",
+    //   programName: "Clinician Investigator Program",
+    //   instituteName: "The University of British Columbia, Vancouver",
+    //   startYear: "2012",
+    //   endYear: "2014",
+    // },
+    // {
+    //   id: "3",
+    //   programName: "Clinician Investigator Program",
+    //   instituteName: "The University of British Columbia, Vancouver",
+    //   startYear: "2011",
+    //   endYear: "2013",
+    // },
   ]);
   // console.log(training);
   const [experiances, setExperiances] = useState([
-    {
-      id: "0",
-      jobTitle: "Chief Fellow",
-      organization: "Princess Margaret Cancer Centre",
-      department: "Department of Radiation Oncology",
-      division: "Toronto",
-      startYear: "2008",
-      endYear: "2010",
-    },
+    // {
+    //   id: "0",
+    //   jobTitle: "Chief Fellow",
+    //   organization: "Princess Margaret Cancer Centre",
+    //   department: "Department of Radiation Oncology",
+    //   division: "Toronto",
+    //   startYear: "2008",
+    //   endYear: "2010",
+    // },
   ]);
   // console.log(experiances);
   const [award, setAward] = useState([
-    {
-      id: "0",
-      title: "Marquis Who’s Who in the World",
-      year: "2010",
-    },
+    // {
+    //   id: "0",
+    //   title: "Marquis Who’s Who in the World",
+    //   year: "2010",
+    // },
   ]);
   // console.log(award);
 
@@ -106,7 +97,7 @@ const DoctorInfoForm = ({ headingShow = true }) => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ccrt__doctor__info__form__heading: {
     width: "100%",
     textAlign: "center",
