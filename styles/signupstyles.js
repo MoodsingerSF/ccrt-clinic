@@ -1,5 +1,4 @@
 import { createStyles, makeStyles } from "@mui/styles";
-import { BOX_SHADOW } from "../misc/colors";
 
 export const useStyles = makeStyles((theme) =>
   createStyles({
@@ -8,16 +7,13 @@ export const useStyles = makeStyles((theme) =>
       background: "none",
     },
     containerDesktopSm: {
-      boxShadow: BOX_SHADOW,
       background: theme.palette.primary.main,
     },
     containerDesktopMd: {
-      borderRadius: "26px",
-      width: "900px",
-      margin: "10px auto",
+      width: "100%",
     },
     containerDesktopLg: {
-      width: "1154px",
+      width: "100%",
     },
     ccrt__signup__right: {
       background: "#fff",
@@ -29,20 +25,37 @@ export const useStyles = makeStyles((theme) =>
       padding: "20px 50px",
     },
     ccrt__signup__right__Md: {
-      width: "729px",
-      padding: "50px 90px",
-      borderTopRightRadius: "25px",
-      borderBottomRightRadius: "25px",
+      width: "50%",
+      padding: "20px 90px",
     },
     linkStyle: {
       textDecoration: "none",
       color: theme.palette.primary.main,
-      fontWeight: "500",
+      fontWeight: "bold",
+      fontSize: "90%",
       marginLeft: "10px",
     },
-    termsTextStyle: {
+    termsTextStyle__Mobile: {
       fontSize: "80%",
       color: theme.palette.grey[900],
+    },
+    termsTextStyle__DesktopMd: {
+      fontSize: "90%",
+    },
+    ccrt__signup__policyError__text: {
+      color: "red",
+      fontSize: "70%",
+      marginBottom: "15px",
+    },
+    sign_up_title: {
+      fontSize: "180%",
+      fontWeight: "bold",
+      textAlign: "center",
+    },
+    field_title: {
+      fontWeight: "500",
+      textTransform: "capitalize",
+      fontSize: "95%",
     },
   })
 );

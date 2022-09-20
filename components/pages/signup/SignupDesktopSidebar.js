@@ -33,7 +33,9 @@ const SignupDesktopSidebar = () => {
           [classes.ccrt__signup__left__desc__Sm]: matches,
         })}
       >
-        <h2 className={classes.ccrt__signup__left__title}>{TITLE}</h2>
+        <Typography className={classes.ccrt__signup__left__title}>
+          {TITLE}
+        </Typography>
         <Typography className={classes.ccrt__signup__left__subtitle}>
           {SUBTITLE}
         </Typography>
@@ -51,17 +53,22 @@ const useStyles = makeStyles({
   },
   ccrt__signup__left__Lg: {
     padding: "30px 20px",
+    // minHeight: "88vh",
   },
   ccrt__signup__left__title: {
     color: "white",
     textAlign: "center",
+    fontSize: "160%",
+    fontWeight: "bold",
   },
   ccrt__signup__left__subtitle: {
     color: "white",
+    fontSize: "80%",
     textAlign: "justify",
   },
   ccrt__signup__left__desc__Sm: {
     display: "block",
+    marginTop: 30,
   },
 });
 
