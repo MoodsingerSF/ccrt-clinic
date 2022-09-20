@@ -11,11 +11,6 @@ import {
   useMediaQuery,
   Button,
   TextField,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   MenuItem,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -89,15 +84,13 @@ const TimeSlotBookUserInfoDialog = ({ onNegativeFeedback }) => {
   const matchesMobile = useMediaQuery(theme.breakpoints.up("sm"));
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
 
+  const [openFormDialog, setOpenFormDialog] = useState(false);
   const [fileList, dispatch] = useReducer(reducer, []);
+  console.log(fileList);
 
   const [prescription, setPrescription] = useState(null);
-  const [ecgFile, setEcgFile] = useState(null);
-  const [openFormDialog, setOpenFormDialog] = useState(false);
+  // console.log(prescription);
 
-  const [patientName, setPatientName] = useState("");
-  const [gender, setGender] = useState("female");
-  const [date, setDate] = useState("");
   const [cancerType, setCancerType] = useState("");
   const [showError, setShowError] = useState(false);
 
@@ -105,42 +98,15 @@ const TimeSlotBookUserInfoDialog = ({ onNegativeFeedback }) => {
     setPrescription(file);
   };
 
-  const onEcgFileDrop = (file) => {
-    setEcgFile(file);
-  };
-
-  const handleChangePatientName = (e) => {
-    setPatientName(e.target.value);
-  };
-
   const handleChangeCancerType = (e) => {
     setCancerType(e.target.value);
   };
 
-  const handleChangeGender = (e) => {
-    setGender(e.target.value);
-  };
-
-  const handleChangeDate = (e) => {
-    setDate(e.target.value);
-  };
-
-  const submitFiles = () => {
-    if (validate(patientName, cancerType, date)) {
-      // Api call
-      console.log("Submit Files");
-    } else {
-      setShowError(true);
-    }
-  };
-  const validate = (patientName, cancerType, date) => {
-    let isEverythingAllRight = true;
-    isEverythingAllRight =
-      !validateField(patientName) &&
-      !validateField(cancerType) &&
-      !validateField(date);
-    return isEverythingAllRight;
-  };
+  // const validate = (cancerType) => {
+  //   let isEverythingAllRight = true;
+  //   isEverythingAllRight = !validateField(cancerType);
+  //   return isEverythingAllRight;
+  // };
 
   return (
     <div>
@@ -179,94 +145,6 @@ const TimeSlotBookUserInfoDialog = ({ onNegativeFeedback }) => {
                 className={classes.ccrt__content__wrapper}
               >
                 <Typography className={classes.ccrt__content__header}>
-                  Name:
-                </Typography>
-                <TextField
-                  size="small"
-                  placeholder="Enter your name"
-                  value={patientName}
-                  onChange={handleChangePatientName}
-                />
-                {showError && validateField(patientName) && (
-                  <Typography
-                    style={{
-                      color: "red",
-                      fontSize: "70%",
-                      marginBottom: "5px",
-                    }}
-                  >
-                    Required
-                  </Typography>
-                )}
-              </Grid>
-
-              <Grid container className={classes.ccrt__content__wrapper}>
-                <FormControl>
-                  <FormLabel
-                    id="demo-row-radio-buttons-group-label"
-                    className={classes.ccrt__content__header}
-                  >
-                    Gender
-                  </FormLabel>
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
-                    value={gender}
-                    onChange={handleChangeGender}
-                  >
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio size="small" />}
-                      label="Female"
-                    />
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio size="small" />}
-                      label="Male"
-                    />
-                    <FormControlLabel
-                      value="other"
-                      control={<Radio size="small" />}
-                      label="Other"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-
-              <Grid
-                container
-                flexDirection={"column"}
-                className={classes.ccrt__content__wrapper}
-              >
-                <Typography className={classes.ccrt__content__header}>
-                  Date of birth:
-                </Typography>
-                <TextField
-                  size="small"
-                  placeholder="dd/mm/yyyy"
-                  value={date}
-                  onChange={handleChangeDate}
-                />
-                {showError && validateField(date) && (
-                  <Typography
-                    style={{
-                      color: "red",
-                      fontSize: "70%",
-                      marginBottom: "5px",
-                    }}
-                  >
-                    Required
-                  </Typography>
-                )}
-              </Grid>
-
-              <Grid
-                container
-                flexDirection={"column"}
-                className={classes.ccrt__content__wrapper}
-              >
-                <Typography className={classes.ccrt__content__header}>
                   type of cancer:
                 </Typography>
                 <TextField
@@ -282,7 +160,7 @@ const TimeSlotBookUserInfoDialog = ({ onNegativeFeedback }) => {
                     </MenuItem>
                   ))}
                 </TextField>
-                {showError && validateField(cancerType) && (
+                {/* {showError && validateField(cancerType) && (
                   <Typography
                     style={{
                       color: "red",
@@ -292,7 +170,7 @@ const TimeSlotBookUserInfoDialog = ({ onNegativeFeedback }) => {
                   >
                     Required
                   </Typography>
-                )}
+                )} */}
               </Grid>
 
               <TimeSlotBookedUserInfo
@@ -301,12 +179,6 @@ const TimeSlotBookUserInfoDialog = ({ onNegativeFeedback }) => {
                 onFileRemove={() => setPrescription(null)}
                 isFilePicked={prescription}
               />
-              {/* <TimeSlotBookedUserInfo
-                title="ECG report"
-                onFileDrop={onEcgFileDrop}
-                onFileRemove={() => setEcgFile(null)}
-                isFilePicked={ecgFile}
-              /> */}
               {fileList.length !== 0 && (
                 <Grid container>
                   {fileList.map((item, index) => (
@@ -331,11 +203,6 @@ const TimeSlotBookUserInfoDialog = ({ onNegativeFeedback }) => {
                 </Grid>
               )}
               <AddFileButton setOpenFormDialog={setOpenFormDialog} />
-              <Grid container justifyContent={"center"} alignItems="center">
-                <Button fullWidth variant="contained" onClick={submitFiles}>
-                  Save files
-                </Button>
-              </Grid>
             </Grid>
           </Grid>
         </DialogContent>
