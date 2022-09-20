@@ -1,0 +1,64 @@
+import React, { useRef, useState } from "react";
+import { Autocomplete, TextField, Typography } from "@mui/material";
+import { useEffect } from "react";
+import axios from "axios";
+
+const TagTextField = ({
+  label,
+  value,
+  onChange,
+  error = false,
+  errorText,
+  retrieveSuggestions,
+  processData,
+}) => {
+  const cancelToken = useRef(null);
+  const [suggestions, setSuggestions] = useState([]);
+  const [prefix, setPrefix] = useState("");
+
+  const getSuggestions = async (cancelToken, prefix) => {
+    try {
+      const data = await retrieveSuggestions(cancelToken, prefix);
+      setSuggestions(processData(data));
+    } catch (error) {
+      if (axios.isCancel(error)) {
+        console.log(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getSuggestions(cancelToken, prefix);
+    return () => {
+      cancelToken.current();
+    };
+  }, [prefix]);
+  return (
+    <>
+      <Autocomplete
+        fullWidth
+        size="small"
+        multiple
+        id="tags-outlined"
+        value={value}
+        options={suggestions}
+        getOptionLabel={(option) => option}
+        onChange={onChange}
+        freeSolo
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            onChange={(event) => setPrefix(event.target.value)}
+            label={label}
+          />
+        )}
+      />
+      {error && (
+        <Typography style={{ color: "red", fontSize: "70%" }}>
+          {errorText}
+        </Typography>
+      )}
+    </>
+  );
+};
+export default TagTextField;

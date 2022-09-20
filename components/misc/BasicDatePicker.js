@@ -20,13 +20,7 @@ const BasicDatePicker = ({
           value={value}
           onChange={onChange}
           renderInput={(params) => (
-            <TextField
-              size="small"
-              {...params}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            <TextField fullWidth size="small" {...params} />
           )}
           inputFormat="DD-MM-YYYY"
         />

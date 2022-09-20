@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -26,11 +26,12 @@ import { useStyles } from "../styles/SignupStyles";
 import {
   sendOtp,
   signUp,
-  USER_GENDER,
+  USER_GENDERS,
   USER_TYPES,
   validateBirthDate,
   validateConfirmPassword,
   validateEmail,
+  validateFee,
   validateName,
   validatePassword,
 } from "../controllers/SignupController";
@@ -40,7 +41,10 @@ import CustomSnackbar from "../components/snackbar/CustomSnackbar";
 import { SNACKBAR_INITIAL_STATE } from "../misc/constants";
 import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
 import { useRouter } from "next/router";
-// import BasicDatePicker from "../components/misc/BasicDatePicker";
+import BasicDatePicker from "../components/misc/BasicDatePicker";
+import TagTextField from "../components/textfields/TagTextField";
+import { isTagListCorrect } from "../controllers/BlogController";
+import { searchSpecializations } from "../controllers/SpecializationController";
 const VerificationCodeModal = dynamic(() =>
   import("../components/modal/VerificationCodeModal")
 );
@@ -60,13 +64,19 @@ const SignupScreen = () => {
   const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
   const [otpId, setOtpId] = useState("");
   const [userType, setUserType] = useState(USER_TYPES[0]);
-  const [userGender, setUserGender] = useState(USER_GENDER[0]);
+  const [gender, setGender] = useState(USER_GENDERS[0]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [birthDate, setBirthDate] = useState("");
-  console.log(birthDate);
-  const [specialization, setSpecialization] = useState("");
+  const [value, setValue] = useState(null);
+  const dateFormat = new Date(value && value.$d);
+  const day = dateFormat.getDate();
+  const month = dateFormat.getMonth();
+  const year = dateFormat.getFullYear();
+  const birthDate = `${year}-${month + 1}-${day}`;
+  // console.log(birthDate);
+  const [specializationList, setSpecializationList] = useState([]);
+  const [fee, setFee] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
   const [policy, setPolicy] = useState(false);
@@ -80,8 +90,8 @@ const SignupScreen = () => {
   const handleUserTypeChange = (e) => {
     setUserType(e.target.value);
   };
-  const handleUserGenderChange = (e) => {
-    setUserGender(e.target.value);
+  const handleGenderChange = (e) => {
+    setGender(e.target.value);
   };
 
   const handleFirstName = (e) => {
@@ -93,11 +103,8 @@ const SignupScreen = () => {
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
-  const handleBirthDate = (e) => {
-    setBirthDate(e.target.value);
-  };
-  const handleSpecialization = (e) => {
-    setSpecialization(e.target.value);
+  const handlefee = (e) => {
+    setFee(e.target.value);
   };
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -128,7 +135,16 @@ const SignupScreen = () => {
   };
 
   const handleSignUp = async () => {
-    await signUp(userType, firstName, lastName, email, password);
+    await signUp(
+      userType,
+      firstName,
+      lastName,
+      email,
+      password,
+      gender,
+      birthDate,
+      spe
+    );
     router.push("/login");
   };
 
@@ -141,7 +157,9 @@ const SignupScreen = () => {
         password,
         confirmedPassword,
         policy,
-        birthDate
+        birthDate,
+        specializationList,
+        fee
       )
     ) {
       handleSendOtpCode();
@@ -157,7 +175,9 @@ const SignupScreen = () => {
     password,
     confirmPassword,
     policy,
-    birthDate
+    birthDate,
+    specializationList,
+    fee
   ) => {
     let isEverythingAllRight = true;
     isEverythingAllRight =
@@ -167,6 +187,8 @@ const SignupScreen = () => {
       validatePassword(password) &&
       validateConfirmPassword(confirmPassword, password) &&
       validateBirthDate(birthDate) &&
+      isTagListCorrect(specializationList) &&
+      validateFee(fee) &&
       policy;
     return isEverythingAllRight;
   };
@@ -235,14 +257,14 @@ const SignupScreen = () => {
               <Grid item xs={12} md={6}>
                 <Typography className={classes.field_title}>Gender</Typography>
                 <Grid container justifyContent="flex-start" alignItems="center">
-                  {USER_GENDER.map((gender) => {
+                  {USER_GENDERS.map((item) => {
                     return (
                       <CustomCheckbox
-                        key={gender}
-                        name={gender}
-                        checked={userGender === gender}
-                        value={gender}
-                        onChange={handleUserGenderChange}
+                        key={item}
+                        name={item}
+                        checked={gender === item}
+                        value={item}
+                        onChange={handleGenderChange}
                       />
                     );
                   })}
@@ -288,36 +310,45 @@ const SignupScreen = () => {
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <SignUpTextField
-                    // label="Birth Date"
-                    variant="outlined"
-                    // shrink={true}
-                    type="date"
-                    value={birthDate}
-                    onChange={handleBirthDate}
+                  <BasicDatePicker
+                    label={"Date of birth"}
+                    value={value}
+                    onChange={(newValue) => setValue(newValue)}
                     error={showError && !validateBirthDate(birthDate)}
                     errorText={formErrors.birthDate}
                   />
-                  {/* <BasicDatePicker
-                    label={"Date of birth"}
-                    value={birthDate}
-                    onChange={(newValue) => setBirthDate(newValue)}
-                  /> */}
                 </Grid>
               </Grid>
 
-              <Grid item xs={12}>
-                {userType === "DOCTOR" && (
-                  <SignUpTextField
-                    label="Specialization"
-                    variant="outlined"
-                    type="text"
-                    value={specialization}
-                    onChange={handleSpecialization}
-                    error={showError && !validateName(specialization)}
-                    errorText={formErrors.specialization}
-                  />
-                )}
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                  {userType === "DOCTOR" && (
+                    <TagTextField
+                      label={"Specialization"}
+                      value={specializationList}
+                      onChange={(event, newValue) => {
+                        setSpecializationList(() => newValue);
+                      }}
+                      error={showError && !isTagListCorrect(specializationList)}
+                      errorText={formErrors.specializationList}
+                      retrieveSuggestions={searchSpecializations}
+                      processData={(data) => data.map((item) => item.name)}
+                    />
+                  )}
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  {userType === "DOCTOR" && (
+                    <SignUpTextField
+                      label="Fee"
+                      variant="outlined"
+                      type="fext"
+                      value={fee}
+                      onChange={handlefee}
+                      error={showError && !validateFee(fee)}
+                      errorText={formErrors.fee}
+                    />
+                  )}
+                </Grid>
               </Grid>
 
               <Grid container spacing={2}>
