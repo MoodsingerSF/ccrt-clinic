@@ -114,6 +114,7 @@ export const retrieveAcceptedDoctors = async (page = 0, limit = 15) => {
   });
   return data.map((doctor) => processUserDetails(doctor));
 };
+
 export const addEducation = async (
   degree,
   subject,
@@ -182,4 +183,195 @@ export const deleteEducation = async (Id) => {
     }
   );
   return response.status;
+};
+
+export const addTraining = async (
+  program,
+  institutionName,
+  startDate,
+  endDate
+) => {
+  const data = {
+    program,
+    institutionName,
+    startDate: processDate(startDate),
+    endDate: processDate(endDate),
+  };
+  const response = await axios.post(
+    SERVER_PATH + "users/" + retrieveUserId() + "/training",
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return response.data;
+};
+
+export const updateTraining = async (
+  id,
+  institutionName,
+  program,
+  startDate,
+  endDate
+) => {
+  const data = {
+    program,
+    institutionName,
+    startDate: processDate(startDate),
+    endDate: processDate(endDate),
+  };
+  const response = await axios.put(
+    SERVER_PATH + "users/" + retrieveUserId() + "/training/" + id,
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return response.data;
+};
+
+export const deleteTraining = async (Id) => {
+  const response = await axios.delete(
+    SERVER_PATH + "users/" + retrieveUserId() + "/training/" + Id,
+    {
+      headers: {
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return response.status;
+};
+
+export const addExperiance = async (
+  title,
+  organization,
+  department = null,
+  division = null,
+  startDate,
+  endDate
+) => {
+  const data = {
+    title,
+    organization,
+    division: division ? division : null,
+    department: department ? department : null,
+    startDate: processDate(startDate),
+    endDate: processDate(endDate),
+  };
+  const response = await axios.post(
+    SERVER_PATH + "users/" + retrieveUserId() + "/experience",
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return response.data;
+};
+
+export const updateExperience = async (
+  id,
+  title,
+  organization,
+  department = null,
+  division = null,
+  startDate,
+  endDate
+) => {
+  const data = {
+    title,
+    organization,
+    division: division ? division : null,
+    department: department ? department : null,
+    startDate: processDate(startDate),
+    endDate: processDate(endDate),
+  };
+  const response = await axios.put(
+    SERVER_PATH + "users/" + retrieveUserId() + "/experience/" + id,
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return response.data;
+};
+
+export const deleteExperience = async (Id) => {
+  const response = await axios.delete(
+    SERVER_PATH + "users/" + retrieveUserId() + "/experience/" + Id,
+    {
+      headers: {
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return response.status;
+};
+
+export const addAward = async (name, year) => {
+  const data = {
+    name,
+    year,
+  };
+  const response = await axios.post(
+    SERVER_PATH + "users/" + retrieveUserId() + "/award",
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return response.data;
+};
+
+export const deleteAward = async (Id) => {
+  const response = await axios.delete(
+    SERVER_PATH + "users/" + retrieveUserId() + "/award/" + Id,
+    {
+      headers: {
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return response.status;
+};
+
+export const updateAward = async (name, year, id) => {
+  const data = {
+    name,
+    year,
+  };
+  const response = await axios.put(
+    SERVER_PATH + "users/" + retrieveUserId() + "/award/" + id,
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return response.data;
 };

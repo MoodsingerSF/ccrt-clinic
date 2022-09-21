@@ -10,57 +10,23 @@ import CustomSnackbar from "../components/snackbar/CustomSnackbar";
 import { SNACKBAR_INITIAL_STATE } from "../misc/constants";
 import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
 
-const DoctorInfoForm = ({ headingShow = true, educationList }) => {
+const DoctorInfoForm = ({
+  headingShow = true,
+  educationList,
+  trainingList,
+  experienceList,
+  awardList,
+}) => {
   const classes = useStyles();
 
   const theme = useTheme();
   const IsDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   const [education, setEducation] = useState(educationList);
-  const [training, setTraining] = useState([
-    // {
-    //   id: "0",
-    //   programName: "Clinician Investigator Program",
-    //   instituteName: "The University of British Columbia, Vancouver",
-    //   startYear: "2008",
-    //   endYear: "2010",
-    // },
-    // {
-    //   id: "2",
-    //   programName: "Clinician Investigator Program",
-    //   instituteName: "The University of British Columbia, Vancouver",
-    //   startYear: "2012",
-    //   endYear: "2014",
-    // },
-    // {
-    //   id: "3",
-    //   programName: "Clinician Investigator Program",
-    //   instituteName: "The University of British Columbia, Vancouver",
-    //   startYear: "2011",
-    //   endYear: "2013",
-    // },
-  ]);
-  // console.log(training);
-  const [experiances, setExperiances] = useState([
-    // {
-    //   id: "0",
-    //   jobTitle: "Chief Fellow",
-    //   organization: "Princess Margaret Cancer Centre",
-    //   department: "Department of Radiation Oncology",
-    //   division: "Toronto",
-    //   startYear: "2008",
-    //   endYear: "2010",
-    // },
-  ]);
-  // console.log(experiances);
-  const [award, setAward] = useState([
-    // {
-    //   id: "0",
-    //   title: "Marquis Who’s Who in the World",
-    //   year: "2010",
-    // },
-  ]);
-  // console.log(award);
+  const [training, setTraining] = useState(trainingList);
+  const [experiances, setExperiances] = useState(experienceList);
+  const [award, setAward] = useState(awardList);
+
   const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
   const openSnackbar = (message) => {
     handleSnackbarOpen(message, setSnackbar);
@@ -88,12 +54,14 @@ const DoctorInfoForm = ({ headingShow = true, educationList }) => {
           <DoctorTrainingSection
             training={training}
             setTraining={setTraining}
+            openSnackbar={openSnackbar}
           />
         </Grid>
         <Grid container>
           <DoctorExperianceSection
             experiances={experiances}
             setExperiances={setExperiances}
+            openSnackbar={openSnackbar}
           />
         </Grid>
         <Grid container>
@@ -120,5 +88,9 @@ const useStyles = makeStyles(() => ({
 
 DoctorInfoForm.proptypes = {
   headingShow: PropTypes.bool,
+  educationList: PropTypes.array,
+  trainingList: PropTypes.array,
+  experienceList: PropTypes.array,
+  awardList: PropTypes.array,
 };
 export default DoctorInfoForm;

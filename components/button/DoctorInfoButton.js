@@ -13,6 +13,6 @@ const DoctorInfoButton = ({ onClick, icon, className }) => {
 DoctorInfoButton.propTypes = {
   onClick: PropTypes.func,
   icon: PropTypes.element,
-  className: PropTypes.object,
+  className: PropTypes.string,
 };
 export default DoctorInfoButton;

@@ -117,6 +117,7 @@ const DoctorEducationInfo = ({
 };
 
 DoctorEducationInfo.propTypes = {
+  id: PropTypes.number.isRequired,
   instituteName: PropTypes.string.isRequired,
   degreeName: PropTypes.string.isRequired,
   subjectName: PropTypes.string.isRequired,

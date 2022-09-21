@@ -6,6 +6,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoctorFormExperianceModal from "../modal/DoctorFormExperianceModal";
 import ConfirmationModal from "../modal/ConfirmationModal";
+import { processShowDate } from "../../misc/functions";
+import DoctorInfoButton from "../button/DoctorInfoButton";
+import { deleteExperience } from "../../controllers/UserController";
 
 const DoctorExperianceInfo = ({
   id,
@@ -17,17 +20,36 @@ const DoctorExperianceInfo = ({
   endYear,
   experiances,
   setExperiances,
+  openSnackbar,
 }) => {
   const classes = useStyles();
 
   const [showEditableModal, setShowEditableModal] = useState(false);
   const [confirmationModal, setConfirmationModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleDeleteSection = (id) => {
-    // console.log(id);
-    const items = experiances.filter((item) => item.id !== id);
-    setExperiances(items);
+  const handleDeleteSection = async (id) => {
+    setLoading(true);
+    try {
+      await deleteExperience(id);
+      setExperiances(
+        experiances.filter((item) => {
+          return item.id !== id;
+        })
+      );
+      setLoading(false);
+      openSnackbar("Education entity has been removed successfully.");
+      setConfirmationModal(false);
+    } catch (error) {
+      if (error && error.response) {
+        const { data } = error.response;
+        // openSnackbar(data.code + ":" + data.message);
+      }
+    }
   };
+
+  const startDate = processShowDate(startYear);
+  const endDate = processShowDate(endYear);
 
   return (
     <>
@@ -49,27 +71,36 @@ const DoctorExperianceInfo = ({
             classes.ccrt__experiance__section__content__content__heading_2
           }
         >
-          {jobTitle}, {department}, {division}
+          {jobTitle}
+          {department ? "," : null} {department ? department : null}
         </Typography>
+        {division && (
+          <Typography
+            className={
+              classes.ccrt__experiance__section__content__content__heading_2
+            }
+          >
+            {division ? division : null}
+          </Typography>
+        )}
+
         <Typography
           className={
             classes.ccrt__experiance__section__content__content__heading_3
           }
         >
-          {startYear} - {endYear}
+          {startDate} - {endDate}
         </Typography>
-        <IconButton
+        <DoctorInfoButton
           className={classes.ccrt__doctor__training__info__edit}
           onClick={() => setShowEditableModal(true)}
-        >
-          <EditIcon fontSize="small" />
-        </IconButton>
-        <IconButton
+          icon={<EditIcon fontSize="small" />}
+        />
+        <DoctorInfoButton
           className={classes.ccrt__doctor__training__info__delete}
           onClick={() => setConfirmationModal(true)}
-        >
-          <DeleteIcon fontSize="small" />
-        </IconButton>
+          icon={<DeleteIcon fontSize="small" />}
+        />
       </Grid>
       {showEditableModal && (
         <DoctorFormExperianceModal
@@ -78,7 +109,7 @@ const DoctorExperianceInfo = ({
           experiances={experiances}
           setExperiances={setExperiances}
           id={id}
-          title={jobTitle}
+          titleName={jobTitle}
           organizationName={organization}
           departmentName={department}
           divisionName={division}
@@ -92,13 +123,14 @@ const DoctorExperianceInfo = ({
           onPositiveFeedback={() => handleDeleteSection(id)}
           onNegativeFeedback={() => setConfirmationModal(false)}
           title={"You want to delete this section"}
+          loading={loading}
         />
       )}
     </>
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ccrt__experiance__section__content__container: {
     position: "relative",
     margin: "10px 0",
@@ -126,15 +158,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 DoctorExperianceInfo.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   organization: PropTypes.string.isRequired,
   jobTitle: PropTypes.string.isRequired,
   department: PropTypes.string.isRequired,
   division: PropTypes.string.isRequired,
-  startYear: PropTypes.string.isRequired,
-  endYear: PropTypes.string.isRequired,
+  startYear: PropTypes.number.isRequired,
+  endYear: PropTypes.number.isRequired,
   experiances: PropTypes.array.isRequired,
   setExperiances: PropTypes.func.isRequired,
+  openSnackbar: PropTypes.func.isRequired,
 };
 
 export default DoctorExperianceInfo;

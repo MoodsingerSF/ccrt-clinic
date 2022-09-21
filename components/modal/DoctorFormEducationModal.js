@@ -226,6 +226,7 @@ const useStyles = makeStyles(() => ({
 DoctorFormEducationModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onNegativeFeedback: PropTypes.func.isRequired,
+  onPositiveFeedback: PropTypes.func.isRequired,
   setEducation: PropTypes.func.isRequired,
   id: PropTypes.number,
   institute: PropTypes.string,

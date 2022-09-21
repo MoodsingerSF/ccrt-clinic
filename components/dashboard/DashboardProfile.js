@@ -212,6 +212,9 @@ const DashboardProfile = () => {
                 <DoctorInfoForm
                   headingShow={false}
                   educationList={user.education}
+                  trainingList={user.trainings}
+                  experienceList={user.experiences}
+                  awardList={user.awards}
                 />
               </>
             )}
