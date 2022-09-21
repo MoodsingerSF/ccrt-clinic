@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import {
-  FormControl,
   FormControlLabel,
-  FormLabel,
   Grid,
-  Radio,
-  RadioGroup,
   TextField,
   Button,
   Typography,
@@ -15,7 +11,7 @@ import {
 } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { validateInput } from "../../../controllers/drugAddedFormController";
-
+import PropTypes from "prop-types";
 function* generateId(i) {
   while (true) {
     yield i++;
@@ -23,7 +19,7 @@ function* generateId(i) {
 }
 const getId = generateId(0);
 
-const DrugAddedForm = ({ drugLists, setDrugLists }) => {
+const DrugAddedForm = ({ setDrugList }) => {
   const classes = useStyles();
 
   const [drugName, setDrugName] = useState("");
@@ -45,7 +41,7 @@ const DrugAddedForm = ({ drugLists, setDrugLists }) => {
         noon,
         night,
       };
-      setDrugLists([...drugLists, drug]);
+      setDrugList((prev) => [...prev, drug]);
       setDrugName("");
       setPerDay("");
     } else {
@@ -117,7 +113,7 @@ const DrugAddedForm = ({ drugLists, setDrugLists }) => {
                   <Checkbox
                     size="small"
                     value={morning}
-                    onChange={(e) => setMorning(true)}
+                    onChange={() => setMorning(true)}
                   />
                 }
                 label="Morning"
@@ -127,7 +123,7 @@ const DrugAddedForm = ({ drugLists, setDrugLists }) => {
                   <Checkbox
                     size="small"
                     value={morning}
-                    onChange={(e) => setNoon(true)}
+                    onChange={() => setNoon(true)}
                   />
                 }
                 label="Noon"
@@ -137,7 +133,7 @@ const DrugAddedForm = ({ drugLists, setDrugLists }) => {
                   <Checkbox
                     size="small"
                     value={morning}
-                    onChange={(e) => setNight(true)}
+                    onChange={() => setNight(true)}
                   />
                 }
                 label="Night"
@@ -177,6 +173,10 @@ const DrugAddedForm = ({ drugLists, setDrugLists }) => {
       </Grid>
     </Grid>
   );
+};
+
+DrugAddedForm.propTypes = {
+  setDrugList: PropTypes.func.isRequired,
 };
 
 const useStyles = makeStyles((theme) =>

@@ -28,7 +28,7 @@ const Slot = ({
 }) => {
   const classes = useStyles();
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
-  const [openTimeSlotBookedDialog, setopenTimeSlotBookedDialog] =
+  const [openTimeSlotBookedDialog, setOpenTimeSlotBookedDialog] =
     useState(false);
   const [openUserInfoModal, setOpenUserInfoModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -75,7 +75,7 @@ const Slot = ({
         onClick={
           clickable
             ? () => {
-                setopenTimeSlotBookedDialog(true);
+                setOpenTimeSlotBookedDialog(true);
               }
             : null
         }
@@ -124,16 +124,18 @@ const Slot = ({
       )}
       {clickable && openTimeSlotBookedDialog && (
         <TimeSlotBookDialog
-          title="booked slot for"
+          title="book slot for"
           onNegativeFeedback={() => {
-            setopenTimeSlotBookedDialog(false);
+            setOpenTimeSlotBookedDialog(false);
           }}
           onPositiveFeedback={(date) => {
             setSelectedDate(date);
             setOpenUserInfoModal(true);
           }}
-          timeSlot={getSlotTimeAsString({ startTime, endTime })}
+          startTime={startTime}
+          endTime={endTime}
           day={day}
+          slotId={slotId}
         />
       )}
       {openUserInfoModal && (

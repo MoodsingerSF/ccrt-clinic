@@ -15,5 +15,6 @@ export const formErrors = {
   password: "Password must be at-least 6 characters long",
   confirmPassword: "Passwords haven't matched",
   policy: "You have to accept our policy to create an account.",
-  specialization: "Requird",
+  specializationList: "At least one specialization tag needed",
+  fee: "Fee required",
 };

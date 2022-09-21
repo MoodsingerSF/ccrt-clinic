@@ -9,12 +9,10 @@ export const handleSnackbarClose = (setSnackbar) => {
 };
 
 export const processDate = (date) => {
-  if (date == null) return null;
-  const dateObj = new Date(date);
-  const year = dateObj.getFullYear();
-  const month = dateObj.getMonth() + 1;
-  const day = dateObj.getDate();
-  return `${year}-${month <= 9 ? "0" : ""}${month}-${
+  if (date === null) return null;
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return `${date.getFullYear()}-${month <= 9 ? "0" : ""}${month}-${
     day <= 9 ? "0" : ""
   }${day}`;
 };

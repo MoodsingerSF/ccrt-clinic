@@ -15,11 +15,11 @@ import DoctorScheduleComponent from "../../components/misc/DoctorScheduleCompone
 import LoaderComponent from "../../components/misc/LoaderComponent";
 import avatar from "../../public/image/doctor/docAvatar2.png";
 const DoctorDetails = ({ doctorId }) => {
-  // console.log(doctorId);
-  const classes = useStyles();
   const router = useRouter();
 
   if (router.isFallback) return <FallbackComponent />;
+  const classes = useStyles();
+
   const scheduleRef = useRef(null);
   const [doctorDetails, setDoctorDetails] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ const DoctorDetails = ({ doctorId }) => {
       setLoading(false);
       setDoctorDetails(data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setLoading(false);
     }
   };
@@ -52,13 +52,6 @@ const DoctorDetails = ({ doctorId }) => {
     getDoctorDetails(doctorId);
     getSchedule(doctorId);
   }, [doctorId]);
-
-  // ===========================================================================
-  // console.log(new Date().toUTCString());
-
-  // const handleClickSchedule = (time) => {
-  //   console.log("Clicked The Time", time);
-  // };
 
   return (
     <>
@@ -127,10 +120,12 @@ const DoctorDetails = ({ doctorId }) => {
                     </Grid>
                     <DoctorDetailsMiddle
                       name={doctorDetails.fullName}
-                      specialization={doctorDetails.specialization}
-                      degree={doctorDetails.degree}
+                      specializations={doctorDetails.specializations}
+                      awards={doctorDetails.awards}
                       education={doctorDetails.education}
-                      experience={doctorDetails.experience}
+                      experiences={doctorDetails.experiences}
+                      trainings={doctorDetails.trainings}
+                      about={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
                     />
                   </Grid>
                 </Grid>

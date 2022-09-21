@@ -7,14 +7,15 @@ import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import { HOME_PAGE_DOCTOR_CARD_BOX_SHADOW } from "../../../misc/colors";
 import PropTypes from "prop-types";
 import avatar from "../../../public/image/doctor/docAvatar2.png";
+import CustomChip from "../../chip/CustomChip";
 
 const DoctorCard = ({
   doctorId,
   image = null,
   name,
-  specialization,
-  department,
+  specializations,
   patient_count,
+  fee,
 }) => {
   const classes = useStyles();
   const router = useRouter();
@@ -51,6 +52,7 @@ const DoctorCard = ({
         <Grid container justifyContent="center" alignItems="center">
           <Grid
             container
+            direction="column"
             justifyContent="center"
             alignItems="center"
             item
@@ -60,7 +62,11 @@ const DoctorCard = ({
             <Typography className={classes.ccrt__doctor__card__name}>
               {name}
             </Typography>
+            <Typography className={classes.ccrt__doctor__card__name}>
+              {fee} tk
+            </Typography>
           </Grid>
+
           <Grid
             container
             justifyContent="center"
@@ -69,12 +75,16 @@ const DoctorCard = ({
             xs={12}
             className={classes.ccrt__doctor__card__description}
           >
-            <Typography className={classes.ccrt__doctor__card__subtitle}>
-              {specialization}
-            </Typography>
-            <Typography className={classes.ccrt__doctor__card__dep}>
+            {/* <Typography className={classes.ccrt__doctor__card__subtitle}> */}
+            {specializations.map((item) => (
+              <Grid item key={item}>
+                <CustomChip title={item} />
+              </Grid>
+            ))}
+            {/* </Typography> */}
+            {/* <Typography className={classes.ccrt__doctor__card__dep}>
               {department}
-            </Typography>
+            </Typography> */}
           </Grid>
         </Grid>
       </Grid>
@@ -109,9 +119,9 @@ DoctorCard.propTypes = {
   doctorId: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  specialization: PropTypes.string.isRequired,
-  department: PropTypes.string.isRequired,
+  specializations: PropTypes.array.isRequired,
   patient_count: PropTypes.string.isRequired,
+  fee: PropTypes.number.isRequired,
 };
 
 const useStyles = makeStyles((theme) =>
@@ -130,8 +140,8 @@ const useStyles = makeStyles((theme) =>
     },
     ccrt__doctor__card__name: {
       textTransform: "capitalize",
-      fontSize: "95%",
-      fontWeight: "600",
+      fontSize: "85%",
+      fontWeight: 500,
       color: "#fff",
       padding: "5px",
     },

@@ -18,9 +18,12 @@ const DoctorExperianceInfo = ({
   division,
   startYear,
   endYear,
-  experiances,
-  setExperiances,
+  // experiances,
+  // setExperiances,
   openSnackbar,
+  experiances = [],
+  setExperiances = () => {},
+  editable = false,
 }) => {
   const classes = useStyles();
 
@@ -91,16 +94,21 @@ const DoctorExperianceInfo = ({
         >
           {startDate} - {endDate}
         </Typography>
-        <DoctorInfoButton
-          className={classes.ccrt__doctor__training__info__edit}
-          onClick={() => setShowEditableModal(true)}
-          icon={<EditIcon fontSize="small" />}
-        />
-        <DoctorInfoButton
-          className={classes.ccrt__doctor__training__info__delete}
-          onClick={() => setConfirmationModal(true)}
-          icon={<DeleteIcon fontSize="small" />}
-        />
+
+        {editable && (
+          <>
+            <DoctorInfoButton
+              className={classes.ccrt__doctor__training__info__edit}
+              onClick={() => setShowEditableModal(true)}
+              icon={<EditIcon fontSize="small" />}
+            />
+            <DoctorInfoButton
+              className={classes.ccrt__doctor__training__info__delete}
+              onClick={() => setConfirmationModal(true)}
+              icon={<DeleteIcon fontSize="small" />}
+            />
+          </>
+        )}
       </Grid>
       {showEditableModal && (
         <DoctorFormExperianceModal
@@ -168,6 +176,7 @@ DoctorExperianceInfo.propTypes = {
   experiances: PropTypes.array.isRequired,
   setExperiances: PropTypes.func.isRequired,
   openSnackbar: PropTypes.func.isRequired,
+  editable: PropTypes.bool,
 };
 
 export default DoctorExperianceInfo;

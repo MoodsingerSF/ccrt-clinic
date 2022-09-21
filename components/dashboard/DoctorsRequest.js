@@ -67,6 +67,7 @@ const DoctorsRequest = () => {
           <thead>
             <tr className={classes.ccrt__dashboard__dctr__req__table__row}>
               <th
+                align="center"
                 className={classNames({
                   [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
                     !matchesSm,
@@ -75,6 +76,30 @@ const DoctorsRequest = () => {
                 })}
               >
                 Name
+              </th>
+
+              <th
+                align="center"
+                className={classNames({
+                  [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
+                    !matchesSm,
+                  [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
+                    matchesSm,
+                })}
+              >
+                Specializations
+              </th>
+
+              <th
+                align="center"
+                className={classNames({
+                  [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
+                    !matchesSm,
+                  [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
+                    matchesSm,
+                })}
+              >
+                Fee
               </th>
               <th
                 className={classNames({
@@ -109,14 +134,17 @@ const DoctorsRequest = () => {
             </tr>
           </thead>
           <tbody>
-            {doctors.map((doctor) => {
+            {doctors.map((doctor, index) => {
               return (
                 <DoctorRequestRow
                   key={doctor.userId}
+                  serialNo={index}
                   userId={doctor.userId}
                   firstName={doctor.firstName}
                   lastName={doctor.lastName}
                   email={doctor.email}
+                  specializations={doctor.specializations}
+                  fee={doctor.fee}
                   profileImageUrl={doctor.profileImageUrl}
                   openSnackbar={openSnackbar}
                   openLoader={openLoader}

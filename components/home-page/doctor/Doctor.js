@@ -50,7 +50,7 @@ const Doctor = () => {
           <Grid container>
             <Swiper
               slidesPerView={1}
-              spaceBetween={20}
+              spaceBetween={10}
               slidesPerGroup={1}
               loop={false}
               loopFillGroupWithBlank={true}
@@ -81,9 +81,9 @@ const Doctor = () => {
                     doctorId={doctor.userId}
                     image={doctor.profileImageUrl}
                     name={doctor.fullName}
-                    specialization={doctor.specialization}
-                    department={doctor.department}
+                    specializations={doctor.specializations}
                     patient_count={doctor.patient_count}
+                    fee={doctor.fee}
                   />
                 </SwiperSlide>
               ))}
@@ -98,7 +98,7 @@ const Doctor = () => {
 const useStyles = makeStyles(() =>
   createStyles({
     ccrt__doctor__card__mySwiper: {
-      padding: "0 20px",
+      padding: "0 5px",
       width: "100%",
       height: "100%",
     },

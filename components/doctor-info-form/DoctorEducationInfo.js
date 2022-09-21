@@ -6,6 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoctorFormEducationModal from "../modal/DoctorFormEducationModal";
 import ConfirmationModal from "../modal/ConfirmationModal";
+// import axios from "axios";
 import { deleteEducation } from "../../controllers/UserController";
 import DoctorInfoButton from "../button/DoctorInfoButton";
 import { processShowDate } from "../../misc/functions";
@@ -17,9 +18,12 @@ const DoctorEducationInfo = ({
   subjectName,
   startYear,
   endYear,
-  education,
-  setEducation,
+  // education,
+  // setEducation,
   openSnackbar,
+  education = [],
+  setEducation = () => {},
+  editable = false,
 }) => {
   const classes = useStyles();
   const [showEditableModal, setShowEditableModal] = useState(false);
@@ -78,16 +82,20 @@ const DoctorEducationInfo = ({
           {startDate} <span style={{ fontWeight: "700" }}>-</span> {endDate}
         </Typography>
 
-        <DoctorInfoButton
-          className={classes.ccrt__doctor__training__info__edit}
-          onClick={() => setShowEditableModal(true)}
-          icon={<EditIcon fontSize="small" />}
-        />
-        <DoctorInfoButton
-          className={classes.ccrt__doctor__training__info__delete}
-          onClick={() => setConfirmationModal(true)}
-          icon={<DeleteIcon fontSize="small" />}
-        />
+        {editable && (
+          <>
+            <DoctorInfoButton
+              className={classes.ccrt__doctor__training__info__edit}
+              onClick={() => setShowEditableModal(true)}
+              icon={<EditIcon fontSize="small" />}
+            />
+            <DoctorInfoButton
+              className={classes.ccrt__doctor__training__info__delete}
+              onClick={() => setConfirmationModal(true)}
+              icon={<DeleteIcon fontSize="small" />}
+            />
+          </>
+        )}
       </Grid>
       {showEditableModal && (
         <DoctorFormEducationModal
@@ -123,9 +131,12 @@ DoctorEducationInfo.propTypes = {
   subjectName: PropTypes.string.isRequired,
   startYear: PropTypes.number.isRequired,
   endYear: PropTypes.number.isRequired,
-  education: PropTypes.array.isRequired,
-  setEducation: PropTypes.func.isRequired,
+  // education: PropTypes.array.isRequired,
+  // setEducation: PropTypes.func.isRequired,
   openSnackbar: PropTypes.func.isRequired,
+  education: PropTypes.array,
+  setEducation: PropTypes.func,
+  editable: PropTypes.bool,
 };
 
 const useStyles = makeStyles(() => ({

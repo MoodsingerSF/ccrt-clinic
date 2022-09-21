@@ -10,13 +10,7 @@ import CustomSnackbar from "../components/snackbar/CustomSnackbar";
 import { SNACKBAR_INITIAL_STATE } from "../misc/constants";
 import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
 
-const DoctorInfoForm = ({
-  headingShow = true,
-  educationList,
-  trainingList,
-  experienceList,
-  awardList,
-}) => {
+const DoctorInfoForm = ({ headingShow = true, educationList = [] }) => {
   const classes = useStyles();
 
   const theme = useTheme();
@@ -86,7 +80,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-DoctorInfoForm.proptypes = {
+DoctorInfoForm.propTypes = {
   headingShow: PropTypes.bool,
   educationList: PropTypes.array,
   trainingList: PropTypes.array,

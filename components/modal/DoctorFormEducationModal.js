@@ -8,13 +8,8 @@ import {
   validateDate,
   validateInput,
 } from "../../controllers/DoctorInfoFormController";
-import {
-  addEducation,
-  updateEducation,
-} from "../../controllers/UserController";
+import { addEducation } from "../../controllers/UserController";
 import BasicDatePicker from "../misc/BasicDatePicker";
-
-import CustomButton from "../button/CustomButton";
 
 const DoctorFormEducationModal = ({
   open,

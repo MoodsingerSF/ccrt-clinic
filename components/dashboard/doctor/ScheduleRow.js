@@ -18,17 +18,16 @@ const ScheduleRow = ({
   closeLoader = () => {},
   editable = false,
   clickable = false,
-  // onClick,
 }) => {
   const classes = useStyles();
   const [openAddSlotDialog, setOpenAddSlotDialog] = useState(false);
 
   const addTimeSlot = async (dayCode, startTime, endTime) => {
     try {
+      setOpenAddSlotDialog(false);
       openLoader();
       const data = await createSlot(dayCode, startTime, endTime);
       onSuccess(day, data);
-      setOpenAddSlotDialog(false);
       closeLoader();
       openSnackbar("Time slot has been added successfully");
     } catch (error) {
@@ -62,7 +61,6 @@ const ScheduleRow = ({
                 onSuccessfulEnabling={onSuccessfulEnabling}
                 editable={editable}
                 clickable={clickable}
-                // onClick={onClick}
               />
             );
           })}

@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { Grid, TextField, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-
+// import PropTypes from "prop-types";
 const DoctorInfoFormTextField = ({
   label,
   placeholder = null,
@@ -35,7 +36,16 @@ const DoctorInfoFormTextField = ({
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+// DoctorInfoFormTextField.propTypes={
+//   placeholder:Prop,
+//   type,
+//   value,
+//   onChange,
+//   error = false,
+//   errorText = "",
+// }
+
+const useStyles = makeStyles(() => ({
   resize: {
     fontSize: "90%",
   },

@@ -117,12 +117,15 @@ const BlogDetailsRight = ({
 const useStyles = makeStyles({
   ccrt__blogDetails__right__section__mobile: {
     padding: "0 20px",
+    marginBottom: 20,
   },
   ccrt__blogDetails__right__section__tablet: {
-    padding: "15px 25px 30px",
+    padding: "10px 25px 30px",
+    marginBottom: 20,
   },
   ccrt__blogDetails__right__section__desktop_Lg: {
     border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
+    marginBottom: 20,
   },
   ccrt__blogDetails__right__title__mobile: {
     fontSize: "100%",

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const SignUpTextField = ({
   label,
   type,
-  placehlder = "",
+  placeholder = "",
   value,
   onChange,
   error = false,
@@ -19,7 +19,7 @@ const SignUpTextField = ({
         fullWidth
         label={label}
         type={type}
-        placeholder={placehlder}
+        placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e)}
       />
@@ -39,7 +39,7 @@ SignUpTextField.propTypes = {
   onChange: PropTypes.func.isRequired,
   error: PropTypes.bool,
   errorText: PropTypes.string,
-  placehlder: PropTypes.string,
+  placeholder: PropTypes.string,
   variant: PropTypes.string,
 };
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from "react";
 import { Grid, MenuItem, TextField } from "@mui/material";
 import DashboardTitle from "./DashboardTitle";
@@ -229,6 +230,7 @@ const Appointment = () => {
                   .map((patient, index) => {
                     return (
                       <AppointmentRow
+                        key={patient.id}
                         index={index}
                         patientName={patient.name}
                         bookingTime={patient.bookingTime}

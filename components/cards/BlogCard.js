@@ -7,7 +7,6 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  Chip,
   Grid,
   IconButton,
   Typography,
@@ -18,6 +17,7 @@ import { createStyles, makeStyles } from "@mui/styles";
 import { capitalize } from "lodash";
 import { prettyDate } from "../../controllers/DateController";
 import dynamic from "next/dynamic";
+import CustomChip from "../chip/CustomChip";
 const BlogEditorBackdrop = dynamic(() =>
   import("../backdrops/BlogEditorBackdrop")
 );
@@ -99,14 +99,7 @@ const BlogCard = ({
           </Typography>
           <Grid container mt={2}>
             {tags.map((tag) => (
-              <Chip
-                key={tag}
-                label={tag}
-                component="a"
-                href="#basic-chip"
-                clickable
-                className={classes.ccrt__blog__hashtag}
-              />
+              <CustomChip key={tag} title={tag} />
             ))}
           </Grid>
         </CardContent>
@@ -160,15 +153,16 @@ const useStyles = makeStyles((theme) =>
       // boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
     },
     ccrt__blog__creator_name: {
-      fontWeight: "bold",
+      fontWeight: 500,
+      fontSize: "80%",
       textTransform: "capitalize",
     },
     ccrt__blog__subheader: {
-      fontSize: "80%",
+      fontSize: "70%",
     },
     ccrt__blog__content__title: {
-      fontWeight: "bold",
-      fontSize: "100%",
+      fontWeight: 500,
+      fontSize: "90%",
       marginBottom: "5px",
       cursor: "pointer",
       overflow: "hidden",
@@ -181,14 +175,14 @@ const useStyles = makeStyles((theme) =>
         color: theme.palette.primary.main,
       },
     },
-    ccrt__blog__hashtag: {
-      margin: "5px 3px",
-      fontSize: "70%",
-      padding: "3px 3px",
-      fontWeight: "bold",
-      background: theme.palette.grey.main,
-      // border: `1.5px solid ${theme.palette.primary.main}`,
-    },
+    // ccrt__blog__hashtag: {
+    //   margin: "5px 3px",
+    //   fontSize: "70%",
+    //   padding: "3px 3px",
+    //   fontWeight: "bold",
+    //   background: theme.palette.grey.main,
+    //   // border: `1.5px solid ${theme.palette.primary.main}`,
+    // },
   })
 );
 

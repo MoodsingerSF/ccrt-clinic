@@ -20,6 +20,7 @@ const processUserDetails = (user) => {
     patient_served: 0,
     department: "Oncology",
     patient_count: 0,
+    specializations: user.specializations.map((item) => item.name),
   };
 };
 export const retrieveUserDetails = async (userId) => {

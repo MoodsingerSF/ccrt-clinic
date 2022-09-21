@@ -26,7 +26,7 @@ const DurationAddedForm = ({
     <Grid
       container
       spacing={1}
-      className={classes.ccrt_prescription__durstion__form_control}
+      className={classes.ccrt_prescription__duration__form_control}
       onKeyDown={onKeyDown}
     >
       <Grid item xs={12}>
@@ -75,9 +75,9 @@ const DurationAddedForm = ({
   );
 };
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
-    ccrt_prescription__durstion__form_control: {
+    ccrt_prescription__duration__form_control: {
       padding: "20px 0 10px 20px",
     },
     ccrt__prescription__error__text: {

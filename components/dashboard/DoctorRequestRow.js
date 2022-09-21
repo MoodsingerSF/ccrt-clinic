@@ -22,17 +22,22 @@ import {
   rejectDoctorRequest,
 } from "../../controllers/UserController";
 import ConfirmationModal from "../modal/ConfirmationModal";
+import CustomChip from "../chip/CustomChip";
 const DoctorRequestRow = ({
+  serialNo,
   userId,
   firstName,
   lastName,
   profileImageUrl,
   email,
+  specializations,
+  fee,
   openSnackbar,
   openLoader,
   closeLoader,
   onSuccess,
 }) => {
+  console.log(specializations);
   const classes = useStyles();
   const theme = useTheme();
   const matchesSm = useMediaQuery(theme.breakpoints.up("sm"));
@@ -49,6 +54,7 @@ const DoctorRequestRow = ({
 
   const handleAcceptanceOfDoctorRequest = async () => {
     try {
+      setShowRejectionConfirmationModal(false);
       openLoader();
       await acceptDoctorRequest(userId);
       onSuccess(userId);
@@ -63,6 +69,7 @@ const DoctorRequestRow = ({
   };
   const handleRejectionOfDoctorRequest = async () => {
     try {
+      setShowRejectionConfirmationModal(false);
       openLoader();
       await rejectDoctorRequest(userId);
       onSuccess(userId);
@@ -81,6 +88,17 @@ const DoctorRequestRow = ({
       <tr className={classes.ccrt__dashboard__doctor__req__table__data__row}>
         <td>
           <Grid container justifyContent="flex-start" alignItems="center">
+            <Typography
+              className={classNames({
+                [classes.ccrt__dashboard__doctor__req__table__data__mobile]:
+                  !matchesSm,
+                [classes.ccrt__dashboard__doctor__req__table__data__desktop]:
+                  matchesSm,
+              })}
+              style={{ marginLeft: 5 }}
+            >
+              {serialNo + 1}
+            </Typography>
             <Avatar
               src={profileImageUrl}
               style={{ marginLeft: 10, marginRight: 10 }}
@@ -107,20 +125,47 @@ const DoctorRequestRow = ({
               matchesSm,
           })}
         >
+          <Grid container justifyContent={"center"} alignItems="center">
+            {specializations.map((item) => {
+              return (
+                <Grid item key={item} style={{ marginRight: 4 }}>
+                  <CustomChip title={item} color={"#2ecc71"} />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </td>
+        <td
+          className={classNames({
+            [classes.ccrt__dashboard__doctor__req__table__data__mobile]:
+              !matchesSm,
+            [classes.ccrt__dashboard__doctor__req__table__data__desktop]:
+              matchesSm,
+          })}
+        >
+          {`${fee} tk`}
+        </td>
+        <td
+          className={classNames({
+            [classes.ccrt__dashboard__doctor__req__table__data__mobile]:
+              !matchesSm,
+            [classes.ccrt__dashboard__doctor__req__table__data__desktop]:
+              matchesSm,
+          })}
+        >
           {email}
         </td>
-        <td>
-          <Typography
-            className={classNames({
-              [classes.ccrt__dashboard__doctor__req__table__data__mobile]:
-                !matchesSm,
-              [classes.ccrt__dashboard__doctor__req__table__data__desktop]:
-                matchesSm,
-              [classes.status_style]: true,
-            })}
-          >
-            {"Pending"}
-          </Typography>
+        <td
+          className={classNames({
+            [classes.ccrt__dashboard__doctor__req__table__data__mobile]:
+              !matchesSm,
+            [classes.ccrt__dashboard__doctor__req__table__data__desktop]:
+              matchesSm,
+          })}
+        >
+          <Grid container justifyContent="center" alignItems="center">
+            <CustomChip title="Pending" color="#1abc9c" />
+          </Grid>
         </td>
         <td
           className={classNames({
@@ -218,43 +263,49 @@ const DoctorRequestRow = ({
   );
 };
 DoctorRequestRow.propTypes = {
+  serialNo: PropTypes.number.isRequired,
   userId: PropTypes.string.isRequired,
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   profileImageUrl: PropTypes.string,
   email: PropTypes.string.isRequired,
+  specializations: PropTypes.array.isRequired,
+  fee: PropTypes.number.isRequired,
   openSnackbar: PropTypes.func.isRequired,
   openLoader: PropTypes.func.isRequired,
   closeLoader: PropTypes.func.isRequired,
   onSuccess: PropTypes.func.isRequired,
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   ccrt__dashboard__doctor__req__table__data__mobile: {
     // borderBottom: "1px solid #ddd",
     padding: "12px 0",
     cursor: "pointer",
     textAlign: "center",
-    fontSize: "80%",
+    fontSize: "85%",
+    fontWeight: 400,
   },
   ccrt__dashboard__doctor__req__table__data__desktop: {
     // borderBottom: "1px solid #ddd",
     padding: "8px 0",
     cursor: "pointer",
     textAlign: "center",
-    fontSize: "80%",
+    fontSize: "85%",
+    fontWeight: 400,
   },
   ccrt__dashboard__doctor__req__table__data__row: {
     "&:hover": {
       background: "#f6f6f6",
     },
+    borderBottom: `.5px solid ${theme.palette.custom.DEFAULT_COLOR}`,
   },
   details_text: {
     fontSize: "80%",
   },
-  status_style: {
-    background: "yellow",
-    borderRadius: 25,
+
+  email: {
+    fontSize: "70%",
   },
-});
+}));
 export default DoctorRequestRow;

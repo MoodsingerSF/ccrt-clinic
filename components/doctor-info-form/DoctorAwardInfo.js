@@ -8,7 +8,14 @@ import DoctorFormAwardModal from "../modal/DoctorFormAwardModal";
 import ConfirmationModal from "../modal/ConfirmationModal";
 import { deleteAward } from "../../controllers/UserController";
 
-const DoctorAwardInfo = ({ id, title, year, award, setAward }) => {
+const DoctorAwardInfo = ({
+  id,
+  title,
+  year,
+  award = [],
+  setAward = () => {},
+  editable = false,
+}) => {
   const classes = useStyles();
   const [showEditableModal, setShowEditableModal] = useState(false);
   const [confirmationModal, setConfirmationModal] = useState(false);
@@ -51,18 +58,22 @@ const DoctorAwardInfo = ({ id, title, year, award, setAward }) => {
         >
           {year}
         </Typography>
-        <IconButton
-          className={classes.ccrt__doctor__training__info__edit}
-          onClick={() => setShowEditableModal(true)}
-        >
-          <EditIcon fontSize="small" />
-        </IconButton>
-        <IconButton
-          className={classes.ccrt__doctor__training__info__delete}
-          onClick={() => setConfirmationModal(true)}
-        >
-          <DeleteIcon fontSize="small" />
-        </IconButton>
+        {editable && (
+          <>
+            <IconButton
+              className={classes.ccrt__doctor__training__info__edit}
+              onClick={() => setShowEditableModal(true)}
+            >
+              <EditIcon fontSize="small" />
+            </IconButton>
+            <IconButton
+              className={classes.ccrt__doctor__training__info__delete}
+              onClick={() => setConfirmationModal(true)}
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </>
+        )}
       </Grid>
       {showEditableModal && (
         <DoctorFormAwardModal
@@ -88,7 +99,7 @@ const DoctorAwardInfo = ({ id, title, year, award, setAward }) => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ccrt__award__section__content__container: {
     position: "relative",
     margin: "10px 0",
@@ -115,7 +126,8 @@ DoctorAwardInfo.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
-  award: PropTypes.array.isRequired,
-  setAward: PropTypes.func.isRequired,
+  award: PropTypes.array,
+  setAward: PropTypes.func,
+  editable: PropTypes.bool,
 };
 export default DoctorAwardInfo;

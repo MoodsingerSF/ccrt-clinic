@@ -16,9 +16,15 @@ const DoctorTrainingInfo = ({
   programName,
   startYear,
   endYear,
+<<<<<<< HEAD
   training,
   setTraining,
   openSnackbar,
+=======
+  training = [],
+  setTraining = () => {},
+  editable = false,
+>>>>>>> 0583ce3aa54480a6a3114b3fe9b3345bc44dfeb9
 }) => {
   const classes = useStyles();
   const [showEditableModal, setShowEditableModal] = useState(false);
@@ -76,6 +82,7 @@ const DoctorTrainingInfo = ({
         >
           {startDate} - {endDate}
         </Typography>
+<<<<<<< HEAD
 
         <DoctorInfoButton
           className={classes.ccrt__doctor__training__info__edit}
@@ -87,6 +94,24 @@ const DoctorTrainingInfo = ({
           onClick={() => setConfirmationModal(true)}
           icon={<DeleteIcon fontSize="small" />}
         />
+=======
+        {editable && (
+          <>
+            <IconButton
+              className={classes.ccrt__doctor__training__info__edit}
+              onClick={() => setShowEditableModal(true)}
+            >
+              <EditIcon fontSize="small" />
+            </IconButton>
+            <IconButton
+              className={classes.ccrt__doctor__training__info__delete}
+              onClick={() => setConfirmationModal(true)}
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </>
+        )}
+>>>>>>> 0583ce3aa54480a6a3114b3fe9b3345bc44dfeb9
       </Grid>
 
       {showEditableModal && (
@@ -146,11 +171,19 @@ DoctorTrainingInfo.propTypes = {
   id: PropTypes.number.isRequired,
   instituteName: PropTypes.string.isRequired,
   programName: PropTypes.string.isRequired,
+<<<<<<< HEAD
   startYear: PropTypes.number.isRequired,
   endYear: PropTypes.number.isRequired,
   training: PropTypes.array.isRequired,
   setTraining: PropTypes.func.isRequired,
   openSnackbar: PropTypes.func.isRequired,
+=======
+  startYear: PropTypes.string.isRequired,
+  endYear: PropTypes.string.isRequired,
+  training: PropTypes.array,
+  setTraining: PropTypes.func,
+  editable: PropTypes.bool,
+>>>>>>> 0583ce3aa54480a6a3114b3fe9b3345bc44dfeb9
 };
 
 export default DoctorTrainingInfo;
