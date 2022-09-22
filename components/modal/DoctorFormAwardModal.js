@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  Modal,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, IconButton, Modal, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DoctorInfoFormTextField from "../textfields/DoctorInfoFormTextField";
 import { makeStyles } from "@mui/styles";
@@ -15,18 +8,13 @@ import {
   validateInput,
   validateYear,
 } from "../../controllers/DoctorInfoFormController";
-
-function* generateId(i) {
-  while (true) {
-    yield i++;
-  }
-}
-const getId = generateId(0);
+import CustomButton from "../button/CustomButton";
+import { addAward, updateAward } from "../../controllers/UserController";
 
 const DoctorFormAwardModal = ({
   open,
   onNegativeFeedback,
-  award,
+  onPositiveFeedback,
   setAward,
   id = "",
   awardName = "",
@@ -35,47 +23,45 @@ const DoctorFormAwardModal = ({
 }) => {
   const classes = useStyles();
   const [showError, setShowError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const [title, setTitle] = useState(awardName);
+  const [name, setName] = useState(awardName);
   const [year, setYear] = useState(date);
 
-  const handleSubmitAward = () => {
-    if (validate(title, year)) {
-      const awardItem = {
-        id: getId.next().value.toLocaleString(),
-        title,
-        year,
-      };
-      setAward([...award, awardItem]);
-      setTitle("");
-      setYear("");
-      onNegativeFeedback();
-    } else {
-      setShowError(true);
+  const handleSubmitAward = async () => {
+    try {
+      if (!validate(name, year)) {
+        setShowError(true);
+        return;
+      }
+      setLoading(true);
+      const data = await addAward(name, year);
+      setLoading(false);
+      onPositiveFeedback(data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const handleSubmitEditAward = () => {
-    if (validate(title, year)) {
-      const awardItem = {
-        id: id,
-        title,
-        year,
-      };
-      setAward((prev) =>
-        prev.map((item) => (item.id === id ? awardItem : item))
-      );
-      setTitle("");
-      setYear("");
+  const handleSubmitEditAward = async () => {
+    try {
+      if (!validate(name, year)) {
+        setShowError(true);
+        return;
+      }
+      setLoading(true);
+      const data = await updateAward(name, year, id);
+      setAward((prev) => prev.map((item) => (item.id === id ? data : item)));
+      setLoading(false);
       onNegativeFeedback();
-    } else {
-      setShowError(true);
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const validate = (title, year) => {
+  const validate = (name, year) => {
     let isEverythingAllRight = true;
-    isEverythingAllRight = !validateInput(title) && validateYear(year);
+    isEverythingAllRight = !validateInput(name) && validateYear(year);
     return isEverythingAllRight;
   };
 
@@ -112,9 +98,9 @@ const DoctorFormAwardModal = ({
           <Grid item xs={12}>
             <DoctorInfoFormTextField
               placeholder={"Award name"}
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              error={showError && validateInput(title)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              error={showError && validateInput(name)}
               errorText={"Required"}
             />
           </Grid>
@@ -134,11 +120,13 @@ const DoctorFormAwardModal = ({
           alignItems="center"
           className={classes.ccrt__modal__footer__container}
         >
-          <Button
+          <CustomButton
+            icon={null}
+            title={editable ? "update" : "save"}
             onClick={editable ? handleSubmitEditAward : handleSubmitAward}
-          >
-            {editable ? "update" : "save"}
-          </Button>
+            size="medium"
+            loading={loading}
+          />
         </Grid>
       </Box>
     </Modal>
@@ -168,11 +156,11 @@ const useStyles = makeStyles(() => ({
 DoctorFormAwardModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onNegativeFeedback: PropTypes.func.isRequired,
-  award: PropTypes.array,
+  onPositiveFeedback: PropTypes.func.isRequired,
   setAward: PropTypes.func,
-  id: PropTypes.string,
+  id: PropTypes.number,
   awardName: PropTypes.string,
-  date: PropTypes.string,
+  date: PropTypes.number,
   editable: PropTypes.bool,
 };
 

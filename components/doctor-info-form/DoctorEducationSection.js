@@ -7,12 +7,13 @@ import DoctorFormEducationModal from "../modal/DoctorFormEducationModal";
 import { makeStyles } from "@mui/styles";
 import DoctorEducationInfo from "./DoctorEducationInfo";
 
-const DoctorEducationSection = ({ education, setEducation }) => {
+const DoctorEducationSection = ({ education, setEducation, openSnackbar }) => {
   const classes = useStyles();
   const [showEducationModal, setShowEducationModal] = useState(false);
 
   const handleAddedEducation = (data) => {
     setEducation((prev) => [...prev, data]);
+    setShowEducationModal(false);
   };
 
   return (
@@ -44,6 +45,7 @@ const DoctorEducationSection = ({ education, setEducation }) => {
               endYear={item.endDate}
               education={education}
               setEducation={setEducation}
+              openSnackbar={openSnackbar}
             />
           ))}
 
@@ -85,5 +87,6 @@ const useStyles = makeStyles(() => ({
 DoctorEducationSection.propTypes = {
   education: PropTypes.array,
   setEducation: PropTypes.func.isRequired,
+  openSnackbar: PropTypes.func.isRequired,
 };
 export default DoctorEducationSection;

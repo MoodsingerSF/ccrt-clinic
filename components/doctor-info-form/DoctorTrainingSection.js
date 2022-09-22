@@ -7,9 +7,14 @@ import DoctorFormTrainingModal from "../modal/DoctorFormTrainingModal";
 import { makeStyles } from "@mui/styles";
 import DoctorTrainingInfo from "./DoctorTrainingInfo";
 
-const DoctorTrainingSection = ({ training, setTraining }) => {
+const DoctorTrainingSection = ({ training, setTraining, openSnackbar }) => {
   const classes = useStyles();
   const [showTrainingModal, setShowTrainingModal] = useState(false);
+
+  const handleAddedTraining = (data) => {
+    setTraining((prev) => [...prev, data]);
+    setShowTrainingModal(false);
+  };
 
   return (
     <>
@@ -33,12 +38,13 @@ const DoctorTrainingSection = ({ training, setTraining }) => {
             <DoctorTrainingInfo
               key={item.id}
               id={item.id}
-              instituteName={item.instituteName}
-              programName={item.programName}
-              startYear={item.startYear}
-              endYear={item.endYear}
+              instituteName={item.institutionName}
+              programName={item.program}
+              startYear={item.startDate}
+              endYear={item.endDate}
               training={training}
               setTraining={setTraining}
+              openSnackbar={openSnackbar}
             />
           ))}
 
@@ -56,7 +62,7 @@ const DoctorTrainingSection = ({ training, setTraining }) => {
         <DoctorFormTrainingModal
           open={showTrainingModal}
           onNegativeFeedback={() => setShowTrainingModal(false)}
-          training={training}
+          onPositiveFeedback={(data) => handleAddedTraining(data)}
           setTraining={setTraining}
         />
       )}
@@ -80,5 +86,6 @@ const useStyles = makeStyles(() => ({
 DoctorTrainingSection.propTypes = {
   training: PropTypes.array.isRequired,
   setTraining: PropTypes.func.isRequired,
+  openSnackbar: PropTypes.func.isRequired,
 };
 export default DoctorTrainingSection;

@@ -11,6 +11,11 @@ const DoctorAwardSection = ({ award, setAward }) => {
   const classes = useStyles();
   const [showAwardModal, setShowAwardModal] = useState(false);
 
+  const handleAddedAward = (data) => {
+    setAward((prev) => [...prev, data]);
+    setShowAwardgModal(false);
+  };
+
   return (
     <>
       <Grid
@@ -33,7 +38,7 @@ const DoctorAwardSection = ({ award, setAward }) => {
             <DoctorAwardInfo
               key={item.id}
               id={item.id}
-              title={item.title}
+              title={item.name}
               year={item.year}
               award={award}
               setAward={setAward}
@@ -52,8 +57,14 @@ const DoctorAwardSection = ({ award, setAward }) => {
       </Grid>
       {showAwardModal && (
         <DoctorFormAwardModal
+<<<<<<< HEAD
+          open={showAwardgModal}
+          onNegativeFeedback={() => setShowAwardgModal(false)}
+          onPositiveFeedback={(data) => handleAddedAward(data)}
+=======
           open={showAwardModal}
           onNegativeFeedback={() => setShowAwardModal(false)}
+>>>>>>> 0583ce3aa54480a6a3114b3fe9b3345bc44dfeb9
           award={award}
           setAward={setAward}
         />

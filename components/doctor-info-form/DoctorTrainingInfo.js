@@ -6,6 +6,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import PropTypes from "prop-types";
 import DoctorFormTrainingModal from "../modal/DoctorFormTrainingModal";
 import ConfirmationModal from "../modal/ConfirmationModal";
+import { processShowDate } from "../../misc/functions";
+import { deleteTraining } from "../../controllers/UserController";
+import DoctorInfoButton from "../button/DoctorInfoButton";
 
 const DoctorTrainingInfo = ({
   id,
@@ -13,6 +16,9 @@ const DoctorTrainingInfo = ({
   programName,
   startYear,
   endYear,
+  // training,
+  // setTraining,
+  openSnackbar,
   training = [],
   setTraining = () => {},
   editable = false,
@@ -20,12 +26,30 @@ const DoctorTrainingInfo = ({
   const classes = useStyles();
   const [showEditableModal, setShowEditableModal] = useState(false);
   const [confirmationModal, setConfirmationModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleDeleteSection = (id) => {
-    // console.log(id);
-    const items = training.filter((item) => item.id !== id);
-    setTraining(items);
+  const handleDeleteSection = async (id) => {
+    setLoading(true);
+    try {
+      await deleteTraining(id);
+      setTraining(
+        training.filter((item) => {
+          return item.id !== id;
+        })
+      );
+      setLoading(false);
+      openSnackbar("Training entity has been removed successfully.");
+      setConfirmationModal(false);
+    } catch (error) {
+      if (error && error.response) {
+        const { data } = error.response;
+        openSnackbar(data.code + ":" + data.message);
+      }
+    }
   };
+
+  const startDate = processShowDate(startYear);
+  const endDate = processShowDate(endYear);
 
   return (
     <>
@@ -53,22 +77,21 @@ const DoctorTrainingInfo = ({
             classes.ccrt__training__section__content__content__heading_3
           }
         >
-          {startYear} - {endYear}
+          {startDate} - {endDate}
         </Typography>
+
         {editable && (
           <>
-            <IconButton
+            <DoctorInfoButton
               className={classes.ccrt__doctor__training__info__edit}
               onClick={() => setShowEditableModal(true)}
-            >
-              <EditIcon fontSize="small" />
-            </IconButton>
-            <IconButton
+              icon={<EditIcon fontSize="small" />}
+            />
+            <DoctorInfoButton
               className={classes.ccrt__doctor__training__info__delete}
               onClick={() => setConfirmationModal(true)}
-            >
-              <DeleteIcon fontSize="small" />
-            </IconButton>
+              icon={<DeleteIcon fontSize="small" />}
+            />
           </>
         )}
       </Grid>
@@ -81,7 +104,7 @@ const DoctorTrainingInfo = ({
           setTraining={setTraining}
           id={id}
           institute={instituteName}
-          program={programName}
+          programName={programName}
           start={startYear}
           end={endYear}
           editable={true}
@@ -92,6 +115,7 @@ const DoctorTrainingInfo = ({
           onPositiveFeedback={() => handleDeleteSection(id)}
           onNegativeFeedback={() => setConfirmationModal(false)}
           title={"You want to delete this section"}
+          loading={loading}
         />
       )}
     </>
@@ -126,13 +150,14 @@ const useStyles = makeStyles(() => ({
 }));
 
 DoctorTrainingInfo.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   instituteName: PropTypes.string.isRequired,
   programName: PropTypes.string.isRequired,
-  startYear: PropTypes.string.isRequired,
-  endYear: PropTypes.string.isRequired,
-  training: PropTypes.array,
-  setTraining: PropTypes.func,
+  startYear: PropTypes.number.isRequired,
+  endYear: PropTypes.number.isRequired,
+  training: PropTypes.array.isRequired,
+  setTraining: PropTypes.func.isRequired,
+  openSnackbar: PropTypes.func.isRequired,
   editable: PropTypes.bool,
 };
 

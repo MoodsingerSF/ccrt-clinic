@@ -1,96 +1,105 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  Modal,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, IconButton, Modal, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DoctorInfoFormTextField from "../textfields/DoctorInfoFormTextField";
 import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import {
+  validateDate,
   validateInput,
-  validateYear,
 } from "../../controllers/DoctorInfoFormController";
-
-function* generateId(i) {
-  while (true) {
-    yield i++;
-  }
-}
-const getId = generateId(0);
+import { addTraining, updateTraining } from "../../controllers/UserController";
+import BasicDatePicker from "../misc/BasicDatePicker";
+import CustomButton from "../button/CustomButton";
 
 const DoctorFormTrainingModal = ({
   open,
   onNegativeFeedback,
-  training,
+  onPositiveFeedback,
   setTraining,
-  id = "",
+  id = null,
   institute = "",
-  program = "",
-  start = "",
-  end = "",
+  programName = "",
+  start = null,
+  end = null,
   editable = false,
 }) => {
   const classes = useStyles();
   const [showError, setShowError] = useState(false);
-  const [programName, setProgramName] = useState(program);
-  const [instituteName, setInstituteName] = useState(institute);
-  const [startYear, setStartYear] = useState(start);
-  const [endYear, setEndYear] = useState(end);
+  const [program, setProgram] = useState(programName);
+  const [institutionName, setInstitutionName] = useState(institute);
+  const [startDate, setStartDate] = useState(start);
+  const [endDate, setEndDate] = useState(end);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmitTraining = () => {
-    if (validate(programName, instituteName, startYear, endYear)) {
-      const trainingItem = {
-        id: getId.next().value.toLocaleString(),
-        programName,
-        instituteName,
-        startYear,
-        endYear,
-      };
-      setTraining([...training, trainingItem]);
-      setProgramName("");
-      setInstituteName("");
-      setStartYear("");
-      setEndYear("");
-      onNegativeFeedback();
-    } else {
-      setShowError(true);
-    }
+  const updateObj = {
+    id,
+    institute,
+    programName,
+    start,
+    end,
+    editable,
   };
+  const updateStateObj = {
+    id,
+    institutionName,
+    program,
+    startDate,
+    endDate,
+    editable,
+  };
+  console.log("Update Come", updateObj);
+  console.log("Update state", updateStateObj);
 
-  const handleSubmitEditTraining = () => {
-    if (validate(programName, instituteName, startYear, endYear)) {
-      const trainingItem = {
-        id: id,
-        programName,
-        instituteName,
-        startYear,
-        endYear,
-      };
-      setTraining((prev) =>
-        prev.map((item) => (item.id === id ? trainingItem : item))
+  const handleSubmitTraining = async () => {
+    try {
+      if (!validate(program, institutionName, startDate, endDate)) {
+        setShowError(true);
+        return;
+      }
+      setLoading(true);
+      const data = await addTraining(
+        program,
+        institutionName,
+        startDate,
+        endDate
       );
-      setProgramName("");
-      setInstituteName("");
-      setStartYear("");
-      setEndYear("");
-      onNegativeFeedback();
-    } else {
-      setShowError(true);
+      setLoading(false);
+      onPositiveFeedback(data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const validate = (programName, instituteName, startYear, endYear) => {
+  const handleSubmitEditTraining = async () => {
+    try {
+      if (!validate(program, institutionName, startDate, endDate)) {
+        setShowError(true);
+        return;
+      }
+      setLoading(true);
+      const data = await updateTraining(
+        id,
+        institutionName,
+        program,
+        startDate,
+        endDate
+      );
+      setTraining((prev) => prev.map((item) => (item.id === id ? data : item)));
+      setLoading(false);
+      onNegativeFeedback();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const validate = (program, institutionName, startDate, endDate) => {
     let isEverythingAllRight = true;
     isEverythingAllRight =
-      !validateInput(programName) &&
-      !validateInput(instituteName) &&
-      validateYear(startYear) &&
-      validateYear(endYear);
+      !validateInput(program) &&
+      !validateInput(institutionName) &&
+      !validateDate(startDate) &&
+      !validateDate(endDate);
     return isEverythingAllRight;
   };
 
@@ -124,41 +133,47 @@ const DoctorFormTrainingModal = ({
           spacing={2}
           className={classes.ccrt__modal__content__container}
         >
-          <Grid item xs={12} spacing={2}>
+          <Grid container item xs={12}>
             <DoctorInfoFormTextField
               placeholder={"Program name"}
-              value={programName}
-              onChange={(e) => setProgramName(e.target.value)}
-              error={showError && validateInput(programName)}
+              value={program}
+              onChange={(e) => setProgram(e.target.value)}
+              error={showError && validateInput(program)}
               errorText={"Required"}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid container item xs={12}>
             <DoctorInfoFormTextField
               placeholder={"Institute name"}
-              value={instituteName}
-              onChange={(e) => setInstituteName(e.target.value)}
-              error={showError && validateInput(instituteName)}
+              value={institutionName}
+              onChange={(e) => setInstitutionName(e.target.value)}
+              error={showError && validateInput(institutionName)}
               errorText={"Required"}
             />
           </Grid>
           <Grid container item xs={12} spacing={2}>
-            <Grid item xs={12} md={12} lg={6}>
-              <DoctorInfoFormTextField
-                placeholder={"Start year"}
-                value={startYear}
-                onChange={(e) => setStartYear(e.target.value)}
-                error={showError && !validateYear(startYear)}
+            <Grid container item xs={12} md={12} lg={6}>
+              <BasicDatePicker
+                label={"Start date"}
+                value={startDate}
+                onChange={(newValue) => {
+                  setStartDate(newValue);
+                }}
+                error={showError && validateDate(startDate)}
                 errorText={"Required"}
+                format={true}
               />
             </Grid>
-            <Grid item xs={12} md={12} lg={6}>
-              <DoctorInfoFormTextField
-                placeholder={"End year"}
-                value={endYear}
-                onChange={(e) => setEndYear(e.target.value)}
-                error={showError && !validateYear(endYear)}
+            <Grid container item xs={12} md={12} lg={6}>
+              <BasicDatePicker
+                label={"End date"}
+                value={endDate}
+                onChange={(newValue) => {
+                  setEndDate(newValue);
+                }}
+                error={showError && validateDate(endDate)}
                 errorText={"Required"}
+                format={true}
               />
             </Grid>
           </Grid>
@@ -169,11 +184,13 @@ const DoctorFormTrainingModal = ({
           alignItems="center"
           className={classes.ccrt__modal__footer__container}
         >
-          <Button
+          <CustomButton
+            icon={null}
+            title={editable ? "update" : "save"}
             onClick={editable ? handleSubmitEditTraining : handleSubmitTraining}
-          >
-            {editable ? "update" : "save"}
-          </Button>
+            size="medium"
+            loading={loading}
+          />
         </Grid>
       </Box>
     </Modal>
@@ -212,13 +229,13 @@ const style = {
 DoctorFormTrainingModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onNegativeFeedback: PropTypes.func.isRequired,
-  training: PropTypes.array.isRequired,
+  onPositiveFeedback: PropTypes.func.isRequired,
   setTraining: PropTypes.func.isRequired,
-  id: PropTypes.string,
+  id: PropTypes.number,
   institute: PropTypes.string,
-  program: PropTypes.string,
-  start: PropTypes.string,
-  end: PropTypes.string,
+  programName: PropTypes.string,
+  start: PropTypes.number,
+  end: PropTypes.number,
   editable: PropTypes.bool,
 };
 

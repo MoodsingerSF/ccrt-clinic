@@ -1,110 +1,101 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  Modal,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, IconButton, Modal, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DoctorInfoFormTextField from "../textfields/DoctorInfoFormTextField";
 import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import {
+  validateDate,
   validateInput,
-  validateYear,
 } from "../../controllers/DoctorInfoFormController";
-
-function* generateId(i) {
-  while (true) {
-    yield i++;
-  }
-}
-const getId = generateId(0);
+import BasicDatePicker from "../misc/BasicDatePicker";
+import {
+  addExperience,
+  updateExperience,
+} from "../../controllers/UserController";
+import CustomButton from "../button/CustomButton";
 
 const DoctorFormExperianceModal = ({
   open,
   onNegativeFeedback,
-  experiances,
+  onPositiveFeedback,
   setExperiances,
-  id = "",
-  title = "",
+  id = null,
+  titleName = "",
   organizationName = "",
-  departmentName = "",
-  divisionName = "",
-  start = "",
-  end = "",
+  departmentName = null,
+  divisionName = null,
+  start = null,
+  end = null,
   editable = false,
 }) => {
   const classes = useStyles();
   const [showError, setShowError] = useState(false);
 
-  const [jobTitle, setJobTitle] = useState(title);
+  const [title, setTitle] = useState(titleName);
   const [organization, setOrganization] = useState(organizationName);
   const [department, setDepartment] = useState(departmentName);
   const [division, setDivision] = useState(divisionName);
-  const [startYear, setStartYear] = useState(start);
-  const [endYear, setEndYear] = useState(end);
+  const [startDate, setStartDate] = useState(start);
+  const [endDate, setEndDate] = useState(end);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmitExperiance = () => {
-    if (validate(jobTitle, organization, department, startYear, endYear)) {
-      const experianceItem = {
-        id: getId.next().value.toLocaleString(),
-        jobTitle,
+  const handleSubmitExperience = async () => {
+    try {
+      if (!validate(title, organization, startDate, endDate)) {
+        setShowError(true);
+        return;
+      }
+      setLoading(true);
+      const data = await addExperience(
+        title,
         organization,
         department,
         division,
-        startYear,
-        endYear,
-      };
-      setExperiances([...experiances, experianceItem]);
-      setJobTitle("");
-      setOrganization("");
-      setDepartment("");
-      setDivision("");
-      setStartYear("");
-      setEndYear("");
-      onNegativeFeedback();
-    } else {
-      setShowError(true);
-    }
-  };
-
-  const handleSubmitEditExperiance = () => {
-    if (validate(jobTitle, organization, department, startYear, endYear)) {
-      const experianceItem = {
-        id: id,
-        jobTitle,
-        organization,
-        department,
-        division,
-        startYear,
-        endYear,
-      };
-      setExperiances((prev) =>
-        prev.map((item) => (item.id === id ? experianceItem : item))
+        startDate,
+        endDate
       );
-      setJobTitle("");
-      setOrganization("");
-      setDepartment("");
-      setDivision("");
-      setStartYear("");
-      setEndYear("");
-      onNegativeFeedback();
-    } else {
-      setShowError(true);
+      console.log("Clicked");
+      setLoading(false);
+      onPositiveFeedback(data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const validate = (jobTitle, organization, department, startYear, endYear) => {
+  const handleSubmitEditExperience = async () => {
+    try {
+      if (!validate(title, organization, startDate, endDate)) {
+        setShowError(true);
+        return;
+      }
+      setLoading(true);
+      const data = await updateExperience(
+        id,
+        title,
+        organization,
+        department,
+        division,
+        startDate,
+        endDate
+      );
+      setExperiances((prev) =>
+        prev.map((item) => (item.id === id ? data : item))
+      );
+      setLoading(false);
+      onNegativeFeedback();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const validate = (title, organization, startDate, endDate) => {
     let isEverythingAllRight = true;
     isEverythingAllRight =
-      !validateInput(jobTitle) &&
+      !validateInput(title) &&
       !validateInput(organization) &&
-      !validateInput(department) &&
-      validateYear(startYear) &&
-      validateYear(endYear);
+      !validateDate(startDate) &&
+      !validateDate(endDate);
     return isEverythingAllRight;
   };
 
@@ -141,9 +132,9 @@ const DoctorFormExperianceModal = ({
           <Grid item xs={12}>
             <DoctorInfoFormTextField
               placeholder={"Job title"}
-              value={jobTitle}
-              onChange={(e) => setJobTitle(e.target.value)}
-              error={showError && validateInput(jobTitle)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              error={showError && validateInput(title)}
               errorText={"Required"}
             />
           </Grid>
@@ -158,11 +149,11 @@ const DoctorFormExperianceModal = ({
           </Grid>
           <Grid item xs={12}>
             <DoctorInfoFormTextField
-              placeholder={"Department"}
+              placeholder={"Department (optional)"}
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
-              error={showError && validateInput(department)}
-              errorText={"Required"}
+              // error={showError && validateInput(department)}
+              // errorText={"Required"}
             />
           </Grid>
           <Grid item xs={12}>
@@ -176,21 +167,27 @@ const DoctorFormExperianceModal = ({
           </Grid>
           <Grid container item xs={12} spacing={2}>
             <Grid item xs={12} md={12} lg={6}>
-              <DoctorInfoFormTextField
-                placeholder={"Start year"}
-                value={startYear}
-                onChange={(e) => setStartYear(e.target.value)}
-                error={showError && !validateYear(startYear)}
+              <BasicDatePicker
+                label={"Start date"}
+                value={startDate}
+                onChange={(newValue) => {
+                  setStartDate(newValue);
+                }}
+                error={showError && validateDate(startDate)}
                 errorText={"Required"}
+                format={true}
               />
             </Grid>
             <Grid item xs={12} md={12} lg={6}>
-              <DoctorInfoFormTextField
-                placeholder={"End year"}
-                value={endYear}
-                onChange={(e) => setEndYear(e.target.value)}
-                error={showError && !validateYear(endYear)}
+              <BasicDatePicker
+                label={"End date"}
+                value={endDate}
+                onChange={(newValue) => {
+                  setEndDate(newValue);
+                }}
+                error={showError && validateDate(endDate)}
                 errorText={"Required"}
+                format={true}
               />
             </Grid>
           </Grid>
@@ -201,13 +198,15 @@ const DoctorFormExperianceModal = ({
           alignItems="center"
           className={classes.ccrt__modal__footer__container}
         >
-          <Button
+          <CustomButton
+            icon={null}
+            title={editable ? "update" : "save"}
             onClick={
-              editable ? handleSubmitEditExperiance : handleSubmitExperiance
+              editable ? handleSubmitEditExperience : handleSubmitExperience
             }
-          >
-            {editable ? "update" : "save"}
-          </Button>
+            size="medium"
+            loading={loading}
+          />
         </Grid>
       </Box>
     </Modal>
@@ -237,16 +236,17 @@ const useStyles = makeStyles(() => ({
 DoctorFormExperianceModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onNegativeFeedback: PropTypes.func.isRequired,
-  experiances: PropTypes.array.isRequired,
+  onPositiveFeedback: PropTypes.func.isRequired,
   setExperiances: PropTypes.func.isRequired,
-  id: PropTypes.string,
+  id: PropTypes.number,
   title: PropTypes.string,
   organizationName: PropTypes.string,
   departmentName: PropTypes.string,
   divisionName: PropTypes.string,
-  start: PropTypes.string,
-  end: PropTypes.string,
+  start: PropTypes.number,
+  end: PropTypes.number,
   editable: PropTypes.bool,
+  titleName: PropTypes.string,
 };
 
 const style = {

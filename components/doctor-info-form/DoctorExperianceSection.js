@@ -7,9 +7,18 @@ import DoctorFormExperianceModal from "../modal/DoctorFormExperianceModal";
 import { makeStyles } from "@mui/styles";
 import DoctorExperianceInfo from "./DoctorExperianceInfo";
 
-const DoctorExperianceSection = ({ experiances, setExperiances }) => {
+const DoctorExperianceSection = ({
+  experiances,
+  setExperiances,
+  openSnackbar,
+}) => {
   const classes = useStyles();
   const [showExperianceModal, setShowExperiancegModal] = useState(false);
+
+  const handleAddedExperience = (data) => {
+    setExperiances((prev) => [...prev, data]);
+    setShowExperiancegModal(false);
+  };
 
   return (
     <>
@@ -34,13 +43,14 @@ const DoctorExperianceSection = ({ experiances, setExperiances }) => {
               key={item.id}
               id={item.id}
               organization={item.organization}
-              jobTitle={item.jobTitle}
+              jobTitle={item.title}
               department={item.department}
               division={item.division}
-              startYear={item.startYear}
-              endYear={item.endYear}
+              startYear={item.startDate}
+              endYear={item.endDate}
               experiances={experiances}
               setExperiances={setExperiances}
+              openSnackbar={openSnackbar}
             />
           ))}
 
@@ -58,7 +68,7 @@ const DoctorExperianceSection = ({ experiances, setExperiances }) => {
         <DoctorFormExperianceModal
           open={showExperianceModal}
           onNegativeFeedback={() => setShowExperiancegModal(false)}
-          experiances={experiances}
+          onPositiveFeedback={(data) => handleAddedExperience(data)}
           setExperiances={setExperiances}
         />
       )}
@@ -82,5 +92,6 @@ const useStyles = makeStyles(() => ({
 DoctorExperianceSection.propTypes = {
   experiances: PropTypes.array.isRequired,
   setExperiances: PropTypes.func.isRequired,
+  openSnackbar: PropTypes.func.isRequired,
 };
 export default DoctorExperianceSection;

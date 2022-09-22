@@ -6,6 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoctorFormAwardModal from "../modal/DoctorFormAwardModal";
 import ConfirmationModal from "../modal/ConfirmationModal";
+import { deleteAward } from "../../controllers/UserController";
 
 const DoctorAwardInfo = ({
   id,
@@ -18,11 +19,26 @@ const DoctorAwardInfo = ({
   const classes = useStyles();
   const [showEditableModal, setShowEditableModal] = useState(false);
   const [confirmationModal, setConfirmationModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleDeleteSection = (id) => {
-    // console.log(id);
-    const items = award.filter((item) => item.id !== id);
-    setAward(items);
+  const handleDeleteSection = async (id) => {
+    setLoading(true);
+    try {
+      await deleteAward(id);
+      setAward(
+        award.filter((item) => {
+          return item.id !== id;
+        })
+      );
+      setLoading(false);
+      openSnackbar("Education entity has been removed successfully.");
+      setConfirmationModal(false);
+    } catch (error) {
+      if (error && error.response) {
+        const { data } = error.response;
+        openSnackbar(data.code + ":" + data.message);
+      }
+    }
   };
 
   return (
@@ -76,6 +92,7 @@ const DoctorAwardInfo = ({
           onPositiveFeedback={() => handleDeleteSection(id)}
           onNegativeFeedback={() => setConfirmationModal(false)}
           title={"You want to delete this section"}
+          loading={loading}
         />
       )}
     </>
