@@ -17,7 +17,7 @@ const AddFileButton = ({ setOpenFormDialog }) => {
     >
       <AddIcon fontSize="small" />
       <Typography className={classes.ccrt__add__report_or_test__button}>
-        Add All Reports and tests
+        Add Report
       </Typography>
     </Grid>
   );
@@ -42,6 +42,6 @@ const useStyles = makeStyles((theme) =>
 );
 
 AddFileButton.propTypes = {
-  AddFileButton: PropTypes.func.isRequired,
+  setOpenFormDialog: PropTypes.func.isRequired,
 };
 export default AddFileButton;

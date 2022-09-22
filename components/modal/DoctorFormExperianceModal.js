@@ -10,7 +10,7 @@ import {
 } from "../../controllers/DoctorInfoFormController";
 import BasicDatePicker from "../misc/BasicDatePicker";
 import {
-  addExperiance,
+  addExperience,
   updateExperience,
 } from "../../controllers/UserController";
 import CustomButton from "../button/CustomButton";
@@ -40,14 +40,14 @@ const DoctorFormExperianceModal = ({
   const [endDate, setEndDate] = useState(end);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmitExperiance = async () => {
+  const handleSubmitExperience = async () => {
     try {
       if (!validate(title, organization, startDate, endDate)) {
         setShowError(true);
         return;
       }
       setLoading(true);
-      const data = await addExperiance(
+      const data = await addExperience(
         title,
         organization,
         department,
@@ -63,7 +63,7 @@ const DoctorFormExperianceModal = ({
     }
   };
 
-  const handleSubmitEditExperiance = async () => {
+  const handleSubmitEditExperience = async () => {
     try {
       if (!validate(title, organization, startDate, endDate)) {
         setShowError(true);
@@ -202,7 +202,7 @@ const DoctorFormExperianceModal = ({
             icon={null}
             title={editable ? "update" : "save"}
             onClick={
-              editable ? handleSubmitEditExperiance : handleSubmitExperiance
+              editable ? handleSubmitEditExperience : handleSubmitExperience
             }
             size="medium"
             loading={loading}
@@ -246,6 +246,7 @@ DoctorFormExperianceModal.propTypes = {
   start: PropTypes.number,
   end: PropTypes.number,
   editable: PropTypes.bool,
+  titleName: PropTypes.string,
 };
 
 const style = {

@@ -8,8 +8,12 @@ import {
   validateDate,
   validateInput,
 } from "../../controllers/DoctorInfoFormController";
-import { addEducation } from "../../controllers/UserController";
+import {
+  addEducation,
+  updateEducation,
+} from "../../controllers/UserController";
 import BasicDatePicker from "../misc/BasicDatePicker";
+import CustomButton from "../button/CustomButton";
 
 const DoctorFormEducationModal = ({
   open,
@@ -225,8 +229,8 @@ DoctorFormEducationModal.propTypes = {
   setEducation: PropTypes.func.isRequired,
   id: PropTypes.number,
   institute: PropTypes.string,
-  degree: PropTypes.string,
-  subject: PropTypes.string,
+  degreeName: PropTypes.string,
+  subjectName: PropTypes.string,
   start: PropTypes.number,
   end: PropTypes.number,
   editable: PropTypes.bool,
