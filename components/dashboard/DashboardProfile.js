@@ -15,6 +15,7 @@ import { createStyles, makeStyles } from "@mui/styles";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import UserDataRow from "./user-profile/UserDataRow";
 import {
+  feeChangingRequests,
   retrieveUserDetails,
   updateFirstName,
   updateLastName,
@@ -133,17 +134,17 @@ const DashboardProfile = () => {
             {getRole() === Role.DOCTOR && (
               <DoctorPriceTag
                 title="Fee"
-                price={"500"}
+                price={user.fee}
                 editable={true}
-                // validate={(newFee) => validateName(newFee)}
-                // onSave={updateFee}
+                onSave={feeChangingRequests}
+                // userId={user.Id}
                 // onSuccess={(newFee) => {
                 //   dispatch({
                 //     type: "fee",
                 //     payload: { fee: newFee },
                 //   });
                 // }}
-                // openSnackbar={openSnackbar}
+                openSnackbar={openSnackbar}
               />
             )}
           </Grid>

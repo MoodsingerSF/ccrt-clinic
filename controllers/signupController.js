@@ -35,6 +35,10 @@ export const validateFee = (fee) => {
   return NUMBER_REGEX.test(fee);
 };
 
+export const validateUpdateFee = (previousAmount, editableValue) => {
+  return editableValue !== "" && previousAmount !== editableValue;
+};
+
 export const sendOtp = async (email) => {
   const data = { email };
   const response = await axios.post(SERVER_PATH + "otp", data, {

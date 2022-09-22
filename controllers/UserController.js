@@ -47,6 +47,61 @@ export const retrievePendingDoctors = async (page = 0, limit = 15) => {
   return data.map((doctor) => processUserDetails(doctor));
 };
 
+export const retrievePendingFeeChangingRequests = async (
+  page = 0,
+  limit = 15
+) => {
+  const { data } = await axios.get(SERVER_PATH + "fee-changing-requests", {
+    params: {
+      page,
+      limit,
+      status: "PENDING",
+    },
+    headers: {
+      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+    },
+  });
+  return data;
+};
+
+export const acceptFeeRequest = async () => {
+  const data = {
+    status: "ACCEPTED",
+    adminUserId: retrieveUserId(),
+  };
+  const response = await axios.put(
+    SERVER_PATH + "fee-changing-requests",
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return response;
+};
+
+export const RejectFeeRequest = async (requistId) => {
+  const data = {
+    status: "REJECTED",
+    adminUserId: retrieveUserId(),
+  };
+  const response = await axios.put(
+    SERVER_PATH + "fee-changing-requests/" + requistId,
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return response.status;
+};
+
 export const acceptDoctorRequest = async (userId) => {
   const response = await axios.put(
     SERVER_PATH + "users/" + userId + "/verification-status",
@@ -114,6 +169,26 @@ export const retrieveAcceptedDoctors = async (page = 0, limit = 15) => {
     },
   });
   return data.map((doctor) => processUserDetails(doctor));
+};
+
+export const feeChangingRequests = async (amount, previousAmount, userId) => {
+  const data = {
+    amount,
+    previousAmount,
+    userId,
+  };
+  const response = await axios.post(
+    SERVER_PATH + "fee-changing-requests",
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return response.data;
 };
 
 export const addEducation = async (

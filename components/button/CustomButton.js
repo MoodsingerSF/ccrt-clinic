@@ -40,7 +40,7 @@ const CustomButton = ({
 CustomButton.propTypes = {
   title: PropTypes.string.isRequired,
   icon: PropTypes.element,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   size: PropTypes.string,
   loading: PropTypes.bool,
 };

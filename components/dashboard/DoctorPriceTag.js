@@ -9,10 +9,10 @@ const DoctorPriceTag = ({
   title,
   price,
   editable,
-  //   onSave,
-  //   validate,
+  onSave,
+  userId,
   //   onSuccess,
-  //   openSnackbar,
+  openSnackbar,
 }) => {
   const classes = useStyles();
 
@@ -39,10 +39,12 @@ const DoctorPriceTag = ({
           open={openUpdateProfileModal}
           onClose={() => setOpenUpdateProfileModal(false)}
           title={`Update ${title}`}
-          //   validate={validate}
-          //   onSave={onSave}
+          // validate={validate}
+          onSave={onSave}
+          // userId={userId}
           //   onSuccess={onSuccess}
-          //   openSnackbar={openSnackbar}
+          openSnackbar={openSnackbar}
+          price={true}
         />
       )}
     </>
@@ -66,8 +68,8 @@ DoctorPriceTag.propTypes = {
   title: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
   editable: PropTypes.bool,
-  // onSave: PropTypes.func,
-  // validate: PropTypes.func,
+  onSave: PropTypes.func,
+  userId: PropTypes.string.isRequired,
   // onSuccess: PropTypes.func,
   // openSnackbar: PropTypes.func,
 };
