@@ -1,35 +1,78 @@
 import React from "react";
-import { Button, Grid, IconButton, Typography } from "@mui/material";
+import { Grid, IconButton, Typography } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import ClearIcon from "@mui/icons-material/Clear";
 import PropTypes from "prop-types";
 import TimeSlotBookedUserInfoTextField from "../textfields/TimeSlotBookedUserInfoTextField";
 import { useState } from "react";
+import { addReport, updateReport } from "../../controllers/UserController";
+import CustomButton from "../button/CustomButton";
 
 const TimeSlotBookedUserInfo = ({
-  isFilePicked,
-  onFileDrop,
+  resourceId,
+  addImageUrl,
   title,
+  imageUrl,
+  openSnackbar,
+  // removeImageUrl,
   // onFileRemove,
   // isStoreFile,
 }) => {
   const classes = useStyles();
-
+  // const [finalImageUrl, setFinalImageUrl] = useState(imageUrl);
+  // const [newUpload, setNewUpload] = useState(imageUrl === null);
   const [preview, setPreview] = useState(null);
-  const [showButtons, setShowButtons] = useState(true);
-  const [uploadNewFile, setUploadNewFile] = useState(false);
+  const [showButtons, setShowButtons] = useState(imageUrl === null);
+  const [uploadNewFile, setUploadNewFile] = useState(imageUrl === null);
+  const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  // console.log(isFilePicked);
-
-  const submitFiles = () => {
-    if (preview) {
+  const submitFile = async () => {
+    try {
+      if (file === null) {
+        setError(true);
+        return;
+      }
+      setLoading(true);
+      const data = await addReport(title, file);
+      setUploadNewFile(false);
       setShowButtons(false);
-      // setLoading(true)
-      // Api call
-      console.log("Submit Files");
-      // setLoading(false);
-    } else {
-      setShowButtons(true);
+      setFile(null);
+      setPreview(null);
+      openSnackbar(`${title} report has been added successfully.`);
+      addImageUrl(data.imageUrl, data.resourceId);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      if (error && error.response) {
+        const { data } = error.response;
+        openSnackbar(data?.code + " : " + data?.message);
+      }
+    }
+  };
+
+  const handleUpdateReport = async () => {
+    try {
+      if (file === null) {
+        setError(true);
+        return;
+      }
+      setLoading(true);
+      const data = await updateReport(resourceId, file);
+      setUploadNewFile(false);
+      setShowButtons(false);
+      setFile(null);
+      setPreview(null);
+      openSnackbar(`${title} report has been updated successfully.`);
+      addImageUrl(data.imageUrl, data.resourceId);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      if (error && error.response) {
+        const { data } = error.response;
+        openSnackbar(data?.code + " : " + data?.message);
+      }
     }
   };
 
@@ -37,51 +80,75 @@ const TimeSlotBookedUserInfo = ({
     <Grid container className={classes.ccrt__content__wrapper}>
       <Typography className={classes.ccrt__content__header}>
         {title}
-        <small className={classes.ccrt__content__header__small}>(if any)</small>
+        {/* <small className={classes.ccrt__content__header__small}>(if any)</small> */}
       </Typography>
-
-      {isFilePicked ? (
-        uploadNewFile ? (
-          <TimeSlotBookedUserInfoTextField
-            onFileDrop={(e) => {
-              onFileDrop(e.target.files[0]);
-              setPreview(URL.createObjectURL(e.target.files[0]));
-            }}
-          />
-        ) : (
-          <Grid
-            container
-            justifyContent={"center"}
-            alignItems="center"
-            className={classes.ccrt_image_preview_wrapper}
-            style={{
-              backgroundImage: `url(${preview})`,
+      {!uploadNewFile ? (
+        <Grid
+          container
+          justifyContent={"center"}
+          alignItems="center"
+          className={classes.ccrt_image_preview_wrapper}
+          style={{
+            backgroundImage: `url(/${imageUrl})`,
+          }}
+        >
+          <IconButton
+            className={classes.ccrt__image__wrapper__clear__button}
+            onClick={() => {
+              setShowButtons(true);
+              setUploadNewFile(true);
             }}
           >
-            <IconButton
-              className={classes.ccrt__image__wrapper__clear__button}
-              onClick={() => {
-                setShowButtons(true);
-                setUploadNewFile(true);
-              }}
-            >
-              <ClearIcon
-                fontSize="small"
-                className={classes.ccrt__clear__button}
-              />
-            </IconButton>
-          </Grid>
-        )
+            <ClearIcon
+              fontSize="small"
+              className={classes.ccrt__clear__button}
+            />
+          </IconButton>
+        </Grid>
       ) : (
         <>
-          <TimeSlotBookedUserInfoTextField
-            onFileDrop={(e) => {
-              onFileDrop(e.target.files[0]);
-              setPreview(URL.createObjectURL(e.target.files[0]));
-            }}
-          />
+          {file === null ? (
+            <>
+              <TimeSlotBookedUserInfoTextField
+                onFileDrop={(e) => {
+                  setFile(e.target.files[0]);
+                  setPreview(URL.createObjectURL(e.target.files[0]));
+                }}
+              />
+              {error && (
+                <Typography style={{ color: "red", fontSize: "75%" }}>
+                  You must select an image
+                </Typography>
+              )}
+            </>
+          ) : (
+            <Grid
+              container
+              justifyContent={"center"}
+              alignItems="center"
+              className={classes.ccrt_image_preview_wrapper}
+              style={{
+                backgroundImage: `url(${preview})`,
+              }}
+            >
+              <IconButton
+                className={classes.ccrt__image__wrapper__clear__button}
+                onClick={() => {
+                  setFile(null);
+                  // setShowButtons(true);
+                  // setUploadNewFile(true);
+                }}
+              >
+                <ClearIcon
+                  fontSize="small"
+                  className={classes.ccrt__clear__button}
+                />
+              </IconButton>
+            </Grid>
+          )}
         </>
       )}
+
       {showButtons && (
         <Grid
           container
@@ -89,24 +156,41 @@ const TimeSlotBookedUserInfo = ({
           alignItems="center"
           style={{ marginTop: "10px" }}
         >
-          <Button
-            size="small"
-            variant="contained"
-            style={{ marginRight: "10px", fontSize: "75%" }}
-            onClick={() => {
-              setUploadNewFile(false);
-            }}
+          <Grid
+            container
+            justifyContent={"flex-end"}
+            alignItems="center"
+            item
+            xs={12}
+            sm={6}
+            spacing={2}
           >
-            cancel
-          </Button>
-          <Button
-            size="small"
-            variant="contained"
-            style={{ fontSize: "75%" }}
-            onClick={submitFiles}
-          >
-            Save
-          </Button>
+            <Grid container item xs={6}>
+              {!loading && (
+                <CustomButton
+                  title="Cancel"
+                  onClick={() => {
+                    setUploadNewFile(false);
+                    setShowButtons(false);
+                  }}
+                />
+              )}
+            </Grid>
+
+            <Grid container item xs={6}>
+              <CustomButton
+                title={imageUrl === null ? "Submit" : "Update"}
+                onClick={() => {
+                  if (imageUrl === null) {
+                    submitFile();
+                  } else {
+                    handleUpdateReport();
+                  }
+                }}
+                loading={loading}
+              />
+            </Grid>
+          </Grid>
         </Grid>
       )}
     </Grid>
@@ -155,8 +239,12 @@ const useStyles = makeStyles((theme) =>
 
 TimeSlotBookedUserInfo.propTypes = {
   title: PropTypes.string.isRequired,
-  isFilePicked: PropTypes.object,
-  onFileDrop: PropTypes.func.isRequired,
+  addImageUrl: PropTypes.func.isRequired,
+  imageUrl: PropTypes.string.isRequired,
+  openSnackbar: PropTypes.func.isRequired,
+  resourceId: PropTypes.string.isRequired,
+  // removeImageUrl: PropTypes.func.isRequired,
+
   // onFileRemove: PropTypes.func.isRequired,
   // isStoreFile: PropTypes.object,
 };

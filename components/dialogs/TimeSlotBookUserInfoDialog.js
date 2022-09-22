@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   AppBar,
@@ -9,7 +9,6 @@ import {
   Grid,
   useTheme,
   useMediaQuery,
-  Button,
   TextField,
   MenuItem,
 } from "@mui/material";
@@ -17,10 +16,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 import { makeStyles, createStyles } from "@mui/styles";
 import classNames from "classnames";
-import FormDialog from "./FormDialog";
-import TimeSlotBookedUserInfo from "../userTimeSlot/TimeSlotBookedUserInfo";
-import AddFileButton from "../userTimeSlot/AddFileButton";
-import { validateField } from "../../controllers/TimeSlotBookedUserInfoController";
+import ReportComp from "../dashboard/ReportComp";
+// import FormDialog from "./FormDialog";
+// import TimeSlotBookedUserInfo from "../userTimeSlot/TimeSlotBookedUserInfo";
+// import AddFileButton from "../userTimeSlot/AddFileButton";
 
 const cancers = [
   {
@@ -57,46 +56,22 @@ const cancers = [
   },
 ];
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "insert":
-      return [...state, { ...action.payload, file: null }];
-    case "add-file":
-      return state.map((item) => {
-        if (item.title === action.payload.title) {
-          return { ...item, file: action.payload.file };
-        } else return item;
-      });
-    case "remove-file":
-      return state.map((item) => {
-        if (item.title === action.payload.title) {
-          return { ...item, file: null };
-        } else return item;
-      });
-    default:
-      return state;
-  }
-};
-
 const TimeSlotBookUserInfoDialog = ({ onNegativeFeedback }) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.up("sm"));
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
 
-  const [openFormDialog, setOpenFormDialog] = useState(false);
-  const [fileList, dispatch] = useReducer(reducer, []);
-  console.log(fileList);
-
-  const [prescription, setPrescription] = useState(null);
+  const [files, setFiles] = useState([]);
+  console.log(files);
+  // const [prescription, setPrescription] = useState(null);
   // console.log(prescription);
 
   const [cancerType, setCancerType] = useState("");
-  const [showError, setShowError] = useState(false);
 
-  const onPrescriptionFileDrop = (file) => {
-    setPrescription(file);
-  };
+  // const onPrescriptionFileDrop = (file) => {
+  //   setPrescription(file);
+  // };
 
   const handleChangeCancerType = (e) => {
     setCancerType(e.target.value);
@@ -172,48 +147,17 @@ const TimeSlotBookUserInfoDialog = ({ onNegativeFeedback }) => {
                   </Typography>
                 )} */}
               </Grid>
+              <ReportComp setFiles={setFiles} />
 
-              <TimeSlotBookedUserInfo
+              {/* <TimeSlotBookedUserInfo
                 title="previous/current prescription"
                 onFileDrop={onPrescriptionFileDrop}
                 onFileRemove={() => setPrescription(null)}
                 isFilePicked={prescription}
-              />
-              {fileList.length !== 0 && (
-                <Grid container>
-                  {fileList.map((item, index) => (
-                    <TimeSlotBookedUserInfo
-                      key={item.title}
-                      title={item.title}
-                      onFileDrop={(file) =>
-                        dispatch({
-                          type: "add-file",
-                          payload: { title: item.title, file: file },
-                        })
-                      }
-                      onFileRemove={(file) =>
-                        dispatch({
-                          type: "remove-file",
-                          payload: { title: item.title },
-                        })
-                      }
-                      isFilePicked={item.file}
-                    />
-                  ))}
-                </Grid>
-              )}
-              <AddFileButton setOpenFormDialog={setOpenFormDialog} />
+              /> */}
             </Grid>
           </Grid>
         </DialogContent>
-        {openFormDialog && (
-          <FormDialog
-            onClose={() => setOpenFormDialog(false)}
-            addSection={(title) =>
-              dispatch({ type: "insert", payload: { title } })
-            }
-          />
-        )}
       </Dialog>
     </div>
   );

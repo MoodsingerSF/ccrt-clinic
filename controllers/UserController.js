@@ -155,3 +155,58 @@ export const deleteEducation = async (Id) => {
   );
   return response.status;
 };
+
+export const addReport = async (title, image) => {
+  const form = new FormData();
+  form.append("title", title);
+  form.append("image", image);
+  const { data } = await axios.post(
+    SERVER_PATH + "users/" + retrieveUserId() + "/reports",
+    form,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return data;
+};
+
+const processReport = (report) => {
+  return { ...report };
+};
+const processReports = (reports) => {
+  return reports.map((item) => processReport(item));
+};
+
+export const retrieveAllReports = async () => {
+  const { data } = await axios.get(
+    SERVER_PATH + "users/" + retrieveUserId() + "/reports",
+    {
+      headers: {
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return processReports(data);
+};
+
+export const updateReport = async (resourceId, image) => {
+  const form = new FormData();
+  form.append("image", image);
+  const { data } = await axios.put(
+    SERVER_PATH + "users/" + retrieveUserId() + "/reports/" + resourceId,
+    form,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return data;
+};

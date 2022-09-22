@@ -17,7 +17,11 @@ import { makeStyles } from "@mui/styles";
 import { getSlotTimeAsString } from "../../controllers/DoctorScheduleController";
 import moment from "moment/moment";
 import { processDate } from "../../misc/functions";
-import { prettyDate } from "../../controllers/DateController";
+import {
+  getDayCode,
+  prettyDate,
+  retrieveNextDates,
+} from "../../controllers/DateController";
 import { retrieveLastAppointmentDates } from "../../controllers/AppointmentController";
 import LoaderComponent from "../misc/LoaderComponent";
 import classNames from "classnames";
@@ -44,26 +48,43 @@ const TimeSlotBookDialog = ({
   // console.log(getAllDate);
   const retrieveNextAvailableDays = () => {
     const currentDate = new Date();
-    const modHour =
-      parseInt(startTime.hour) + (startTime.phase === "AM" ? 0 : 12);
+    const currDay = currentDate.getDay();
+    const slotDay = getDayCode(day);
+    if (slotDay === currDay) {
+      const modHour =
+        parseInt(startTime.hour) +
+        (startTime.phase === "AM"
+          ? 0
+          : parseInt(startTime.hour) !== 12
+          ? 12
+          : 0);
+      const startTimeString = `${modHour}:${startTime.minute}`;
 
-    const startTimeString = `${modHour}:${startTime.minute}`;
-
-    const nextDaysIntervals = [7, 14, 21, 28];
-    const nextDates = nextDaysIntervals.map((item) => {
-      const now = moment();
-      return processDate(now.add(item, "days").toDate());
-    });
-    const currentDateStr = processDate(currentDate);
-    const slotStartTime = moment(currentDateStr + " " + startTimeString);
-    if (moment().isAfter(slotStartTime)) {
-      return nextDates;
+      const nextDaysIntervals = [7, 14, 21, 28];
+      const nextDates = retrieveNextDates(currentDate, nextDaysIntervals);
+      const currentDateStr = processDate(currentDate);
+      const slotStartTime = moment(currentDateStr + " " + startTimeString);
+      if (moment().isAfter(slotStartTime)) {
+        return nextDates;
+      } else {
+        return [processDate(currentDate), ...nextDates.slice(0, 3)];
+      }
     } else {
-      return [processDate(currentDate), ...nextDates.slice(0, 3)];
+      const now = moment();
+      const firstDate = now
+        .add(
+          slotDay > currDay ? slotDay - currDay : 6 - currDay + slotDay + 1,
+          "days"
+        )
+        .toDate();
+      // console.log(firstDate.toDate());
+      const nextDates = retrieveNextDates(firstDate, [7, 14, 21]);
+      // return nextDates;
+      return [processDate(firstDate), ...nextDates];
     }
   };
 
-  const retrieveNextDates = async (slotId) => {
+  const getNextPossibleDates = async (slotId) => {
     try {
       setLoading(true);
       const lastAppointmentDates = await retrieveLastAppointmentDates(slotId);
@@ -81,7 +102,7 @@ const TimeSlotBookDialog = ({
   };
 
   useEffect(() => {
-    retrieveNextDates(slotId);
+    getNextPossibleDates(slotId);
   }, [slotId]);
 
   return (
