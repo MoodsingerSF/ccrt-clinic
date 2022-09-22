@@ -51,6 +51,7 @@ const DoctorExperianceSection = ({
               experiances={experiances}
               setExperiances={setExperiances}
               openSnackbar={openSnackbar}
+              editable={true}
             />
           ))}
 
