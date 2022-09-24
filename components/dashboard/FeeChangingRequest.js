@@ -103,12 +103,17 @@ const FeeChangingRequest = () => {
                   <TableCell style={{ width: "20%" }} align="center">
                     Changing Amonut
                   </TableCell>
-                  <TableCell style={{ width: "20%" }} align="center">
+                  <TableCell
+                    style={{ width: "20%" }}
+                    align={filterValue === "pending" ? "center" : "right"}
+                  >
                     Status
                   </TableCell>
-                  <TableCell style={{ width: "20%" }} align="right">
-                    Actions
-                  </TableCell>
+                  {filterValue === "pending" && (
+                    <TableCell style={{ width: "20%" }} align="right">
+                      Actions
+                    </TableCell>
+                  )}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -124,6 +129,7 @@ const FeeChangingRequest = () => {
                         status={request.status}
                         requestId={request.requestId}
                         openSnackbar={openSnackbar}
+                        filterValue={filterValue}
                       />
                     </TableRow>
                   ))}

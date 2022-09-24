@@ -73,7 +73,6 @@ const DoctorAbout = ({
                 fontWeight: 500,
                 width: IsDesktop ? "90%" : "79%",
                 textAlign: "justify",
-                // IsDesktop ? "center" :
               }}
             >
               {showMore ? `${value}` : `${value.substring(0, 80)}`}
@@ -95,7 +94,17 @@ const DoctorAbout = ({
               )}
             </Typography>
           ) : (
-            <Typography>please update about</Typography>
+            <Typography
+              style={{
+                fontSize: "90%",
+                textAlign: "center",
+                width: IsDesktop ? "90%" : "79%",
+                textAlign: "center",
+                textTransform: "capitalize",
+              }}
+            >
+              please update about
+            </Typography>
           )}
 
           {editable ? (

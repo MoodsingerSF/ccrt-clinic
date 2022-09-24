@@ -23,6 +23,7 @@ const FeeChangingRequestRow = ({
   previousAmount,
   requestId,
   openSnackbar,
+  filterValue,
 }) => {
   const fullName = `${firstName} ${lastName}`;
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
@@ -99,7 +100,7 @@ const FeeChangingRequestRow = ({
           }}
         />
       </TableCell>
-      <TableCell align="center">
+      <TableCell align={filterValue === "pending" ? "center" : "right"}>
         <Chip
           label={status}
           color="primary"
@@ -110,26 +111,29 @@ const FeeChangingRequestRow = ({
           }}
         />
       </TableCell>
-      <TableCell align="right">
-        <Tooltip title="Reject">
-          <IconButton
-            size="small"
-            style={{ background: "red", marginRight: "5px" }}
-            onClick={() => setOpenConfirmationModal(true)}
-          >
-            <ClearIcon fontSize="small" style={{ color: "#fff" }} />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Accept">
-          <IconButton
-            size="small"
-            style={{ background: "green" }}
-            onClick={handleClickAcceptButton}
-          >
-            <DoneIcon fontSize="small" style={{ color: "#fff" }} />
-          </IconButton>
-        </Tooltip>
-      </TableCell>
+      {filterValue === "pending" && (
+        <TableCell align="right">
+          <Tooltip title="Reject">
+            <IconButton
+              size="small"
+              style={{ background: "red", marginRight: "5px" }}
+              onClick={() => setOpenConfirmationModal(true)}
+            >
+              <ClearIcon fontSize="small" style={{ color: "#fff" }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Accept">
+            <IconButton
+              size="small"
+              style={{ background: "green" }}
+              onClick={handleClickAcceptButton}
+            >
+              <DoneIcon fontSize="small" style={{ color: "#fff" }} />
+            </IconButton>
+          </Tooltip>
+        </TableCell>
+      )}
+
       {openConfirmationModal && (
         <ConfirmationModal
           title="Are you sure?"
@@ -152,5 +156,6 @@ FeeChangingRequestRow.propTypes = {
   previousAmount: PropTypes.number.isRequired,
   requestId: PropTypes.string.isRequired,
   openSnackbar: PropTypes.func.isRequired,
+  filterValue: PropTypes.string.isRequired,
 };
 export default FeeChangingRequestRow;

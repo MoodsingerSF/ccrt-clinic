@@ -24,6 +24,7 @@ import {
 } from "../../controllers/UserController";
 import {
   validateName,
+  validateText,
   validateUpdateFee,
 } from "../../controllers/SignupController";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
@@ -208,7 +209,7 @@ const DashboardProfile = () => {
                   value={user.about}
                   icon={<InfoIcon />}
                   editable={true}
-                  validate={(newAbout) => validateName(newAbout)}
+                  validate={(newAbout) => validateText(newAbout)}
                   onSave={updateAbout}
                   onSuccess={(newAbout) => {
                     dispatch({
