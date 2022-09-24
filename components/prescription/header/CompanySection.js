@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { Grid, Typography } from "@mui/material";
-import theme from "../../../themes/theme";
+import { Grid } from "@mui/material";
+// import theme from "../../../themes/theme";
 import logo from "../../../public/image/logo/logo.png";
 
 const CompanySection = () => {
@@ -10,7 +10,7 @@ const CompanySection = () => {
       <Grid container style={{ position: "relative", height: "10vh" }}>
         <Image src={logo} alt="logo" layout="fill" objectFit="contain" />
       </Grid>
-      <Grid>
+      {/* <Grid>
         <Typography
           variant="h6"
           style={{
@@ -20,7 +20,7 @@ const CompanySection = () => {
         >
           cancer care and research trust
         </Typography>
-      </Grid>
+      </Grid> */}
     </>
   );
 };

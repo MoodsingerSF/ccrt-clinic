@@ -13,7 +13,7 @@ const AppointmentTableButton = ({ title, onClick }) => {
         border: `1px solid ${theme.palette.custom.DEFAULT_COLOR}`,
         borderRadius: "5px",
         cursor: "pointer",
-        margin: "0 5px",
+        margin: "5px",
         padding: "5px",
         transition: "all 0.3s ease",
         "&:hover": {
@@ -27,7 +27,7 @@ const AppointmentTableButton = ({ title, onClick }) => {
   );
 };
 
-AppointmentTableButton.PropTypes = {
+AppointmentTableButton.propTypes = {
   title: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };

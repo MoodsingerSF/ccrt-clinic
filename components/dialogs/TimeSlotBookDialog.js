@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -22,9 +21,13 @@ import {
   prettyDate,
   retrieveNextDates,
 } from "../../controllers/DateController";
-import { retrieveLastAppointmentDates } from "../../controllers/AppointmentController";
+import {
+  createAppointment,
+  retrieveLastAppointmentDates,
+} from "../../controllers/AppointmentController";
 import LoaderComponent from "../misc/LoaderComponent";
 import classNames from "classnames";
+import CustomButton from "../button/CustomButton";
 
 const TimeSlotBookDialog = ({
   slotId,
@@ -34,6 +37,7 @@ const TimeSlotBookDialog = ({
   endTime,
   day,
   onPositiveFeedback,
+  openSnackbar,
 }) => {
   const classes = useStyles();
   const [possibleDates, setPossibleDates] = useState([]);
@@ -44,6 +48,7 @@ const TimeSlotBookDialog = ({
   };
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [creatingAppointment, setCreatingAppointment] = useState(false);
 
   // console.log(getAllDate);
   const retrieveNextAvailableDays = () => {
@@ -98,6 +103,22 @@ const TimeSlotBookDialog = ({
       setLoading(false);
     } catch (error) {
       setLoading(false);
+    }
+  };
+
+  const handleCreateAppointment = async () => {
+    try {
+      setCreatingAppointment(true);
+      const appointment = await createAppointment(slotId, selectedDate);
+      setCreatingAppointment(false);
+      onPositiveFeedback(appointment.appointmentId);
+      onNegativeFeedback();
+      openSnackbar("Appointment has been created successfully");
+    } catch (error) {
+      setCreatingAppointment(false);
+      if (error && error.response) {
+        openSnackbar(error.response.data.code);
+      }
     }
   };
 
@@ -170,20 +191,21 @@ const TimeSlotBookDialog = ({
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onNegativeFeedback}>Cancel</Button>
-        <Button
+        {!creatingAppointment && (
+          <CustomButton onClick={onNegativeFeedback} title="cancel" />
+        )}
+        <CustomButton
+          loading={creatingAppointment}
           onClick={() => {
             if (!selectedDate) {
               setError(true);
               return;
             } else {
-              onPositiveFeedback(selectedDate);
+              handleCreateAppointment();
             }
-            onNegativeFeedback();
           }}
-        >
-          Confirm
-        </Button>
+          title="Confirm"
+        />
       </DialogActions>
     </Dialog>
   );
@@ -221,6 +243,7 @@ TimeSlotBookDialog.propTypes = {
   day: PropTypes.string.isRequired,
   startTime: PropTypes.string.isRequired,
   endTime: PropTypes.string.isRequired,
+  openSnackbar: PropTypes.func.isRequired,
 };
 
 export default TimeSlotBookDialog;

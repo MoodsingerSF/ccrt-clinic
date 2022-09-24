@@ -22,3 +22,14 @@ export const DAY_CODES = {
   thursday: "THU",
   friday: "FRI",
 };
+
+export const VERIFICATION_STATUS = {
+  ACCEPTED: "ACCEPTED",
+  REJECTED: "REJECTED",
+  PENDING: "PENDING",
+};
+export const APPOINTMENT_STATUS = {
+  CANCELLED: "CANCELLED",
+  PENDING: "PENDING",
+  FINISHED: "FINISHED",
+};

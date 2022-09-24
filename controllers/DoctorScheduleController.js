@@ -56,12 +56,17 @@ const parseTime = (time) => {
   };
 };
 
-const stringifyTime = (hour, minute, phase) => {
+export const stringifySlot = (slot) => {
+  const { startTime, endTime } = parseSlot(slot);
+  return `${startTime.hour}:${startTime.minute} ${startTime.phase} - ${endTime.hour}:${endTime.minute} ${endTime.phase}`;
+};
+
+export const stringifyTime = (hour, minute, phase) => {
   const newHour = phase === "PM" ? parseInt(hour) + 12 : parseInt(hour);
   return `${newHour < 10 ? `0${newHour}` : newHour}:${minute}:00`;
 };
 
-const parseSlot = (slot) => {
+export const parseSlot = (slot) => {
   return {
     ...slot,
     startTime: parseTime(slot.startTime),

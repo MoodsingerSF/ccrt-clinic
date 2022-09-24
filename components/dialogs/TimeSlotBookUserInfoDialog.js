@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Dialog,
   AppBar,
@@ -9,79 +9,96 @@ import {
   Grid,
   useTheme,
   useMediaQuery,
-  TextField,
-  MenuItem,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 import { makeStyles, createStyles } from "@mui/styles";
 import classNames from "classnames";
 import ReportComp from "../dashboard/ReportComp";
+import {
+  addAppointmentResource,
+  retrieveAppointmentResources,
+  updateAppointmentResource,
+} from "../../controllers/AppointmentController";
+import CustomButton from "../button/CustomButton";
 // import FormDialog from "./FormDialog";
 // import TimeSlotBookedUserInfo from "../userTimeSlot/TimeSlotBookedUserInfo";
 // import AddFileButton from "../userTimeSlot/AddFileButton";
 
-const cancers = [
-  {
-    value: "breast cancer",
-    label: "breast cancer",
-  },
-  {
-    value: "lung cancer",
-    label: "lung cancer",
-  },
-  {
-    value: "stomach cancer",
-    label: "stomach cancer",
-  },
-  {
-    value: "bone cancer",
-    label: "bone cancer",
-  },
-  {
-    value: "brain cancer",
-    label: "brain cancer",
-  },
-  {
-    value: "ovarian cancer",
-    label: "ovarian cancer",
-  },
-  {
-    value: "prostate cancer",
-    label: "prostate cancer",
-  },
-  {
-    value: "testicular cancer",
-    label: "testicular cancer",
-  },
-];
+// const cancers = [
+//   {
+//     value: "breast cancer",
+//     label: "breast cancer",
+//   },
+//   {
+//     value: "lung cancer",
+//     label: "lung cancer",
+//   },
+//   {
+//     value: "stomach cancer",
+//     label: "stomach cancer",
+//   },
+//   {
+//     value: "bone cancer",
+//     label: "bone cancer",
+//   },
+//   {
+//     value: "brain cancer",
+//     label: "brain cancer",
+//   },
+//   {
+//     value: "ovarian cancer",
+//     label: "ovarian cancer",
+//   },
+//   {
+//     value: "prostate cancer",
+//     label: "prostate cancer",
+//   },
+//   {
+//     value: "testicular cancer",
+//     label: "testicular cancer",
+//   },
+// ];
 
-const TimeSlotBookUserInfoDialog = ({ onNegativeFeedback }) => {
+const TimeSlotBookUserInfoDialog = ({
+  onNegativeFeedback,
+  appointmentId,
+  openSnackbar,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesMobile = useMediaQuery(theme.breakpoints.up("sm"));
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
 
-  const [files, setFiles] = useState([]);
-  console.log(files);
+  // const [files, setFiles] = useState([]);
+  // console.log(files);
   // const [prescription, setPrescription] = useState(null);
   // console.log(prescription);
-
-  const [cancerType, setCancerType] = useState("");
-
-  // const onPrescriptionFileDrop = (file) => {
-  //   setPrescription(file);
-  // };
-
-  const handleChangeCancerType = (e) => {
-    setCancerType(e.target.value);
-  };
 
   // const validate = (cancerType) => {
   //   let isEverythingAllRight = true;
   //   isEverythingAllRight = !validateField(cancerType);
   //   return isEverythingAllRight;
   // };
+
+  const getAppointmentResources = async (appointmentId) => {
+    const resources = await retrieveAppointmentResources(appointmentId);
+    return resources;
+  };
+
+  const handleCreateAppointmentResource = async (title, image) => {
+    const resource = await addAppointmentResource(appointmentId, title, image);
+    return resource;
+  };
+
+  const handleUpdateAppointmentResource = async (resourceId, image) => {
+    const resource = await updateAppointmentResource(
+      appointmentId,
+      resourceId,
+      image
+    );
+    return resource;
+  };
 
   return (
     <div>
@@ -114,7 +131,7 @@ const TimeSlotBookUserInfoDialog = ({ onNegativeFeedback }) => {
                 [classes.ccrt__dialog__content__section_large]: matchesMd,
               })}
             >
-              <Grid
+              {/* <Grid
                 container
                 flexDirection={"column"}
                 className={classes.ccrt__content__wrapper}
@@ -135,19 +152,22 @@ const TimeSlotBookUserInfoDialog = ({ onNegativeFeedback }) => {
                     </MenuItem>
                   ))}
                 </TextField>
-                {/* {showError && validateField(cancerType) && (
-                  <Typography
-                    style={{
-                      color: "red",
-                      fontSize: "70%",
-                      marginBottom: "5px",
-                    }}
-                  >
-                    Required
-                  </Typography>
-                )} */}
-              </Grid>
-              <ReportComp setFiles={setFiles} />
+                
+              </Grid> */}
+              <ReportComp
+                retrieveReports={() => getAppointmentResources(appointmentId)}
+                addReport={handleCreateAppointmentResource}
+                updateReport={handleUpdateAppointmentResource}
+                editable={true}
+              />
+
+              <CustomButton
+                title="Continue"
+                onClick={() => {
+                  openSnackbar("Reports has been added to the appointment.");
+                  onNegativeFeedback();
+                }}
+              />
 
               {/* <TimeSlotBookedUserInfo
                 title="previous/current prescription"
@@ -200,6 +220,8 @@ const useStyles = makeStyles((theme) =>
 
 TimeSlotBookUserInfoDialog.propTypes = {
   onNegativeFeedback: PropTypes.bool.isRequired,
+  appointmentId: PropTypes.string.isRequired,
+  openSnackbar: PropTypes.func.isRequired,
 };
 
 export default TimeSlotBookUserInfoDialog;

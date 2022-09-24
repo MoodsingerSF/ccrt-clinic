@@ -8,6 +8,10 @@ import {
   FormGroup,
   Checkbox,
   Switch,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { validateInput } from "../../../controllers/drugAddedFormController";
@@ -19,15 +23,16 @@ function* generateId(i) {
 }
 const getId = generateId(0);
 
-const DrugAddedForm = ({ setDrugList }) => {
+const DrugAddedForm = ({ addDrug }) => {
   const classes = useStyles();
 
   const [drugName, setDrugName] = useState("");
-  const [perDay, setPerDay] = useState("");
+  const [perDayRule, setPerDayRule] = useState("");
   const [morning, setMorning] = useState(false);
   const [noon, setNoon] = useState(false);
   const [night, setNight] = useState(false);
-
+  const [days, setDays] = useState("");
+  const [unit, setUnit] = useState("");
   const [changeOption, setChangeOption] = useState(false);
   const [showError, setShowError] = useState(false);
 
@@ -36,14 +41,18 @@ const DrugAddedForm = ({ setDrugList }) => {
       const drug = {
         id: getId.next().value,
         drugName,
-        perDay,
+        perDayRule,
         morning,
         noon,
         night,
+        duration: {
+          value: days,
+          unit,
+        },
       };
-      setDrugList((prev) => [...prev, drug]);
+      addDrug(drug);
       setDrugName("");
-      setPerDay("");
+      setPerDayRule("");
     } else {
       setShowError(true);
     }
@@ -147,8 +156,8 @@ const DrugAddedForm = ({ setDrugList }) => {
               size="small"
               variant="outlined"
               placeholder="Write rules"
-              value={perDay}
-              onChange={(e) => setPerDay(e.target.value)}
+              value={perDayRule}
+              onChange={(e) => setPerDayRule(e.target.value)}
             />
             {/* {!changeOption
               ? showError &&
@@ -165,6 +174,55 @@ const DrugAddedForm = ({ setDrugList }) => {
           </>
         )}
       </Grid>
+      <Grid
+        container
+        spacing={1}
+        className={classes.ccrt_prescription__duration__form_control}
+        // onKeyDown={onKeyDown}
+      >
+        <Grid item xs={12}>
+          <Typography className={classes.ccrt__prescription__duration__heading}>
+            How many days
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            size="small"
+            variant="outlined"
+            placeholder="number"
+            value={days}
+            onChange={(e) => setDays(e.target.value)}
+          />
+          {showError && !validate(days) && (
+            <Typography className={classes.ccrt__prescription__error__text}>
+              This field is required
+            </Typography>
+          )}
+        </Grid>
+        <Grid item={6}>
+          <FormControl sx={{ minWidth: 120 }} size="small">
+            <InputLabel id="demo-select-small">Unit</InputLabel>
+            <Select
+              labelId="demo-select-small"
+              id="demo-select-small"
+              value={unit}
+              label="Unit"
+              onChange={(e) => setUnit(e.target.value)}
+            >
+              <MenuItem value="days">days</MenuItem>
+              <MenuItem value="week">weeks</MenuItem>
+              <MenuItem value="month">months</MenuItem>
+              <MenuItem value="year">years</MenuItem>
+            </Select>
+            {showError && validate(unit) && (
+              <Typography className={classes.ccrt__prescription__error__text}>
+                This field is required
+              </Typography>
+            )}
+          </FormControl>
+        </Grid>
+      </Grid>
 
       <Grid container className={classes.ccrt__prescription__form__save_button}>
         <Button fullWidth variant="contained" onClick={handleSubmitDrugName}>
@@ -176,7 +234,7 @@ const DrugAddedForm = ({ setDrugList }) => {
 };
 
 DrugAddedForm.propTypes = {
-  setDrugList: PropTypes.func.isRequired,
+  addDrug: PropTypes.func.isRequired,
 };
 
 const useStyles = makeStyles((theme) =>
@@ -203,6 +261,18 @@ const useStyles = makeStyles((theme) =>
       color: "red",
       fontSize: "70%",
       marginBottom: "5px",
+    },
+    ccrt_prescription__duration__heading: {
+      width: "100%",
+      textAlign: "center",
+      padding: 20,
+      borderBottom: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
+    },
+    ccrt_prescription__duration__item: {
+      padding: "0 0 0 20px",
+      background: "#f1ffff",
+      margin: "20px 0 5px 0",
+      height: "70px",
     },
   })
 );

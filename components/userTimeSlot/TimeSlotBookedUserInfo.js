@@ -5,7 +5,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import PropTypes from "prop-types";
 import TimeSlotBookedUserInfoTextField from "../textfields/TimeSlotBookedUserInfoTextField";
 import { useState } from "react";
-import { addReport, updateReport } from "../../controllers/UserController";
+// import { addReport, updateReport } from "../../controllers/UserController";
 import CustomButton from "../button/CustomButton";
 
 const TimeSlotBookedUserInfo = ({
@@ -14,6 +14,9 @@ const TimeSlotBookedUserInfo = ({
   title,
   imageUrl,
   openSnackbar,
+  addReport,
+  updateReport,
+  editable = false,
   // removeImageUrl,
   // onFileRemove,
   // isStoreFile,
@@ -92,18 +95,20 @@ const TimeSlotBookedUserInfo = ({
             backgroundImage: `url(/${imageUrl})`,
           }}
         >
-          <IconButton
-            className={classes.ccrt__image__wrapper__clear__button}
-            onClick={() => {
-              setShowButtons(true);
-              setUploadNewFile(true);
-            }}
-          >
-            <ClearIcon
-              fontSize="small"
-              className={classes.ccrt__clear__button}
-            />
-          </IconButton>
+          {editable && (
+            <IconButton
+              className={classes.ccrt__image__wrapper__clear__button}
+              onClick={() => {
+                setShowButtons(true);
+                setUploadNewFile(true);
+              }}
+            >
+              <ClearIcon
+                fontSize="small"
+                className={classes.ccrt__clear__button}
+              />
+            </IconButton>
+          )}
         </Grid>
       ) : (
         <>
@@ -242,7 +247,10 @@ TimeSlotBookedUserInfo.propTypes = {
   addImageUrl: PropTypes.func.isRequired,
   imageUrl: PropTypes.string.isRequired,
   openSnackbar: PropTypes.func.isRequired,
+  addReport: PropTypes.func.isRequired,
+  updateReport: PropTypes.func.isRequired,
   resourceId: PropTypes.string.isRequired,
+  editable: PropTypes.bool,
   // removeImageUrl: PropTypes.func.isRequired,
 
   // onFileRemove: PropTypes.func.isRequired,

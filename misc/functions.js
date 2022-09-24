@@ -27,3 +27,9 @@ export const processShowDate = (date) => {
     month <= 9 ? "0" : ""
   }${month}/${year}`;
 };
+
+export const getAgeFromBirthDate = (birthDate) => {
+  const currYear = new Date().getFullYear();
+  const birthYear = birthDate.split("-")[0];
+  return currYear - birthYear;
+};

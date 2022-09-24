@@ -1,30 +1,42 @@
 import React from "react";
 import { Grid, TextareaAutosize, Typography } from "@mui/material";
-import theme from "../../../themes/theme";
 import PropTypes from "prop-types";
 import { makeStyles, createStyles } from "@mui/styles";
 
-const AdvicesSection = ({ advides, setAdvices }) => {
+const AdvicesSection = ({ advices, setAdvices, editable = false }) => {
   const classes = useStyles();
   return (
     <Grid container justifyContent={"center"} alignItems="center">
-      <Typography className={classes.ccrt__prescription__advice__heading}>
+      {/* <Typography className={classes.ccrt__prescription__advice__heading}>
         Advices
-      </Typography>
-      <Grid
-        container
-        className={classes.ccrt__prescription__advice__textArea__container}
-      >
-        <TextareaAutosize
-          aria-label="minimum height"
-          placeholder="Write..."
-          minRows={8}
-          maxRows={Infinity}
-          value={advides}
-          onChange={(e) => setAdvices(e.target.value)}
-          className={classes.ccrt__prescription__advice__textArea}
-        />
-      </Grid>
+      </Typography> */}
+      {!editable ? (
+        <Grid
+          container
+          style={{ marginTop: 20 }}
+          justifyContent="flex-start"
+          alignItems="center"
+        >
+          <Typography style={{ fontSize: "90%", padding: "0px 10px" }}>
+            {advices}
+          </Typography>
+        </Grid>
+      ) : (
+        <Grid
+          container
+          className={classes.ccrt__prescription__advice__textArea__container}
+        >
+          <TextareaAutosize
+            aria-label="minimum height"
+            placeholder="Advice..."
+            minRows={8}
+            maxRows={Infinity}
+            value={advices}
+            onChange={(e) => setAdvices(e.target.value)}
+            className={classes.ccrt__prescription__advice__textArea}
+          />
+        </Grid>
+      )}
     </Grid>
   );
 };
@@ -51,7 +63,8 @@ const useStyles = makeStyles((theme) =>
   })
 );
 AdvicesSection.propTypes = {
-  advides: PropTypes.string,
+  advices: PropTypes.string,
   setAdvices: PropTypes.func,
+  editable: PropTypes.bool,
 };
 export default AdvicesSection;

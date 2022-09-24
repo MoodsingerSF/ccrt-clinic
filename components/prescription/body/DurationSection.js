@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme) =>
       padding: "20px 0",
       borderBottom: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
     },
-    ccrt_prescription__durstion__item: {
+    ccrt_prescription__duration__item: {
       padding: "0 0 0 20px",
       background: "#f1ffff",
       margin: "20px 0 5px 0",

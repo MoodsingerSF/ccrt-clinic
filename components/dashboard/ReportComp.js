@@ -8,7 +8,6 @@ import CustomSnackbar from "../snackbar/CustomSnackbar";
 import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";
 import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
 import { lowerCase } from "lodash";
-import { retrieveAllReports } from "../../controllers/UserController";
 import LoaderComponent from "../misc/LoaderComponent";
 const reducer = (state, action) => {
   switch (action.type) {
@@ -37,7 +36,12 @@ const reducer = (state, action) => {
   }
 };
 
-const ReportComp = ({ setFiles }) => {
+const ReportComp = ({
+  retrieveReports,
+  addReport,
+  updateReport,
+  editable = false,
+}) => {
   const [openFormDialog, setOpenFormDialog] = useState(false);
   const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
   const [fileList, dispatch] = useReducer(reducer, []);
@@ -50,7 +54,7 @@ const ReportComp = ({ setFiles }) => {
   const retrieveUploadedReports = async () => {
     try {
       setLoading(true);
-      const reports = await retrieveAllReports();
+      const reports = await retrieveReports();
       dispatch({ type: "initialize", payload: reports });
       setLoading(false);
     } catch (error) {
@@ -62,9 +66,9 @@ const ReportComp = ({ setFiles }) => {
     retrieveUploadedReports();
   }, []);
 
-  useEffect(() => {
-    setFiles(fileList);
-  }, [fileList]);
+  // useEffect(() => {
+  //   setFiles(fileList);
+  // }, [fileList]);
 
   return (
     <>
@@ -92,13 +96,16 @@ const ReportComp = ({ setFiles }) => {
                       },
                     });
                   }}
+                  addReport={addReport}
+                  updateReport={updateReport}
                   openSnackbar={openSnackbar}
+                  editable={editable}
                 />
               ))}
             </Grid>
           )}
-          <AddFileButton setOpenFormDialog={setOpenFormDialog} />
-          {openFormDialog && (
+          {editable && <AddFileButton setOpenFormDialog={setOpenFormDialog} />}
+          {editable && openFormDialog && (
             <FormDialog
               onClose={() => setOpenFormDialog(false)}
               addSection={(title) => {
@@ -129,7 +136,11 @@ const ReportComp = ({ setFiles }) => {
 };
 
 ReportComp.propTypes = {
-  setFiles: PropTypes.func,
+  // setFiles: PropTypes.func,
+  retrieveReports: PropTypes.func.isRequired,
+  addReport: PropTypes.func.isRequired,
+  updateReport: PropTypes.func.isRequired,
+  editable: PropTypes.bool,
 };
 
 export default ReportComp;

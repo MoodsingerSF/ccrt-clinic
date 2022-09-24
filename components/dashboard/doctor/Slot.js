@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import ConfirmationModal from "../../modal/ConfirmationModal";
 import TimeSlotBookDialog from "../../dialogs/TimeSlotBookDialog";
 import TimeSlotBookUserInfoDialog from "../../dialogs/TimeSlotBookUserInfoDialog";
+
 const Slot = ({
   day,
   slotId,
@@ -31,7 +32,8 @@ const Slot = ({
   const [openTimeSlotBookedDialog, setOpenTimeSlotBookedDialog] =
     useState(false);
   const [openUserInfoModal, setOpenUserInfoModal] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
+  // const [selectedDate, setSelectedDate] = useState(null);
+  const [appointmentId, setAppointmentId] = useState(null);
 
   const handleEnableSlot = async (slotId) => {
     try {
@@ -64,6 +66,7 @@ const Slot = ({
       }
     }
   };
+
   return (
     <>
       <Chip
@@ -128,14 +131,15 @@ const Slot = ({
           onNegativeFeedback={() => {
             setOpenTimeSlotBookedDialog(false);
           }}
-          onPositiveFeedback={(date) => {
-            setSelectedDate(date);
+          onPositiveFeedback={(appointmentId) => {
+            setAppointmentId(appointmentId);
             setOpenUserInfoModal(true);
           }}
           startTime={startTime}
           endTime={endTime}
           day={day}
           slotId={slotId}
+          openSnackbar={openSnackbar}
         />
       )}
       {openUserInfoModal && (
@@ -143,7 +147,8 @@ const Slot = ({
           onNegativeFeedback={() => {
             setOpenUserInfoModal(false);
           }}
-          selectedDate={selectedDate}
+          appointmentId={appointmentId}
+          openSnackbar={openSnackbar}
         />
       )}
     </>

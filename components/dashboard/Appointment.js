@@ -1,142 +1,41 @@
-/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from "react";
 import { Grid, MenuItem, TextField } from "@mui/material";
 import DashboardTitle from "./DashboardTitle";
-import { DASHBOARD_TITLE_MARGIN_TOP } from "../../misc/constants";
+import {
+  APPOINTMENT_STATUS,
+  DASHBOARD_TITLE_MARGIN_TOP,
+} from "../../misc/constants";
 import NoContentToShowComponent from "../misc/NoContentToShowComponent";
-import DashboardLoaderComponent from "./DashboardLoaderComponent";
 import { makeStyles, createStyles } from "@mui/styles";
 import AppointmentRow from "./AppointmentRow";
-import test from "../../public/image/home-page/doctors/trial.jpg";
 import { Role } from "../../enums/Role";
 import { Context } from "../../contexts/user-context/UserContext";
 import BasicDatePicker from "../misc/BasicDatePicker";
 import dayjs from "dayjs";
+import { capitalize, lowerCase } from "lodash";
+import { processDate } from "../../misc/functions";
+import useAppointmentsOfUser from "../../hooks/useAppointmentsOfUser";
+import CustomButton from "../button/CustomButton";
+import LoaderComponent from "../misc/LoaderComponent";
+
+const getDate = (dateObj) => {
+  const date = new Date(dateObj["$d"]);
+  return processDate(date);
+};
 
 const Appointment = () => {
   const classes = useStyles();
   const { getRole } = useContext(Context);
-
-  const [patientList, setPatientList] = useState([
-    {
-      id: "1",
-      name: "Md. Samsuzzaman Shakil",
-      timeSlot: "10.00 AM - 10.20 AM",
-      date: "19-9-2022",
-      bookingTime: "10.00 AM",
-      gender: "male",
-      dateOfBirth: "12-10-1996",
-      typeOfCancer: "Blood cancer",
-      fileList: [
-        { id: "1", title: "X-ray", file: test },
-        { id: "2", title: "Blood test", file: test },
-      ],
-      status: "finished",
-      fee: "500",
-      meetingLink: "iwgfiywegfyiwgiyfgwiyi",
-    },
-    {
-      id: "2",
-      name: "Apple",
-      timeSlot: "10.30 AM - 10.50 AM",
-      date: "19-9-2022",
-      bookingTime: "10.00 AM",
-      gender: "male",
-      dateOfBirth: "12-10-1996",
-      typeOfCancer: "Blood cancer",
-      fileList: [
-        { id: "1", title: "X-ray", file: test },
-        { id: "2", title: "Blood test", file: test },
-      ],
-      status: "cancelled",
-      fee: "500",
-      meetingLink: "iwgfiywegfyiwgiyfgwiyi",
-    },
-    {
-      id: "3",
-      name: "Kuber",
-      timeSlot: "11.00 AM - 11.20 AM",
-      date: "19-9-2022",
-      bookingTime: "10.00 AM",
-      gender: "male",
-      dateOfBirth: "12-10-1996",
-      typeOfCancer: "Blood cancer",
-      fileList: [
-        { id: "1", title: "X-ray", file: test },
-        { id: "2", title: "Blood test", file: test },
-      ],
-      status: "pending",
-      fee: "500",
-      meetingLink: "iwgfiywegfyiwgiyfgwiyi",
-    },
-    {
-      id: "4",
-      name: "Apple",
-      timeSlot: "10.00 AM - 10.20 AM",
-      date: "18-9-2022",
-      bookingTime: "10.00 AM",
-      gender: "male",
-      dateOfBirth: "12-10-1996",
-      typeOfCancer: "Blood cancer",
-      fileList: [
-        { id: "1", title: "X-ray", file: test },
-        { id: "2", title: "Blood test", file: test },
-      ],
-      status: "finished",
-      fee: "500",
-      meetingLink: "iwgfiywegfyiwgiyfgwiyi",
-    },
-    {
-      id: "5",
-      name: "Kuber",
-      timeSlot: "10.30 AM - 10.50 AM",
-      date: "17-9-2022",
-      bookingTime: "10.00 AM",
-      gender: "male",
-      dateOfBirth: "12-10-1996",
-      typeOfCancer: "Blood cancer",
-      fileList: [
-        { id: "1", title: "X-ray", file: test },
-        { id: "2", title: "Blood test", file: test },
-      ],
-      status: "cancelled",
-      fee: "500",
-      meetingLink: "iwgfiywegfyiwgiyfgwiyi",
-    },
-    {
-      id: "6",
-      name: "Md. Samsuzzaman Shakil",
-      timeSlot: "11.00 AM - 11.20 AM",
-      date: "19-9-2022",
-      bookingTime: "10.00 AM",
-      gender: "male",
-      dateOfBirth: "12-10-1996",
-      typeOfCancer: "Blood cancer",
-      fileList: [
-        { id: "1", title: "X-ray", file: test },
-        { id: "2", title: "Blood test", file: test },
-      ],
-      status: "pending",
-      fee: "500",
-      meetingLink: "iwgfiywegfyiwgiyfgwiyi",
-    },
-  ]);
-  const [filterValue, setFilterValue] = useState("pending");
-  const [value, setValue] = useState(dayjs());
-  // const [filterDate, setFilterDate] = useState(dateString);
-  // console.log(filterDate);
-  // console.log("date", value["$d"]);
-  const date = new Date(value["$d"]);
-  const filterDate = `${date.getDate()}-${
-    date.getMonth() + 1
-  }-${date.getFullYear()}`;
-  // console.log("F", filterDate);
-  // console.log(dateString);
-  // console.log(date.getDate());
-  // console.log(date.getMonth());
-  // console.log(date.getFullYear());
-
-  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [status, setStatus] = useState(APPOINTMENT_STATUS.PENDING);
+  const [date, setDate] = useState(dayjs());
+  const { appointments, loading, hasMore } = useAppointmentsOfUser(
+    page,
+    15,
+    getDate(date),
+    status
+  );
+  // console.log(appointments)
 
   return (
     <Grid container>
@@ -156,9 +55,10 @@ const Appointment = () => {
       >
         <Grid>
           <BasicDatePicker
-            value={value}
-            onChange={(newValue) => {
-              setValue(newValue);
+            value={date}
+            onChange={(newDate) => {
+              setDate(newDate);
+              setPage(0);
             }}
           />
         </Grid>
@@ -168,20 +68,25 @@ const Appointment = () => {
             size="small"
             id="outlined-select-currency"
             select
-            value={filterValue}
-            onChange={(e) => setFilterValue(e.target.value)}
+            value={status}
+            onChange={(e) => {
+              setStatus(e.target.value);
+              setPage(0);
+            }}
           >
-            <MenuItem value="pending">Pending</MenuItem>
-            <MenuItem value="finished">Completed</MenuItem>
-            <MenuItem value="cancelled">Cancelled</MenuItem>
+            {Object.keys(APPOINTMENT_STATUS).map((key) => (
+              <MenuItem key={key} value={APPOINTMENT_STATUS[key]}>
+                {capitalize(lowerCase(key))}
+              </MenuItem>
+            ))}
           </TextField>
         </Grid>
       </Grid>
       <Grid container>
         {loading ? (
-          <DashboardLoaderComponent />
-        ) : patientList.length === 0 ? (
-          <NoContentToShowComponent title={"There is no patients"} />
+          <LoaderComponent />
+        ) : appointments.length === 0 ? (
+          <NoContentToShowComponent title={"There is no appointment."} />
         ) : (
           <Grid container>
             <table className={classes.ccrt__table}>
@@ -191,16 +96,14 @@ const Appointment = () => {
                   <th className={classes.ccrt__table__heading}>Patient Name</th>
                   <th className={classes.ccrt__table__heading}>Booking Time</th>
                   <th className={classes.ccrt__table__heading}>Slot Time</th>
-                  <th className={classes.ccrt__table__heading}>Status</th>
+                  {/* <th className={classes.ccrt__table__heading}>Status</th> */}
                   <th className={classes.ccrt__table__heading}>Actions</th>
-                  {getRole() === Role.ADMIN && (
-                    <th className={classes.ccrt__table__heading}>Doctor Fee</th>
-                  )}
-                  {getRole() === Role.USER && (
+                  {(getRole() === Role.ADMIN || getRole() === Role.USER) && (
                     <th className={classes.ccrt__table__heading}>Doctor Fee</th>
                   )}
 
-                  {filterValue === "finished" && (
+                  {(status === APPOINTMENT_STATUS.FINISHED ||
+                    status === APPOINTMENT_STATUS.PENDING) && (
                     <th className={classes.ccrt__table__heading}>
                       Prescription
                     </th>
@@ -210,13 +113,14 @@ const Appointment = () => {
                       Cancellation Time
                     </th>
                   )} */}
-                  {filterValue === "pending" && getRole() === Role.DOCTOR && (
-                    <th className={classes.ccrt__table__heading}>
-                      Prescription
-                    </th>
-                  )}
+                  {status === APPOINTMENT_STATUS.PENDING &&
+                    getRole() === Role.DOCTOR && (
+                      <th className={classes.ccrt__table__heading}>
+                        Prescription
+                      </th>
+                    )}
 
-                  {filterValue === "pending" && (
+                  {status === APPOINTMENT_STATUS.PENDING && (
                     <th className={classes.ccrt__table__heading}>
                       Meeting Link
                     </th>
@@ -224,31 +128,36 @@ const Appointment = () => {
                 </tr>
               </thead>
               <tbody style={{}}>
-                {patientList
-                  .filter((items) => items.date === filterDate)
-                  .filter((item) => item.status === filterValue)
-                  .map((patient, index) => {
-                    return (
-                      <AppointmentRow
-                        key={patient.id}
-                        index={index}
-                        patientName={patient.name}
-                        bookingTime={patient.bookingTime}
-                        timeSlot={patient.timeSlot}
-                        date={patient.date}
-                        gender={patient.gender}
-                        typeOfCancer={patient.typeOfCancer}
-                        meetingLink={patient.meetingLink}
-                        fileList={patient.fileList}
-                        DoctorFee={patient.fee}
-                        status={patient.status}
-                        dateOfBirth={patient.dateOfBirth}
-                        // patient={patient}
-                      />
-                    );
-                  })}
+                {appointments.map((appointment, index) => {
+                  return (
+                    <AppointmentRow
+                      key={appointment.appointmentId}
+                      appointmentId={appointment.appointmentId}
+                      index={index}
+                      meetingLink={appointment.meetingLink}
+                      date={appointment.date}
+                      bookingTime={appointment.creationTime}
+                      timeSlot={appointment.timeSlot}
+                      DoctorFee={appointment.fee}
+                      status={appointment.status}
+                      patient={appointment.patient}
+                      doctor={appointment.doctor}
+                    />
+                  );
+                })}
               </tbody>
             </table>
+            <Grid container justifyContent={"center"} alignItems="center">
+              <Grid item xs={12} sm={4}>
+                {hasMore && (
+                  <CustomButton
+                    title={"Load More"}
+                    // loading={loading}
+                    onClick={() => setPage((prev) => prev + 1)}
+                  />
+                )}
+              </Grid>
+            </Grid>
           </Grid>
         )}
       </Grid>

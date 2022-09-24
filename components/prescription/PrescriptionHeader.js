@@ -4,8 +4,8 @@ import DoctorSection from "./header/DoctorSection";
 import CompanySection from "./header/CompanySection";
 import DateSection from "./header/DateSection";
 import { makeStyles, createStyles } from "@mui/styles";
-
-const PrescriptionHeader = () => {
+import PropTypes from "prop-types";
+const PrescriptionHeader = ({ doctor }) => {
   const classes = useStyes();
   return (
     <Grid
@@ -15,7 +15,7 @@ const PrescriptionHeader = () => {
       className={classes.ccrt__prescription__header__container}
     >
       <Grid item sm={12} lg={4}>
-        <DoctorSection />
+        <DoctorSection doctor={doctor} />
       </Grid>
       <Grid
         container
@@ -49,4 +49,8 @@ const useStyes = makeStyles((theme) =>
     },
   })
 );
+
+PrescriptionHeader.propTypes = {
+  doctor: PropTypes.object.isRequired,
+};
 export default PrescriptionHeader;

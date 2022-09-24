@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Typography } from "@mui/material";
 import theme from "../../../themes/theme";
+import { prettyDate } from "../../../controllers/DateController";
 
 const DateSection = () => {
   return (
@@ -12,9 +13,7 @@ const DateSection = () => {
           textTransform: "uppercase",
           color: `${theme.palette.custom.HEADING}`,
         }}
-      >
-        when patient visit
-      </Typography>
+      ></Typography>
       <Grid
         container
         flexDirection={"column"}
@@ -22,10 +21,7 @@ const DateSection = () => {
         alignItems="flex-end"
       >
         <Typography style={{ fontSize: "90%", fontWeight: "500" }}>
-          time
-        </Typography>
-        <Typography style={{ fontSize: "90%", fontWeight: "500" }}>
-          date
+          Date: {prettyDate(new Date())}
         </Typography>
       </Grid>
     </>

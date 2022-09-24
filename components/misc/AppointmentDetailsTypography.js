@@ -8,7 +8,7 @@ const AppointmentDetailsTypography = ({ heading, text }) => {
   return (
     <Grid
       container
-      flexDirection={"column"}
+      // flexDirection={"column"}
       className={classes.ccrt__appointment__details__typography__container}
     >
       <Typography className={classes.ccrt__appointment__details__header}>
@@ -20,22 +20,23 @@ const AppointmentDetailsTypography = ({ heading, text }) => {
     </Grid>
   );
 };
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     ccrt__appointment__details__typography__container: {
       marginBottom: "10px",
     },
     ccrt__appointment__details__header: {
-      fontSize: "95%",
+      fontSize: "80%",
       textTransform: "capitalize",
+      fontWeight: 500,
+      marginRight: 8,
     },
     ccrt__appointment__details__title: {
-      border: `1px solid ${theme.palette.custom.BORDER}`,
-      padding: "10px 5px",
-      borderRadius: "5px",
-      fontSize: "90%",
-      fontWeight: "500",
-      lineHeight: "1.25",
+      // border: `1px solid ${theme.palette.custom.BORDER}`,
+      // padding: "10px 5px",
+      fontSize: "80%",
+      // fontWeight: "500",
+      // lineHeight: "1.25",
       textTransform: "capitalize",
     },
   })

@@ -1,19 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid } from "@mui/material";
 import PropTypes from "prop-types";
 import AdvicesSection from "./body/AdvicesSection";
-import DrugSection from "./body/DrugSection";
-import DurationSection from "./body/DurationSection";
+import CustomButton from "../button/CustomButton";
+import DrugAdditionModal from "../modal/DrugAdditionModal";
+import DrugDetailsCard from "../cards/DrugDetailsCard";
+// import DrugSection from "./body/DrugSection";
+// import DurationSection from "./body/DurationSection";
 
 const PrescriptionBody = ({
-  advides,
+  advices,
   setAdvices,
-  showAddedForm,
+  addDrug,
+  // showAddedForm,
   drugLists,
-  setDrugLists,
-  durations,
-  setDurations,
+  editable = false,
+  // setDrugLists,
+  // durations,
+  // setDurations,
 }) => {
+  const [showDrugAdditionModal, setShowDrugAdditionModal] = useState(false);
   return (
     <Grid container justifyContent={"center"} alignItems="flex-start">
       <Grid
@@ -24,7 +30,11 @@ const PrescriptionBody = ({
         sm={12}
         lg={4}
       >
-        <AdvicesSection advides={advides} setAdvices={setAdvices} />
+        <AdvicesSection
+          editable={editable}
+          advices={advices}
+          setAdvices={setAdvices}
+        />
       </Grid>
       <Grid
         container
@@ -34,7 +44,30 @@ const PrescriptionBody = ({
         sm={12}
         lg={8}
       >
-        <Grid item sm={12} lg={8}>
+        {drugLists.map((item, index) => (
+          <DrugDetailsCard
+            key={item.drugName}
+            serialNo={index + 1}
+            drugName={item.drugName}
+            hasPerDayRule={item.perDayRule}
+            perDayRule={item.perDayRule}
+            morning={item.morning}
+            noon={item.noon}
+            night={item.night}
+            duration={item.duration.value + " " + item.duration.unit}
+          />
+        ))}
+        {editable && (
+          <Grid item xs={4} style={{ marginTop: 20 }}>
+            <CustomButton
+              title="Add a New Drug"
+              onClick={() => {
+                setShowDrugAdditionModal(true);
+              }}
+            />
+          </Grid>
+        )}
+        {/* <Grid item sm={12} lg={8}>
           <DrugSection
             showAddedForm={showAddedForm}
             drugLists={drugLists}
@@ -47,19 +80,30 @@ const PrescriptionBody = ({
             setDurations={setDurations}
             showAddedForm={showAddedForm}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
+      {showDrugAdditionModal && (
+        <DrugAdditionModal
+          open={open}
+          addDrug={(drug) => {
+            addDrug(drug);
+            setShowDrugAdditionModal(false);
+          }}
+        />
+      )}
     </Grid>
   );
 };
 
 PrescriptionBody.propTypes = {
-  advides: PropTypes.string,
+  advices: PropTypes.string,
   setAdvices: PropTypes.func,
-  showAddedForm: PropTypes.bool.isRequired,
+  addDrug: PropTypes.func.isRequired,
+  // showAddedForm: PropTypes.bool.isRequired,
   drugLists: PropTypes.array,
-  setDrugLists: PropTypes.func,
-  durations: PropTypes.array,
-  setDurations: PropTypes.func,
+  editable: PropTypes.bool,
+  // setDrugLists: PropTypes.func,
+  // durations: PropTypes.array,
+  // setDurations: PropTypes.func,
 };
 export default PrescriptionBody;
