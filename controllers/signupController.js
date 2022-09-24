@@ -35,8 +35,8 @@ export const validateFee = (fee) => {
   return NUMBER_REGEX.test(fee);
 };
 
-export const validateUpdateFee = (previousAmount, editableValue) => {
-  return editableValue !== "" && previousAmount !== editableValue;
+export const validateUpdateFee = (editableValue, updatedValue) => {
+  return updatedValue !== "" && editableValue !== updatedValue;
 };
 
 export const sendOtp = async (email) => {

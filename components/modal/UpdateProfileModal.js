@@ -12,7 +12,6 @@ import {
 import PropTypes from "prop-types";
 import { formErrors } from "../../data/signup/data";
 import CustomButton from "../button/CustomButton";
-import { validateUpdateFee } from "../../controllers/SignupController";
 import { retrieveUserId } from "../../controllers/LocalStorageController";
 
 const UpdateProfileModal = ({
@@ -25,23 +24,21 @@ const UpdateProfileModal = ({
   validate,
   onSuccess,
   openSnackbar,
-  price = false,
+  isPrice = false,
 }) => {
-  const previousAmount = editableValue;
   const theme = useTheme();
   const IsDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
-  const [editedValue, setEditedValue] = useState(editableValue);
+  const [updatedValue, setUpdatedValue] = useState(editableValue);
   const [loading, setLoading] = useState(false);
-
   const [showError, setShowError] = useState(false);
 
   const handleSubmitValue = async () => {
-    if (validate(editedValue)) {
+    if (validate(updatedValue)) {
       try {
         setLoading(true);
-        await onSave(editedValue);
-        onSuccess(editedValue);
+        await onSave(updatedValue);
+        onSuccess(updatedValue);
         setLoading(false);
         onClose();
         openSnackbar(`${fieldName} has been updated successfully.`);
@@ -54,32 +51,31 @@ const UpdateProfileModal = ({
   };
 
   const handleSubmitPrice = async () => {
-    console.log("Clicked-1");
-    // if (!validateUpdateFee(editableValue, previousAmount)) {
-    //   console.log("Clicked-2");
-    //   setShowError(true);
-    //   return;
-    // }
-    console.log("Clicked");
-    try {
-      setLoading(true);
-      const response = await onSave(
-        editableValue,
-        previousAmount,
-        retrieveUserId()
-      );
-      setLoading(false);
-      onClose();
-      openSnackbar(`${fieldName} has been updated successfully.`);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
+    if (validate(editableValue, updatedValue)) {
+      try {
+        setLoading(true);
+        const response = await onSave(
+          updatedValue,
+          editableValue,
+          retrieveUserId()
+        );
+        // onSuccess(updatedValue);
+        setLoading(false);
+        onClose();
+        openSnackbar(`Request has been send successfully.`);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } else {
+      console.log("Clicked-2");
+      setShowError(true);
     }
   };
 
   const handleChangeValue = (e) => {
-    setEditedValue(e.target.value);
+    setUpdatedValue(e.target.value);
   };
 
   return (
@@ -90,21 +86,21 @@ const UpdateProfileModal = ({
         </Typography>
         <TextField
           style={{ fontSize: "80%", fontWeight: 500 }}
-          value={editedValue}
+          value={updatedValue}
           size="small"
           fullWidth
           multiline
           onChange={(e) => handleChangeValue(e)}
           error={
             showError &&
-            (price
-              ? !validateUpdateFee(editedValue, previousAmount)
-              : !validate(editedValue))
+            (isPrice
+              ? !validate(editableValue, updatedValue)
+              : !validate(updatedValue))
           }
         />
         {showError &&
-          (price
-            ? !validateUpdateFee(editedValue, previousAmount) && (
+          (isPrice
+            ? !validate(editableValue, updatedValue) && (
                 <Typography
                   style={{
                     color: "red",
@@ -113,10 +109,10 @@ const UpdateProfileModal = ({
                     textAlign: "left",
                   }}
                 >
-                  {"price cann't be empty and equal"}
+                  {"price cann't be empty or equal"}
                 </Typography>
               )
-            : !validate(editedValue) && (
+            : !validate(updatedValue) && (
                 <Typography
                   style={{
                     color: "red",
@@ -133,7 +129,7 @@ const UpdateProfileModal = ({
           <Grid item xs={12} sm={6} md={4}>
             <CustomButton
               title="Save"
-              onClick={price ? handleSubmitPrice : handleSubmitValue}
+              onClick={isPrice ? handleSubmitPrice : handleSubmitValue}
               loading={loading}
             />
           </Grid>
@@ -144,7 +140,7 @@ const UpdateProfileModal = ({
 };
 
 UpdateProfileModal.propTypes = {
-  fieldName: PropTypes.string.isRequired,
+  fieldName: PropTypes.string,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   editableValue: PropTypes.string.isRequired,
@@ -154,6 +150,7 @@ UpdateProfileModal.propTypes = {
   onSuccess: PropTypes.func,
   openSnackbar: PropTypes.func,
   userId: PropTypes.string,
+  isPrice: PropTypes.bool,
 };
 
 export default UpdateProfileModal;

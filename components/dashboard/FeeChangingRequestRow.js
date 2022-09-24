@@ -32,15 +32,16 @@ const FeeChangingRequestRow = ({
   const handleAcceptFeeRequest = async () => {
     try {
       setLoading(true);
-      const isAccepted = await acceptFeeRequest();
-      // if (isAccepted) {
-      //   openSnackbar("Blog has been accepted successfully.");
-      // } else {
-      //   openSnackbar(
-      //     "Operation couldn't be performed. Please try again later."
-      console.log(isAccepted);
-      //   );
-      // }
+      const isAccepted = await acceptFeeRequest(requestId);
+      if (isAccepted) {
+        openSnackbar("Request has been accepted successfully.");
+      } else {
+        openSnackbar(
+          "Operation couldn't be performed. Please try again later."
+        );
+      }
+      setLoading(false);
+      setOpenConfirmationModal(false);
     } catch (error) {
       console.log(error);
     }
@@ -62,6 +63,11 @@ const FeeChangingRequestRow = ({
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleClickAcceptButton = () => {
+    setOpenConfirmationModal(true);
+    setAcceptRequest(true);
   };
 
   return (
@@ -118,10 +124,7 @@ const FeeChangingRequestRow = ({
           <IconButton
             size="small"
             style={{ background: "green" }}
-            onClick={
-              (() => setOpenConfirmationModal(true),
-              () => setAcceptRequest(true))
-            }
+            onClick={handleClickAcceptButton}
           >
             <DoneIcon fontSize="small" style={{ color: "#fff" }} />
           </IconButton>

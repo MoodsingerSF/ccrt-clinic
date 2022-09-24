@@ -17,11 +17,15 @@ import UserDataRow from "./user-profile/UserDataRow";
 import {
   feeChangingRequests,
   retrieveUserDetails,
+  updateAbout,
   updateFirstName,
   updateLastName,
   updateProfilePicture,
 } from "../../controllers/UserController";
-import { validateName } from "../../controllers/SignupController";
+import {
+  validateName,
+  validateUpdateFee,
+} from "../../controllers/SignupController";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
 import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
 import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";
@@ -47,6 +51,10 @@ const reducer = (state, action) => {
       return { ...state, lastName: payload.lastName };
     case "profile-image-url":
       return { ...state, profileImageUrl: payload.profileImageUrl };
+    case "fee":
+      return { ...state, fee: payload.fee };
+    case "about":
+      return { ...state, about: payload.about };
     default:
       return state;
   }
@@ -137,7 +145,9 @@ const DashboardProfile = () => {
                 price={user.fee}
                 editable={true}
                 onSave={feeChangingRequests}
-                // userId={user.Id}
+                validate={(editableValue, updatedValue) =>
+                  validateUpdateFee(editableValue, updatedValue)
+                }
                 // onSuccess={(newFee) => {
                 //   dispatch({
                 //     type: "fee",
@@ -195,20 +205,18 @@ const DashboardProfile = () => {
               <>
                 <DoctorAbout
                   title={"About"}
-                  value={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                when an unknown printer took a galley of type and scrambled it to make a type specimen book.`}
+                  value={user.about}
                   icon={<InfoIcon />}
                   editable={true}
                   validate={(newAbout) => validateName(newAbout)}
-                  // onSave={updateAbout}
-                  // onSuccess={(newAbout) => {
-                  //   dispatch({
-                  //     type: "about",
-                  //     payload: { about: newAbout },
-                  //   });
-                  // }}
-                  // openSnackbar={openSnackbar}
+                  onSave={updateAbout}
+                  onSuccess={(newAbout) => {
+                    dispatch({
+                      type: "about",
+                      payload: { about: newAbout },
+                    });
+                  }}
+                  openSnackbar={openSnackbar}
                 />
                 <DoctorInfoForm
                   headingShow={false}

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useState } from "react";
-import { Grid, MenuItem, TextField } from "@mui/material";
+import { Grid } from "@mui/material";
 import DashboardTitle from "./DashboardTitle";
 import { DASHBOARD_TITLE_MARGIN_TOP } from "../../misc/constants";
 import NoContentToShowComponent from "../misc/NoContentToShowComponent";
@@ -12,6 +12,7 @@ import { Role } from "../../enums/Role";
 import { Context } from "../../contexts/user-context/UserContext";
 import BasicDatePicker from "../misc/BasicDatePicker";
 import dayjs from "dayjs";
+import DashboardFilterComponent from "../misc/DashboardFilterComponent";
 
 const Appointment = () => {
   const classes = useStyles();
@@ -123,18 +124,11 @@ const Appointment = () => {
   ]);
   const [filterValue, setFilterValue] = useState("pending");
   const [value, setValue] = useState(dayjs());
-  // const [filterDate, setFilterDate] = useState(dateString);
-  // console.log(filterDate);
-  // console.log("date", value["$d"]);
+
   const date = new Date(value["$d"]);
   const filterDate = `${date.getDate()}-${
     date.getMonth() + 1
   }-${date.getFullYear()}`;
-  // console.log("F", filterDate);
-  // console.log(dateString);
-  // console.log(date.getDate());
-  // console.log(date.getMonth());
-  // console.log(date.getFullYear());
 
   const [loading, setLoading] = useState(false);
 
@@ -163,18 +157,10 @@ const Appointment = () => {
           />
         </Grid>
         <Grid style={{ position: "relative" }}>
-          <TextField
-            style={{ width: "200px" }}
-            size="small"
-            id="outlined-select-currency"
-            select
+          <DashboardFilterComponent
             value={filterValue}
             onChange={(e) => setFilterValue(e.target.value)}
-          >
-            <MenuItem value="pending">Pending</MenuItem>
-            <MenuItem value="finished">Completed</MenuItem>
-            <MenuItem value="cancelled">Cancelled</MenuItem>
-          </TextField>
+          />
         </Grid>
       </Grid>
       <Grid container>

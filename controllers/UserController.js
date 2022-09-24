@@ -64,13 +64,47 @@ export const retrievePendingFeeChangingRequests = async (
   return data;
 };
 
-export const acceptFeeRequest = async () => {
+export const retrieveAcceptFeeChangingRequests = async (
+  page = 0,
+  limit = 15
+) => {
+  const { data } = await axios.get(SERVER_PATH + "fee-changing-requests", {
+    params: {
+      page,
+      limit,
+      status: "ACCEPTED",
+    },
+    headers: {
+      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+    },
+  });
+  return data;
+};
+
+export const retrieveRejectFeeChangingRequests = async (
+  page = 0,
+  limit = 15
+) => {
+  const { data } = await axios.get(SERVER_PATH + "fee-changing-requests", {
+    params: {
+      page,
+      limit,
+      status: "REJECTED",
+    },
+    headers: {
+      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+    },
+  });
+  return data;
+};
+
+export const acceptFeeRequest = async (requistId) => {
   const data = {
     status: "ACCEPTED",
     adminUserId: retrieveUserId(),
   };
   const response = await axios.put(
-    SERVER_PATH + "fee-changing-requests",
+    SERVER_PATH + "fee-changing-requests/" + requistId,
     data,
     {
       headers: {
@@ -142,6 +176,13 @@ export const updateLastName = async (lastName) => {
     }
   );
 };
+export const updateAbout = async (about) => {
+  await axios.put(
+    SERVER_PATH + "users/" + retrieveUserId(),
+    { about },
+    { headers: headers() }
+  );
+};
 
 export const updateProfilePicture = async (profilePicture) => {
   const formData = new FormData();
@@ -172,6 +213,7 @@ export const retrieveAcceptedDoctors = async (page = 0, limit = 15) => {
 };
 
 export const feeChangingRequests = async (amount, previousAmount, userId) => {
+  console.log("Amount", amount, "PreAm", previousAmount);
   const data = {
     amount,
     previousAmount,
