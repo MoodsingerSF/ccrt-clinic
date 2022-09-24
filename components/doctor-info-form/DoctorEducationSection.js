@@ -46,6 +46,7 @@ const DoctorEducationSection = ({ education, setEducation, openSnackbar }) => {
               education={education}
               setEducation={setEducation}
               openSnackbar={openSnackbar}
+              editable={true}
             />
           ))}
 

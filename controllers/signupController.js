@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   BIRTHDATE_REGEX,
   EMAIL_REGEX,
+  EMPTY_OR_WHITESPACE,
   NAME_REGEX,
   NUMBER_REGEX,
   SERVER_PATH,
@@ -14,7 +15,9 @@ export const USER_GENDERS = ["MALE", "FEMALE", "OTHER"];
 export const validateName = (name) => {
   return NAME_REGEX.test(name);
 };
-
+export const validateText = (name) => {
+  return name !== "";
+};
 export const validateEmail = (email) => {
   return EMAIL_REGEX.test(email);
 };
@@ -33,6 +36,10 @@ export const validateBirthDate = (birthDate) => {
 
 export const validateFee = (fee) => {
   return NUMBER_REGEX.test(fee);
+};
+
+export const validateUpdateFee = (editableValue, updatedValue) => {
+  return updatedValue !== "" && editableValue !== updatedValue;
 };
 
 export const sendOtp = async (email) => {

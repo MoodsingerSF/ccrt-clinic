@@ -5,23 +5,22 @@ import {
   useTheme,
   Typography,
   useMediaQuery,
-  Button,
-  Chip,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import UpdateProfileModal from "../modal/UpdateProfileModal";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import PropTypes from "prop-types";
+import { DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
 
 const DoctorAbout = ({
   title,
   value,
   icon,
   editable = false,
-  //   onSave,
-  //   validate,
-  //   onSuccess,
-  //   openSnackbar,
+  onSave,
+  validate,
+  onSuccess,
+  openSnackbar,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -66,25 +65,48 @@ const DoctorAbout = ({
           xs={12}
           md={10}
         >
-          <Typography
-            style={{
-              marginLeft: IsDesktop ? "0px" : "40px",
-              fontSize: "80%",
-              fontWeight: 500,
-              width: IsDesktop ? "90%" : "79%",
-              textAlign: IsDesktop ? "center" : "justify",
-            }}
-          >
-            {showMore ? `${value}` : `${value.substring(0, 100)}`}
-            {`${value.substring(0, 100)}`.length >= 100 && (
-              <Chip
-                style={{ marginLeft: "5px" }}
-                size="small"
-                label={showMore ? "show less" : "show more"}
-                onClick={() => setShowMore(!showMore)}
-              />
-            )}
-          </Typography>
+          {value ? (
+            <Typography
+              style={{
+                marginLeft: IsDesktop ? "0px" : "40px",
+                fontSize: "85%",
+                fontWeight: 500,
+                width: IsDesktop ? "90%" : "79%",
+                textAlign: "justify",
+              }}
+            >
+              {showMore ? `${value}` : `${value.substring(0, 80)}`}
+              {`${value.substring(0, 100)}`.length >= 100 && (
+                <Typography
+                  style={{
+                    marginLeft: "5px",
+                    fontSize: "100%",
+                    fontWeight: "700",
+                    cursor: "pointer",
+                    display: "inline-block",
+                    color: DEFAULT_COLOR_MINUS_2,
+                    textTransform: "capitalize",
+                  }}
+                  onClick={() => setShowMore(!showMore)}
+                >
+                  {showMore ? "view less" : "view more"}
+                </Typography>
+              )}
+            </Typography>
+          ) : (
+            <Typography
+              style={{
+                fontSize: "90%",
+                textAlign: "center",
+                width: IsDesktop ? "90%" : "79%",
+                textAlign: "center",
+                textTransform: "capitalize",
+              }}
+            >
+              please update about
+            </Typography>
+          )}
+
           {editable ? (
             <IconButton onClick={() => setOpenUpdateProfileModal(editable)}>
               <DriveFileRenameOutlineIcon style={{ fontSize: "80%" }} />
@@ -99,10 +121,10 @@ const DoctorAbout = ({
           onClose={onClose}
           editableValue={value}
           title={`Update ${title}`}
-          //   validate={validate}
-          //   onSave={onSave}
-          //   onSuccess={onSuccess}
-          //   openSnackbar={openSnackbar}
+          validate={validate}
+          onSave={onSave}
+          onSuccess={onSuccess}
+          openSnackbar={openSnackbar}
         />
       )}
     </>

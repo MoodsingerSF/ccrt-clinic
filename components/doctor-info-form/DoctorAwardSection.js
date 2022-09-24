@@ -42,6 +42,7 @@ const DoctorAwardSection = ({ award, setAward }) => {
               year={item.year}
               award={award}
               setAward={setAward}
+              editable={true}
             />
           ))}
 
@@ -59,9 +60,10 @@ const DoctorAwardSection = ({ award, setAward }) => {
         <DoctorFormAwardModal
           open={showAwardModal}
           onNegativeFeedback={() => setShowAwardModal(false)}
+          onPositiveFeedback={(data) => handleAddedAward(data)}
           award={award}
           setAward={setAward}
-          onPositiveFeedback={handleAddedAward}
+          // onPositiveFeedback={handleAddedAward}
         />
       )}
     </>

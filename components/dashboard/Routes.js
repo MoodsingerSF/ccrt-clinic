@@ -9,6 +9,7 @@ import MyBlogs from "./MyBlogs";
 import Overview from "./Overview";
 import Appointment from "./Appointment";
 import Reports from "./Reports";
+import FeeChangingRequest from "./FeeChangingRequest";
 
 export const DASHBOARD_ROUTES = [
   {
@@ -64,5 +65,11 @@ export const DASHBOARD_ROUTES = [
     heading: "Manage Reports",
     component: <Reports />,
     allowedRoles: [Role.USER],
+  },
+  {
+    path: "fee-changing-requests",
+    heading: "Fee Changing Requests",
+    component: <FeeChangingRequest />,
+    allowedRoles: [Role.ADMIN],
   },
 ];
