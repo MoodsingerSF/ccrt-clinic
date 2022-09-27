@@ -14,6 +14,8 @@ import { getActiveSchedule } from "../../controllers/DoctorScheduleController";
 import DoctorScheduleComponent from "../../components/misc/DoctorScheduleComponent";
 import LoaderComponent from "../../components/misc/LoaderComponent";
 import avatar from "../../public/image/doctor/docAvatar2.png";
+import ReviewSection from "../../components/review/ReviewSection";
+import PatientReviews from "../../components/review/PatientReviews";
 const DoctorDetails = ({ doctorId }) => {
   const router = useRouter();
 
@@ -62,14 +64,14 @@ const DoctorDetails = ({ doctorId }) => {
           <Grid container style={{ width: "95%" }}>
             <Grid
               container
-              spacing={4}
+              spacing={2}
               className={classes.ccrt__doctor__details__page__container}
             >
               <Grid container item md={12} lg={8}>
                 <Grid container xs={12}>
                   <Grid
                     container
-                    spacing={4}
+                    spacing={2}
                     alignItems="flex-start"
                     style={{
                       position: "relative",
@@ -118,15 +120,18 @@ const DoctorDetails = ({ doctorId }) => {
                         </Button>
                       </Grid>
                     </Grid>
-                    <DoctorDetailsMiddle
-                      name={doctorDetails.fullName}
-                      specializations={doctorDetails.specializations}
-                      awards={doctorDetails.awards}
-                      education={doctorDetails.education}
-                      experiences={doctorDetails.experiences}
-                      trainings={doctorDetails.trainings}
-                      about={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
-                    />
+                    <Grid container item xs={12} sm={8} lg={9}>
+                      <DoctorDetailsMiddle
+                        name={doctorDetails.fullName}
+                        specializations={doctorDetails.specializations}
+                        awards={doctorDetails.awards}
+                        education={doctorDetails.education}
+                        experiences={doctorDetails.experiences}
+                        trainings={doctorDetails.trainings}
+                        about={doctorDetails.about}
+                      />
+                      <PatientReviews />
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
@@ -195,6 +200,9 @@ const DoctorDetails = ({ doctorId }) => {
                     />
                   </Grid>
                 ) : null}
+              </Grid>
+              <Grid container item xs={12}>
+                <ReviewSection />
               </Grid>
             </Grid>
           </Grid>

@@ -23,10 +23,6 @@ const DoctorDetailsMiddle = ({
       container
       flexDirection={"column"}
       justifyContent="center"
-      item
-      xs={12}
-      sm={8}
-      lg={9}
       className={classes.ccrt__doct__details__page__info__container}
     >
       <Typography className={classes.ccrt__doct__details__page__dctr__name}>
