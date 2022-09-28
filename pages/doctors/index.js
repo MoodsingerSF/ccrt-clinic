@@ -10,7 +10,7 @@ import { withRouter } from "next/router";
 import LoaderComponent from "../../components/misc/LoaderComponent";
 
 const DoctorsScreen = withRouter((props) => {
-  const queryParams = props.router.query.category;
+  const queryParams = props.router.query.specialization;
   const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
@@ -35,6 +35,7 @@ const DoctorsScreen = withRouter((props) => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     handleFilter(queryParams);
   }, [queryParams]);

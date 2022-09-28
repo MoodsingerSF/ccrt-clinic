@@ -5,7 +5,7 @@ import DoctorsCategory from "../../doctor/DoctorsCategory";
 import { CategoryData } from "../../../data/doctors-by-category/data";
 import { CATEGORY_TITLE } from "../../../data/doctor/data";
 import PropTypes from "prop-types";
-const DoctorsCategoryDesktop = ({ filter, handleFilter }) => {
+const DoctorsCategoryDesktop = ({ filter }) => {
   const classes = useStyles();
   return (
     <Grid
@@ -31,9 +31,9 @@ const DoctorsCategoryDesktop = ({ filter, handleFilter }) => {
           {CategoryData.map((item) => (
             <DoctorsCategory
               key={item.id}
+              id={item.id}
               title={item.title}
               filter={filter}
-              handleFilter={handleFilter}
             />
           ))}
         </Grid>
@@ -44,7 +44,6 @@ const DoctorsCategoryDesktop = ({ filter, handleFilter }) => {
 
 DoctorsCategoryDesktop.propTypes = {
   filter: PropTypes.string.isRequired,
-  handleFilter: PropTypes.func.isRequired,
 };
 
 const useStyles = makeStyles((theme) =>

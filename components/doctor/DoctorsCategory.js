@@ -17,7 +17,6 @@ const DoctorsCategory = ({ title, filter }) => {
   const router = useRouter();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
-
   return (
     <FormControl style={{ width: matches ? "100%" : null }}>
       <RadioGroup column>
@@ -28,7 +27,7 @@ const DoctorsCategory = ({ title, filter }) => {
               value={title}
               checked={filter === title}
               onChange={(e) =>
-                router.push("/doctors?category=" + e.target.value)
+                router.push("/doctors?specialization=" + e.target.value)
               }
             />
           }
