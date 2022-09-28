@@ -12,7 +12,7 @@ import {
 import { makeStyles, createStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 
-const DoctorsCategory = ({ title, filter }) => {
+const DoctorsCategory = ({ title, filter, id }) => {
   const classes = useStyles();
   const router = useRouter();
   const theme = useTheme();
@@ -27,7 +27,7 @@ const DoctorsCategory = ({ title, filter }) => {
               value={title}
               checked={filter === title}
               onChange={(e) =>
-                router.push("/doctors?specialization=" + e.target.value)
+                router.push("/doctors?specialization=" + e.target.value + id)
               }
             />
           }

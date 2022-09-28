@@ -1,38 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
-import { DoctorData } from "../../data/doctor/data";
+// import { DoctorData } from "../../data/doctor/data";
 import DoctorCard from "../../components/cards/doctor-screen/DoctorCard";
 import DoctorsCategoryDesktop from "../../components/pages/doctors/DoctorsCategoryDesktop";
 import DoctorCategoryMobile from "../../components/pages/doctors/DoctorCategoryMobile";
 import classNames from "classnames";
 import { withRouter } from "next/router";
 import LoaderComponent from "../../components/misc/LoaderComponent";
+import { retrieveDoctorsFilter } from "../../controllers/AllDoctorController";
 
 const DoctorsScreen = withRouter((props) => {
   const queryParams = props.router.query.specialization;
+
   const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
 
-  // const [doctorData, setDoctorData] = useState(DoctorData);
   const [doctors, setDoctors] = useState([]);
-  const [filter, setFilter] = useState(queryParams);
+  const [filter, setFilter] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleFilter = (value) => {
-    setLoading(true);
-    if (value === "all" || !value) {
-      setFilter("all");
-      setDoctors(DoctorData);
+  const handleFilter = async (queryParams) => {
+    try {
+      setLoading(true);
+      if (!queryParams) {
+        setFilter("all");
+        const response = await retrieveDoctorsFilter(0);
+        setDoctors(response);
+      } else {
+        const paramsId = Number(queryParams[queryParams.length - 1]);
+        const paramsText = queryParams.slice(0, -1);
+        setFilter(paramsText);
+        const response = await retrieveDoctorsFilter(paramsId);
+        setDoctors(response);
+      }
       setLoading(false);
-    } else {
-      setFilter(value);
-      let data = DoctorData.filter((data) =>
-        data.specialist.find((tit) => tit === value)
-      );
-      setDoctors(data);
-      setLoading(false);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -83,13 +88,13 @@ const DoctorsScreen = withRouter((props) => {
             >
               {doctors.map((item) => (
                 <DoctorCard
-                  key={item.id}
-                  doctorId={item.id}
-                  image={item.image}
-                  name={item.name}
-                  specialty={item.specialty}
-                  degree={item.degree}
-                  department={item.department}
+                  key={item.userId}
+                  doctorId={item.userId}
+                  // image={item.profileImageUrl}
+                  name={item.firstName + " " + item.lastName}
+                  specialty={item.specializations}
+                  degree={item.education}
+                  // department={item.department}
                 />
               ))}
             </Grid>
@@ -103,13 +108,10 @@ const DoctorsScreen = withRouter((props) => {
 const useStyles = makeStyles(() =>
   createStyles({
     ccrt__dctr__page__container: {
-      // width: "90vw",
       marginTop: "12vh",
       minHeight: "100vh",
     },
-    ccrt__dctr__page__right__content: {
-      // borderLeft: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
-    },
+    ccrt__dctr__page__right__content: {},
     ccrt__dctr__page__right__content_mobile: {
       borderLeft: "none",
     },

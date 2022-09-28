@@ -12,14 +12,7 @@ import { makeStyles, createStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import avatar from "../../../public/image/doctor/docAvatar2.png";
 
-const DoctorCard = ({
-  image = null,
-  name,
-  specialty,
-  degree,
-  department,
-  doctorId,
-}) => {
+const DoctorCard = ({ image = null, name, specialty, degree, doctorId }) => {
   const router = useRouter();
   const classes = useStyles();
 
@@ -59,13 +52,13 @@ const DoctorCard = ({
             {name}
           </Typography>
           <Typography className={classes.ccrt__doct__page__dctr__specialty}>
-            <strong>Specialty - </strong> {specialty}
+            <strong>Specialty - </strong> {specialty.map((item) => item.name)}
             <br />
             <strong>Degree - </strong>
-            {degree}
+            {degree.map((item) => item.degree)}
             <br />
             <strong>Department - </strong>
-            {department}
+            {degree.map((item) => item.subject)}
           </Typography>
           <Grid
             container
@@ -130,9 +123,9 @@ DoctorCard.propTypes = {
   doctorId: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  specialty: PropTypes.string.isRequired,
-  degree: PropTypes.string.isRequired,
-  department: PropTypes.string.isRequired,
+  specialty: PropTypes.array.isRequired,
+  degree: PropTypes.array.isRequired,
+  // department: PropTypes.string.isRequired,
 };
 
 export default DoctorCard;
