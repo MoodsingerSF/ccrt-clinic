@@ -15,7 +15,7 @@ import DoctorScheduleComponent from "../../components/misc/DoctorScheduleCompone
 import LoaderComponent from "../../components/misc/LoaderComponent";
 import avatar from "../../public/image/doctor/docAvatar2.png";
 import ReviewSection from "../../components/review/ReviewSection";
-import PatientReviews from "../../components/review/PatientReviews";
+import { retriveAverageRating } from "../../controllers/RatingController";
 const DoctorDetails = ({ doctorId }) => {
   const router = useRouter();
 
@@ -27,12 +27,16 @@ const DoctorDetails = ({ doctorId }) => {
   const [loading, setLoading] = useState(false);
   const [scheduleLoading, setScheduleLoading] = useState(false);
   const [schedule, setSchedule] = useState(null);
+  const [averageRatings, setAverageRatings] = useState([]);
+  const [overAllRating, setOverAllRating] = useState(0);
+
   const getDoctorDetails = async (doctorId) => {
     try {
       setLoading(true);
       const data = await retrieveUserDetails(doctorId);
       setLoading(false);
       setDoctorDetails(data);
+      console.log(data);
     } catch (error) {
       // console.log(error);
       setLoading(false);
@@ -50,9 +54,22 @@ const DoctorDetails = ({ doctorId }) => {
     }
   };
 
+  const getAverageRating = async (doctorId) => {
+    try {
+      const response = await retriveAverageRating(doctorId);
+      setAverageRatings(response.data.ratings);
+      const average =
+        response.data.ratings.reduce((n, { rating }) => n + rating, 0) / 6;
+      setOverAllRating(average);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getDoctorDetails(doctorId);
     getSchedule(doctorId);
+    getAverageRating(doctorId);
   }, [doctorId]);
 
   return (
@@ -68,7 +85,7 @@ const DoctorDetails = ({ doctorId }) => {
               className={classes.ccrt__doctor__details__page__container}
             >
               <Grid container item md={12} lg={8}>
-                <Grid container xs={12}>
+                <Grid container item xs={12}>
                   <Grid
                     container
                     spacing={2}
@@ -129,8 +146,9 @@ const DoctorDetails = ({ doctorId }) => {
                         experiences={doctorDetails.experiences}
                         trainings={doctorDetails.trainings}
                         about={doctorDetails.about}
+                        averageRatings={averageRatings}
+                        overAllRating={overAllRating}
                       />
-                      <PatientReviews />
                     </Grid>
                   </Grid>
                 </Grid>
@@ -202,7 +220,7 @@ const DoctorDetails = ({ doctorId }) => {
                 ) : null}
               </Grid>
               <Grid container item xs={12}>
-                <ReviewSection />
+                <ReviewSection doctorId={doctorId} />
               </Grid>
             </Grid>
           </Grid>
@@ -235,7 +253,6 @@ DoctorDetails.propTypes = {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__doctor__details__page__container: {
-      // width: "95vw",
       marginTop: "12vh",
     },
     ccrt__doctor__details__page__image__container: {

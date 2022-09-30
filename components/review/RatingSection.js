@@ -1,69 +1,60 @@
-import React, { useState } from "react";
-import { Button, Grid } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
+import React, { useEffect, useState } from "react";
+import { Grid } from "@mui/material";
 import RatingField from "./RatingField";
 import { makeStyles } from "@mui/styles";
+import PropTypes from "prop-types";
+import { getReatingCriteria } from "../../controllers/RatingController";
+import CustomButton from "../button/CustomButton";
 
-const RatingSection = () => {
+const RatingSection = ({
+  ratings,
+  setRatings,
+  handleSubmitRating,
+  loading,
+}) => {
   const classes = useStyles();
 
-  const [listened, setListened] = useState(3.5);
-  const [time, setTime] = useState(4.9);
-  const [respect, setRespect] = useState(4);
-  const [instructions, setInstructions] = useState(4.5);
-  const [understand, setUnderstand] = useState(3.5);
+  const [criteria, setCriteria] = useState([]);
 
-  const handleChangeListened = (e) => {
-    setListened(e.target.value);
+  const handleRatingCriteria = async () => {
+    try {
+      const response = await getReatingCriteria();
+      setCriteria(response.data);
+      const newArr = response.data.map((item) => ({
+        criteriaId: item.id,
+        rating: 0,
+      }));
+      setRatings(newArr);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const handleChangeTime = (e) => {
-    setTime(e.target.value);
-  };
-  const handleChangeRespect = (e) => {
-    setRespect(e.target.value);
-  };
-  const handleChangeInstructions = (e) => {
-    setInstructions(e.target.value);
-  };
-  const handleChangeUnderstand = (e) => {
-    setUnderstand(e.target.value);
-  };
+
+  useEffect(() => {
+    handleRatingCriteria();
+  }, []);
+
   return (
     <Grid container className={classes.ccrt__rating__section}>
-      <RatingField
-        title="Listened Carefully to You"
-        value={listened}
-        onChange={handleChangeListened}
-      />
-      <RatingField
-        title="Spent Enough Time With You"
-        value={time}
-        onChange={handleChangeTime}
-      />
-      <RatingField
-        title="Showed Respect for You"
-        value={respect}
-        onChange={handleChangeRespect}
-      />
-      <RatingField
-        title="Gave Easy to Understand Instructions"
-        value={instructions}
-        onChange={handleChangeInstructions}
-      />
-      <RatingField
-        title="Explanations Easy to Understand"
-        value={understand}
-        onChange={handleChangeUnderstand}
-      />
+      {criteria.map((item) => (
+        <RatingField
+          key={item.id}
+          id={item.id}
+          title={item.title}
+          maxValue={item.maxValue}
+          setRatings={setRatings}
+          ratings={ratings}
+        />
+      ))}
       <Grid container justifyContent={"flex-end"} style={{ marginTop: "10px" }}>
-        <Button
+        <CustomButton
+          title="Send"
+          size="small"
+          loading={loading}
           fullWidth
           variant="contained"
-          size="small"
-          endIcon={<SendIcon fontSize="small" />}
-        >
-          Send
-        </Button>
+          onClick={handleSubmitRating}
+        />
       </Grid>
     </Grid>
   );
@@ -76,4 +67,12 @@ const useStyles = makeStyles({
     boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
   },
 });
+
+RatingSection.propTypes = {
+  ratings: PropTypes.array.isRequired,
+  setRatings: PropTypes.func.isRequired,
+  handleSubmitRating: PropTypes.func,
+  loading: PropTypes.bool.isRequired,
+};
+
 export default RatingSection;
