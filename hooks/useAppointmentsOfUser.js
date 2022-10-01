@@ -16,7 +16,7 @@ const useAppointmentsOfUser = (page, limit, date, status) => {
         status
       );
       // console.log(data);
-      if (data.length === 0) {
+      if (data.length === 0 || data.length < limit) {
         setHasMore(false);
       }
       if (page === 0) setAppointments(data);

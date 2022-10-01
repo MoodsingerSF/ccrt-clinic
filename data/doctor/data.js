@@ -5,7 +5,7 @@ import doctor4 from "../../public/image/home-page/doctors/Doctor4.png";
 import doctor5 from "../../public/image/home-page/doctors/Doctor5.png";
 import doctor6 from "../../public/image/home-page/doctors/trial.jpg";
 
-export const CATEGORY_TITLE = " Doctors by category";
+export const CATEGORY_TITLE = " Doctors by Category";
 
 export const DoctorData = [
   {
@@ -19,7 +19,7 @@ export const DoctorData = [
     patient_served: "Patient Served",
     patient_count: "341",
     education: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac augue imperdiet, porttitor urna in, accumsan nisl. Integer aliquet ex eu libero pulvinar blandit. Sed sodales urna ac eleifend suscipit. Quisque eget sollicitudin augue. Fusce pharetra dui non risus dapibus, quis efficitur ipsum congue. Fusce ut lobortis ligula. Nullam eget nisi urna. Sed ac viverra lacus. Quisque ultricies ac ex sit amet faucibus.`,
-    experiance: `Cras purus lorem, aliquet non ornare nec, cursus at neque. Phasellus egestas cursus nisi ut porttitor. Maecenas suscipit orci vitae luctus elementum. Sed suscipit dolor in lorem sollicitudin, id rhoncus nibh feugiat. Praesent a dolor malesuada mauris hendrerit venenatis sit amet nec massa. Integer rutrum eros eget purus laoreet, suscipit finibus purus pellentesque.`,
+    experience: `Cras purus lorem, aliquet non ornare nec, cursus at neque. Phasellus egestas cursus nisi ut porttitor. Maecenas suscipit orci vitae luctus elementum. Sed suscipit dolor in lorem sollicitudin, id rhoncus nibh feugiat. Praesent a dolor malesuada mauris hendrerit venenatis sit amet nec massa. Integer rutrum eros eget purus laoreet, suscipit finibus purus pellentesque.`,
   },
   {
     id: "2",
@@ -36,7 +36,7 @@ export const DoctorData = [
     patient_served: "Patient Served",
     patient_count: "341",
     education: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac augue imperdiet, porttitor urna in, accumsan nisl. Integer aliquet ex eu libero pulvinar blandit. Sed sodales urna ac eleifend suscipit. Quisque eget sollicitudin augue. Fusce pharetra dui non risus dapibus, quis efficitur ipsum congue. Fusce ut lobortis ligula. Nullam eget nisi urna. Sed ac viverra lacus. Quisque ultricies ac ex sit amet faucibus.`,
-    experiance: `Cras purus lorem, aliquet non ornare nec, cursus at neque. Phasellus egestas cursus nisi ut porttitor. Maecenas suscipit orci vitae luctus elementum. Sed suscipit dolor in lorem sollicitudin, id rhoncus nibh feugiat. Praesent a dolor malesuada mauris hendrerit venenatis sit amet nec massa. Integer rutrum eros eget purus laoreet, suscipit finibus purus pellentesque.`,
+    experience: `Cras purus lorem, aliquet non ornare nec, cursus at neque. Phasellus egestas cursus nisi ut porttitor. Maecenas suscipit orci vitae luctus elementum. Sed suscipit dolor in lorem sollicitudin, id rhoncus nibh feugiat. Praesent a dolor malesuada mauris hendrerit venenatis sit amet nec massa. Integer rutrum eros eget purus laoreet, suscipit finibus purus pellentesque.`,
   },
   {
     id: "3",
@@ -49,7 +49,7 @@ export const DoctorData = [
     patient_served: "Patient Served",
     patient_count: "341",
     education: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac augue imperdiet, porttitor urna in, accumsan nisl. Integer aliquet ex eu libero pulvinar blandit. Sed sodales urna ac eleifend suscipit. Quisque eget sollicitudin augue. Fusce pharetra dui non risus dapibus, quis efficitur ipsum congue. Fusce ut lobortis ligula. Nullam eget nisi urna. Sed ac viverra lacus. Quisque ultricies ac ex sit amet faucibus.`,
-    experiance: `Cras purus lorem, aliquet non ornare nec, cursus at neque. Phasellus egestas cursus nisi ut porttitor. Maecenas suscipit orci vitae luctus elementum. Sed suscipit dolor in lorem sollicitudin, id rhoncus nibh feugiat. Praesent a dolor malesuada mauris hendrerit venenatis sit amet nec massa. Integer rutrum eros eget purus laoreet, suscipit finibus purus pellentesque.`,
+    experience: `Cras purus lorem, aliquet non ornare nec, cursus at neque. Phasellus egestas cursus nisi ut porttitor. Maecenas suscipit orci vitae luctus elementum. Sed suscipit dolor in lorem sollicitudin, id rhoncus nibh feugiat. Praesent a dolor malesuada mauris hendrerit venenatis sit amet nec massa. Integer rutrum eros eget purus laoreet, suscipit finibus purus pellentesque.`,
   },
   {
     id: "4",
@@ -62,7 +62,7 @@ export const DoctorData = [
     patient_served: "Patient Served",
     patient_count: "341",
     education: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac augue imperdiet, porttitor urna in, accumsan nisl. Integer aliquet ex eu libero pulvinar blandit. Sed sodales urna ac eleifend suscipit. Quisque eget sollicitudin augue. Fusce pharetra dui non risus dapibus, quis efficitur ipsum congue. Fusce ut lobortis ligula. Nullam eget nisi urna. Sed ac viverra lacus. Quisque ultricies ac ex sit amet faucibus.`,
-    experiance: `Cras purus lorem, aliquet non ornare nec, cursus at neque. Phasellus egestas cursus nisi ut porttitor. Maecenas suscipit orci vitae luctus elementum. Sed suscipit dolor in lorem sollicitudin, id rhoncus nibh feugiat. Praesent a dolor malesuada mauris hendrerit venenatis sit amet nec massa. Integer rutrum eros eget purus laoreet, suscipit finibus purus pellentesque.`,
+    experience: `Cras purus lorem, aliquet non ornare nec, cursus at neque. Phasellus egestas cursus nisi ut porttitor. Maecenas suscipit orci vitae luctus elementum. Sed suscipit dolor in lorem sollicitudin, id rhoncus nibh feugiat. Praesent a dolor malesuada mauris hendrerit venenatis sit amet nec massa. Integer rutrum eros eget purus laoreet, suscipit finibus purus pellentesque.`,
   },
   {
     id: "5",
@@ -75,7 +75,7 @@ export const DoctorData = [
     patient_served: "Patient Served",
     patient_count: "341",
     education: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac augue imperdiet, porttitor urna in, accumsan nisl. Integer aliquet ex eu libero pulvinar blandit. Sed sodales urna ac eleifend suscipit. Quisque eget sollicitudin augue. Fusce pharetra dui non risus dapibus, quis efficitur ipsum congue. Fusce ut lobortis ligula. Nullam eget nisi urna. Sed ac viverra lacus. Quisque ultricies ac ex sit amet faucibus.`,
-    experiance: `Cras purus lorem, aliquet non ornare nec, cursus at neque. Phasellus egestas cursus nisi ut porttitor. Maecenas suscipit orci vitae luctus elementum. Sed suscipit dolor in lorem sollicitudin, id rhoncus nibh feugiat. Praesent a dolor malesuada mauris hendrerit venenatis sit amet nec massa. Integer rutrum eros eget purus laoreet, suscipit finibus purus pellentesque.`,
+    experience: `Cras purus lorem, aliquet non ornare nec, cursus at neque. Phasellus egestas cursus nisi ut porttitor. Maecenas suscipit orci vitae luctus elementum. Sed suscipit dolor in lorem sollicitudin, id rhoncus nibh feugiat. Praesent a dolor malesuada mauris hendrerit venenatis sit amet nec massa. Integer rutrum eros eget purus laoreet, suscipit finibus purus pellentesque.`,
   },
   {
     id: "6",
@@ -88,7 +88,7 @@ export const DoctorData = [
     patient_served: "Patient Served",
     patient_count: "341",
     education: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac augue imperdiet, porttitor urna in, accumsan nisl. Integer aliquet ex eu libero pulvinar blandit. Sed sodales urna ac eleifend suscipit. Quisque eget sollicitudin augue. Fusce pharetra dui non risus dapibus, quis efficitur ipsum congue. Fusce ut lobortis ligula. Nullam eget nisi urna. Sed ac viverra lacus. Quisque ultricies ac ex sit amet faucibus.`,
-    experiance: `Cras purus lorem, aliquet non ornare nec, cursus at neque. Phasellus egestas cursus nisi ut porttitor. Maecenas suscipit orci vitae luctus elementum. Sed suscipit dolor in lorem sollicitudin, id rhoncus nibh feugiat. Praesent a dolor malesuada mauris hendrerit venenatis sit amet nec massa. Integer rutrum eros eget purus laoreet, suscipit finibus purus pellentesque.`,
+    experience: `Cras purus lorem, aliquet non ornare nec, cursus at neque. Phasellus egestas cursus nisi ut porttitor. Maecenas suscipit orci vitae luctus elementum. Sed suscipit dolor in lorem sollicitudin, id rhoncus nibh feugiat. Praesent a dolor malesuada mauris hendrerit venenatis sit amet nec massa. Integer rutrum eros eget purus laoreet, suscipit finibus purus pellentesque.`,
   },
   {
     id: "7",
@@ -101,6 +101,6 @@ export const DoctorData = [
     patient_served: "Patient Served",
     patient_count: "341",
     education: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac augue imperdiet, porttitor urna in, accumsan nisl. Integer aliquet ex eu libero pulvinar blandit. Sed sodales urna ac eleifend suscipit. Quisque eget sollicitudin augue. Fusce pharetra dui non risus dapibus, quis efficitur ipsum congue. Fusce ut lobortis ligula. Nullam eget nisi urna. Sed ac viverra lacus. Quisque ultricies ac ex sit amet faucibus.`,
-    experiance: `Cras purus lorem, aliquet non ornare nec, cursus at neque. Phasellus egestas cursus nisi ut porttitor. Maecenas suscipit orci vitae luctus elementum. Sed suscipit dolor in lorem sollicitudin, id rhoncus nibh feugiat. Praesent a dolor malesuada mauris hendrerit venenatis sit amet nec massa. Integer rutrum eros eget purus laoreet, suscipit finibus purus pellentesque.`,
+    experience: `Cras purus lorem, aliquet non ornare nec, cursus at neque. Phasellus egestas cursus nisi ut porttitor. Maecenas suscipit orci vitae luctus elementum. Sed suscipit dolor in lorem sollicitudin, id rhoncus nibh feugiat. Praesent a dolor malesuada mauris hendrerit venenatis sit amet nec massa. Integer rutrum eros eget purus laoreet, suscipit finibus purus pellentesque.`,
   },
 ];

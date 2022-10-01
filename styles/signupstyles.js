@@ -7,13 +7,15 @@ export const useStyles = makeStyles((theme) =>
       background: "none",
     },
     containerDesktopSm: {
-      background: theme.palette.primary.main,
+      background: theme.palette.custom.DEFAULT_COLOR,
     },
     containerDesktopMd: {
+      background: theme.palette.custom.DEFAULT_COLOR,
       width: "100%",
     },
     containerDesktopLg: {
       width: "100%",
+      background: theme.palette.custom.DEFAULT_COLOR,
     },
     ccrt__signup__right: {
       background: "#fff",
@@ -53,9 +55,10 @@ export const useStyles = makeStyles((theme) =>
       textAlign: "center",
     },
     field_title: {
-      fontWeight: "500",
-      textTransform: "capitalize",
-      fontSize: "95%",
+      fontWeight: 500,
+      // textTransform: "capitalize",
+      fontSize: "85%",
+      color: theme.palette.custom.BLACK,
     },
   })
 );

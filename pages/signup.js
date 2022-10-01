@@ -45,6 +45,7 @@ import BasicDatePicker from "../components/misc/BasicDatePicker";
 import TagTextField from "../components/textfields/TagTextField";
 import { isTagListCorrect } from "../controllers/BlogController";
 import { searchSpecializations } from "../controllers/SpecializationController";
+import dayjs from "dayjs";
 const VerificationCodeModal = dynamic(() =>
   import("../components/modal/VerificationCodeModal")
 );
@@ -68,7 +69,7 @@ const SignupScreen = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState(dayjs());
   const dateFormat = new Date(value && value.$d);
   const day = dateFormat.getDate();
   const month = dateFormat.getMonth();
@@ -229,7 +230,15 @@ const SignupScreen = () => {
               [classes.ccrt__signup__right__Md]: matchesMD,
             })}
           >
-            <Typography className={classes.sign_up_title}>
+            <Typography
+              style={{
+                color: theme.palette.custom.BLACK,
+                fontSize: "130%",
+                fontWeight: 600,
+                textAlign: "center",
+                marginBottom: 10,
+              }}
+            >
               {SIGN_UP_TITLE}
             </Typography>
             <Grid
@@ -239,7 +248,7 @@ const SignupScreen = () => {
             >
               <Grid item xs={12} md={6}>
                 <Typography className={classes.field_title}>
-                  Choose your role
+                  Sign up as
                 </Typography>
                 <Grid container justifyContent="flex-start" alignItems="center">
                   {USER_TYPES.map((role) => {
@@ -310,14 +319,34 @@ const SignupScreen = () => {
                     errorText={formErrors.email}
                   />
                 </Grid>
-                <Grid item xs={12} md={6}>
-                  <BasicDatePicker
-                    label={"Date of birth"}
-                    value={value}
-                    onChange={(newValue) => setValue(newValue)}
-                    error={showError && !validateBirthDate(birthDate)}
-                    errorText={formErrors.birthDate}
-                  />
+                <Grid
+                  item
+                  xs={12}
+                  md={6}
+                  container
+                  direction={"row"}
+                  style={{ marginBottom: 10 }}
+                  alignItems="center"
+                >
+                  <Grid item xs={8}>
+                    <BasicDatePicker
+                      label={"Date of birth"}
+                      value={value}
+                      onChange={(newValue) => setValue(newValue)}
+                      error={showError && !validateBirthDate(birthDate)}
+                      errorText={formErrors.birthDate}
+                    />
+                  </Grid>
+                  <Typography
+                    style={{
+                      fontSize: "85%",
+                      fontWeight: 500,
+                      marginLeft: 10,
+                      color: theme.palette.custom.BLACK,
+                    }}
+                  >
+                    Birth Date
+                  </Typography>
                 </Grid>
               </Grid>
 
@@ -342,7 +371,7 @@ const SignupScreen = () => {
                     <SignUpTextField
                       label="Fee"
                       variant="outlined"
-                      type="fext"
+                      type="text"
                       value={fee}
                       onChange={handleFee}
                       error={showError && !validateFee(fee)}

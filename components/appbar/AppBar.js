@@ -25,7 +25,7 @@ const AppBar = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
 
-  const { isSignedIn } = useContext(Context);
+  const { isSignedIn, getProfileImageUrl } = useContext(Context);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleProfileClick = (event) => {
@@ -54,7 +54,7 @@ const AppBar = () => {
           <Grid container alignItems="center" item xs={2}></Grid>
 
           {isSignedIn() && (
-            <Grid container alignItems="center" item xs={2}></Grid>
+            <Grid container alignItems="center" item xs={3}></Grid>
           )}
           <Grid
             container
@@ -78,6 +78,7 @@ const AppBar = () => {
               <Avatar
                 className={classes.avatar}
                 onClick={handleProfileClick}
+                src={"/" + getProfileImageUrl()}
               ></Avatar>
             )}
             {open && (

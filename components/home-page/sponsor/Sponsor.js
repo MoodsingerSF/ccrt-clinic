@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Grid, Typography } from "@mui/material";
-import bg from "../../../public/image/home-page/donate/bg.png";
+// import bg from "../../../public/image/home-page/donate/bg.png";
 import sponsor from "../../../public/image/home-page/donate/sponsor.png";
 import { makeStyles, createStyles } from "@mui/styles";
 
@@ -14,7 +14,7 @@ const Sponsor = () => {
       alignItems="center"
       className={classes.ccrt__sponsor__section}
     >
-      <Image src={bg} alt="bg" layout="fill" objectFit="cover" />
+      {/* <Image src={bg} alt="bg" layout="fill" objectFit="cover" /> */}
       <Grid container>
         <Grid
           item
@@ -64,28 +64,33 @@ const Sponsor = () => {
   );
 };
 
-const useStyes = makeStyles(() =>
+const useStyes = makeStyles((theme) =>
   createStyles({
     ccrt__sponsor__section: {
       position: "relative",
       marginTop: "30px",
-      minHeight: "50vh",
+      // minHeight: "50vh",
+      padding: "30px 0px",
+      background: "url(/image/home-page/donate/bg.png)",
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      backgroundAttachment: "fixed",
     },
     ccrt__sponsor__description: {
-      zIndex: "99",
+      zIndex: "3",
       display: "flex",
       flexDirection: "column",
       textAlign: "right",
     },
     ccrt__sponsor__description__first: {
-      color: "#737576",
+      color: theme.palette.custom.BLACK,
       textTransform: "uppercase",
       fontSize: "250%",
       fontWeight: "900",
       lineHeight: "1.5",
     },
     ccrt__sponsor__description__second: {
-      color: "#737576",
+      color: theme.palette.custom.BLACK,
       textTransform: "uppercase",
       fontSize: "450%",
       fontWeight: "900",

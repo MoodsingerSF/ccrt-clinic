@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 // import Image from "next/image";
 import { Avatar, Grid, Typography, useTheme } from "@mui/material";
 // import { useStyles } from "../../styles/BlogDetailStyle";
@@ -7,7 +6,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
-import { DEFAULT_COLOR, DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
 import { capitalize } from "lodash";
 const BlogDetailsAuthorCard = ({ name, avatar }) => {
   const classes = useStyles();
@@ -29,8 +27,9 @@ const BlogDetailsAuthorCard = ({ name, avatar }) => {
           [classes.ccrt__blogDetails__author__avatar__mobile]: !matches,
           [classes.ccrt__blogDetails__author__avatar__tablet]: matches,
         })}
+        src={avatar}
       >
-        {avatar ? avatar : capitalize(name).charAt(0)}
+        {avatar ? null : capitalize(name).charAt(0)}
       </Avatar>
       <Grid
         container
@@ -38,9 +37,9 @@ const BlogDetailsAuthorCard = ({ name, avatar }) => {
         alignItems="center"
         className={classes.ccrt__blogDetails__author__info}
       >
-        <Link href="#">
-          <a className={classes.ccrt__blogDetails__author__title}>{name}</a>
-        </Link>
+        <Typography className={classes.ccrt__blogDetails__author__title}>
+          {name}
+        </Typography>
 
         <Grid container justifyContent="center" alignItems="center">
           <Typography className={classes.ccrt__blogDetails__author__subtitle}>
@@ -51,16 +50,16 @@ const BlogDetailsAuthorCard = ({ name, avatar }) => {
     </Grid>
   );
 };
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   ccrt__blogDetails__author__containerMobile: {
     margin: "0px 0 0 0",
     padding: "20px 10px 0",
-    border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
+    // border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
   },
   ccrt__blogDetails__container__container__Tablet: {
     margin: "0px 0 0 0",
     padding: "20px 10px 0",
-    border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
+    // border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
   },
   ccrt__blogDetails__author__avatar__mobile: {
     height: "100px",
@@ -75,21 +74,20 @@ const useStyles = makeStyles({
   },
   ccrt__blogDetails__author__title: {
     textDecoration: "none",
-    fontSize: "24px",
-    lineHeight: "32px",
-    fontWeight: "700",
+    fontSize: "90%",
+    fontWeight: 500,
     margin: "0 0 2px",
-    color: DEFAULT_COLOR,
+    color: theme.palette.custom.BLACK,
     textTransform: "capitalize",
   },
   ccrt__blogDetails__author__subtitle: {
-    fontSize: "18px",
+    fontSize: "100%",
     lineHeight: "32px",
     fontWeight: "600",
-    color: "#696969",
+    color: theme.palette.custom.GREEN,
     margin: "0 0 9px",
   },
-});
+}));
 
 BlogDetailsAuthorCard.propTypes = {
   name: PropTypes.string.isRequired,

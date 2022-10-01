@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Table,
@@ -6,145 +6,142 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
   TableRow,
+  Typography,
 } from "@mui/material";
 import DashboardTitle from "./DashboardTitle";
 import {
+  APPOINTMENT_STATUS,
   DASHBOARD_TITLE_MARGIN_TOP,
   SNACKBAR_INITIAL_STATE,
+  VERIFICATION_STATUS,
 } from "../../misc/constants";
 import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
-import {
-  retrieveAcceptFeeChangingRequests,
-  retrievePendingFeeChangingRequests,
-  retrieveRejectFeeChangingRequests,
-} from "../../controllers/UserController";
+
 import FeeChangingRequestRow from "./FeeChangingRequestRow";
-import { createStyles, makeStyles } from "@mui/styles";
-import LoaderBackdrop from "../backdrops/LoaderBackdrop";
+import { createStyles, makeStyles, useTheme } from "@mui/styles";
+// import LoaderBackdrop from "../backdrops/LoaderBackdrop";
 import NoContentToShowComponent from "../misc/NoContentToShowComponent";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
 import DashboardFilterComponent from "../misc/DashboardFilterComponent";
+import useFeeChangingRequests from "../../hooks/useFeeChangingRequests";
+import CustomButton from "../button/CustomButton";
+import LoaderComponent from "../misc/LoaderComponent";
 
 const FeeChangingRequest = () => {
   const classes = useStyle();
-
+  const theme = useTheme();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [filterValue, setFilterValue] = useState("pending");
-  const [allRequest, setAllRequest] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [filterValue, setFilterValue] = useState(APPOINTMENT_STATUS.PENDING);
+  const { feeChangingRequests, loading, hasMore } = useFeeChangingRequests(
+    page,
+    15,
+    filterValue
+  );
   const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
   const openSnackbar = (message) => {
     handleSnackbarOpen(message, setSnackbar);
   };
 
-  const AllFeeChangingRequests = async () => {
-    try {
-      setLoading(true);
-      const retrievedAllFee =
-        (filterValue === "pending" &&
-          (await retrievePendingFeeChangingRequests())) ||
-        (filterValue === "finished" &&
-          (await retrieveAcceptFeeChangingRequests())) ||
-        (filterValue === "cancelled" &&
-          (await retrieveRejectFeeChangingRequests()));
-      setLoading(false);
-      setAllRequest(retrievedAllFee);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    AllFeeChangingRequests();
-  }, [filterValue]);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
   return (
     <Grid container>
-      <Grid
+      <Grid container style={{ marginTop: DASHBOARD_TITLE_MARGIN_TOP }}>
+        <DashboardTitle title="Manage Fee changing Requests">
+          <DashboardFilterComponent
+            value={filterValue}
+            onChange={(e) => {
+              setFilterValue(e.target.value);
+              setPage(0);
+            }}
+            options={VERIFICATION_STATUS}
+          />
+        </DashboardTitle>
+      </Grid>
+      {/* <Grid
         container
         justifyContent="center"
         alignItems="center"
-        style={{ marginBottom: 10, marginTop: DASHBOARD_TITLE_MARGIN_TOP }}
+        style={{ marginBottom: 10 }}
       >
-        <DashboardTitle title="Manage Fee changing Request" />
-        <Grid container justifyContent={"flex-end"}>
-          <DashboardFilterComponent
-            value={filterValue}
-            onChange={(e) => setFilterValue(e.target.value)}
-          />
-        </Grid>
-      </Grid>
-      {loading ? (
-        <LoaderBackdrop open={true} />
-      ) : allRequest.length === 0 ? (
-        <NoContentToShowComponent title="There is no requests to show." />
+        <Grid container justifyContent={"flex-end"}></Grid>
+      </Grid> */}
+      {!loading && feeChangingRequests.length === 0 ? (
+        <NoContentToShowComponent title="No requests to show." />
       ) : (
-        <Grid container>
-          <TableContainer>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell style={{ width: "20%" }}>Name</TableCell>
-                  <TableCell style={{ width: "20%" }} align="center">
-                    Previous Amount
-                  </TableCell>
-                  <TableCell style={{ width: "20%" }} align="center">
-                    Changing Amonut
-                  </TableCell>
-                  <TableCell
-                    style={{ width: "20%" }}
-                    align={filterValue === "pending" ? "center" : "right"}
-                  >
-                    Status
-                  </TableCell>
-                  {filterValue === "pending" && (
-                    <TableCell style={{ width: "20%" }} align="right">
-                      Actions
+        <Grid container style={{ marginBottom: 40 }}>
+          {!loading ? (
+            <TableContainer>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell style={{ width: "20%" }} align="left">
+                      <Typography className={classes.titleStyle}>
+                        Name
+                      </Typography>
                     </TableCell>
-                  )}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {allRequest
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((request) => (
-                    <TableRow key={request.requestId} hover>
-                      <FeeChangingRequestRow
-                        firstName={request.user.firstName}
-                        lastName={request.user.lastName}
-                        changingAmount={request.amount}
-                        previousAmount={request.previousAmount}
-                        status={request.status}
-                        requestId={request.requestId}
-                        openSnackbar={openSnackbar}
-                        filterValue={filterValue}
-                      />
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-            <TablePagination
-              rowsPerPageOptions={[5]}
-              component="div"
-              count={allRequest.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </TableContainer>
+                    <TableCell style={{ width: "20%" }} align="center">
+                      <Typography className={classes.titleStyle}>
+                        Previous Amount (TK)
+                      </Typography>
+                    </TableCell>
+                    <TableCell style={{ width: "20%" }} align="center">
+                      <Typography className={classes.titleStyle}>
+                        Requested Amount (TK)
+                      </Typography>
+                    </TableCell>
+                    <TableCell style={{ width: "20%" }} align={"center"}>
+                      <Typography className={classes.titleStyle}>
+                        Status
+                      </Typography>
+                    </TableCell>
+                    {filterValue === "PENDING" && (
+                      <TableCell style={{ width: "20%" }} align="center">
+                        <Typography className={classes.titleStyle}>
+                          Actions
+                        </Typography>
+                      </TableCell>
+                    )}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {feeChangingRequests &&
+                    feeChangingRequests.map((request, index) => (
+                      <TableRow key={request.requestId} style={{ height: 60 }}>
+                        <FeeChangingRequestRow
+                          serialNo={index + 1}
+                          firstName={request.user.firstName}
+                          lastName={request.user.lastName}
+                          changingAmount={request.amount}
+                          previousAmount={request.previousAmount}
+                          status={request.status}
+                          requestId={request.requestId}
+                          openSnackbar={openSnackbar}
+                          filterValue={filterValue}
+                        />
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : null}
+          {loading ? <LoaderComponent /> : null}
+          {!loading && hasMore && (
+            <Grid
+              container
+              justifyContent={"center"}
+              alignItems="center"
+              style={{ marginTop: 20 }}
+            >
+              <Grid item xs={12} sm={2}>
+                <CustomButton
+                  title="Load More"
+                  onClick={() => setPage((prev) => prev + 1)}
+                  color={theme.palette.custom.BLACK}
+                />
+              </Grid>
+            </Grid>
+          )}
         </Grid>
       )}
       <CustomSnackbar
@@ -162,10 +159,11 @@ const useStyle = makeStyles((theme) =>
   createStyles({
     table: {
       marginTop: theme.spacing(3),
+
       "& thead th": {
         fontWeight: "500",
         color: "#FFFFFF",
-        background: theme.palette.primary.main_minus_2,
+        background: theme.palette.custom.BLACK,
       },
       "& tbody td": {
         fontWeight: "400",
@@ -176,6 +174,11 @@ const useStyle = makeStyles((theme) =>
         background: theme.palette.custom.TABLE_HOVER_COLOR,
         cursor: "pointer",
       },
+    },
+    titleStyle: {
+      color: "white",
+      fontSize: "85%",
+      fontWeight: 500,
     },
   })
 );

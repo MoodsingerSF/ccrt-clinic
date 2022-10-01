@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, useMediaQuery, useTheme } from "@mui/material";
+import { Grid } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import DoctorCard from "../../cards/doctor-home/DoctorCard";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -12,8 +12,6 @@ import LoaderComponent from "../../misc/LoaderComponent";
 
 const Doctor = () => {
   const classes = useStyles();
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(false);
   const retrieveDoctors = async () => {
@@ -41,53 +39,53 @@ const Doctor = () => {
           container
           justifyContent="center"
           alignItems="center"
-          style={{
-            padding: matches ? "0 80px" : "0 10px",
-            margin: matches ? "50px 0 0 0" : "20px 0 0 0",
-          }}
+          className={classes.doctor_section}
         >
-          <Heading title="Our Popular Doctors" />
-          <Grid container>
-            <Swiper
-              slidesPerView={1}
-              spaceBetween={10}
-              slidesPerGroup={1}
-              loop={false}
-              loopFillGroupWithBlank={true}
-              navigation={true}
-              modules={[Navigation]}
-              className={classes.ccrt__doctor__card__mySwiper}
-              breakpoints={{
-                600: {
-                  slidesPerView: 2,
-                  spaceBetween: 10,
-                },
-                900: {
-                  slidesPerView: 3,
-                  spaceBetween: 20,
-                },
-                1200: {
-                  slidesPerView: 5,
-                  spaceBetween: 30,
-                },
-              }}
+          <Grid container style={{ width: "95%" }}>
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              style={{ marginBottom: 20, marginTop: 20 }}
             >
-              {doctors.map((doctor) => (
-                <SwiperSlide
-                  key={doctor.userId}
-                  className={classes.ccrt__doctor__card__swiper_slide}
-                >
-                  <DoctorCard
-                    doctorId={doctor.userId}
-                    image={doctor.profileImageUrl}
-                    name={doctor.fullName}
-                    specializations={doctor.specializations}
-                    patient_count={doctor.patient_count}
-                    fee={doctor.fee}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+              <Heading title="Popular Doctors" />
+            </Grid>
+            <Grid container>
+              <Swiper
+                slidesPerView={1}
+                spaceBetween={20}
+                slidesPerGroup={1}
+                loop={false}
+                loopFillGroupWithBlank={true}
+                navigation={true}
+                modules={[Navigation]}
+                className={classes.ccrt__doctor__card__mySwiper}
+                breakpoints={{
+                  600: {
+                    slidesPerView: 2,
+                  },
+                  900: {
+                    slidesPerView: 3,
+                  },
+                  1200: {
+                    slidesPerView: 5,
+                  },
+                }}
+              >
+                {doctors.map((doctor) => (
+                  <SwiperSlide key={doctor.userId}>
+                    <DoctorCard
+                      doctorId={doctor.userId}
+                      imageUrl={doctor.profileImageUrl}
+                      name={doctor.fullName}
+                      specializations={doctor.specializations}
+                      patient_count={doctor.patient_count}
+                      fee={doctor.fee}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </Grid>
           </Grid>
         </Grid>
       )}
@@ -102,13 +100,9 @@ const useStyles = makeStyles(() =>
       width: "100%",
       height: "100%",
     },
-    ccrt__doctor__card__swiper_slide: {
-      margin: "30px 0 0 0",
-      transition: "transform 0.12s ease",
-      "&:hover": {
-        transform: "scale(1.1)",
-        cursor: "pointer",
-      },
+    doctor_section: {
+      // background: theme.palette.custom.DOCTOR_SECTION_BACKGROUND,
+      // margin: "10px 0px",
     },
   })
 );

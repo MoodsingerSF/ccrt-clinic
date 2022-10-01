@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Box, Grid, IconButton, Modal, Typography } from "@mui/material";
+import { Grid, IconButton, Modal, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DoctorInfoFormTextField from "../textfields/DoctorInfoFormTextField";
-import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import {
   validateDate,
@@ -14,6 +13,9 @@ import {
 } from "../../controllers/UserController";
 import BasicDatePicker from "../misc/BasicDatePicker";
 import CustomButton from "../button/CustomButton";
+import dayjs from "dayjs";
+import { prettyDateDayjs } from "../../controllers/DateController";
+import { style, useStyles } from "../../styles/ProfileInfoModalStyle";
 
 const DoctorFormEducationModal = ({
   open,
@@ -27,6 +29,7 @@ const DoctorFormEducationModal = ({
   start = null,
   end = null,
   editable = false,
+  openSnackbar,
 }) => {
   const classes = useStyles();
   const [showError, setShowError] = useState(false);
@@ -35,12 +38,14 @@ const DoctorFormEducationModal = ({
   const [degree, setDegree] = useState(degreeName);
   const [subject, setSubject] = useState(subjectName);
   const [institutionName, setInstitutionName] = useState(institute);
-  const [startDate, setStartDate] = useState(start);
-  const [endDate, setEndDate] = useState(end);
-
+  const [startDate, setStartDate] = useState(start ? dayjs(start) : dayjs());
+  const [endDate, setEndDate] = useState(end ? dayjs(end) : dayjs());
   const handleSubmitEducation = async () => {
+    const sDate = prettyDateDayjs(startDate).dateObj;
+    const eDate = prettyDateDayjs(endDate).dateObj;
+
     try {
-      if (!validate(degree, subject, institutionName, startDate, endDate)) {
+      if (!validate(degree, subject, institutionName, sDate, eDate)) {
         setShowError(true);
         return;
       }
@@ -49,19 +54,26 @@ const DoctorFormEducationModal = ({
         degree,
         subject,
         institutionName,
-        startDate,
-        endDate
+        sDate,
+        eDate
       );
       setLoading(false);
       onPositiveFeedback(data);
+      openSnackbar("Education entity has been added successfully.");
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      if (error && error.response) {
+        const { data } = error.response;
+        openSnackbar(data.message);
+      }
     }
   };
 
   const handleSubmitEditEducation = async () => {
+    const sDate = prettyDateDayjs(startDate).dateObj;
+    const eDate = prettyDateDayjs(endDate).dateObj;
     try {
-      if (!validate(degree, subject, institutionName, startDate, endDate)) {
+      if (!validate(degree, subject, institutionName, sDate, eDate)) {
         setShowError(true);
         return;
       }
@@ -70,8 +82,8 @@ const DoctorFormEducationModal = ({
         degree,
         subject,
         institutionName,
-        startDate,
-        endDate,
+        sDate,
+        eDate,
         id
       );
       setEducation((prev) =>
@@ -79,8 +91,13 @@ const DoctorFormEducationModal = ({
       );
       setLoading(false);
       onNegativeFeedback();
+      openSnackbar("Education entity has been updated successfully.");
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      if (error && error.response) {
+        const { data } = error.response;
+        openSnackbar(data.message);
+      }
     }
   };
 
@@ -97,130 +114,107 @@ const DoctorFormEducationModal = ({
 
   return (
     <Modal open={open} onClose={onNegativeFeedback}>
-      <Box sx={style}>
-        <Grid
-          container
-          justifyContent={"center"}
-          alignItems="center"
-          className={classes.ccrt__modal__appbar__container}
-        >
+      <Grid container justifyContent={"center"} alignItems="center" sx={style}>
+        <Grid container style={{ width: "95%" }}>
+          <Grid container justifyContent={"center"} alignItems="center">
+            <Grid
+              container
+              justifyContent={"space-between"}
+              alignItems="center"
+              className={classes.ccrt__modal__appbar__wrapper}
+            >
+              <Typography className={classes.ccrt__modal__appbar__text}>
+                {editable ? "update education" : "add education"}
+              </Typography>
+              <IconButton onClick={onNegativeFeedback}>
+                <CloseIcon />
+              </IconButton>
+            </Grid>
+          </Grid>
           <Grid
             container
-            justifyContent={"space-between"}
+            justifyContent={"center"}
             alignItems="center"
-            className={classes.ccrt__modal__appbar__wrapper}
+            // spacing={2}
+            className={classes.ccrt__modal__content__container}
           >
-            <Typography className={classes.ccrt__modal__appbar__text}>
-              {editable ? "update education" : "add education"}
-            </Typography>
-            <IconButton onClick={onNegativeFeedback}>
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          justifyContent={"center"}
-          alignItems="center"
-          spacing={2}
-          className={classes.ccrt__modal__content__container}
-        >
-          <Grid container item xs={12} spacing={2}>
-            <Grid item xs={12} md={12} lg={6}>
+            <Grid container item xs={12} spacing={2}>
+              <Grid item xs={12} md={12} lg={6}>
+                <DoctorInfoFormTextField
+                  label={"Degree Name"}
+                  value={degree}
+                  onChange={(e) => setDegree(e.target.value)}
+                  error={showError && validateInput(degree)}
+                  errorText={"Required"}
+                />
+              </Grid>
+              <Grid item xs={12} md={12} lg={6}>
+                <DoctorInfoFormTextField
+                  label={"Subject Name"}
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  error={showError && validateInput(subject)}
+                  errorText={"Required"}
+                />
+              </Grid>
+            </Grid>
+            <Grid item xs={12} style={{ marginTop: 20, marginBottom: 10 }}>
               <DoctorInfoFormTextField
-                label={"Degree name"}
-                value={degree}
-                onChange={(e) => setDegree(e.target.value)}
-                error={showError && validateInput(degree)}
+                label={"Institution Name"}
+                value={institutionName}
+                onChange={(e) => setInstitutionName(e.target.value)}
+                error={showError && validateInput(institutionName)}
                 errorText={"Required"}
               />
             </Grid>
-            <Grid item xs={12} md={12} lg={6}>
-              <DoctorInfoFormTextField
-                label={"Subject Name"}
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
-                error={showError && validateInput(subject)}
-                errorText={"Required"}
-              />
+            <Grid container item xs={12} spacing={2}>
+              <Grid item xs={12} md={12} lg={6}>
+                <BasicDatePicker
+                  label={"Start date"}
+                  value={startDate}
+                  onChange={(newValue) => {
+                    setStartDate(newValue);
+                  }}
+                  error={showError && validateDate(startDate)}
+                  errorText={"Required"}
+                  format={true}
+                />
+              </Grid>
+              <Grid item xs={12} md={12} lg={6}>
+                <BasicDatePicker
+                  label={"End date"}
+                  value={endDate}
+                  onChange={(newValue) => {
+                    setEndDate(newValue);
+                  }}
+                  error={showError && validateDate(endDate)}
+                  errorText={"Required"}
+                  format={true}
+                />
+              </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <DoctorInfoFormTextField
-              label={"Institution Name"}
-              value={institutionName}
-              onChange={(e) => setInstitutionName(e.target.value)}
-              error={showError && validateInput(institutionName)}
-              errorText={"Required"}
+          <Grid
+            container
+            justifyContent={"center"}
+            alignItems="center"
+            className={classes.ccrt__modal__footer__container}
+          >
+            <CustomButton
+              icon={null}
+              title={editable ? "update" : "save"}
+              onClick={
+                editable ? handleSubmitEditEducation : handleSubmitEducation
+              }
+              size="medium"
+              loading={loading}
             />
           </Grid>
-          <Grid container item xs={12} spacing={2}>
-            <Grid item xs={12} md={12} lg={6}>
-              <BasicDatePicker
-                label={"Start date"}
-                value={startDate}
-                onChange={(newValue) => {
-                  setStartDate(newValue);
-                }}
-                error={showError && validateDate(startDate)}
-                errorText={"Required"}
-                format={true}
-              />
-            </Grid>
-            <Grid item xs={12} md={12} lg={6}>
-              <BasicDatePicker
-                label={"End date"}
-                value={endDate}
-                onChange={(newValue) => {
-                  setEndDate(newValue);
-                }}
-                error={showError && validateDate(endDate)}
-                errorText={"Required"}
-                format={true}
-              />
-            </Grid>
-          </Grid>
         </Grid>
-        <Grid
-          container
-          justifyContent={"center"}
-          alignItems="center"
-          className={classes.ccrt__modal__footer__container}
-        >
-          <CustomButton
-            icon={null}
-            title={editable ? "update" : "save"}
-            onClick={
-              editable ? handleSubmitEditEducation : handleSubmitEducation
-            }
-            size="medium"
-            loading={loading}
-          />
-        </Grid>
-      </Box>
+      </Grid>
     </Modal>
   );
 };
-
-const useStyles = makeStyles(() => ({
-  ccrt__modal__appbar__container: {
-    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-  },
-  ccrt__modal__appbar__wrapper: {
-    padding: "10px",
-  },
-  ccrt__modal__appbar__text: {
-    fontSize: "120%",
-    textTransform: "capitalize",
-  },
-  ccrt__modal__content__container: {
-    padding: "40px 20px",
-  },
-  ccrt__modal__footer__container: {
-    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-    padding: "10px",
-  },
-}));
 
 DoctorFormEducationModal.propTypes = {
   open: PropTypes.bool.isRequired,
@@ -234,15 +228,7 @@ DoctorFormEducationModal.propTypes = {
   start: PropTypes.number,
   end: PropTypes.number,
   editable: PropTypes.bool,
-};
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "60%",
-  bgcolor: "background.paper",
+  openSnackbar: PropTypes.func.isRequired,
 };
 
 export default DoctorFormEducationModal;

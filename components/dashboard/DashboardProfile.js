@@ -7,10 +7,11 @@ import {
   useTheme,
   useMediaQuery,
   Avatar,
+  Box,
 } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import InfoIcon from "@mui/icons-material/Info";
+// import InfoIcon from "@mui/icons-material/Info";
 import { createStyles, makeStyles } from "@mui/styles";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import UserDataRow from "./user-profile/UserDataRow";
@@ -37,6 +38,7 @@ import { Context } from "../../contexts/user-context/UserContext";
 import { Role } from "../../enums/Role";
 import DoctorPriceTag from "./DoctorPriceTag";
 import DoctorAbout from "./DoctorAbout";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 const PhotoEditingDialog = dynamic(() =>
   import("../dialogs/PhotoEditingDialog")
 );
@@ -80,7 +82,6 @@ const DashboardProfile = () => {
       setLoading(true);
       const data = await retrieveUserDetails(retrieveUserId());
       setLoading(false);
-      console.log(data);
       dispatch({ type: "initialize", payload: data });
     } catch (error) {
       setLoading(false);
@@ -89,7 +90,6 @@ const DashboardProfile = () => {
   useEffect(() => {
     getUserDetails();
   }, []);
-
   return (
     <>
       {loading ? (
@@ -120,7 +120,7 @@ const DashboardProfile = () => {
               {user.profileImageUrl && (
                 <Image
                   loader={({ src }) => src}
-                  src={user.profileImageUrl}
+                  src={"/" + user.profileImageUrl}
                   alt={"Profile Picture"}
                   layout="fill"
                   objectFit="cover"
@@ -141,22 +141,26 @@ const DashboardProfile = () => {
               </IconButton>
             </Avatar>
             {getRole() === Role.DOCTOR && (
-              <DoctorPriceTag
-                title="Fee"
-                price={user.fee}
-                editable={true}
-                onSave={feeChangingRequests}
-                validate={(editableValue, updatedValue) =>
-                  validateUpdateFee(editableValue, updatedValue)
-                }
-                // onSuccess={(newFee) => {
-                //   dispatch({
-                //     type: "fee",
-                //     payload: { fee: newFee },
-                //   });
-                // }}
-                openSnackbar={openSnackbar}
-              />
+              <Box
+                // container
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  right: 0,
+                  // background: "red",
+                }}
+              >
+                <DoctorPriceTag
+                  title="Fee"
+                  price={user.fee}
+                  editable={true}
+                  onSave={feeChangingRequests}
+                  validate={(editableValue, updatedValue) =>
+                    validateUpdateFee(editableValue, updatedValue)
+                  }
+                  openSnackbar={openSnackbar}
+                />
+              </Box>
             )}
           </Grid>
           <Grid
@@ -170,7 +174,7 @@ const DashboardProfile = () => {
             <UserDataRow
               title="First Name"
               value={user.firstName}
-              icon={<PersonOutlineIcon />}
+              icon={<PersonOutlineIcon className={classes.iconStyle} />}
               editable={true}
               validate={(newFirstName) => validateName(newFirstName)}
               onSave={updateFirstName}
@@ -185,7 +189,7 @@ const DashboardProfile = () => {
             <UserDataRow
               title="Last Name"
               value={user.lastName}
-              icon={<PersonOutlineIcon />}
+              icon={<PersonOutlineIcon className={classes.iconStyle} />}
               editable={true}
               validate={(newLastName) => validateName(newLastName)}
               onSave={updateLastName}
@@ -200,14 +204,14 @@ const DashboardProfile = () => {
             <UserDataRow
               title="Email"
               value={user.email}
-              icon={<MailOutlineIcon />}
+              icon={<MailOutlineIcon className={classes.iconStyle} />}
             />
             {getRole() === Role.DOCTOR && (
               <>
                 <DoctorAbout
                   title={"About"}
                   value={user.about}
-                  icon={<InfoIcon />}
+                  icon={<InfoOutlinedIcon className={classes.iconStyle} />}
                   editable={true}
                   validate={(newAbout) => validateText(newAbout)}
                   onSave={updateAbout}
@@ -266,7 +270,7 @@ const useStyles = makeStyles((theme) =>
     },
     ccrt_dashboard__profile__top__bg: {
       position: "relative",
-      background: theme.palette.custom.DEFAULT_COLOR_MINUS_20,
+      background: theme.palette.custom.BLACK,
       borderBottomLeftRadius: 10,
       borderBottomRightRadius: 10,
     },
@@ -275,8 +279,10 @@ const useStyles = makeStyles((theme) =>
       top: "30%",
       borderRadius: "50%",
       overflow: "hidden",
-      background: theme.palette.custom.DEFAULT_COLOR_MINUS_18,
+      background: theme.palette.custom.BLACK,
+      // border: `1.5px dashed ${theme.palette.custom.BLUE}`,
     },
+    iconStyle: { color: theme.palette.custom.BLACK, fontSize: "150%" },
     ccrt_dashboard__profile__change__icon_button: {
       position: "absolute",
       color: "#fff",

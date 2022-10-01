@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import {
   Grid,
   InputAdornment,
@@ -11,9 +11,9 @@ import {
 import classNames from "classnames";
 import { createStyles, makeStyles } from "@mui/styles";
 import SearchIcon from "@mui/icons-material/Search";
-import appoinment from "../../../public/image/home-page/hero/appoinment.png";
+// import appoinment from "../../../public/image/home-page/hero/appoinment.png";
 
-const HeroRighttSection = () => {
+const HeroRightSection = () => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
@@ -43,7 +43,7 @@ const HeroRighttSection = () => {
           container
           flexDirection={"column"}
           alignItems="flex-end"
-          style={{ margin: "50px 0" }}
+          style={{ margin: "25px 0" }}
         >
           <Typography
             className={classNames({
@@ -78,7 +78,7 @@ const HeroRighttSection = () => {
             a click away
           </Typography>
         </Grid>
-        <Grid
+        {/* <Grid
           container
           justifyContent={"flex-end"}
           alignItems="center"
@@ -92,7 +92,7 @@ const HeroRighttSection = () => {
               objectFit="contain"
             />
           </Grid>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Grid>
   );
@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme) =>
       background: "#fff",
       borderRadius: "20px",
       boxShadow: "inset 0 0 5px rgba(0,0,0,0.5)",
-      margin: "20px 0 0 0",
+      margin: "20px 0 20px 0",
     },
     cover_header_1_tablet: {
       fontSize: "300%",
@@ -116,6 +116,7 @@ const useStyles = makeStyles((theme) =>
       margin: 0,
       textTransform: "uppercase",
       lineHeight: "0.9",
+      color: theme.palette.custom.BLACK,
       // letterSpacing: "5px",
     },
     cover_header_1_desktop: {
@@ -125,6 +126,7 @@ const useStyles = makeStyles((theme) =>
       margin: 0,
       textTransform: "uppercase",
       lineHeight: "0.9",
+      color: theme.palette.custom.BLACK,
       // letterSpacing: "5px",
     },
     cover_header_2_tablet: {
@@ -134,6 +136,7 @@ const useStyles = makeStyles((theme) =>
       margin: 0,
       textTransform: "uppercase",
       lineHeight: "1",
+      color: theme.palette.custom.BLACK,
       // letterSpacing: "5px",
     },
     cover_header_2_desktop: {
@@ -143,12 +146,13 @@ const useStyles = makeStyles((theme) =>
       margin: 0,
       textTransform: "uppercase",
       lineHeight: "1",
+      color: theme.palette.custom.BLACK,
       // letterSpacing: "5px",
     },
     cover_sub_header_tablet: {
       fontSize: "200%",
       fontWeight: "700",
-      color: theme.palette.grey[600],
+      color: theme.palette.custom.GREY,
       padding: 0,
       margin: 0,
       textTransform: "uppercase",
@@ -158,26 +162,26 @@ const useStyles = makeStyles((theme) =>
     cover_sub_header_desktop: {
       fontSize: "280%",
       fontWeight: "700",
-      color: theme.palette.grey[600],
+      color: theme.palette.custom.GREY,
       padding: 0,
       margin: 0,
       textTransform: "uppercase",
       lineHeight: "0.9",
       // letterSpacing: "5px",
     },
-    ccrt__book__appoinment__image_wrapper: {
-      height: "10vh",
-    },
-    ccrt__book__appoinment__image: {
-      position: "relative",
-      height: "100%",
-      width: "30%",
-      cursor: "pointer",
-    },
+    // ccrt__book__appoinment__image_wrapper: {
+    //   height: "10vh",
+    // },
+    // ccrt__book__appoinment__image: {
+    //   position: "relative",
+    //   height: "100%",
+    //   width: "30%",
+    //   cursor: "pointer",
+    // },
     noBorder: {
       border: "none",
     },
   })
 );
 
-export default HeroRighttSection;
+export default HeroRightSection;

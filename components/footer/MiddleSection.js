@@ -28,15 +28,15 @@ const MiddleSection = () => {
   );
 };
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   ccrt__footer__middle__section: {
-    color: "inherit",
     textDecoration: "none",
-    fontSize: "90%",
+    fontSize: "80%",
     fontWeight: "500",
-    transition: "transform 0.12s ease",
+    transition: "color 0.12s ease",
+    color: theme.palette.custom.BLACK,
     "&:hover": {
-      transform: "scale(1.1)",
+      color: theme.palette.primary.main_minus_2,
     },
   },
 }));

@@ -1,4 +1,4 @@
-import { Button, TableCell, TableRow } from "@mui/material";
+import { Button, TableCell, TableRow, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { createSlot } from "../../../controllers/DoctorScheduleController";
 import AddIcon from "@mui/icons-material/Add";
@@ -42,7 +42,7 @@ const ScheduleRow = ({
     <>
       <TableRow key={day} style={{ height: 45 }}>
         <TableCell style={{ fontWeight: "bold", textTransform: "capitalize" }}>
-          {day}
+          <Typography className={classes.dayStyle}>{day}</Typography>
         </TableCell>
         <TableCell>
           {slots.map((slot) => {
@@ -110,7 +110,7 @@ ScheduleRow.propTypes = {
   clickable: PropTypes.bool,
 };
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__doctor__add__time__slot__icon: {
       cursor: "pointer",
@@ -132,6 +132,11 @@ const useStyles = makeStyles(() =>
       border: "none",
       height: "35px",
       borderRadius: "3px",
+    },
+    dayStyle: {
+      color: theme.palette.custom.BLACK,
+      fontSize: "95%",
+      fontWeight: 500,
     },
   })
 );

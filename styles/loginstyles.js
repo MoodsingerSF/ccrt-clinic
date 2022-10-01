@@ -28,9 +28,10 @@ export const useStyles = makeStyles((theme) =>
       borderRadius: "5px",
     },
     ccrt__login__forgot__password: {
-      fontSize: "90%",
+      fontSize: "85%",
       margin: "15px 0",
       textDecoration: "none",
+      fontWeight: 500,
       color: theme.palette.primary.main,
     },
     ccrt__login__or__text: {

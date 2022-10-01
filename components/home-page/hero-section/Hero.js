@@ -4,7 +4,7 @@ import { createStyles, makeStyles } from "@mui/styles";
 import Image from "next/image";
 import hero from "../../../public/image/home-page/hero/Cover.png";
 import HotlineSection from "./HotlineSection";
-import HeroRighttSection from "./HeroRighttSection";
+import HeroRightSection from "./HeroRightSection";
 import HeroMobile from "../../pages/home/HeroMobile";
 
 const Hero = () => {
@@ -31,9 +31,9 @@ const Hero = () => {
               sm={6}
               flexDirection={"column"}
               alignItems="flex-end"
-              style={{ paddingRight: "50px" }}
+              style={{ paddingRight: "2.5vw" }}
             >
-              <HeroRighttSection />
+              <HeroRightSection />
             </Grid>
             <HotlineSection />
           </Grid>
@@ -45,15 +45,15 @@ const Hero = () => {
   );
 };
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     ccrt__hero__section: {
-      marginTop: "12vh",
+      paddingTop: "12vh",
       minHeight: "100vh",
       position: "relative",
     },
     ccrt__hero__section__left__container: {
-      height: "88vh",
+      // height: "100vh",
       position: "relative",
     },
   })

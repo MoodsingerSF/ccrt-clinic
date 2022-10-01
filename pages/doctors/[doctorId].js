@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Button, Grid, Typography } from "@mui/material";
-import { createStyles, makeStyles } from "@mui/styles";
+import { Grid, Typography } from "@mui/material";
+import { createStyles, makeStyles, useTheme } from "@mui/styles";
 import { CategoryData } from "../../data/doctors-by-category/data";
 import { CATEGORY_TITLE } from "../../data/doctor/data";
 import FallbackComponent from "../../components/misc/FallbackComponent";
@@ -14,12 +14,14 @@ import { getActiveSchedule } from "../../controllers/DoctorScheduleController";
 import DoctorScheduleComponent from "../../components/misc/DoctorScheduleComponent";
 import LoaderComponent from "../../components/misc/LoaderComponent";
 import avatar from "../../public/image/doctor/docAvatar2.png";
+import ActionButton from "../../components/button/ActionButton";
+import BookOutlinedIcon from "@mui/icons-material/BookOutlined";
 const DoctorDetails = ({ doctorId }) => {
   const router = useRouter();
 
   if (router.isFallback) return <FallbackComponent />;
   const classes = useStyles();
-
+  const theme = useTheme();
   const scheduleRef = useRef(null);
   const [doctorDetails, setDoctorDetails] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -91,7 +93,7 @@ const DoctorDetails = ({ doctorId }) => {
                         {doctorDetails && doctorDetails.profileImageUrl ? (
                           <Image
                             loader={({ src }) => src}
-                            src={doctorDetails.profileImageUrl}
+                            src={"/" + doctorDetails.profileImageUrl}
                             alt={doctorDetails.fullName}
                             layout="fill"
                             objectFit="contain"
@@ -105,17 +107,25 @@ const DoctorDetails = ({ doctorId }) => {
                           />
                         )}
                       </Grid>
-                      <Grid container style={{ marginTop: "20px" }}>
-                        <Button
-                          fullWidth
-                          size="small"
-                          variant="outlined"
+                      <Grid container style={{ marginTop: 10 }}>
+                        <ActionButton
+                          type="info"
+                          title="get an appointment"
                           onClick={() =>
                             window.scrollTo(0, scheduleRef.current.offsetTop)
                           }
+                          icon={<BookOutlinedIcon />}
+                          fullWidth={true}
+                        />
+                        {/* <Button
+                          fullWidth
+                          size="small"
+                          variant="outlined"
+                          
+                          style={{}}
                         >
                           get an appointment
-                        </Button>
+                        </Button> */}
                       </Grid>
                     </Grid>
                     <DoctorDetailsMiddle
@@ -125,7 +135,7 @@ const DoctorDetails = ({ doctorId }) => {
                       education={doctorDetails.education}
                       experiences={doctorDetails.experiences}
                       trainings={doctorDetails.trainings}
-                      about={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
+                      about={doctorDetails.about}
                     />
                   </Grid>
                 </Grid>
@@ -184,7 +194,12 @@ const DoctorDetails = ({ doctorId }) => {
                       <Typography className={classes.title}>
                         Doctor Weekly Schedule
                       </Typography>
-                      <Typography style={{ fontSize: "80%" }}>
+                      <Typography
+                        style={{
+                          fontSize: "80%",
+                          color: theme.palette.custom.GREY,
+                        }}
+                      >
                         (Please click on a time slot to book an appointment.)
                       </Typography>
                     </Grid>
@@ -236,16 +251,16 @@ const useStyles = makeStyles((theme) =>
     },
 
     ccrt__doctor__details__page__right__container__wrapper: {
-      boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+      // boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
       padding: "20px 0px",
       margin: "0px 0",
     },
     ccrt__doctor__details__page__right__container__title: {
-      textTransform: "uppercase",
+      // textTransform: "capitalize",
       marginBottom: "10px",
-      fontWeight: "500",
-      color: theme.palette.custom.DEFAULT_COLOR_3,
-      borderBottom: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
+      fontWeight: "bold",
+      color: theme.palette.custom.BLACK,
+      // borderBottom: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
       width: "100%",
       textAlign: "center",
       padding: "0 0 15px 0",
@@ -253,7 +268,7 @@ const useStyles = makeStyles((theme) =>
     },
     title: {
       fontWeight: "bold",
-      color: theme.palette.custom.DEFAULT_COLOR_3,
+      color: theme.palette.custom.BLACK,
     },
   })
 );

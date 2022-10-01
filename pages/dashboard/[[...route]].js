@@ -20,7 +20,9 @@ const Dashboard = () => {
     for (let r of DASHBOARD_ROUTES) {
       if (route[0] === r.path) {
         return r.allowedRoles.includes(getRole()) === true ? (
-          <DashboardWrapper>{r.component}</DashboardWrapper>
+          <DashboardWrapper routeName={route[0]}>
+            {r.component}
+          </DashboardWrapper>
         ) : (
           <ForbiddenComponent />
         );

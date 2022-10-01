@@ -5,7 +5,10 @@ import DashboardTitle from "../DashboardTitle";
 import { getSchedule } from "../../../controllers/DoctorScheduleController";
 import DashboardLoaderComponent from "../DashboardLoaderComponent";
 import NoContentToShowComponent from "../../misc/NoContentToShowComponent";
-import { SNACKBAR_INITIAL_STATE } from "../../../misc/constants";
+import {
+  DASHBOARD_TITLE_MARGIN_TOP,
+  SNACKBAR_INITIAL_STATE,
+} from "../../../misc/constants";
 import CustomSnackbar from "../../snackbar/CustomSnackbar";
 import {
   handleSnackbarClose,
@@ -52,9 +55,11 @@ const DoctorWeeklyScheduleManager = () => {
       container
       justifyContent="center"
       alignItems="center"
-      style={{ marginTop: 20 }}
+      style={{ marginTop: DASHBOARD_TITLE_MARGIN_TOP }}
     >
-      <DashboardTitle title="Manage Weekly Schedule" />
+      <Grid container>
+        <DashboardTitle title="Manage Weekly Schedule" />
+      </Grid>
       {loading ? (
         <DashboardLoaderComponent />
       ) : schedule === null ? (

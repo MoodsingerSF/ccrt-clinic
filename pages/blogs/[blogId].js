@@ -88,19 +88,24 @@ const BlogDetailsScreen = ({ blogId, title, imageUrl }) => {
       {loading ? (
         <FallbackComponent />
       ) : found ? (
-        <Grid container justifyContent="center" alignItems="center">
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          style={{ paddingTop: "12vh" }}
+        >
           {blog !== null && (
-            <Grid container spacing={4} style={{ width: "95%", marginTop: 20 }}>
-              <Grid item xs={12} sm={12} md={5} lg={4}>
+            <Grid container spacing={2} style={{ width: "95%", marginTop: 20 }}>
+              <Grid item xs={12} sm={12} md={5} lg={3}>
                 <BlogDetailsLeft
                   author={{
                     name: blog.fullName,
-                    avatar: blog.avatar,
+                    avatar: "/" + blog.avatar,
                   }}
                   tags={blog.tags}
                 />
               </Grid>
-              <Grid item xs={12} sm={12} md={7} lg={8}>
+              <Grid item xs={12} sm={12} md={7} lg={6}>
                 <BlogDetailsRight
                   title={blog.title}
                   description={blog.description}

@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { Grid, MenuItem, TextField } from "@mui/material";
+import React, { useState } from "react";
+import { Grid, Typography } from "@mui/material";
 import DashboardTitle from "./DashboardTitle";
 import {
   APPOINTMENT_STATUS,
@@ -8,15 +8,15 @@ import {
 import NoContentToShowComponent from "../misc/NoContentToShowComponent";
 import { makeStyles, createStyles } from "@mui/styles";
 import AppointmentRow from "./AppointmentRow";
-import { Role } from "../../enums/Role";
-import { Context } from "../../contexts/user-context/UserContext";
+// import { Role } from "../../enums/Role";
+// import { Context } from "../../contexts/user-context/UserContext";
 import BasicDatePicker from "../misc/BasicDatePicker";
 import dayjs from "dayjs";
-import { capitalize, lowerCase } from "lodash";
 import { processDate } from "../../misc/functions";
 import useAppointmentsOfUser from "../../hooks/useAppointmentsOfUser";
 import CustomButton from "../button/CustomButton";
 import LoaderComponent from "../misc/LoaderComponent";
+import DashboardFilterComponent from "../misc/DashboardFilterComponent";
 
 const getDate = (dateObj) => {
   const date = new Date(dateObj["$d"]);
@@ -25,7 +25,7 @@ const getDate = (dateObj) => {
 
 const Appointment = () => {
   const classes = useStyles();
-  const { getRole } = useContext(Context);
+  // const { getRole } = useContext(Context);
   const [page, setPage] = useState(0);
   const [status, setStatus] = useState(APPOINTMENT_STATUS.PENDING);
   const [date, setDate] = useState(dayjs());
@@ -35,8 +35,6 @@ const Appointment = () => {
     getDate(date),
     status
   );
-  // console.log(appointments)
-
   return (
     <Grid container>
       <Grid
@@ -45,15 +43,24 @@ const Appointment = () => {
         alignItems="center"
         style={{ marginBottom: 10, marginTop: DASHBOARD_TITLE_MARGIN_TOP }}
       >
-        <DashboardTitle title={"Appointments"} />
+        <DashboardTitle title={"Appointments"}>
+          <DashboardFilterComponent
+            value={status}
+            onChange={(e) => {
+              setStatus(e.target.value);
+              setPage(0);
+            }}
+            options={APPOINTMENT_STATUS}
+          />
+        </DashboardTitle>
       </Grid>
       <Grid
         container
-        justifyContent={"space-between"}
+        // justifyContent={"space-between"}
         alignItems="center"
-        style={{ margin: "10px 0" }}
+        style={{ marginBottom: 10 }}
       >
-        <Grid>
+        <Grid item style={{ marginLeft: 0 }}>
           <BasicDatePicker
             value={date}
             onChange={(newDate) => {
@@ -62,50 +69,54 @@ const Appointment = () => {
             }}
           />
         </Grid>
-        <Grid style={{ position: "relative" }}>
-          <TextField
-            style={{ width: "200px" }}
-            size="small"
-            id="outlined-select-currency"
-            select
-            value={status}
-            onChange={(e) => {
-              setStatus(e.target.value);
-              setPage(0);
-            }}
-          >
-            {Object.keys(APPOINTMENT_STATUS).map((key) => (
-              <MenuItem key={key} value={APPOINTMENT_STATUS[key]}>
-                {capitalize(lowerCase(key))}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Grid>
       </Grid>
       <Grid container>
         {loading ? (
           <LoaderComponent />
         ) : appointments.length === 0 ? (
-          <NoContentToShowComponent title={"There is no appointment."} />
+          <NoContentToShowComponent title={"No appointments to show."} />
         ) : (
           <Grid container>
             <table className={classes.ccrt__table}>
               <thead className={classes.ccrt__table__head}>
                 <tr className={classes.ccrt__table__heading__row}>
-                  <th className={classes.ccrt__table__heading}>Id</th>
-                  <th className={classes.ccrt__table__heading}>Patient Name</th>
-                  <th className={classes.ccrt__table__heading}>Booking Time</th>
-                  <th className={classes.ccrt__table__heading}>Slot Time</th>
+                  {/* <th className={classes.ccrt__table__heading}><Typography>Id</Typography></th> */}
+                  <th className={classes.ccrt__table__heading}>
+                    <Typography className={classes.titleStyle}>
+                      Patient Name
+                    </Typography>
+                  </th>
+                  <th className={classes.ccrt__table__heading}>
+                    <Typography className={classes.titleStyle}>
+                      Booking Time
+                    </Typography>
+                  </th>
+                  <th className={classes.ccrt__table__heading}>
+                    <Typography className={classes.titleStyle}>
+                      Slot Time
+                    </Typography>
+                  </th>
                   {/* <th className={classes.ccrt__table__heading}>Status</th> */}
-                  <th className={classes.ccrt__table__heading}>Actions</th>
-                  {(getRole() === Role.ADMIN || getRole() === Role.USER) && (
-                    <th className={classes.ccrt__table__heading}>Doctor Fee</th>
-                  )}
+                  <th className={classes.ccrt__table__heading}>
+                    {" "}
+                    <Typography className={classes.titleStyle}>
+                      Actions
+                    </Typography>
+                  </th>
+                  {/* {(getRole() === Role.ADMIN || getRole() === Role.USER) && ( */}
+                  <th className={classes.ccrt__table__heading}>
+                    <Typography className={classes.titleStyle}>
+                      Doctor Fee
+                    </Typography>
+                  </th>
+                  {/* )} */}
 
                   {(status === APPOINTMENT_STATUS.FINISHED ||
                     status === APPOINTMENT_STATUS.PENDING) && (
                     <th className={classes.ccrt__table__heading}>
-                      Prescription
+                      <Typography className={classes.titleStyle}>
+                        Prescription
+                      </Typography>
                     </th>
                   )}
                   {/* {filterValue === "cancelled" && (
@@ -113,21 +124,25 @@ const Appointment = () => {
                       Cancellation Time
                     </th>
                   )} */}
-                  {status === APPOINTMENT_STATUS.PENDING &&
+                  {/* {status === APPOINTMENT_STATUS.PENDING &&
                     getRole() === Role.DOCTOR && (
                       <th className={classes.ccrt__table__heading}>
-                        Prescription
+                        <Typography className={classes.titleStyle}>
+                          Prescription
+                        </Typography>
                       </th>
-                    )}
+                    )} */}
 
                   {status === APPOINTMENT_STATUS.PENDING && (
                     <th className={classes.ccrt__table__heading}>
-                      Meeting Link
+                      <Typography className={classes.titleStyle}>
+                        Meeting Link
+                      </Typography>
                     </th>
                   )}
                 </tr>
               </thead>
-              <tbody style={{}}>
+              <tbody>
                 {appointments.map((appointment, index) => {
                   return (
                     <AppointmentRow
@@ -176,7 +191,7 @@ const useStyles = makeStyles((theme) =>
       borderSpacing: "0",
     },
     ccrt__table__head: {
-      background: theme.palette.primary.main_minus_2,
+      background: theme.palette.custom.BLACK,
     },
     ccrt__table__heading__row: {
       color: "#fff",
@@ -185,6 +200,10 @@ const useStyles = makeStyles((theme) =>
       padding: "18px 6px 18px 12px",
       fontSize: "90%",
       fontWeight: "500",
+    },
+    titleStyle: {
+      color: "white",
+      fontSize: "85%",
     },
   })
 );

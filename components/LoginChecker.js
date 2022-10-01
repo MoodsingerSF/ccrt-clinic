@@ -16,6 +16,7 @@ const LoginChecker = ({ children }) => {
     try {
       setLoading(true);
       const data = await retrieveUserDetails(retrieveUserId());
+      // console.log(data);
       setUser(getModifiedUserState(data));
       setLoading(false);
     } catch (error) {

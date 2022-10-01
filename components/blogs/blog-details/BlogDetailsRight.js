@@ -1,5 +1,5 @@
 import React from "react";
-import { Chip, Grid, useTheme } from "@mui/material";
+import { Grid, Typography, useTheme } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -7,11 +7,11 @@ import classNames from "classnames";
 import SocialShareComponent from "../../misc/SocialShareComponent";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
-import { DEFAULT_COLOR, DEFAULT_COLOR_MINUS_2 } from "../../../misc/colors";
 import { prettyDate } from "../../../controllers/DateController";
 import Editor from "../../text-editor/Editor";
 import Image from "next/image";
 import { DOMAIN_ADDRESS } from "../../../misc/constants";
+import CustomChip from "../../chip/CustomChip";
 
 const BlogDetailsRight = ({
   title,
@@ -37,41 +37,54 @@ const BlogDetailsRight = ({
       })}
     >
       <Grid container mb={3}>
-        <h2
+        <Typography
+          variant="h6"
           className={classNames({
             [classes.ccrt__blogDetails__right__title__mobile]: !matches,
             [classes.ccrt__blogDetails__right__title_tablet]: matches,
           })}
         >
           {title}
-        </h2>
+        </Typography>
         <Grid container>
-          <span className={classes.ccrt__blogDetails__right__blog_meta}>
-            <PersonOutlineIcon
-              className={classes.ccrt__blogDetails__right__icon}
-            />
-            <span style={{ textTransform: "capitalize" }}>{authorName}</span>
-          </span>
-          <span className={classes.ccrt__blogDetails__right__blog_meta}>
-            <CalendarMonthOutlinedIcon
-              className={classes.ccrt__blogDetails__right__icon}
-            />
-            <span>{prettyDate(publishDate)}</span>
-          </span>
+          <Grid item className={classes.ccrt__blogDetails__right__blog_meta}>
+            <Grid container>
+              <PersonOutlineIcon
+                className={classes.ccrt__blogDetails__right__icon}
+              />
+              <Typography
+                style={{ textTransform: "capitalize", fontSize: "90%" }}
+              >
+                {authorName}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid item className={classes.ccrt__blogDetails__right__blog_meta}>
+            <Grid container>
+              <CalendarMonthOutlinedIcon
+                className={classes.ccrt__blogDetails__right__icon}
+              />
+              <Typography
+                style={{ textTransform: "capitalize", fontSize: "90%" }}
+              >
+                {prettyDate(publishDate)}
+              </Typography>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
       <Grid
         container
-        style={{ position: "relative", height: 200 }}
+        style={{ position: "relative", width: "100%", height: 250 }}
         justifyContent="flex-start"
         alignItems="center"
       >
         <Image
           loader={({ src }) => src}
-          src={imageUrl}
+          src={"/" + imageUrl}
           alt="blog-img"
           layout="fill"
-          objectFit="contain"
+          objectFit="cover"
         />
       </Grid>
       <Editor readOnly={true} initialEditorState={description} />
@@ -96,11 +109,7 @@ const BlogDetailsRight = ({
           })}
         >
           {tags.map((tag) => (
-            <Chip
-              key={tag}
-              className={classes.ccrt__blogDetails__right__tags}
-              label={tag}
-            />
+            <CustomChip key={tag} title={tag} />
           ))}
         </Grid>
         <Grid item xs={12} lg={6} container>
@@ -114,17 +123,17 @@ const BlogDetailsRight = ({
   );
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   ccrt__blogDetails__right__section__mobile: {
-    padding: "0 20px",
+    padding: "0 0px",
     marginBottom: 20,
   },
   ccrt__blogDetails__right__section__tablet: {
-    padding: "10px 25px 30px",
+    padding: "0px 0px 30px",
     marginBottom: 20,
   },
   ccrt__blogDetails__right__section__desktop_Lg: {
-    border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
+    // border: `1px solid ${"black"}`,
     marginBottom: 20,
   },
   ccrt__blogDetails__right__title__mobile: {
@@ -132,23 +141,26 @@ const useStyles = makeStyles({
     textAlign: "justify",
     fontWeight: "700",
     margin: "0 0 13px",
-    color: DEFAULT_COLOR,
+    color: theme.palette.custom.BLACK,
+    // color: DEFAULT_COLOR,
   },
   ccrt__blogDetails__right__title_tablet: {
     textAlign: "justify",
-    lineHeight: "35px",
+    fontSize: "100%",
+    // lineHeight: "35px",
+    color: theme.palette.custom.BLACK,
     margin: "0 0 13px",
-    color: DEFAULT_COLOR,
   },
   ccrt__blogDetails__right__blog_meta: {
-    fontSize: "16px",
+    fontSize: "75%",
     marginRight: "20px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    color: theme.palette.custom.GREY,
   },
   ccrt__blogDetails__right__icon: {
-    fontSize: "20px",
+    fontSize: "125%",
     marginRight: "5px",
   },
   ccrt__blogDetails__right__blog__tags__mobile: {
@@ -166,7 +178,7 @@ const useStyles = makeStyles({
   ccrt__blogDetails__right__tags: {
     margin: "5px",
   },
-});
+}));
 
 BlogDetailsRight.propTypes = {
   title: PropTypes.string.isRequired,

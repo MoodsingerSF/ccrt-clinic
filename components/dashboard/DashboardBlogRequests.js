@@ -13,7 +13,10 @@ const DashboardBlogRequests = () => {
         alignItems="center"
         style={{ marginTop: DASHBOARD_TITLE_MARGIN_TOP }}
       >
-        <DashboardTitle title="Blog Requests" />
+        <Grid container>
+          <DashboardTitle title="Blog Requests" />
+        </Grid>
+
         <BlogRequest />
       </Grid>
     </Grid>

@@ -1,36 +1,33 @@
 import React from "react";
 import { makeStyles, createStyles } from "@mui/styles";
 import PropTypes from "prop-types";
+import { Grid, Typography } from "@mui/material";
 
 const DoctorsCategory = ({ title }) => {
   const classes = useStyles();
   return (
-    <>
-      <ul className={classes.ccrt__doctor__details__dctr__category__ul}>
-        <li className={classes.ccrt__doctor__details__dctr__category__list}>
-          {title}
-        </li>
-      </ul>
-    </>
+    <Grid item>
+      <Typography
+        className={classes.ccrt__doctor__details__dctr__category__list}
+      >
+        {title}
+      </Typography>
+    </Grid>
   );
 };
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    ccrt__doctor__details__dctr__category__ul: {
-      listStyle: "none",
-      padding: "0",
-      margin: "0",
-    },
     ccrt__doctor__details__dctr__category__list: {
-      background: theme.palette.custom.DEFAULT_COLOR_3,
-      color: "#ffffff",
-      padding: "5px",
+      background: theme.palette.custom.GREEN,
+      color: theme.palette.custom.BLACK,
+      padding: "5px 10px",
       margin: "5px",
       borderRadius: "5px",
       cursor: "pointer",
-      fontSize: "75%",
-      textTransform: "uppercase",
+      fontSize: "70%",
+      fontWeight: 500,
+      textTransform: "capitalize",
     },
   })
 );

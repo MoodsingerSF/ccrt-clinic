@@ -8,8 +8,8 @@ const processBlogData = (data) => {
     fullName: data.creator.firstName + " " + data.creator.lastName,
     tags: extractTagNames(data.tags),
     avatar: data.creator.profileImageUrl,
-    imageUrl:
-      "https://moodsinger.com/album-arts-m/be50b66f17dc4e689c4ed7c017247854/default.jpg",
+    // imageUrl:
+    //   "https://moodsinger.com/album-arts-m/be50b66f17dc4e689c4ed7c017247854/default.jpg",
   };
 };
 export const isBlogTitleCorrect = (title) => {
@@ -151,4 +151,15 @@ export const deleteBlog = async (blogId) => {
     },
   });
   return response.status === StatusCodes.NO_CONTENT;
+};
+
+export const retrievePopularBlogs = async (page) => {
+  const response = await axios.get(SERVER_PATH + "blogs", {
+    params: {
+      page,
+      limit: 15,
+    },
+  });
+  // console.log(response.data);
+  return response.data.blogs.map((item) => processBlogData(item));
 };

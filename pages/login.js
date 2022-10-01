@@ -138,8 +138,19 @@ const LoginScreen = () => {
             [classes.ccrt__login__containerDesktopMd]: matchesMD,
             [classes.ccrt__login__containerDesktopLg]: matchesLG,
           })}
+          justifyContent="center"
         >
-          <h2>{HEADER_TITLE}</h2>
+          <Typography
+            style={{
+              color: theme.palette.custom.BLACK,
+              fontWeight: "bold",
+              fontSize: "130%",
+              textAlign: "center",
+              marginBottom: 30,
+            }}
+          >
+            {HEADER_TITLE}
+          </Typography>
           <Grid container>
             <Grid item xs={12}>
               <SignUpTextField

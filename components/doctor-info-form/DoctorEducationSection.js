@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Grid, IconButton, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { BOX_SHADOW } from "../../misc/colors";
+// import { BOX_SHADOW } from "../../misc/colors";
 import PropTypes from "prop-types";
 import DoctorFormEducationModal from "../modal/DoctorFormEducationModal";
 import { makeStyles } from "@mui/styles";
@@ -72,16 +72,17 @@ const DoctorEducationSection = ({ education, setEducation, openSnackbar }) => {
   );
 };
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   ccrt__education__section__wrapper: {
-    padding: "10px",
+    padding: "10px 0px",
     borderRadius: "5px",
-    boxShadow: BOX_SHADOW,
+    // boxShadow: BOX_SHADOW,
     marginBottom: "20px",
   },
   ccrt__education__section__header: {
-    fontSize: "130%",
-    fontWeight: "600",
+    fontSize: "100%",
+    fontWeight: 600,
+    color: theme.palette.custom.BLACK,
   },
 }));
 

@@ -5,6 +5,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
 import { createStyles, makeStyles, useTheme } from "@mui/styles";
@@ -38,13 +39,14 @@ const DoctorScheduleComponent = ({
             <TableCell
               style={{
                 width: matchesMD ? "15%" : "38%",
-                fontWeight: "bold",
               }}
             >
-              Day
+              <Typography className={classes.tableHeaderStyle}>Day</Typography>
             </TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "left" }}>
-              Time Schedule
+            <TableCell style={{ textAlign: "left" }}>
+              <Typography className={classes.tableHeaderStyle}>
+                Time Schedule
+              </Typography>
             </TableCell>
           </TableRow>
         </TableHead>
@@ -116,6 +118,11 @@ const useStyles = makeStyles((theme) =>
     },
     ccrt__doctor__time__slot__table__header: {
       borderBottom: `1.1px solid ${theme.palette.custom.DEFAULT_COLOR}`,
+    },
+    tableHeaderStyle: {
+      fontWeight: "bold",
+      fontSize: "90%",
+      color: theme.palette.custom.BLACK,
     },
   })
 );

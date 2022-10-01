@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import React from "react";
 import Lottie from "lottie-react";
-import animationData from "../../public/animations/loading5.json";
+import animationData from "../../public/animations/fourdotsloaderblack.json";
 const LoaderComponent = () => {
   return (
     <Grid
@@ -12,7 +12,7 @@ const LoaderComponent = () => {
     >
       <Lottie
         animationData={animationData}
-        style={{ width: 80, height: 80 }}
+        style={{ width: 140, height: 140 }}
       ></Lottie>
     </Grid>
   );

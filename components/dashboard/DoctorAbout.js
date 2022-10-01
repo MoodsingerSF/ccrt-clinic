@@ -49,35 +49,36 @@ const DoctorAbout = ({
           alignItems="center"
           item
           xs={12}
-          md={2}
+          md={5}
         >
+          {icon}
           <Typography className={classes.ccrt__dashboard__user__data__row}>
-            {icon}
-            <span style={{ margin: "0 5px" }} />
             {title}
           </Typography>
         </Grid>
+
         <Grid
           container
           justifyContent="space-between"
           alignItems="center"
           item
           xs={12}
-          md={10}
+          md={7}
         >
           {value ? (
             <Typography
               style={{
                 marginLeft: IsDesktop ? "0px" : "40px",
                 fontSize: "85%",
-                fontWeight: 500,
-                width: IsDesktop ? "90%" : "79%",
+                fontWeight: 600,
+                width: IsDesktop ? "80%" : "79%",
                 textAlign: "justify",
+                color: theme.palette.custom.BLACK,
               }}
             >
               {showMore ? `${value}` : `${value.substring(0, 80)}`}
               {`${value.substring(0, 100)}`.length >= 100 && (
-                <Typography
+                <span
                   style={{
                     marginLeft: "5px",
                     fontSize: "100%",
@@ -90,7 +91,7 @@ const DoctorAbout = ({
                   onClick={() => setShowMore(!showMore)}
                 >
                   {showMore ? "view less" : "view more"}
-                </Typography>
+                </span>
               )}
             </Typography>
           ) : (
@@ -99,7 +100,7 @@ const DoctorAbout = ({
                 fontSize: "90%",
                 textAlign: "center",
                 width: IsDesktop ? "90%" : "79%",
-                textAlign: "center",
+                // textAlign: "center",
                 textTransform: "capitalize",
               }}
             >
@@ -109,7 +110,7 @@ const DoctorAbout = ({
 
           {editable ? (
             <IconButton onClick={() => setOpenUpdateProfileModal(editable)}>
-              <DriveFileRenameOutlineIcon style={{ fontSize: "80%" }} />
+              <DriveFileRenameOutlineIcon className={classes.editIconStyle} />
             </IconButton>
           ) : null}
         </Grid>
@@ -142,14 +143,19 @@ DoctorAbout.propTypes = {
   openSnackbar: PropTypes.func,
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   ccrt__dashboard__user__data__row: {
-    fontSize: "90%",
-    fontWeight: "500",
-    display: "flex",
+    fontSize: "85%",
+    fontWeight: 600,
+    color: theme.palette.custom.BLACK,
     justifyContent: "center",
     alignItems: "center",
+    marginLeft: 10,
   },
-});
+  editIconStyle: {
+    color: theme.palette.custom.BLACK,
+    fontSize: "85%",
+  },
+}));
 
 export default DoctorAbout;

@@ -13,7 +13,7 @@ const FollowUs = () => {
 
   return (
     <Grid item xs={12} sm={4} container justifyContent="flex-end">
-      <h3>{FOLLOW_US_TITLE}</h3>
+      <Typography className={classes.headerStyle}>{FOLLOW_US_TITLE}</Typography>
       <Typography className={classes.ccrt__follow__us__text}>
         {FOLLOW_US_TEXT}
       </Typography>
@@ -43,10 +43,12 @@ const FollowUs = () => {
   );
 };
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   ccrt__follow__us__text: {
     marginBottom: "20px",
     textAlign: "right",
+    fontSize: "90%",
+    color: theme.palette.custom.BLACK,
   },
   ccrt__follow__fac: {
     background: "#3d5a96",
@@ -75,6 +77,12 @@ const useStyles = makeStyles(() => ({
     "&:hover": {
       transform: "scale(1.1)",
     },
+  },
+  headerStyle: {
+    color: theme.palette.custom.BLACK,
+    fontWeight: "bold",
+    fontSize: "130%",
+    textTransform: "capitalize",
   },
 }));
 export default FollowUs;
