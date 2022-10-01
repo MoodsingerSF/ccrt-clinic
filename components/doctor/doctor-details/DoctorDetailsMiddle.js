@@ -1,5 +1,5 @@
-import React from "react";
-import { Grid, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Grid, IconButton, Rating, Tooltip, Typography } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import DoctorEducationInfo from "../../doctor-info-form/DoctorEducationInfo";
@@ -7,6 +7,8 @@ import DoctorAwardInfo from "../../doctor-info-form/DoctorAwardInfo";
 import DoctorExperienceInfo from "../../doctor-info-form/DoctorExperienceInfo";
 import CustomChip from "../../chip/CustomChip";
 import DoctorTrainingInfo from "../../doctor-info-form/DoctorTrainingInfo";
+import PreviewIcon from "@mui/icons-material/Preview";
+import ReviewModal from "../../modal/ReviewModal";
 
 const DoctorDetailsMiddle = ({
   name,
@@ -16,22 +18,30 @@ const DoctorDetailsMiddle = ({
   education,
   experiences,
   trainings,
+  averageRatings,
+  overAllRating,
 }) => {
   const classes = useStyles();
+  const [showDetails, setShowDetails] = useState(false);
+
   return (
     <Grid
       container
       flexDirection={"column"}
       justifyContent="center"
-      item
-      xs={12}
-      sm={8}
-      lg={9}
       className={classes.ccrt__doct__details__page__info__container}
     >
       <Typography className={classes.ccrt__doct__details__page__dctr__name}>
         {name}
       </Typography>
+      <Grid container justifyContent={"space-between"}>
+        <Rating precision={0.5} value={overAllRating} readOnly size="small" />
+        <Tooltip title="more details">
+          <IconButton onClick={() => setShowDetails(true)}>
+            <PreviewIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      </Grid>
       <Grid container>
         {specializations.map((item) => (
           <CustomChip key={item} title={item} />
@@ -101,6 +111,12 @@ const DoctorDetailsMiddle = ({
           />
         ))}
       </Grid>
+      {showDetails && (
+        <ReviewModal
+          onNegativeFeedback={() => setShowDetails(false)}
+          averageRatings={averageRatings}
+        />
+      )}
     </Grid>
   );
 };
@@ -151,5 +167,7 @@ DoctorDetailsMiddle.propTypes = {
   experiences: PropTypes.array.isRequired,
   trainings: PropTypes.array.isRequired,
   about: PropTypes.string,
+  averageRatings: PropTypes.array.isRequired,
+  overAllRating: PropTypes.number.isRequired,
 };
 export default DoctorDetailsMiddle;

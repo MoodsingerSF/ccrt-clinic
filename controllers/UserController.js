@@ -11,7 +11,7 @@ const headers = () => ({
   Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
 });
 
-const processUserDetails = (user) => {
+export const processUserDetails = (user) => {
   return {
     ...user,
     // profileImageUrl:

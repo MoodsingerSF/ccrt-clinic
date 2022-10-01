@@ -1,43 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
-import { DoctorData } from "../../data/doctor/data";
 import DoctorCard from "../../components/cards/doctor-screen/DoctorCard";
 import DoctorsCategoryDesktop from "../../components/pages/doctors/DoctorsCategoryDesktop";
 import DoctorCategoryMobile from "../../components/pages/doctors/DoctorCategoryMobile";
-import classNames from "classnames";
 import { withRouter } from "next/router";
 import LoaderComponent from "../../components/misc/LoaderComponent";
+import NoContentToShowComponent from "../../components/misc/NoContentToShowComponent";
+import useDoctors from "../../hooks/useDoctors";
+import CustomButton from "../../components/button/CustomButton";
 
 const DoctorsScreen = withRouter((props) => {
-  const queryParams = props.router.query.category;
+  const specializationId = props.router.query.specialization;
+
   const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
 
-  // const [doctorData, setDoctorData] = useState(DoctorData);
-  const [doctors, setDoctors] = useState([]);
-  const [filter, setFilter] = useState(queryParams);
-  const [loading, setLoading] = useState(false);
-
-  const handleFilter = (value) => {
-    setLoading(true);
-    if (value === "all" || !value) {
-      setFilter("all");
-      setDoctors(DoctorData);
-      setLoading(false);
-    } else {
-      setFilter(value);
-      let data = DoctorData.filter((data) =>
-        data.specialist.find((tit) => tit === value)
-      );
-      setDoctors(data);
-      setLoading(false);
-    }
-  };
+  const [page, setPage] = useState(0);
+  const {
+    data: doctors,
+    hasMore,
+    loading,
+  } = useDoctors(page, 15, specializationId ? specializationId : -1);
   useEffect(() => {
-    handleFilter(queryParams);
-  }, [queryParams]);
+    setPage(0);
+  }, [specializationId]);
 
   return (
     <Grid container justifyContent={"center"} alignItems="center">
@@ -47,53 +35,70 @@ const DoctorsScreen = withRouter((props) => {
         className={classes.ccrt__dctr__page__container}
       >
         {matches ? (
-          <DoctorsCategoryDesktop filter={filter} handleFilter={handleFilter} />
+          <DoctorsCategoryDesktop
+            filter={specializationId ? specializationId : -1}
+          />
         ) : (
-          <DoctorCategoryMobile filter={filter} handleFilter={handleFilter} />
+          <DoctorCategoryMobile
+            filter={specializationId ? specializationId : -1}
+          />
         )}
-        {loading ? (
-          <Grid container>
-            <Grid item md={3}></Grid>
-            <Grid
-              container
-              item
-              xs={12}
-              md={9}
-              justifyContent={"center"}
-              alignItems="center"
-              style={{
-                borderLeft: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
-              }}
-            >
-              <LoaderComponent />
-            </Grid>
+        <Grid container>
+          <Grid item md={3}></Grid>
+          <Grid
+            container
+            item
+            xs={12}
+            md={9}
+            justifyContent={"center"}
+            alignItems="center"
+          >
+            {doctors && doctors.length === 0 ? (
+              loading ? (
+                <LoaderComponent />
+              ) : (
+                <NoContentToShowComponent title="No doctors to show." />
+              )
+            ) : (
+              <Grid
+                container
+                justifyContent={"center"}
+                alignItems="flex-start"
+                style={{ height: "100%", marginBottom: 30 }}
+              >
+                <Grid
+                  container
+                  justifyContent={"center"}
+                  alignItems="flex-start"
+                  // style={{ height: "100%" }}
+                >
+                  {doctors &&
+                    doctors.map((item) => (
+                      <DoctorCard
+                        key={item.userId}
+                        doctorId={item.userId}
+                        name={item.firstName + " " + item.lastName}
+                        specializations={item.specializations}
+                        imageUrl={item.profileImageUrl}
+                        fee={item.fee}
+                        about={item.about}
+                      />
+                    ))}
+                </Grid>
+                {loading && <LoaderComponent />}
+
+                {!loading && hasMore && (
+                  <Grid item xs={2}>
+                    <CustomButton
+                      title="Load More"
+                      onClick={() => setPage((prev) => prev + 1)}
+                    />
+                  </Grid>
+                )}
+              </Grid>
+            )}
           </Grid>
-        ) : (
-          <Grid container>
-            <Grid item md={3}></Grid>
-            <Grid
-              item
-              xs={12}
-              md={9}
-              className={classNames({
-                [classes.ccrt__dctr__page__right__content_mobile]: !matches,
-                [classes.ccrt__dctr__page__right__content]: matches,
-              })}
-            >
-              {doctors.map((item) => (
-                <DoctorCard
-                  key={item.id}
-                  doctorId={item.id}
-                  image={item.image}
-                  name={item.name}
-                  specialty={item.specialty}
-                  degree={item.degree}
-                  department={item.department}
-                />
-              ))}
-            </Grid>
-          </Grid>
-        )}
+        </Grid>
       </Grid>
     </Grid>
   );
@@ -102,13 +107,10 @@ const DoctorsScreen = withRouter((props) => {
 const useStyles = makeStyles(() =>
   createStyles({
     ccrt__dctr__page__container: {
-      // width: "90vw",
       marginTop: "12vh",
-      minHeight: "100vh",
+      minHeight: "88vh",
     },
-    ccrt__dctr__page__right__content: {
-      // borderLeft: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
-    },
+    ccrt__dctr__page__right__content: {},
     ccrt__dctr__page__right__content_mobile: {
       borderLeft: "none",
     },
