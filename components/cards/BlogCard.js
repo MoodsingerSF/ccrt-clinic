@@ -7,7 +7,6 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  Chip,
   Grid,
   IconButton,
   Typography,
@@ -18,6 +17,7 @@ import { createStyles, makeStyles } from "@mui/styles";
 import { capitalize } from "lodash";
 import { prettyDate } from "../../controllers/DateController";
 import dynamic from "next/dynamic";
+import CustomChip from "../chip/CustomChip";
 const BlogEditorBackdrop = dynamic(() =>
   import("../backdrops/BlogEditorBackdrop")
 );
@@ -56,15 +56,17 @@ const BlogCard = ({
       alignItems="flex-start"
       className={classes.ccrt__blog__body__container}
     >
-      <Card style={{ width: "100%" }}>
+      <Card className={classes.cardRoot}>
         <CardHeader
           avatar={
-            <Avatar>{avatar ? avatar : capitalize(name).charAt(0)}</Avatar>
+            <Avatar src={"/" + avatar}>
+              {avatar ? null : capitalize(name).charAt(0)}
+            </Avatar>
           }
           action={
             showOptions && (
               <IconButton aria-label="settings" onClick={handleClick}>
-                <MoreVertIcon />
+                <MoreVertIcon className={classes.iconStyle} />
               </IconButton>
             )
           }
@@ -83,7 +85,7 @@ const BlogCard = ({
         >
           <Image
             loader={({ src }) => src}
-            src={image}
+            src={"/" + image}
             alt="blog"
             layout="fill"
           />
@@ -97,16 +99,9 @@ const BlogCard = ({
           >
             {title}
           </Typography>
-          <Grid container mt={2}>
+          <Grid container>
             {tags.map((tag) => (
-              <Chip
-                key={tag}
-                label={tag}
-                component="a"
-                href="#basic-chip"
-                clickable
-                className={classes.ccrt__blog__hashtag}
-              />
+              <CustomChip key={tag} title={tag} />
             ))}
           </Grid>
         </CardContent>
@@ -155,21 +150,32 @@ BlogCard.propTypes = {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__blog__body__container: {
-      padding: "10px",
+      padding: "5px",
 
       // boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
     },
+    iconStyle: {
+      fontWeight: 500,
+      fontSize: "100%",
+      color: theme.palette.custom.BLACK,
+    },
     ccrt__blog__creator_name: {
-      fontWeight: "bold",
+      fontWeight: 500,
+      fontSize: "80%",
+      color: theme.palette.custom.BLACK,
+
       textTransform: "capitalize",
     },
     ccrt__blog__subheader: {
-      fontSize: "80%",
+      fontSize: "70%",
+      color: theme.palette.custom.GREY,
     },
     ccrt__blog__content__title: {
-      fontWeight: "bold",
-      fontSize: "100%",
+      fontWeight: 500,
+      fontSize: "90%",
       marginBottom: "5px",
+      color: theme.palette.custom.BLACK,
+
       cursor: "pointer",
       overflow: "hidden",
       textOverflow: "ellipsis",
@@ -181,14 +187,19 @@ const useStyles = makeStyles((theme) =>
         color: theme.palette.primary.main,
       },
     },
-    ccrt__blog__hashtag: {
-      margin: "5px 3px",
-      fontSize: "70%",
-      padding: "3px 3px",
-      fontWeight: "bold",
-      background: theme.palette.grey.main,
-      // border: `1.5px solid ${theme.palette.primary.main}`,
+    cardRoot: {
+      width: "100%",
+      // boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+      border: `1px solid ${theme.palette.custom.BLACK}`,
     },
+    // ccrt__blog__hashtag: {
+    //   margin: "5px 3px",
+    //   fontSize: "70%",
+    //   padding: "3px 3px",
+    //   fontWeight: "bold",
+    //   background: theme.palette.grey.main,
+    //   // border: `1.5px solid ${theme.palette.primary.main}`,
+    // },
   })
 );
 

@@ -1,5 +1,4 @@
 import { createStyles, makeStyles } from "@mui/styles";
-import { BOX_SHADOW } from "../misc/colors";
 
 export const useStyles = makeStyles((theme) =>
   createStyles({
@@ -8,14 +7,15 @@ export const useStyles = makeStyles((theme) =>
       background: "none",
     },
     containerDesktopSm: {
-      boxShadow: BOX_SHADOW,
-      background: theme.palette.primary.main,
+      background: theme.palette.custom.DEFAULT_COLOR,
     },
     containerDesktopMd: {
+      background: theme.palette.custom.DEFAULT_COLOR,
       width: "100%",
     },
     containerDesktopLg: {
       width: "100%",
+      background: theme.palette.custom.DEFAULT_COLOR,
     },
     ccrt__signup__right: {
       background: "#fff",
@@ -52,9 +52,13 @@ export const useStyles = makeStyles((theme) =>
     sign_up_title: {
       fontSize: "180%",
       fontWeight: "bold",
+      textAlign: "center",
     },
     field_title: {
-      // fontWeight: 500,
+      fontWeight: 500,
+      // textTransform: "capitalize",
+      fontSize: "85%",
+      color: theme.palette.custom.BLACK,
     },
   })
 );

@@ -1,5 +1,12 @@
 import React from "react";
-import { Grid, Modal, Box, Typography, Button } from "@mui/material";
+import {
+  Grid,
+  Modal,
+  Box,
+  Typography,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 import PropTypes from "prop-types";
 
 const style = {
@@ -18,6 +25,8 @@ const ConfirmationModal = ({
   onPositiveFeedback,
   onNegativeFeedback,
   title,
+  subTitle = null,
+  loading = false,
 }) => {
   return (
     <Modal open={true} onClose={onNegativeFeedback}>
@@ -30,9 +39,23 @@ const ConfirmationModal = ({
         >
           {title}
         </Typography>
+        {subTitle && (
+          <Typography
+            id="modal-modal-title"
+            style={{ fontSize: "80%", marginBottom: "10px" }}
+          >
+            {subTitle}
+          </Typography>
+        )}
         <Grid container justifyContent="center" alignItems="center">
-          <Button onClick={onPositiveFeedback}>Yes</Button>
-          <Button onClick={onNegativeFeedback}>No</Button>
+          {loading ? (
+            <CircularProgress size={24} />
+          ) : (
+            <>
+              <Button onClick={onPositiveFeedback}>yes</Button>
+              <Button onClick={onNegativeFeedback}>No</Button>
+            </>
+          )}
         </Grid>
       </Box>
     </Modal>
@@ -45,4 +68,6 @@ ConfirmationModal.propTypes = {
   onPositiveFeedback: PropTypes.func.isRequired,
   onNegativeFeedback: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
+  subTitle: PropTypes.string,
+  loading: PropTypes.bool,
 };

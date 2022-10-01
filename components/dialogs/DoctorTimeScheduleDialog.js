@@ -5,12 +5,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import PropTypes from "prop-types";
-import { Alert, Snackbar, Typography } from "@mui/material";
-import { AM_PM, Days, hours, minutes } from "../../data/doctor-time/data";
+import { Grid, Typography } from "@mui/material";
+import { AM_PM, hours, minutes } from "../../data/doctor-time/data";
 import SelectInput from "../select-field/SelectInput";
 import { createStyles, makeStyles } from "@mui/styles";
+import { DAY_CODES } from "../../misc/constants";
 
-const DoctorTimeScheduleDialog = ({ open, handleClose, clickDay }) => {
+const DoctorTimeScheduleDialog = ({ open, onClose, onAddTimeSlot, day }) => {
   const classes = useStyles();
 
   const [startHour, setStartHour] = useState("");
@@ -19,10 +20,7 @@ const DoctorTimeScheduleDialog = ({ open, handleClose, clickDay }) => {
   const [endHour, setEndHour] = useState("");
   const [endMin, setEndMin] = useState("");
   const [endAMorPM, setEndAMorPM] = useState("");
-  const [ScheduleTime, setScheduleTime] = useState("");
-  console.log(ScheduleTime);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-
+  const [error, setError] = useState(false);
   const handleChangeStartHour = (event) => {
     setStartHour(event.target.value);
   };
@@ -41,10 +39,8 @@ const DoctorTimeScheduleDialog = ({ open, handleClose, clickDay }) => {
   const handleChangeEndAMorPM = (e) => {
     setEndAMorPM(e.target.value);
   };
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
-  const handleSaveDctrTimeSchedule = () => {
+
+  const handleSlotAddition = () => {
     if (
       startHour === "" ||
       startMin === "" ||
@@ -53,113 +49,115 @@ const DoctorTimeScheduleDialog = ({ open, handleClose, clickDay }) => {
       startAMorPM === "" ||
       endAMorPM === ""
     ) {
-      setOpenSnackbar(true);
+      setError(true);
     } else {
-      const startTime = `${startHour}:${startMin} ${startAMorPM}`;
-      const endTime = `${endHour}:${endMin} ${endAMorPM}`;
-
-      setScheduleTime(`${startTime} - ${endTime}`);
-      console.log(startTime, endTime);
-      const testDay = Days.find((item) => item.day === clickDay);
-      console.log(testDay);
-      testDay.timeSlot.push(ScheduleTime);
-
-      setStartHour("");
-      setStartMin("");
-      setStartAMorPM("");
-      setEndHour("");
-      setEndMin("");
-      setEndAMorPM("");
-      // setScheduleTime("");
-      handleClose();
+      onAddTimeSlot(
+        DAY_CODES[day],
+        { hour: startHour, minute: startMin, phase: startAMorPM },
+        { hour: endHour, minute: endMin, phase: endAMorPM }
+      );
     }
   };
 
   return (
     <>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} fullWidth onClose={onClose}>
         <DialogTitle className={classes.ccrt__time_form__title}>
-          Create Your Schedules
+          Add a new time slot for {day}
         </DialogTitle>
         <DialogContent>
-          <SelectInput
-            value={startHour}
-            label="Hour"
-            onChange={handleChangeStartHour}
-            times={hours}
-          />
+          {/* <Grid container style={{ width: "50vw" }}> */}
+          <Grid container spacing={1}>
+            <Grid item xs>
+              <SelectInput
+                value={startHour}
+                label="Hour"
+                onChange={handleChangeStartHour}
+                times={hours}
+              />
+            </Grid>
 
-          <SelectInput
-            value={startMin}
-            label="Minute"
-            onChange={handleChangeStartMin}
-            times={minutes}
-          />
+            <Grid item xs>
+              <SelectInput
+                value={startMin}
+                label="Minute"
+                onChange={handleChangeStartMin}
+                times={minutes}
+              />
+            </Grid>
 
-          <SelectInput
-            value={startAMorPM}
-            label="AM/PM"
-            onChange={handleChangeStartAMorPM}
-            times={AM_PM}
-          />
+            <Grid item xs>
+              <SelectInput
+                value={startAMorPM}
+                label="AM/PM"
+                onChange={handleChangeStartAMorPM}
+                times={AM_PM}
+              />
+            </Grid>
+          </Grid>
+
           <Typography className={classes.ccrt__time_form__divider}>
-            To {clickDay}
+            To
           </Typography>
-          <SelectInput
-            value={endHour}
-            label="Hour"
-            onChange={handleChangeEndHour}
-            times={hours}
-          />
+          <Grid container spacing={1}>
+            <Grid item xs>
+              <SelectInput
+                value={endHour}
+                label="Hour"
+                onChange={handleChangeEndHour}
+                times={hours}
+              />
+            </Grid>
 
-          <SelectInput
-            value={endMin}
-            label="Minute"
-            onChange={handleChangeEndMin}
-            times={minutes}
-          />
+            <Grid item xs>
+              <SelectInput
+                value={endMin}
+                label="Minute"
+                onChange={handleChangeEndMin}
+                times={minutes}
+              />
+            </Grid>
 
-          <SelectInput
-            value={endAMorPM}
-            label="AM/PM"
-            onChange={handleChangeEndAMorPM}
-            times={AM_PM}
-          />
+            <Grid item xs>
+              <SelectInput
+                value={endAMorPM}
+                label="AM/PM"
+                onChange={handleChangeEndAMorPM}
+                times={AM_PM}
+              />
+            </Grid>
+          </Grid>
+
+          {error && (
+            <Typography style={{ color: "red", fontSize: "70%", marginTop: 5 }}>
+              You must select all the fields.
+            </Typography>
+          )}
+          {/* </Grid> */}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSaveDctrTimeSchedule}>Save</Button>
+          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={handleSlotAddition}>Save</Button>
         </DialogActions>
       </Dialog>
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-      >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity="error"
-          sx={{ width: "100%" }}
-        >
-          Invalid Input Time
-        </Alert>
-      </Snackbar>
     </>
   );
 };
 
 DoctorTimeScheduleDialog.propTypes = {
   open: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onAddTimeSlot: PropTypes.func.isRequired,
+  day: PropTypes.string.isRequired,
   // setScheduleTime: PropTypes.string,
-  clickDay: PropTypes.string,
+  // clickDay: PropTypes.string,
 };
 
 const useStyles = makeStyles(() =>
   createStyles({
     ccrt__time_form__title: {
       textAlign: "center",
-      textTransform: "uppercase",
+      textTransform: "capitalize",
       fontSize: "100%",
     },
     ccrt__time_form__divider: {

@@ -1,11 +1,15 @@
-import { Checkbox, FormControlLabel, Typography } from "@mui/material";
+import { FormControlLabel, Radio, Typography } from "@mui/material";
 import React from "react";
 import PropTypes from "prop-types";
+import { capitalize, lowerCase } from "lodash";
+import { useTheme } from "@mui/styles";
 const CustomCheckbox = ({ name, checked, value, onChange }) => {
+  const theme = useTheme();
   return (
     <FormControlLabel
+      value="female"
       control={
-        <Checkbox
+        <Radio
           size="small"
           value={value}
           checked={checked}
@@ -13,8 +17,14 @@ const CustomCheckbox = ({ name, checked, value, onChange }) => {
         />
       }
       label={
-        <Typography style={{ textTransform: "capitalize", fontSize: "100%" }}>
-          {name}
+        <Typography
+          style={{
+            fontSize: "85%",
+            fontWeight: 500,
+            color: theme.palette.custom.BLACK,
+          }}
+        >
+          {capitalize(lowerCase(name))}
         </Typography>
       }
     />
@@ -24,7 +34,7 @@ const CustomCheckbox = ({ name, checked, value, onChange }) => {
 CustomCheckbox.propTypes = {
   name: PropTypes.string.isRequired,
   checked: PropTypes.bool.isRequired,
-  value: PropTypes.object.isRequired,
+  value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

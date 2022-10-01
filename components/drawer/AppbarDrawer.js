@@ -15,7 +15,7 @@ import PropTypes from "prop-types";
 import { DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
 import HomeIcon from "@mui/icons-material/Home";
 import AppbarDrawerLink from "../appbar/AppbarDrawerLink";
-import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+// import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import WidgetsIcon from "@mui/icons-material/Widgets";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import LiveHelpIcon from "@mui/icons-material/LiveHelp";
@@ -65,11 +65,11 @@ const AppbarDrawer = ({ open, onClose }) => {
             link="#"
             icon={<WidgetsIcon fontSize="small" />}
           />
-          <AppbarDrawerLink
+          {/* <AppbarDrawerLink
             name="Product & Service"
             link="#"
             icon={<MedicalServicesIcon fontSize="small" />}
-          />
+          /> */}
           <AppbarDrawerLink
             name="Blogs"
             link="/blogs"

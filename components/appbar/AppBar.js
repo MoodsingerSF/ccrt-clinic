@@ -25,7 +25,7 @@ const AppBar = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
 
-  const { isSignedIn } = useContext(Context);
+  const { isSignedIn, getProfileImageUrl } = useContext(Context);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleProfileClick = (event) => {
@@ -52,27 +52,33 @@ const AppBar = () => {
             <Image src={logo} layout="fill" objectFit="contain" />
           </Grid>
           <Grid container alignItems="center" item xs={2}></Grid>
-          <Grid container alignItems="center" item xs={6}>
+
+          {isSignedIn() && (
+            <Grid container alignItems="center" item xs={3}></Grid>
+          )}
+          <Grid
+            container
+            justifyContent="flex-end"
+            alignItems="center"
+            item
+            xs
+            // xs={8}
+          >
             <AppBarLink name="Home" link="/" />
-            <AppBarLink name="Departments" link="/" />
-            <AppBarLink name="Product&Service" link="/" />
+            <AppBarLink name="Doctors" link="/doctors" />
+
             <AppBarLink name="Blogs" link="/blogs" />
             <AppBarLink name="Contact" link="/contact" />
             <AppBarLink name="FAQ" link="/faq" />
+            {/* <AppBarLink name="Prescription" link="/prescription" /> */}
 
             {!isSignedIn() && <AppBarLink name="Login" link="/login" />}
-          </Grid>
-          <Grid
-            item
-            xs={2}
-            container
-            justifyContent={"center"}
-            alignItems="center"
-          >
+
             {isSignedIn() && (
               <Avatar
                 className={classes.avatar}
                 onClick={handleProfileClick}
+                src={"/" + getProfileImageUrl()}
               ></Avatar>
             )}
             {open && (
@@ -83,7 +89,14 @@ const AppBar = () => {
               />
             )}
             {!isSignedIn() && (
-              <Grid container justifyContent={"center"} alignItems="center">
+              <Grid
+                item
+                xs={3}
+                container
+                flexDirection="column"
+                justifyContent={"center"}
+                alignItems="center"
+              >
                 <Typography
                   className={classes.sign_up_title}
                 >{`Haven't registered yet?`}</Typography>
@@ -137,7 +150,7 @@ const useStyles = makeStyles((theme) =>
     ccrt_app_bar__container: {
       height: "12vh",
       background: "#fff",
-      zIndex: 1000,
+      zIndex: 99,
       position: "fixed",
       top: 0,
       left: 0,
@@ -165,6 +178,7 @@ const useStyles = makeStyles((theme) =>
       },
     },
     avatar: {
+      marginRight: "2.5vw",
       border: `1px dashed ${theme.palette.primary.main}`,
       cursor: "pointer",
     },

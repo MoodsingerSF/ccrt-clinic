@@ -24,6 +24,7 @@ import CustomButton from "../button/CustomButton";
 import { verifyOtp } from "../../controllers/SignupController";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
 import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
+import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";
 
 const VerificationCodeModal = ({
   openModal,
@@ -42,7 +43,7 @@ const VerificationCodeModal = ({
   const [code, setCode] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [showModalContent, setShowModalContent] = useState(true);
-  const [snackbar, setSnackbar] = useState(INITIAL_SECONDS);
+  const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     let myInterval = setInterval(() => {

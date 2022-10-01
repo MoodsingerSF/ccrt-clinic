@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { Grid, useTheme } from "@mui/material";
-import { useStyles } from "../../styles/BlogDetailStyle";
+// import { useStyles } from "../../styles/BlogDetailStyle";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import classNames from "classnames";
+// import classNames from "classnames";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 import { retrieveBlogDetails } from "../../controllers/BlogController";
@@ -28,9 +28,9 @@ const BlogDetailsScreen = ({ blogId, title, imageUrl }) => {
   const router = useRouter();
   if (router.isFallback) return <FallbackComponent />;
 
-  const classes = useStyles();
+  // const classes = useStyles();
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  // const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -92,27 +92,20 @@ const BlogDetailsScreen = ({ blogId, title, imageUrl }) => {
           container
           justifyContent="center"
           alignItems="center"
-          className={classes.ccrt__blogDetails__section}
+          style={{ paddingTop: "12vh" }}
         >
           {blog !== null && (
-            <Grid
-              container
-              spacing={4}
-              className={classNames({
-                [classes.ccrt__blogDetails__container__mobile]: !matches,
-                [classes.ccrt__blogDetails__container_tablet]: matches,
-              })}
-            >
-              <Grid item xs={12} sm={12} md={5} lg={4}>
+            <Grid container spacing={2} style={{ width: "95%", marginTop: 20 }}>
+              <Grid item xs={12} sm={12} md={5} lg={3}>
                 <BlogDetailsLeft
                   author={{
                     name: blog.fullName,
-                    avatar: blog.avatar,
+                    avatar: "/" + blog.avatar,
                   }}
                   tags={blog.tags}
                 />
               </Grid>
-              <Grid item xs={12} sm={12} md={7} lg={8}>
+              <Grid item xs={12} sm={12} md={7} lg={6}>
                 <BlogDetailsRight
                   title={blog.title}
                   description={blog.description}

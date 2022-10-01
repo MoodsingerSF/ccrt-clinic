@@ -3,10 +3,10 @@ import {
   Avatar,
   Chip,
   Grid,
-  IconButton,
   TableCell,
   TableRow,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -16,6 +16,7 @@ import BlogRequestModal from "../../modal/BlogRequestModal";
 import PropTypes from "prop-types";
 import { capitalize } from "lodash";
 import { acceptBlog, rejectBlog } from "../../../controllers/BlogController";
+import ActionButton from "../../button/ActionButton";
 // import { SNACKBAR_INITIAL_STATE } from "../../../misc/constants";
 const BlogRequestRow = ({
   avatar,
@@ -85,22 +86,23 @@ const BlogRequestRow = ({
 
   return (
     <>
-      <TableRow>
+      <TableRow className={classes.rowContainer}>
         <TableCell>
           <Grid container>
             <Grid item lg={2}>
               <Avatar
                 className={classes.ccrt__dashboard__blog__request__avatar}
-              >
-                {avatar}
-              </Avatar>
+                src={"/" + avatar}
+              ></Avatar>
             </Grid>
             <Grid
               item
               lg={10}
               className={classes.ccrt__dashboard__blog__request__name}
             >
-              {capitalize(creatorName)}
+              <Typography className={classes.nameStyle}>
+                {capitalize(creatorName)}
+              </Typography>
             </Grid>
           </Grid>
         </TableCell>
@@ -109,7 +111,7 @@ const BlogRequestRow = ({
             container
             className={classes.ccrt__dashboard__blog__request__title}
           >
-            {capitalize(title)}
+            <Typography className={classes.titleStyle}>{title}</Typography>
           </Grid>
         </TableCell>
         <TableCell align="right">
@@ -119,27 +121,31 @@ const BlogRequestRow = ({
             className={classes.ccrt__dashboard__blog__request__status}
           />
         </TableCell>
-        <TableCell align="right">
-          <Tooltip title="View Blog">
-            <IconButton
-              size="small"
-              className={classes.ccrt__dashboard__blog__request__view_icon}
-              onClick={handleOpenBlogReqModal}
-            >
-              <VisibilityIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-
+        <TableCell align="center">
           <Tooltip title="Accept the blog">
-            <IconButton size="small" color="success" onClick={handleAcceptBlog}>
-              <DoneIcon fontSize="small" />
-            </IconButton>
+            <ActionButton
+              type="success"
+              title="Accept"
+              icon={<DoneIcon />}
+              onClick={handleAcceptBlog}
+            />
           </Tooltip>
 
           <Tooltip title="Reject the blog">
-            <IconButton size="small" color="error" onClick={handleRejectBlog}>
-              <ClearIcon fontSize="small" />
-            </IconButton>
+            <ActionButton
+              type="error"
+              title="Reject"
+              icon={<ClearIcon />}
+              onClick={handleRejectBlog}
+            />
+          </Tooltip>
+          <Tooltip title="View Blog">
+            <ActionButton
+              type="info"
+              title="View Blog"
+              icon={<VisibilityIcon />}
+              onClick={handleOpenBlogReqModal}
+            />
           </Tooltip>
         </TableCell>
       </TableRow>
@@ -179,7 +185,7 @@ const useStyle = makeStyles((theme) =>
     ccrt__dashboard__blog__request__title: {
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
-      width: "200px",
+      // width: "200px",
       display: "block",
       overflow: "hidden",
     },
@@ -193,6 +199,30 @@ const useStyle = makeStyles((theme) =>
     },
     ccrt__dashboard__blog__request__view_icon: {
       color: "#8457AC",
+    },
+    textStyle: {
+      color: theme.palette.custom.BLACK,
+      fontSize: "90%",
+      fontWeight: 500,
+    },
+    nameStyle: {
+      color: theme.palette.custom.BLACK,
+      fontSize: "90%",
+      fontWeight: 500,
+      textTransform: "capitalize",
+      marginLeft: 10,
+    },
+    titleStyle: {
+      color: theme.palette.custom.BLACK,
+      fontSize: "90%",
+      fontWeight: 500,
+      textTransform: "capitalize",
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
+    },
+    rowContainer: {
+      height: 60,
+      borderBottom: `1.1px solid ${theme.palette.custom.BLACK}`,
     },
   })
 );

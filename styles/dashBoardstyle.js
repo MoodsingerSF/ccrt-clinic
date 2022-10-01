@@ -1,15 +1,14 @@
 import { createStyles, makeStyles } from "@mui/styles";
-import { DEFAULT_COLOR_MINUS_2 } from "../misc/colors";
 
 export const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__dashboard__container: {
       position: "relative",
-      marginTop: "10vh",
+      // marginTop: "4vh",
     },
     ccrt__dashboard__left__container: {
       minHeight: "100vh",
-      background: DEFAULT_COLOR_MINUS_2,
+      background: theme.palette.custom.DEFAULT_COLOR_MINUS_2,
       position: "fixed",
       top: "12%",
       overflowY: "scroll",
@@ -25,7 +24,7 @@ export const useStyles = makeStyles((theme) =>
     ccrt__dashboard__right__container: {
       // background: "red",
       // minHeight: "100vh",
-      padding: "0 20px ",
+      padding: "12vh 20px 0px 20px",
     },
   })
 );

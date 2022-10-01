@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Grid, useMediaQuery, useTheme } from "@mui/material";
+import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
+// import { DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
 import DoctorRequestRow from "./DoctorRequestRow";
 import classNames from "classnames";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
-import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";
+import {
+  DASHBOARD_TITLE_MARGIN_TOP,
+  SNACKBAR_INITIAL_STATE,
+} from "../../misc/constants";
 import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
 import LoaderBackdrop from "../backdrops/LoaderBackdrop";
 import NoContentToShowComponent from "../misc/NoContentToShowComponent";
 import { retrievePendingDoctors } from "../../controllers/UserController";
 import DashboardTitle from "./DashboardTitle";
+import DashboardLoaderComponent from "./DashboardLoaderComponent";
 
 const DoctorsRequest = () => {
   const classes = useStyles();
@@ -51,15 +55,15 @@ const DoctorsRequest = () => {
     <Grid container>
       <Grid
         container
-        style={{ marginTop: 20 }}
-        justifyContent="center"
+        style={{ marginTop: DASHBOARD_TITLE_MARGIN_TOP }}
+        justifyContent="flex-start"
         alignItems="center"
       >
         <DashboardTitle title="Doctor Registration Requests" />
       </Grid>
 
       {loading ? (
-        <LoaderBackdrop open={loading} />
+        <DashboardLoaderComponent />
       ) : doctors.length === 0 ? (
         <NoContentToShowComponent title="No doctor requests to show" />
       ) : (
@@ -67,6 +71,7 @@ const DoctorsRequest = () => {
           <thead>
             <tr className={classes.ccrt__dashboard__dctr__req__table__row}>
               <th
+                align="center"
                 className={classNames({
                   [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
                     !matchesSm,
@@ -74,8 +79,54 @@ const DoctorsRequest = () => {
                     matchesSm,
                 })}
               >
-                Name
+                <Typography className={classes.titleStyle}>Name</Typography>
               </th>
+
+              <th
+                align="center"
+                className={classNames({
+                  [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
+                    !matchesSm,
+                  [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
+                    matchesSm,
+                })}
+              >
+                <Typography className={classes.titleStyle}>
+                  Specializations
+                </Typography>
+              </th>
+
+              <th
+                align="center"
+                className={classNames({
+                  [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
+                    !matchesSm,
+                  [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
+                    matchesSm,
+                })}
+              >
+                <Typography className={classes.titleStyle}>Fee (TK)</Typography>
+              </th>
+              {/* <th
+                className={classNames({
+                  [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
+                    !matchesSm,
+                  [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
+                    matchesSm,
+                })}
+              >
+                <Typography className={classes.titleStyle}>Email</Typography>
+              </th> */}
+              {/* <th
+                className={classNames({
+                  [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
+                    !matchesSm,
+                  [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
+                    matchesSm,
+                })}
+              >
+                <Typography className={classes.titleStyle}>Status</Typography>
+              </th> */}
               <th
                 className={classNames({
                   [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
@@ -84,39 +135,22 @@ const DoctorsRequest = () => {
                     matchesSm,
                 })}
               >
-                Email
-              </th>
-              <th
-                className={classNames({
-                  [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
-                    !matchesSm,
-                  [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
-                    matchesSm,
-                })}
-              >
-                Status
-              </th>
-              <th
-                className={classNames({
-                  [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
-                    !matchesSm,
-                  [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
-                    matchesSm,
-                })}
-              >
-                Actions
+                <Typography className={classes.titleStyle}>Actions</Typography>
               </th>
             </tr>
           </thead>
           <tbody>
-            {doctors.map((doctor) => {
+            {doctors.map((doctor, index) => {
               return (
                 <DoctorRequestRow
                   key={doctor.userId}
+                  serialNo={index}
                   userId={doctor.userId}
                   firstName={doctor.firstName}
                   lastName={doctor.lastName}
                   email={doctor.email}
+                  specializations={doctor.specializations}
+                  fee={doctor.fee}
                   profileImageUrl={doctor.profileImageUrl}
                   openSnackbar={openSnackbar}
                   openLoader={openLoader}
@@ -144,7 +178,7 @@ const DoctorsRequest = () => {
   );
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   ccrt__dashboard__dctr__req__table: {
     background: "#F7F8FC",
     minWidth: "100%",
@@ -153,20 +187,25 @@ const useStyles = makeStyles({
     margin: "25px 0",
   },
   ccrt__dashboard__dctr__req__table__row: {
-    background: DEFAULT_COLOR_MINUS_2,
+    background: theme.palette.custom.BLACK,
     color: "#ffffff",
     textAlign: "center",
-    fontWeight: "bold",
+    // fontWeight: 600,
   },
 
   ccrt__dashboard__dctr__req__table__head__desktop: {
     padding: "12px 0",
     // width: "200px",
-    fontSize: "80%",
+    // fontSize: "80%",
   },
   ccrt__dashboard__dctr__req__table__head__mobile: {
-    fontSize: "80%",
+    // fontSize: "80%",
     padding: "12px 0",
   },
-});
+  titleStyle: {
+    color: "white",
+    fontSize: "85%",
+    fontWeight: 500,
+  },
+}));
 export default DoctorsRequest;

@@ -3,7 +3,6 @@ import {
   Box,
   Grid,
   Modal,
-  TextField,
   Typography,
   useMediaQuery,
   useTheme,
@@ -12,6 +11,8 @@ import {
 import PropTypes from "prop-types";
 import { formErrors } from "../../data/signup/data";
 import CustomButton from "../button/CustomButton";
+import { retrieveUserId } from "../../controllers/LocalStorageController";
+import DoctorInfoFormTextField from "../textfields/DoctorInfoFormTextField";
 
 const UpdateProfileModal = ({
   fieldName,
@@ -23,74 +24,104 @@ const UpdateProfileModal = ({
   validate,
   onSuccess,
   openSnackbar,
+  isPrice = false,
 }) => {
   const theme = useTheme();
   const IsDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
-  const [editedValue, setEditedValue] = useState(editableValue);
+  const [updatedValue, setUpdatedValue] = useState(editableValue);
   const [loading, setLoading] = useState(false);
-
   const [showError, setShowError] = useState(false);
 
   const handleSubmitValue = async () => {
-    if (validate(editedValue)) {
+    if (validate(updatedValue)) {
       try {
         setLoading(true);
-        await onSave(editedValue);
-        onSuccess(editedValue);
+        await onSave(updatedValue);
+        onSuccess(updatedValue);
         setLoading(false);
         onClose();
         openSnackbar(`${fieldName} has been updated successfully.`);
       } catch (error) {
         setLoading(false);
+        if (error && error.response) {
+          const { data } = error.response;
+          openSnackbar(data.message);
+        }
       }
     } else {
       setShowError(true);
     }
   };
 
-  // const validate = (editedValue) => {
-  //   let isEverythingAllRight = true;
-  //   isEverythingAllRight = validateName(editedValue);
-  //   return isEverythingAllRight && editableValue !== editedValue;
-  // };
+  const handleSubmitPrice = async () => {
+    if (validate(editableValue, updatedValue)) {
+      try {
+        setLoading(true);
+        await onSave(updatedValue, editableValue, retrieveUserId());
+        openSnackbar(`Request has been sent successfully.`);
+        setLoading(false);
+        onClose();
+      } catch (error) {
+        setLoading(false);
+        if (error && error.response) {
+          const { data } = error.response;
+          openSnackbar(data.message);
+        }
+      }
+    } else {
+      setShowError(true);
+    }
+  };
 
   const handleChangeValue = (e) => {
-    setEditedValue(e.target.value);
+    setUpdatedValue(e.target.value);
   };
 
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={box__style} style={{ width: IsDesktop ? "50vw" : "90vw" }}>
-        <Typography style={{ marginBottom: "10px", fontWeight: 500 }}>
+        <Typography
+          style={{
+            marginBottom: "10px",
+            fontWeight: 600,
+            fontSize: "100%",
+            color: theme.palette.custom.BLACK,
+          }}
+        >
           {title}
         </Typography>
-        <TextField
-          style={{ fontSize: "80%", fontWeight: 500 }}
-          value={editedValue}
-          size="small"
-          fullWidth
+        <DoctorInfoFormTextField
+          label={fieldName}
+          value={updatedValue}
           onChange={(e) => handleChangeValue(e)}
-          error={showError && !validate(editedValue)}
+          error={
+            showError &&
+            (isPrice
+              ? !validate(editableValue, updatedValue)
+              : !validate(updatedValue))
+          }
+          errorText={
+            isPrice
+              ? "Fee can't be empty or equal to previous amount."
+              : formErrors.name
+          }
         />
-        {showError && !validate(editedValue) && (
-          <Typography
-            style={{
-              color: "red",
-              fontSize: "70%",
-              margin: "5px 0",
-              textAlign: "left",
-            }}
-          >
-            {formErrors.name}
-          </Typography>
-        )}
+
         <Grid container style={{ marginTop: 20 }}></Grid>
-        <Grid container justifyContent="flex-end" alignItems="center">
-          <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          container
+          justifyContent="flex-end"
+          alignItems="center"
+          spacing={2}
+        >
+          <Grid item xs={6} sm={6} md={4}>
+            <CustomButton title="Cancel" onClick={onClose} />
+          </Grid>
+          <Grid item xs={6} sm={6} md={4}>
             <CustomButton
               title="Save"
-              onClick={handleSubmitValue}
+              onClick={isPrice ? handleSubmitPrice : handleSubmitValue}
               loading={loading}
             />
           </Grid>
@@ -101,7 +132,7 @@ const UpdateProfileModal = ({
 };
 
 UpdateProfileModal.propTypes = {
-  fieldName: PropTypes.string.isRequired,
+  fieldName: PropTypes.string,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   editableValue: PropTypes.string.isRequired,
@@ -110,6 +141,8 @@ UpdateProfileModal.propTypes = {
   validate: PropTypes.func,
   onSuccess: PropTypes.func,
   openSnackbar: PropTypes.func,
+  userId: PropTypes.string,
+  isPrice: PropTypes.bool,
 };
 
 export default UpdateProfileModal;

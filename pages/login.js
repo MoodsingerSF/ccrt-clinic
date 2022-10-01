@@ -62,12 +62,10 @@ const LoginScreen = () => {
   const handlePassword = (e) => {
     setPassword(e.target.value);
   };
-  const retrieveUserDetailsHelper = async () => {
+  const retrieveUserDetailsHelper = async (userId) => {
     try {
-      const response = await retrieveUserDetails();
-      if (response.status === 200) {
-        setUser(getModifiedUserState(response.data));
-      }
+      const data = await retrieveUserDetails(userId);
+      setUser(getModifiedUserState(data));
     } catch (error) {
       //
     }
@@ -86,7 +84,7 @@ const LoginScreen = () => {
         setUserId(userId);
         setAuthorizationTokenInProvider(authorizationToken);
         setUserIdInProvider(userId);
-        await retrieveUserDetailsHelper();
+        await retrieveUserDetailsHelper(userId);
         router.replace("/");
       }
       setLoading(false);
@@ -95,6 +93,10 @@ const LoginScreen = () => {
         const status = error.response.status;
         if (status === StatusCodes.FORBIDDEN) {
           openSnackbar("Username and password haven't matched.");
+        } else if (status === StatusCodes.LOCKED) {
+          openSnackbar(
+            "Your signup request as a doctor is currently in review."
+          );
         }
       }
       setLoading(false);
@@ -126,7 +128,7 @@ const LoginScreen = () => {
         container
         justifyContent="center"
         alignItems="center"
-        style={{ minHeight: "100vh", marginTop: "12vh" }}
+        style={{ minHeight: "88vh", marginTop: "12vh" }}
       >
         <Grid
           container
@@ -136,25 +138,40 @@ const LoginScreen = () => {
             [classes.ccrt__login__containerDesktopMd]: matchesMD,
             [classes.ccrt__login__containerDesktopLg]: matchesLG,
           })}
+          justifyContent="center"
         >
-          <h2>{HEADER_TITLE}</h2>
+          <Typography
+            style={{
+              color: theme.palette.custom.BLACK,
+              fontWeight: "bold",
+              fontSize: "130%",
+              textAlign: "center",
+              marginBottom: 30,
+            }}
+          >
+            {HEADER_TITLE}
+          </Typography>
           <Grid container>
-            <SignUpTextField
-              label="Email"
-              type="email"
-              value={email}
-              onChange={handleEmail}
-              error={showError && !validateEmail(email)}
-              errorText={formErrors.email}
-            />
-            <SignUpTextField
-              label="Password"
-              type="password"
-              value={password}
-              onChange={handlePassword}
-              error={showError && !validatePassword(password)}
-              errorText={formErrors.password}
-            />
+            <Grid item xs={12}>
+              <SignUpTextField
+                label="Email"
+                type="email"
+                value={email}
+                onChange={handleEmail}
+                error={showError && !validateEmail(email)}
+                errorText={formErrors.email}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <SignUpTextField
+                label="Password"
+                type="password"
+                value={password}
+                onChange={handlePassword}
+                error={showError && !validatePassword(password)}
+                errorText={formErrors.password}
+              />
+            </Grid>
             <Grid container>
               <Link href="#">
                 <a className={classes.ccrt__login__forgot__password}>

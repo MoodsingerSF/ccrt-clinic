@@ -1,13 +1,23 @@
 import axios from "axios";
-import { EMAIL_REGEX, NAME_REGEX, SERVER_PATH } from "../misc/constants";
+import {
+  BIRTHDATE_REGEX,
+  EMAIL_REGEX,
+  EMPTY_OR_WHITESPACE,
+  NAME_REGEX,
+  NUMBER_REGEX,
+  SERVER_PATH,
+} from "../misc/constants";
 
 const MINIMUM_PASSWORD_LENGTH = 6;
 
 export const USER_TYPES = ["USER", "DOCTOR"];
+export const USER_GENDERS = ["MALE", "FEMALE", "OTHER"];
 export const validateName = (name) => {
   return NAME_REGEX.test(name);
 };
-
+export const validateText = (name) => {
+  return name !== "";
+};
 export const validateEmail = (email) => {
   return EMAIL_REGEX.test(email);
 };
@@ -18,6 +28,18 @@ export const validatePassword = (password) => {
 
 export const validateConfirmPassword = (confirmPassword, password) => {
   return password !== "" && confirmPassword === password;
+};
+
+export const validateBirthDate = (birthDate) => {
+  return BIRTHDATE_REGEX.test(birthDate);
+};
+
+export const validateFee = (fee) => {
+  return NUMBER_REGEX.test(fee);
+};
+
+export const validateUpdateFee = (editableValue, updatedValue) => {
+  return updatedValue !== "" && editableValue !== updatedValue;
 };
 
 export const sendOtp = async (email) => {
@@ -45,9 +67,23 @@ export const signUp = async (
   firstName,
   lastName,
   email,
-  password
+  password,
+  gender,
+  birthDate,
+  specializationList,
+  fee
 ) => {
-  const data = { userType, firstName, lastName, email, password };
+  const data = {
+    userType,
+    firstName,
+    lastName,
+    email,
+    password,
+    gender,
+    birthDate,
+    specializationList,
+    fee,
+  };
   const response = await axios.post(SERVER_PATH + "users", data, {
     headers: {
       "Content-Type": "application/json",

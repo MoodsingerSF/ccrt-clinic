@@ -53,17 +53,19 @@ const useStyles = makeStyles({
   },
   ccrt__signup__left__Lg: {
     padding: "30px 20px",
+    // minHeight: "88vh",
   },
   ccrt__signup__left__title: {
     color: "white",
     textAlign: "center",
-    fontSize: "160%",
+    fontSize: "130%",
     fontWeight: "bold",
   },
   ccrt__signup__left__subtitle: {
     color: "white",
     fontSize: "80%",
     textAlign: "justify",
+    fontWeight: 500,
   },
   ccrt__signup__left__desc__Sm: {
     display: "block",

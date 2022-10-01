@@ -83,7 +83,7 @@ const useStyles = makeStyles(() =>
       width: "100%",
       height: "100%",
       margin: "50px 0",
-      padding: "0 20px",
+      padding: "0 5px",
     },
     ccrt__review__card__swiper_slide: {
       margin: "30px 0px",

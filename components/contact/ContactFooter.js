@@ -6,6 +6,7 @@ import {
   validateDescription,
   validateEmail,
   validateName,
+  // validateTitle,
 } from "../../controllers/ContactFormController";
 
 const ContactFooter = () => {
@@ -43,6 +44,7 @@ const ContactFooter = () => {
       validateName(name) &&
       validateEmail(email) &&
       validateDescription(description);
+    // validateTitle(name);
     return isEverythingAllRight;
   };
 

@@ -13,7 +13,7 @@ const Heading = ({ title }) => {
       variant="h4"
       gutterBottom
       style={{
-        fontSize: matches ? "200%" : "130%",
+        fontSize: matches ? "170%" : "130%",
       }}
       className={classes.ccrt__doctor__card__section__title}
     >
@@ -25,9 +25,9 @@ const Heading = ({ title }) => {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__doctor__card__section__title: {
-      color: theme.palette.custom.HEADING,
+      color: theme.palette.custom.BLACK,
       fontWeight: "600",
-      textTransform: "uppercase",
+      textTransform: "capitalize",
     },
   })
 );

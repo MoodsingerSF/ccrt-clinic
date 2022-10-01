@@ -11,7 +11,7 @@ import {
   validateName,
   validatePassword,
 } from "../../controllers/SignupController";
-import { BOX_SHADOW } from "../../misc/colors";
+// import { BOX_SHADOW } from "../../misc/colors";
 import {
   CREATE_BUTTON,
   CREATE_NEW_ADMIN_TITLE,
@@ -187,7 +187,7 @@ const CreateNewAdmin = () => {
   );
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   ccrt_dashboard_create_new_admin__mobile: {
     height: "70vh",
   },
@@ -200,19 +200,19 @@ const useStyles = makeStyles({
   ccrt_dashboard_create_new_admin_form__mobile: {
     width: "100%",
     background: "#ffffff",
-    boxShadow: BOX_SHADOW,
+    // boxShadow: BOX_SHADOW,
     padding: "15px 0",
   },
   ccrt_dashboard_create_new_admin_form__tablet: {
     width: "100%",
     background: "#ffffff",
-    boxShadow: BOX_SHADOW,
+    // boxShadow: BOX_SHADOW,
     padding: "15px 0",
   },
   ccrt_dashboard_create_new_admin_form__desktop: {
     width: "80%",
     background: "#ffffff",
-    boxShadow: BOX_SHADOW,
+    // boxShadow: BOX_SHADOW,
     padding: "15px 0",
   },
   ccrt_dashboard_create_new_admin_form__container__mobile: {
@@ -230,6 +230,7 @@ const useStyles = makeStyles({
     textTransform: "capitalize",
     fontWeight: "600",
     fontSize: "120%",
+    color: theme.palette.custom.BLACK,
   },
-});
+}));
 export default CreateNewAdmin;
