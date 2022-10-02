@@ -64,7 +64,12 @@ const ProfileMenu = ({ anchorEl, open, onClose }) => {
 
       <Divider />
 
-      <MenuItem>
+      <MenuItem
+        onClick={() => {
+          onClose();
+          router.push("/settings");
+        }}
+      >
         <ListItemIcon>
           <SettingsOutlinedIcon fontSize="small" />
         </ListItemIcon>

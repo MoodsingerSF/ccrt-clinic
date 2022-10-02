@@ -162,7 +162,7 @@ const LoginScreen = () => {
               />
             </Grid>
             <Grid container>
-              <Link href="#">
+              <Link href="/password-recovery">
                 <a className={classes.ccrt__login__forgot__password}>
                   {FORGOT__PASSWORD}
                 </a>
