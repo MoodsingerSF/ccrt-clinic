@@ -15,6 +15,7 @@ import { getAgeFromBirthDate } from "../../misc/functions";
 import { capitalize, lowerCase } from "lodash";
 import { retrieveAppointmentResources } from "../../controllers/AppointmentController";
 import ReportComp from "../dashboard/ReportComp";
+import { addReport, updateReport } from "../../controllers/UserController";
 
 const AppointmentDetailsShowBackdrop = ({
   patient,
@@ -22,10 +23,8 @@ const AppointmentDetailsShowBackdrop = ({
   onNegativeFeedback,
   open,
   appointmentId,
+  editable = false,
 }) => {
-  console.log("patient", patient);
-  console.log("doctor", doctor);
-
   const classes = useStyles();
 
   const retrieveUploadedReports = async () => {
@@ -130,7 +129,12 @@ const AppointmentDetailsShowBackdrop = ({
               <Typography className={classes.sectionHeaderStyle}>
                 Patient Reports
               </Typography>
-              <ReportComp retrieveReports={retrieveUploadedReports} />
+              <ReportComp
+                retrieveReports={retrieveUploadedReports}
+                editable={editable}
+                addReport={addReport}
+                updateReport={updateReport}
+              />
               {/* <ReportComp retrieveReports={retrieveUploadedReports} />
               <ReportComp retrieveReports={retrieveUploadedReports} /> */}
             </Grid>
@@ -164,6 +168,7 @@ const useStyles = makeStyles((theme) => ({
     width: "20vh",
     border: `1px solid ${theme.palette.custom.DEFAULT_COLOR}`,
     marginBottom: 10,
+    background: theme.palette.custom.BLACK,
   },
 }));
 AppointmentDetailsShowBackdrop.propTypes = {
@@ -171,6 +176,7 @@ AppointmentDetailsShowBackdrop.propTypes = {
   open: PropTypes.bool.isRequired,
   patient: PropTypes.object.isRequired,
   doctor: PropTypes.object.isRequired,
+  editable: PropTypes.bool,
 
   // gender: PropTypes.string.isRequired,
   // dateOfBirth: PropTypes.string.isRequired,

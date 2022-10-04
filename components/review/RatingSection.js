@@ -3,59 +3,109 @@ import { Grid } from "@mui/material";
 import RatingField from "./RatingField";
 import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
-import { getReatingCriteria } from "../../controllers/RatingController";
+import {
+  postUserRating,
+  retrieveUserRatingGivenToDoctor,
+  updateUserRating,
+} from "../../controllers/RatingController";
 import CustomButton from "../button/CustomButton";
+import CustomSnackbar from "../snackbar/CustomSnackbar";
+import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";
+import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
+import LoaderComponent from "../misc/LoaderComponent";
 
-const RatingSection = ({
-  ratings,
-  setRatings,
-  handleSubmitRating,
-  loading,
-}) => {
+const RatingSection = ({ doctorId }) => {
   const classes = useStyles();
+  const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
+  const [isRatingAlreadyGiven, setIsRatingAlreadyGiven] = useState(false);
+  const [ratings, setRatings] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(false);
 
-  const [criteria, setCriteria] = useState([]);
-
-  const handleRatingCriteria = async () => {
+  const handleRetrieveUserRatingGivenToDoctor = async () => {
     try {
-      const response = await getReatingCriteria();
-      setCriteria(response.data);
-      const newArr = response.data.map((item) => ({
-        criteriaId: item.id,
-        rating: 0,
-      }));
-      setRatings(newArr);
+      setInitialLoading(true);
+      const { isRatingAlreadyGiven: isRatingAlreadyGivenTemp, data } =
+        await retrieveUserRatingGivenToDoctor(doctorId);
+      setRatings(data);
+      setIsRatingAlreadyGiven(isRatingAlreadyGivenTemp);
+      setInitialLoading(false);
     } catch (error) {
-      console.log(error);
+      setInitialLoading(false);
     }
   };
 
-  useEffect(() => {
-    handleRatingCriteria();
-  }, []);
+  const handleSubmitRating = async () => {
+    try {
+      setLoading(true);
+      await postUserRating(doctorId, ratings);
+      setLoading(false);
+      openSnackbar("Rating has been added successfully.");
+    } catch (error) {
+      setLoading(false);
+      openSnackbar("Rating couldn't be added.");
+    }
+  };
 
+  const handleUpdateRating = async () => {
+    try {
+      setLoading(true);
+      await updateUserRating(doctorId, ratings);
+      setLoading(false);
+      openSnackbar("Rating has been updated successfully.");
+    } catch (error) {
+      setLoading(false);
+      openSnackbar("Rating couldn't be updated.");
+    }
+  };
+  const openSnackbar = (message) => {
+    handleSnackbarOpen(message, setSnackbar);
+  };
+
+  useEffect(() => {
+    handleRetrieveUserRatingGivenToDoctor();
+  }, []);
   return (
     <Grid container className={classes.ccrt__rating__section}>
-      {criteria.map((item) => (
-        <RatingField
-          key={item.id}
-          id={item.id}
-          title={item.title}
-          maxValue={item.maxValue}
-          setRatings={setRatings}
-          ratings={ratings}
-        />
-      ))}
-      <Grid container justifyContent={"flex-end"} style={{ marginTop: "10px" }}>
-        <CustomButton
-          title="Send"
-          size="small"
-          loading={loading}
-          fullWidth
-          variant="contained"
-          onClick={handleSubmitRating}
-        />
-      </Grid>
+      {initialLoading ? (
+        <LoaderComponent />
+      ) : (
+        <>
+          {ratings.map((item) => (
+            <RatingField
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              maxValue={item.maxValue}
+              ratingValue={item.rating}
+              setRatings={setRatings}
+              ratings={ratings}
+            />
+          ))}
+          <Grid
+            container
+            justifyContent={"flex-end"}
+            style={{ marginTop: "10px" }}
+          >
+            <CustomButton
+              title={isRatingAlreadyGiven ? "Update" : "Submit"}
+              size="small"
+              loading={loading}
+              fullWidth
+              variant="contained"
+              onClick={
+                isRatingAlreadyGiven ? handleUpdateRating : handleSubmitRating
+              }
+            />
+          </Grid>
+        </>
+      )}
+
+      <CustomSnackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        onClose={() => handleSnackbarClose(setSnackbar)}
+      />
     </Grid>
   );
 };
@@ -69,10 +119,7 @@ const useStyles = makeStyles({
 });
 
 RatingSection.propTypes = {
-  ratings: PropTypes.array.isRequired,
-  setRatings: PropTypes.func.isRequired,
-  handleSubmitRating: PropTypes.func,
-  loading: PropTypes.bool.isRequired,
+  doctorId: PropTypes.string.isRequired,
 };
 
 export default RatingSection;

@@ -7,7 +7,7 @@ import DoctorAwardInfo from "../../doctor-info-form/DoctorAwardInfo";
 import DoctorExperienceInfo from "../../doctor-info-form/DoctorExperienceInfo";
 import CustomChip from "../../chip/CustomChip";
 import DoctorTrainingInfo from "../../doctor-info-form/DoctorTrainingInfo";
-import PreviewIcon from "@mui/icons-material/Preview";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ReviewModal from "../../modal/ReviewModal";
 
 const DoctorDetailsMiddle = ({
@@ -34,11 +34,17 @@ const DoctorDetailsMiddle = ({
       <Typography className={classes.ccrt__doct__details__page__dctr__name}>
         {name}
       </Typography>
-      <Grid container justifyContent={"space-between"}>
-        <Rating precision={0.5} value={overAllRating} readOnly size="small" />
+      <Grid container alignItems={"center"}>
+        <Rating precision={0.1} value={overAllRating} readOnly size="small" />
+        <Typography className={classes.ratingStyle}>
+          {overAllRating.toFixed(2)}/5.0
+        </Typography>
         <Tooltip title="more details">
           <IconButton onClick={() => setShowDetails(true)}>
-            <PreviewIcon fontSize="small" />
+            <InfoOutlinedIcon
+              className={classes.infoIconStyle}
+              fontSize="small"
+            />
           </IconButton>
         </Tooltip>
       </Grid>
@@ -60,7 +66,9 @@ const DoctorDetailsMiddle = ({
         direction="column"
         className={classes.ccrt__doct__details__page__description__container}
       >
-        <Typography className={classes.sectionTitle}>Education</Typography>
+        {education.length !== 0 && (
+          <Typography className={classes.sectionTitle}>Education</Typography>
+        )}
         {education.map((item) => (
           <DoctorEducationInfo
             key={item.id}
@@ -73,7 +81,9 @@ const DoctorDetailsMiddle = ({
             education={education}
           />
         ))}
-        <Typography className={classes.sectionTitle}>Trainings</Typography>
+        {trainings.length !== 0 && (
+          <Typography className={classes.sectionTitle}>Trainings</Typography>
+        )}
 
         {trainings.map((item) => (
           <DoctorTrainingInfo
@@ -85,7 +95,10 @@ const DoctorDetailsMiddle = ({
             endYear={item.endDate}
           />
         ))}
-        <Typography className={classes.sectionTitle}>Experience</Typography>
+
+        {experiences.length !== 0 && (
+          <Typography className={classes.sectionTitle}>Experience</Typography>
+        )}
 
         {experiences.map((item) => (
           <DoctorExperienceInfo
@@ -99,7 +112,9 @@ const DoctorDetailsMiddle = ({
             endYear={item.endDate}
           />
         ))}
-        <Typography className={classes.sectionTitle}>Awards</Typography>
+        {awards.length !== 0 && (
+          <Typography className={classes.sectionTitle}>Awards</Typography>
+        )}
 
         {awards.map((item) => (
           <DoctorAwardInfo
@@ -155,6 +170,15 @@ const useStyles = makeStyles((theme) =>
       color: theme.palette.custom.BLACK,
       fontSize: "100%",
       fontWeight: "bold",
+    },
+    ratingStyle: {
+      color: theme.palette.custom.BLACK,
+      fontSize: "80%",
+      fontWeight: "bold",
+      marginLeft: 10,
+    },
+    infoIconStyle: {
+      color: theme.palette.custom.BLACK,
     },
   })
 );

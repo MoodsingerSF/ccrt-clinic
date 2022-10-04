@@ -17,7 +17,7 @@ import avatar from "../../public/image/doctor/docAvatar2.png";
 import ActionButton from "../../components/button/ActionButton";
 import BookOutlinedIcon from "@mui/icons-material/BookOutlined";
 import ReviewSection from "../../components/review/ReviewSection";
-import { retriveAverageRating } from "../../controllers/RatingController";
+import { retrieveAverageRating } from "../../controllers/RatingController";
 const DoctorDetails = ({ doctorId }) => {
   const router = useRouter();
 
@@ -58,7 +58,7 @@ const DoctorDetails = ({ doctorId }) => {
 
   const getAverageRating = async (doctorId) => {
     try {
-      const response = await retriveAverageRating(doctorId);
+      const response = await retrieveAverageRating(doctorId);
       setAverageRatings(response.data.ratings);
       const average =
         response.data.ratings.reduce((n, { rating }) => n + rating, 0) / 6;
@@ -277,7 +277,7 @@ const useStyles = makeStyles((theme) =>
 
     ccrt__doctor__details__page__right__container__wrapper: {
       // boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
-      padding: "20px 0px",
+      paddingBottom: 10,
       margin: "0px 0",
     },
     ccrt__doctor__details__page__right__container__title: {
