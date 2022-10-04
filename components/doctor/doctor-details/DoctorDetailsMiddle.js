@@ -1,5 +1,5 @@
-import React from "react";
-import { Grid, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Grid, IconButton, Rating, Tooltip, Typography } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import DoctorEducationInfo from "../../doctor-info-form/DoctorEducationInfo";
@@ -7,6 +7,8 @@ import DoctorAwardInfo from "../../doctor-info-form/DoctorAwardInfo";
 import DoctorExperienceInfo from "../../doctor-info-form/DoctorExperienceInfo";
 import CustomChip from "../../chip/CustomChip";
 import DoctorTrainingInfo from "../../doctor-info-form/DoctorTrainingInfo";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import ReviewModal from "../../modal/ReviewModal";
 
 const DoctorDetailsMiddle = ({
   name,
@@ -16,22 +18,36 @@ const DoctorDetailsMiddle = ({
   education,
   experiences,
   trainings,
+  averageRatings,
+  overAllRating,
 }) => {
   const classes = useStyles();
+  const [showDetails, setShowDetails] = useState(false);
+
   return (
     <Grid
       container
       flexDirection={"column"}
       justifyContent="center"
-      item
-      xs={12}
-      sm={8}
-      lg={9}
       className={classes.ccrt__doct__details__page__info__container}
     >
       <Typography className={classes.ccrt__doct__details__page__dctr__name}>
         {name}
       </Typography>
+      <Grid container alignItems={"center"}>
+        <Rating precision={0.1} value={overAllRating} readOnly size="small" />
+        <Typography className={classes.ratingStyle}>
+          {overAllRating.toFixed(2)}/5.0
+        </Typography>
+        <Tooltip title="more details">
+          <IconButton onClick={() => setShowDetails(true)}>
+            <InfoOutlinedIcon
+              className={classes.infoIconStyle}
+              fontSize="small"
+            />
+          </IconButton>
+        </Tooltip>
+      </Grid>
       <Grid container>
         {specializations.map((item) => (
           <CustomChip key={item} title={item} />
@@ -50,7 +66,9 @@ const DoctorDetailsMiddle = ({
         direction="column"
         className={classes.ccrt__doct__details__page__description__container}
       >
-        <Typography className={classes.sectionTitle}>Education</Typography>
+        {education.length !== 0 && (
+          <Typography className={classes.sectionTitle}>Education</Typography>
+        )}
         {education.map((item) => (
           <DoctorEducationInfo
             key={item.id}
@@ -63,7 +81,9 @@ const DoctorDetailsMiddle = ({
             education={education}
           />
         ))}
-        <Typography className={classes.sectionTitle}>Trainings</Typography>
+        {trainings.length !== 0 && (
+          <Typography className={classes.sectionTitle}>Trainings</Typography>
+        )}
 
         {trainings.map((item) => (
           <DoctorTrainingInfo
@@ -75,7 +95,10 @@ const DoctorDetailsMiddle = ({
             endYear={item.endDate}
           />
         ))}
-        <Typography className={classes.sectionTitle}>Experience</Typography>
+
+        {experiences.length !== 0 && (
+          <Typography className={classes.sectionTitle}>Experience</Typography>
+        )}
 
         {experiences.map((item) => (
           <DoctorExperienceInfo
@@ -89,7 +112,9 @@ const DoctorDetailsMiddle = ({
             endYear={item.endDate}
           />
         ))}
-        <Typography className={classes.sectionTitle}>Awards</Typography>
+        {awards.length !== 0 && (
+          <Typography className={classes.sectionTitle}>Awards</Typography>
+        )}
 
         {awards.map((item) => (
           <DoctorAwardInfo
@@ -101,6 +126,12 @@ const DoctorDetailsMiddle = ({
           />
         ))}
       </Grid>
+      {showDetails && (
+        <ReviewModal
+          onNegativeFeedback={() => setShowDetails(false)}
+          averageRatings={averageRatings}
+        />
+      )}
     </Grid>
   );
 };
@@ -140,6 +171,15 @@ const useStyles = makeStyles((theme) =>
       fontSize: "100%",
       fontWeight: "bold",
     },
+    ratingStyle: {
+      color: theme.palette.custom.BLACK,
+      fontSize: "80%",
+      fontWeight: "bold",
+      marginLeft: 10,
+    },
+    infoIconStyle: {
+      color: theme.palette.custom.BLACK,
+    },
   })
 );
 
@@ -151,5 +191,7 @@ DoctorDetailsMiddle.propTypes = {
   experiences: PropTypes.array.isRequired,
   trainings: PropTypes.array.isRequired,
   about: PropTypes.string,
+  averageRatings: PropTypes.array.isRequired,
+  overAllRating: PropTypes.number.isRequired,
 };
 export default DoctorDetailsMiddle;

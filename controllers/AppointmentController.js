@@ -211,6 +211,5 @@ export const retrievePrescription = async (appointmentId) => {
       },
     }
   );
-  console.log(response.data);
   return processPrescription(response.data);
 };

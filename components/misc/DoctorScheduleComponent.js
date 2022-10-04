@@ -117,12 +117,14 @@ const useStyles = makeStyles((theme) =>
       },
     },
     ccrt__doctor__time__slot__table__header: {
-      borderBottom: `1.1px solid ${theme.palette.custom.DEFAULT_COLOR}`,
+      borderBottom: `1.1px solid ${theme.palette.custom.BLACK}`,
+      paddingBottom: 5,
     },
     tableHeaderStyle: {
       fontWeight: "bold",
       fontSize: "90%",
       color: theme.palette.custom.BLACK,
+      paddingBottom: 10,
     },
   })
 );

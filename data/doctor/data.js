@@ -5,7 +5,7 @@ import doctor4 from "../../public/image/home-page/doctors/Doctor4.png";
 import doctor5 from "../../public/image/home-page/doctors/Doctor5.png";
 import doctor6 from "../../public/image/home-page/doctors/trial.jpg";
 
-export const CATEGORY_TITLE = " Doctors by Category";
+export const CATEGORY_TITLE = "Specializations";
 
 export const DoctorData = [
   {

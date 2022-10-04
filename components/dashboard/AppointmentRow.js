@@ -34,6 +34,8 @@ const AppointmentRow = ({
   status,
   date,
 }) => {
+  // console.log(date);
+  // console.log(timeSlot);
   const classes = useStyles();
   const { getRole } = useContext(Context);
   const [openPrescriptionForViewing, setOpenPrescriptionForViewing] =
@@ -192,6 +194,7 @@ const AppointmentRow = ({
             setAppointmentDetailsBackdrop(false);
           }}
           appointmentId={appointmentId}
+          editable={getRole() === Role.USER && new Date(date) < new Date()}
         />
       )}
       {openPrescriptionForEditing && (
