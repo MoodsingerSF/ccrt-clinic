@@ -58,7 +58,7 @@ const AppBar = () => {
           )}
           <Grid
             container
-            justifyContent="flex-end"
+            justifyContent="center"
             alignItems="center"
             item
             xs
@@ -70,7 +70,7 @@ const AppBar = () => {
             <AppBarLink name="Blogs" link="/blogs" />
             <AppBarLink name="Contact" link="/contact" />
             <AppBarLink name="FAQ" link="/faq" />
-            {/* <AppBarLink name="Prescription" link="/prescription" /> */}
+            <AppBarLink name="List" link="/request-donation-list" />
 
             {!isSignedIn() && <AppBarLink name="Login" link="/login" />}
 
