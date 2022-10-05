@@ -19,6 +19,8 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import MedicationIcon from "@mui/icons-material/Medication";
+import ForumIcon from "@mui/icons-material/Forum";
+import SuggestionComp from "./SuggestionComp";
 
 const iconStyle = {
   fontSize: "120%",
@@ -96,5 +98,12 @@ export const DASHBOARD_ROUTES = [
     component: <FeeChangingRequest />,
     allowedRoles: [Role.ADMIN],
     icon: <AdminPanelSettingsIcon style={iconStyle} />,
+  },
+  {
+    path: "suggestions",
+    heading: "User Suggestions",
+    component: <SuggestionComp />,
+    allowedRoles: [Role.ADMIN],
+    icon: <ForumIcon style={iconStyle} />,
   },
 ];

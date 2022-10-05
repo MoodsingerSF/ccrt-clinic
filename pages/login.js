@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 import Head from "next/head";
-import Link from "next/link";
+// import Link from "next/link";
 import { Grid, Typography, useTheme } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
 import { useStyles } from "../styles/LoginStyles";
-import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
+// import GoogleIcon from "@mui/icons-material/Google";
+// import FacebookIcon from "@mui/icons-material/Facebook";
 import { formErrors } from "../data/signup/data";
 import SignUpTextField from "../components/textfields/SignUpTextField";
 import {
@@ -17,8 +17,8 @@ import {
   FORGOT__PASSWORD,
   HEADER_TITLE,
   LOGIN,
-  LOGIN_WITH_FACEBOOK,
-  LOGIN_WITH_GOOGLE,
+  // LOGIN_WITH_FACEBOOK,
+  // LOGIN_WITH_GOOGLE,
 } from "../data/login/data";
 import CustomButton from "../components/button/CustomButton";
 import CustomSnackbar from "../components/snackbar/CustomSnackbar";
@@ -173,11 +173,12 @@ const LoginScreen = () => {
               />
             </Grid>
             <Grid container>
-              <Link href="#">
-                <a className={classes.ccrt__login__forgot__password}>
-                  {FORGOT__PASSWORD}
-                </a>
-              </Link>
+              <Typography
+                onClick={() => router.push("/password-recovery")}
+                className={classes.ccrt__login__forgot__password}
+              >
+                {FORGOT__PASSWORD}
+              </Typography>
             </Grid>
             <CustomButton
               icon={null}
@@ -187,12 +188,12 @@ const LoginScreen = () => {
               loading={loading}
             />
           </Grid>
-          <Grid container alignItems="center" justifyContent="center">
+          {/* <Grid container alignItems="center" justifyContent="center">
             <Typography className={classes.ccrt__login__or__text}>
               Or
             </Typography>
-          </Grid>
-          <Grid container>
+          </Grid> */}
+          {/* <Grid container>
             <Grid container>
               <CustomButton
                 title={LOGIN_WITH_GOOGLE}
@@ -209,17 +210,25 @@ const LoginScreen = () => {
                 size="small"
               />
             </Grid>
-          </Grid>
+          </Grid> */}
           <Grid
             container
             alignItems="center"
             justifyContent="center"
             style={{ marginTop: "15px" }}
           >
-            <Typography>{`Don't have an account?`}</Typography>
-            <Link href="/signup">
-              <a className={classes.ccrt__login__signup__link}>Signup</a>
-            </Link>
+            <Typography
+              className={classes.ccrt__login__or__text}
+            >{`Don't have an account?`}</Typography>
+
+            <Typography
+              onClick={() => {
+                router.push("/signup");
+              }}
+              className={classes.ccrt__login__signup__link}
+            >
+              Sign Up
+            </Typography>
           </Grid>
         </Grid>
       </Grid>

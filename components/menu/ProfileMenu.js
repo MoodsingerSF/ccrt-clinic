@@ -93,7 +93,12 @@ const ProfileMenu = ({ anchorEl, open, onClose }) => {
 
       <Divider />
 
-      <MenuItem>
+      <MenuItem
+        onClick={() => {
+          onClose();
+          router.push("/settings");
+        }}
+      >
         <SettingsOutlinedIcon className={classes.iconStyle} />
         <Typography className={classes.textStyle}>Settings</Typography>
       </MenuItem>

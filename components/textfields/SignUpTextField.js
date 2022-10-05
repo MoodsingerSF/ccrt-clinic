@@ -1,9 +1,13 @@
 import { Grid, TextField, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles, useTheme } from "@mui/styles";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import { useState } from "react";
 const SignUpTextField = ({
-  label,
+  label = "",
   type,
   placeholder = "",
   value,
@@ -11,17 +15,32 @@ const SignUpTextField = ({
   error = false,
   errorText = "",
   variant = "standard",
+  multiline = false,
+  numRows = 5,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const [textfieldType, setTextfieldType] = useState(type);
+  const [viewPassword, setViewPassword] = useState(false);
+  useEffect(() => {
+    if (type === "password") {
+      if (viewPassword) {
+        setTextfieldType("text");
+      } else {
+        setTextfieldType("password");
+      }
+    }
+  }, [viewPassword]);
+
   return (
     <Grid item xs={12} style={{ marginBottom: "10px" }}>
       <TextField
         variant={variant}
         size="small"
         fullWidth
+        multiline={multiline}
         label={label}
-        type={type}
+        type={textfieldType}
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e)}
@@ -35,8 +54,29 @@ const SignUpTextField = ({
             padding: 0,
           },
         }}
+        inputProps={{
+          style: {
+            padding: "5px 10px",
+          },
+        }}
+        // classes={{ root: classes.root }}
         InputProps={{
           className: classes.input,
+          ...(multiline ? { rows: numRows } : {}),
+          endAdornment:
+            type === "password" ? (
+              viewPassword ? (
+                <RemoveRedEyeIcon
+                  className={classes.iconStyle}
+                  onClick={() => setViewPassword(false)}
+                />
+              ) : (
+                <VisibilityOffOutlinedIcon
+                  className={classes.iconStyle}
+                  onClick={() => setViewPassword(true)}
+                />
+              )
+            ) : null,
         }}
       />
       {error && (
@@ -56,22 +96,26 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     padding: 0,
   },
+  iconStyle: { marginRight: 10, fontSize: "150%", cursor: "pointer" },
   // root: {
-  //   fontSize: "85%",
+  //   fontSize: "100%",
   //   fontWeight: "bold",
+  //   padding: "0px 10px",
   //   color: theme.palette.custom.BLACK,
   // },
 }));
 
 SignUpTextField.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   error: PropTypes.bool,
+  multiline: PropTypes.bool,
   errorText: PropTypes.string,
   placeholder: PropTypes.string,
   variant: PropTypes.string,
+  numRows: PropTypes.number,
 };
 
 export default SignUpTextField;

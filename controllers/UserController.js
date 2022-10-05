@@ -1,5 +1,6 @@
 import axios from "axios";
 import { StatusCodes } from "http-status-codes";
+import { Role } from "../enums/Role";
 import { AUTHORIZATION_HEADER_PREFIX, SERVER_PATH } from "../misc/constants";
 import { processDate } from "../misc/functions";
 import {
@@ -507,3 +508,46 @@ export const updateAward = async (name, year, id) => {
   );
   return response.data;
 };
+
+export const updatePassword = async (prevPassword, newPassword) => {
+  const { data } = await axios.put(
+    SERVER_PATH + "users/" + retrieveUserId() + "/password",
+    { previousPassword: prevPassword, password: newPassword },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return data;
+};
+
+export const findUserByEmail = async (email) => {
+  const { data } = await axios.get(SERVER_PATH + "users", {
+    params: { email },
+  });
+  return processUserDetails(data);
+};
+
+export const resetPassword = async (userId, code, newPassword) => {
+  const { data } = await axios.put(
+    SERVER_PATH + "users/" + userId + "/password-reset",
+    { resetPasswordToken: code, password: newPassword },
+    { headers: { "Content-Type": "application/json" } }
+  );
+  return data;
+};
+
+export const sendPasswordResetCode = async (userId) => {
+  const { data } = await axios.post(
+    SERVER_PATH + "users/" + userId + "/password-reset-verification-code",
+    null,
+    { headers: { "Content-Type": "application/json" } }
+  );
+  return data;
+};
+
+export const isGuest = (role) =>
+  role !== Role.ADMIN && role !== Role.USER && role !== Role.DOCTOR;

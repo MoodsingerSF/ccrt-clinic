@@ -12,7 +12,7 @@ const modalAppBarHeight = 8;
 export const MODAL_APP_BAR_HEIGHT = `${modalAppBarHeight}vh`;
 export const MODAL_CONTENT_CONTAINER_HEIGHT = `${100 - modalAppBarHeight}vh`;
 export const DOMAIN_ADDRESS = "http://localhost:3000/";
-export const DASHBOARD_TITLE_MARGIN_TOP = 25;
+export const DASHBOARD_TITLE_MARGIN_TOP = 30;
 export const DAY_CODES = {
   saturday: "SAT",
   sunday: "SUN",

@@ -68,7 +68,7 @@ const AppBar = () => {
             <AppBarLink name="Doctors" link="/doctors" />
 
             <AppBarLink name="Blogs" link="/blogs" />
-            <AppBarLink name="Contact" link="/contact" />
+            <AppBarLink name="Contact" link="/contact-us" />
             <AppBarLink name="FAQ" link="/faq" />
             {/* <AppBarLink name="Prescription" link="/prescription" /> */}
 
