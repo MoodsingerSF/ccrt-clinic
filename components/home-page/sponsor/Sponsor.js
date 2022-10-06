@@ -55,7 +55,7 @@ const Sponsor = () => {
               style={{
                 cursor: "pointer",
               }}
-              onClick={() => router.push("/donation")}
+              onClick={() => router.push("/request-donation-list")}
             />
           </Grid>
         </Grid>

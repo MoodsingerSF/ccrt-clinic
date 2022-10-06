@@ -11,6 +11,7 @@ import Appointment from "./Appointment";
 import Reports from "./Reports";
 import FeeChangingRequest from "./FeeChangingRequest";
 import RequestForDonation from "./RequestForDonation";
+import Donation from "./Donation";
 
 export const DASHBOARD_ROUTES = [
   {
@@ -77,6 +78,12 @@ export const DASHBOARD_ROUTES = [
     path: "request-for-donation",
     heading: "Requests For Donation",
     component: <RequestForDonation />,
+    allowedRoles: [Role.ADMIN],
+  },
+  {
+    path: "donation",
+    heading: "Donation",
+    component: <Donation />,
     allowedRoles: [Role.ADMIN],
   },
 ];

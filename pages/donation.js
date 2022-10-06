@@ -1,20 +1,49 @@
 import React, { useState } from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, TextareaAutosize, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Image from "next/image";
 import donation from "../public/image/donation/Donation.png";
-import SignUpTextField from "../components/textfields/SignUpTextField";
 import CustomButton from "../components/button/CustomButton";
+import { grey } from "@mui/material/colors";
+import RequestDonationTextField from "../components/textfields/RequestDonationTextField";
+import { validateEmpty } from "../controllers/DonationController";
 
 const Donation = () => {
   const classes = useStyles();
+
+  const [showError, setShowError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [number, setNumber] = useState("");
+  const [amount, setAmount] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleChangeNumber = (e) => {
+    setNumber(e.target.value);
+  };
+
+  const handleChangeAmount = (e) => {
+    setAmount(e.target.value);
+  };
 
   const handleSubmitRequest = () => {
-    setLoading(true);
-    // Api call
-    setLoading(false);
+    if (validate(number, amount, description)) {
+      setLoading(true);
+      // Api call
+      setLoading(false);
+    } else {
+      setShowError(true);
+    }
   };
+
+  const validate = (number, amount, description) => {
+    let isEverythingAllRight = true;
+    isEverythingAllRight =
+      validateEmpty(number) &&
+      validateEmpty(amount) &&
+      validateEmpty(description);
+    return !isEverythingAllRight;
+  };
+
   return (
     <Grid
       container
@@ -48,7 +77,24 @@ const Donation = () => {
           </Typography>
         </Grid>
       </Grid>
+
       <Grid container item xs={11} md={8} lg={6}>
+        <RequestDonationTextField
+          label={"phone number"}
+          value={number}
+          onChange={handleChangeNumber}
+          adornment={"+880"}
+          error={showError && validateEmpty(number)}
+          errorText={"Enter valid number"}
+        />
+        <RequestDonationTextField
+          label={"how much do you want?"}
+          value={amount}
+          onChange={handleChangeAmount}
+          adornment={"৳"}
+          error={showError && validateEmpty(amount)}
+          errorText={"Enter valid amount"}
+        />
         <Grid
           container
           justifyContent={"flex-start"}
@@ -56,57 +102,22 @@ const Donation = () => {
           className={classes.ccrt_textField_container}
         >
           <Typography className={classes.ccrt_textField_label}>
-            Fullname
+            description
           </Typography>
-          <Grid container justifyContent={"center"} alignItems="center">
-            <SignUpTextField
-              type="text"
-              variant="outlined"
-              //   value={code}
-              //   onChange={handleChangeCode}
-              //   error={showError && !validatePassword(code)}
-              //   errorText={formErrors.password}
+          <Grid container>
+            <TextareaAutosize
+              aria-label="minimum height"
+              minRows={8}
+              placeholder="about yourself"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className={classes.ccrt_textArea}
             />
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          justifyContent={"flex-start"}
-          alignItems="center"
-          className={classes.ccrt_textField_container}
-        >
-          <Typography className={classes.ccrt_textField_label}>
-            phone number
-          </Typography>
-          <Grid container justifyContent={"center"} alignItems="center">
-            <SignUpTextField
-              type="text"
-              variant="outlined"
-              //   value={code}
-              //   onChange={handleChangeCode}
-              //   error={showError && !validatePassword(code)}
-              //   errorText={formErrors.password}
-            />
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          justifyContent={"flex-start"}
-          alignItems="center"
-          className={classes.ccrt_textField_container}
-        >
-          <Typography className={classes.ccrt_textField_label}>
-            how much do you want?
-          </Typography>
-          <Grid container justifyContent={"center"} alignItems="center">
-            <SignUpTextField
-              type="text"
-              variant="outlined"
-              //   value={code}
-              //   onChange={handleChangeCode}
-              //   error={showError && !validatePassword(code)}
-              //   errorText={formErrors.password}
-            />
+            {showError && validateEmpty(description) && (
+              <Typography style={{ color: "red", fontSize: "70%" }}>
+                {"Required"}
+              </Typography>
+            )}
           </Grid>
         </Grid>
         <Grid container justifyContent={"center"} alignItems="center">
@@ -141,6 +152,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "80%",
     fontWeight: "500",
     textTransform: "capitalize",
+  },
+  ccrt_textArea: {
+    width: "100%",
+    border: `1px solid ${grey[400]}`,
+    borderRadius: "5px",
+    padding: "10px",
+    fontSize: "100%",
   },
 }));
 export default Donation;
