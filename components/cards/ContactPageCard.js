@@ -13,7 +13,7 @@ const ContactPageCard = ({ icon, heading, text }) => {
         </Grid>
         <h5 className={classes.ccrt__contact_page_card_heading}>{heading}</h5>
         <Grid container>
-          <Typography>{text}</Typography>
+          <Typography className={classes.valueStyle}>{text}</Typography>
         </Grid>
       </Grid>
     </Grid>
@@ -26,11 +26,11 @@ const useStyles = makeStyles((theme) => ({
     background: "#f2f7ff",
     padding: "30px 20px 30px 140px",
     transition: "transform 0.15s ease-in-out,background 0.15s ease-in-out",
-    "&:hover": {
-      transform: "scale3d(1.05, 1.05, 1)",
-      background: theme.palette.primary.main_minus_2,
-      color: "#fff",
-    },
+    // "&:hover": {
+    //   transform: "scale3d(1.05, 1.05, 1)",
+    //   background: theme.palette.primary.main_minus_2,
+    //   color: "#fff",
+    // },
   },
   ccrt__contact_page_card_icon: {
     position: "absolute",
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     width: "88px",
     height: "88px",
-    background: "#f7531e",
+    background: theme.palette.custom.BLACK,
     padding: "25px",
     borderRadius: "50%",
     textAlign: "center",
@@ -49,8 +49,15 @@ const useStyles = makeStyles((theme) => ({
   ccrt__contact_page_card_heading: {
     fontSize: "100%",
     lineHeight: "26px",
-    fontWeight: "700",
+    fontWeight: "bold",
     margin: "0 0 8px",
+    color: theme.palette.custom.BLACK,
+  },
+  valueStyle: {
+    fontSize: "85%",
+    fontWeight: "500",
+    margin: "0 0 8px",
+    color: theme.palette.custom.BLACK,
   },
 }));
 ContactPageCard.propTypes = {

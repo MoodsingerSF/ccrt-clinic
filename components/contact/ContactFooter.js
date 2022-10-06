@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import InputField from "./InputField";
 import {
   validateDescription,
   validateEmail,
   validateName,
-  // validateTitle,
 } from "../../controllers/ContactFormController";
+import SignUpTextField from "../textfields/SignUpTextField";
+import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";
+import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
+import CustomSnackbar from "../snackbar/CustomSnackbar";
+import CustomButton from "../button/CustomButton";
+import { createSuggestion } from "../../controllers/SuggestionController";
 
 const ContactFooter = () => {
   const classes = useStyles();
@@ -16,25 +20,33 @@ const ContactFooter = () => {
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
   const [showError, setShowError] = useState(false);
-  //   const [loading, setLoading] = useState(false);
-
+  const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
+  const [loading, setLoading] = useState(false);
+  const openSnackbar = (message) => handleSnackbarOpen(message, setSnackbar);
   const handleChangeName = (e) => {
     setName(e.target.value);
   };
   const handleChangeEmail = (e) => {
     setEmail(e.target.value);
   };
-  const handleSubmitForm = () => {
-    if (validate(name, email, description)) {
-      // if everything is alright
-      //   setLoading(true);
-      //api
-      console.log(name, email, description);
-      console.log("Clicked");
-      //   setLoading(false);
-    } else {
-      //   console.log(name, email, description);
-      setShowError(true);
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      if (validate(name, email, description)) {
+        await createSuggestion(name, email, description);
+        openSnackbar(
+          "Your suggestion has been sent successfully. Thank you for your suggestion."
+        );
+      } else {
+        setShowError(true);
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      if (error && error.response) {
+        const { data } = error.response;
+        openSnackbar(data.code + ": " + data.message);
+      }
     }
   };
 
@@ -51,7 +63,7 @@ const ContactFooter = () => {
   return (
     <Grid container spacing={2}>
       <Grid item lg={6}>
-        <Grid container style={{ padding: "0 15px" }}>
+        <Grid container>
           <Grid
             container
             className={classes.ccrt_contact__page__contact__info__subtitle}
@@ -59,78 +71,87 @@ const ContactFooter = () => {
             Get In Touch
           </Grid>
           <h2 className={classes.ccrt_contact__page__contact__info__title}>
-            We love to hear from you feel free to get in touch
+            We love to hear from you. Feel free to get in touch.
           </h2>
           <Grid container>
-            <Typography>
-              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-              nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-              erat, sed diam voluptua. At vero eos et accusam et justo duo
-              dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-              sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-              amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-              invidunt ut labore et dolore magna aliquyam erat
+            <Typography
+              className={classes.ccrt_contact__page__contact__details}
+            >
+              We highly encourage to get in touch with us for any query or
+              feedback regarding our service. Just connect with us in your
+              favorable platform and we will get back to you right away.
             </Typography>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item lg={6} style={{ marginTop: "30px" }}>
-        <InputField
-          placeholder="Your Name"
+      <Grid item lg={6}>
+        <SignUpTextField
+          label="Name"
           type="text"
+          variant="outlined"
           value={name}
           onChange={handleChangeName}
           error={showError && !validateName(name)}
           errorText={"Invalid Name"}
         />
-        <InputField
-          placeholder="Your E-mail"
+        <SignUpTextField
+          label="Email"
           type="email"
+          variant="outlined"
           value={email}
           onChange={handleChangeEmail}
-          error={showError && !validateEmail(email)}
-          errorText={"Invalid Email"}
         />
 
-        <TextField
+        <SignUpTextField
           fullWidth
-          multiline
-          placeholder="Your Message"
+          multiline={true}
+          label="Your Message"
+          variant="outlined"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          InputProps={{
-            rows: 5,
-          }}
-          style={{ marginBottom: "10px" }}
+          error={showError && !validateDescription(description)}
+          errorText={"Invalid Message"}
         />
-        {showError && !validateDescription(description) && (
-          <Typography
-            style={{ color: "red", fontSize: "70%", marginBottom: "5px" }}
-          >
-            Invalid Message
-          </Typography>
-        )}
-        <Button variant="contained" fullWidth onClick={handleSubmitForm}>
-          send message
-        </Button>
+
+        <Grid container>
+          <CustomButton
+            title="Send Message"
+            onClick={handleSubmit}
+            loading={loading}
+          />
+        </Grid>
       </Grid>
+      <CustomSnackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        onClose={() => {
+          handleSnackbarClose(setSnackbar);
+        }}
+      />
     </Grid>
   );
 };
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   ccrt_contact__page__contact__info__subtitle: {
     fontSize: "16px",
-    // color: "#412cc5",
+    color: theme.palette.custom.BLACK,
     textTransform: "uppercase",
     marginBottom: "16px",
-    marginTop: "30px",
+    // marginTop: "30px",
   },
   ccrt_contact__page__contact__info__title: {
     fontSize: "180%",
-    lineHeight: "42px",
+    // lineHeight: "42px",
     fontWeight: "700",
     marginBottom: "30px",
+    color: theme.palette.custom.BLACK,
+  },
+  ccrt_contact__page__contact__details: {
+    fontSize: "85%",
+    fontWeight: "500",
+    marginBottom: "30px",
+    color: theme.palette.custom.BLACK,
   },
 }));
 export default ContactFooter;
