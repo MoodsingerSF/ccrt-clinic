@@ -5,8 +5,8 @@ import Image from "next/image";
 import donation from "../public/image/donation/Donation.png";
 import CustomButton from "../components/button/CustomButton";
 import { grey } from "@mui/material/colors";
-import RequestDonationTextField from "../components/textfields/RequestDonationTextField";
 import { validateEmpty } from "../controllers/DonationController";
+import SignUpTextField from "../components/textfields/SignUpTextField";
 
 const Donation = () => {
   const classes = useStyles();
@@ -79,19 +79,21 @@ const Donation = () => {
       </Grid>
 
       <Grid container item xs={11} md={8} lg={6}>
-        <RequestDonationTextField
-          label={"phone number"}
+        <SignUpTextField
+          labelText={"phone number"}
           value={number}
           onChange={handleChangeNumber}
           adornment={"+880"}
+          variant="outlined"
           error={showError && validateEmpty(number)}
           errorText={"Enter valid number"}
         />
-        <RequestDonationTextField
-          label={"how much do you want?"}
+        <SignUpTextField
+          labelText={"how much do you want?"}
           value={amount}
           onChange={handleChangeAmount}
           adornment={"৳"}
+          variant="outlined"
           error={showError && validateEmpty(amount)}
           errorText={"Enter valid amount"}
         />
