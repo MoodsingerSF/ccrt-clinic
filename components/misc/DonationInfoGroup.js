@@ -25,9 +25,9 @@ const DonationInfoGroup = ({ label, text }) => {
 const useStyles = makeStyles((theme) => ({
   ccrt__donation__text_group__container: {
     boxShadow: BOX_SHADOW,
-    padding: "5px",
+    padding: "10px",
     borderRadius: "3px",
-    margin: "5px",
+    margin: "20px 0",
   },
   ccrt__donate_modal__label: {
     fontSize: "85%",
@@ -35,9 +35,10 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "capitalize",
   },
   ccrt__donate_modal__text: {
-    fontSize: "95%",
+    fontSize: "90%",
     fontWeight: "300",
     borderRadius: "5px",
+    textAlign: "justify",
   },
 }));
 export default DonationInfoGroup;

@@ -27,6 +27,7 @@ import RequestPageIcon from "@mui/icons-material/RequestPage";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import MyDonations from "./MyDonations";
 const iconStyle = {
   fontSize: "120%",
   color: "white",
@@ -135,7 +136,7 @@ export const DASHBOARD_ROUTES = [
   {
     path: "my-donations",
     heading: "My Donations",
-    component: <Donation />,
+    component: <MyDonations />,
     allowedRoles: [Role.ADMIN, Role.USER, Role.DOCTOR],
     icon: <AttachMoneyIcon style={iconStyle} />,
   },

@@ -12,6 +12,7 @@ import Image from "next/image";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
 import DonateModal from "../modal/DonateModal";
+import profilePic2 from "../../public/image/home-page/doctors/Doctor2.png";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -24,7 +25,15 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const DonationRequestCard = ({ name, profilePic, amount, details, number }) => {
+const DonationRequestCard = ({
+  name,
+  profilePic,
+  amount,
+  details,
+  number,
+  requestId,
+  openSnackbar,
+}) => {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const [openDonateModal, setOpenDonateModal] = useState(false);
@@ -38,7 +47,7 @@ const DonationRequestCard = ({ name, profilePic, amount, details, number }) => {
       <Card className={classes.ccrt__card__container}>
         <CardMedia className={classes.ccrt__card_media}>
           <Image
-            src={profilePic}
+            src={profilePic2}
             alt="blog"
             layout="fill"
             objectFit="contain"
@@ -87,6 +96,8 @@ const DonationRequestCard = ({ name, profilePic, amount, details, number }) => {
           name={name}
           amount={amount}
           number={number}
+          requestId={requestId}
+          openSnackbar={openSnackbar}
         />
       )}
     </>
@@ -143,10 +154,12 @@ const useStyles = makeStyles((theme) => ({
 
 DonationRequestCard.propTypes = {
   name: PropTypes.string.isRequired,
-  profilePic: PropTypes.string.isRequired,
-  amount: PropTypes.string.isRequired,
+  profilePic: PropTypes.string,
+  amount: PropTypes.number.isRequired,
   details: PropTypes.string.isRequired,
   number: PropTypes.string.isRequired,
+  requestId: PropTypes.string.isRequired,
+  openSnackbar: PropTypes.func.isRequired,
 };
 
 export default DonationRequestCard;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Grid,
@@ -9,12 +9,59 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
+import SignUpTextField from "../textfields/SignUpTextField";
+import CustomButton from "../button/CustomButton";
+import { validateEmpty } from "../../controllers/DonationController";
+import { giveDonationToOthers } from "../../controllers/DonationRequestController";
+import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
+import CustomSnackbar from "../snackbar/CustomSnackbar";
+import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";
 
-const DonateModal = ({ open, onNegativeFeedback, name, amount, number }) => {
+const DonateModal = ({
+  open,
+  onNegativeFeedback,
+  name,
+  amount,
+  number,
+  requestId,
+  openSnackbar,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const matcheLg = useMediaQuery(theme.breakpoints.up("md"));
+
+  const [showError, setShowError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [donateAmount, setDonateAmount] = useState("");
+
+  const handleChangeAmount = (e) => {
+    setDonateAmount(e.target.value);
+  };
+
+  const handleSubmitDonation = async () => {
+    try {
+      if (validate(donateAmount)) {
+        setLoading(true);
+        await giveDonationToOthers(amount, requestId);
+        setLoading(false);
+        setDonateAmount("");
+        onNegativeFeedback();
+        openSnackbar("Your donation has been added successfully.");
+      } else {
+        setShowError(true);
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const validate = (donateAmount) => {
+    let isEverythingAllRight = true;
+    isEverythingAllRight = validateEmpty(donateAmount);
+    return !isEverythingAllRight;
+  };
 
   return (
     <div>
@@ -38,27 +85,42 @@ const DonateModal = ({ open, onNegativeFeedback, name, amount, number }) => {
               {name}
             </Typography>
           </Grid>
+          <Grid container justifyContent={"space-between"}>
+            <Grid container flexDirection={"column"} item sm={12} lg={5}>
+              <Typography className={classes.ccrt__donate_modal__label}>
+                number:
+              </Typography>
+              <Typography className={classes.ccrt__donate_modal__text}>
+                {number}
+              </Typography>
+            </Grid>
+            <Grid container flexDirection={"column"} sm={12} lg={5}>
+              <Typography className={classes.ccrt__donate_modal__label}>
+                amount:
+              </Typography>
+              <Typography className={classes.ccrt__donate_modal__text}>
+                {amount} &#2547;
+              </Typography>
+            </Grid>
+          </Grid>
+          <hr />
           <Grid container flexDirection={"column"}>
-            <Typography className={classes.ccrt__donate_modal__label}>
-              number:
-            </Typography>
-            <Typography className={classes.ccrt__donate_modal__text}>
-              +88{number}
-            </Typography>
+            <SignUpTextField
+              type={"text"}
+              labelText={" How much you want to donate"}
+              value={donateAmount}
+              onChange={handleChangeAmount}
+              adornment={"৳"}
+              variant="outlined"
+              error={showError && validateEmpty(donateAmount)}
+              errorText={"Enter valid Input"}
+            />
           </Grid>
-          <Grid container flexDirection={"column"}>
-            <Typography className={classes.ccrt__donate_modal__label}>
-              amount:
-            </Typography>
-            <Typography className={classes.ccrt__donate_modal__text}>
-              {amount} &#2547;
-            </Typography>
-          </Grid>
-          <Grid container justifyContent={"center"} alignItems={"center"}>
-            <Typography className={classes.ccrt__donate_modal__section_header}>
-              Donar form
-            </Typography>
-          </Grid>
+          <CustomButton
+            title={"send"}
+            onClick={handleSubmitDonation}
+            loading={loading}
+          />
         </Box>
       </Modal>
     </div>
@@ -71,6 +133,7 @@ DonateModal.propTypes = {
   name: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   number: PropTypes.string.isRequired,
+  openSnackbar: PropTypes.func.isRequired,
 };
 const useStyles = makeStyles((theme) => ({
   ccrt__donate_modal__section_header: {
@@ -87,10 +150,10 @@ const useStyles = makeStyles((theme) => ({
   ccrt__donate_modal__text: {
     fontSize: "95%",
     fontWeight: "300",
-    border: `1px solid ${theme.palette.custom.DEFAULT_COLOR_2}`,
+    // border: `1px solid ${theme.palette.custom.DEFAULT_COLOR_2}`,
     margin: "5px 0",
-    padding: "5px",
-    borderRadius: "5px",
+    // padding: "5px",
+    // borderRadius: "5px",
   },
 }));
 const style = {

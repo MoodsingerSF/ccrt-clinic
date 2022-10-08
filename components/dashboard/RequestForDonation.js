@@ -13,6 +13,7 @@ import DashboardTitle from "./DashboardTitle";
 import {
   DASHBOARD_TITLE_MARGIN_TOP,
   DONATION_REQUEST_STATUS,
+  SNACKBAR_INITIAL_STATE,
 } from "../../misc/constants";
 import NoContentToShowComponent from "../misc/NoContentToShowComponent";
 // import LoaderBackdrop from "../backdrops/LoaderBackdrop";
@@ -21,6 +22,7 @@ import DonationRequestRow from "./DonationRequestRow";
 import DashboardFilterComponent from "../misc/DashboardFilterComponent";
 import useDonationRequests from "../../hooks/useDonationRequests";
 import DashboardLoaderComponent from "./DashboardLoaderComponent";
+import { handleSnackbarOpen } from "../../misc/functions";
 
 const RequestForDonation = () => {
   const classes = useStyles();
@@ -29,6 +31,10 @@ const RequestForDonation = () => {
   const [filterValue, setFilterValue] = useState(
     DONATION_REQUEST_STATUS.PENDING
   );
+  const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
+  const openSnackbar = (message) => {
+    handleSnackbarOpen(message, setSnackbar);
+  };
   const {
     data: donationRequests,
     loading,
@@ -39,7 +45,6 @@ const RequestForDonation = () => {
     filterValue.requestStatus,
     filterValue.completionStatus
   );
-
   return (
     <Grid container justifyContent={"center"} alignItems={"center"}>
       <Grid
@@ -113,6 +118,8 @@ const RequestForDonation = () => {
                         amount={request.amount}
                         description={request.description}
                         disease={request.disease}
+                        requestId={request.requestId}
+                        openSnackbar={openSnackbar}
                       />
                     </TableRow>
                   ))}

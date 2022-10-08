@@ -54,7 +54,7 @@ export const retrieveDonationRequests = async (
 
 export const acceptDonationRequest = async (requestId) => {
   const { data } = await axios.put(
-    SERVER_PATH + "/donation-requests/" + requestId + "/request-status",
+    SERVER_PATH + "donation-requests/" + requestId + "/request-status",
     { requestStatus: "ACCEPTED" },
     {
       headers: {
@@ -69,7 +69,7 @@ export const acceptDonationRequest = async (requestId) => {
 
 export const rejectDonationRequest = async (requestId) => {
   const { data } = await axios.put(
-    SERVER_PATH + "/donation-requests/" + requestId + "/request-status",
+    SERVER_PATH + "donation-requests/" + requestId + "/request-status",
     { requestStatus: "REJECTED" },
     {
       headers: {
@@ -84,7 +84,7 @@ export const rejectDonationRequest = async (requestId) => {
 
 export const endDonationRequest = async (requestId) => {
   const { data } = await axios.put(
-    SERVER_PATH + "/donation-requests/" + requestId + "/completion-status",
+    SERVER_PATH + "donation-requests/" + requestId + "/completion-status",
     { completionStatus: "COMPLETE" },
     {
       headers: {
@@ -97,7 +97,7 @@ export const endDonationRequest = async (requestId) => {
   return data;
 };
 
-export const retrieveUserDonationRequests = async (page, limit) => {
+export const retrieveUserDonationRequests = async (page, limit = 2) => {
   const { data } = await axios.get(
     SERVER_PATH + "users/" + retrieveUserId() + "/donation-requests",
     {
@@ -111,5 +111,33 @@ export const retrieveUserDonationRequests = async (page, limit) => {
       },
     }
   );
+  return data;
+};
+
+export const giveDonationToOthers = async (amount, requestId) => {
+  const data = {
+    amount,
+    donationRequestId: requestId,
+    donorUserId: retrieveUserId(),
+  };
+  const response = await axios.post(SERVER_PATH + "donations", data, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+    },
+  });
+  return response.status;
+};
+
+export const retrieveAllDonation = async (page, limit) => {
+  const { data } = await axios.get(SERVER_PATH + "donations", {
+    params: {
+      page,
+      limit,
+    },
+    headers: {
+      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+    },
+  });
   return data;
 };

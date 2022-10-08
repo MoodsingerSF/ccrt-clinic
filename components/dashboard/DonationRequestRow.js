@@ -6,6 +6,10 @@ import ConfirmationModal from "../modal/ConfirmationModal";
 import ActionButton from "../button/ActionButton";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import {
+  acceptDonationRequest,
+  rejectDonationRequest,
+} from "../../controllers/DonationRequestController";
 
 const DonationRequestRow = ({
   name,
@@ -14,6 +18,8 @@ const DonationRequestRow = ({
   disease,
   description,
   serialNo,
+  requestId,
+  openSnackbar,
 }) => {
   const classes = useStyles();
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
@@ -26,15 +32,41 @@ const DonationRequestRow = ({
   };
 
   const handleAcceptDonationRequest = async () => {
-    setLoading(true);
-    //  Api Call
-    setLoading(false);
+    try {
+      setLoading(true);
+      const isAccepted = await acceptDonationRequest(requestId);
+      if (isAccepted) {
+        openSnackbar("Request has been accepted successfully.");
+      } else {
+        openSnackbar(
+          "Operation couldn't be performed. Please try again later."
+        );
+      }
+      setLoading(false);
+      setOpenConfirmationModal(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   const handleRejectDonationRequest = async () => {
-    setLoading(true);
-    //  Api Call
-    setLoading(false);
+    try {
+      setLoading(true);
+      const isAccepted = await rejectDonationRequest(requestId);
+      if (isAccepted) {
+        openSnackbar("Request has been rejected successfully.");
+      } else {
+        openSnackbar(
+          "Operation couldn't be performed. Please try again later."
+        );
+      }
+      setLoading(false);
+      setOpenConfirmationModal(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   return (
@@ -78,7 +110,7 @@ const DonationRequestRow = ({
         </Grid>
         <ActionButton
           title={"Reject"}
-          onClick={() => {}}
+          onClick={() => setOpenConfirmationModal(true)}
           type="error"
           icon={<ClearIcon />}
         />
@@ -124,5 +156,7 @@ DonationRequestRow.propTypes = {
   phone: PropTypes.string.isRequired,
   disease: PropTypes.string.isRequired,
   description: PropTypes.string,
+  requestId: PropTypes.string.isRequired,
+  openSnackbar: PropTypes.func.isRequired,
 };
 export default DonationRequestRow;

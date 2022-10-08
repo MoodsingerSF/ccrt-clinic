@@ -26,7 +26,6 @@ const Donation = () => {
   const [disease, setDisease] = useState("");
   const [description, setDescription] = useState("");
   const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
-
   const openSnackbar = (message) => handleSnackbarOpen(message, setSnackbar);
 
   const handleChangeNumber = (e) => {

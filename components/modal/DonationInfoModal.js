@@ -17,6 +17,10 @@ const DonationInfoModal = ({
   onNegativeFeedback,
   donarName,
   recipientName,
+  amount,
+  phone,
+  disease,
+  description,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -37,8 +41,8 @@ const DonationInfoModal = ({
             width: matches ? (matcheLg ? "60vw" : "70vw") : "95vw",
           }}
         >
-          <Grid container justifyContent={"center"} alignItems="center">
-            <Grid container item xs={12} md={6}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
               <Typography
                 id="modal-modal-title"
                 variant="h6"
@@ -48,8 +52,9 @@ const DonationInfoModal = ({
                 donar details
               </Typography>
               <DonationInfoGroup label={"name"} text={donarName} />
+              <DonationInfoGroup label={"amount"} text={amount} />
             </Grid>
-            <Grid container item xs={12} md={6}>
+            <Grid item xs={12} md={6}>
               <Typography
                 id="modal-modal-title"
                 variant="h6"
@@ -59,6 +64,9 @@ const DonationInfoModal = ({
                 recipient details
               </Typography>
               <DonationInfoGroup label={"name"} text={recipientName} />
+              <DonationInfoGroup label={"Phone No"} text={phone} />
+              <DonationInfoGroup label={"disease"} text={disease} />
+              <DonationInfoGroup label={"description"} text={description} />
             </Grid>
           </Grid>
         </Box>
@@ -72,12 +80,16 @@ DonationInfoModal.propTypes = {
   onNegativeFeedback: PropTypes.func.isRequired,
   donarName: PropTypes.string.isRequired,
   recipientName: PropTypes.string.isRequired,
+  amount: PropTypes.number.isRequired,
+  phone: PropTypes.string.isRequired,
+  disease: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
 };
 
 const useStyles = makeStyles((theme) => ({
   ccrt__donation_info_modal_title: {
     textTransform: "capitalize",
-    fontWeight: "300",
+    fontWeight: "400",
   },
   ccrt__donation__text_group__container: {
     boxShadow: BOX_SHADOW,
