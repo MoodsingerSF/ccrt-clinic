@@ -80,6 +80,7 @@ const Donation = () => {
 
       <Grid container item xs={11} md={8} lg={6}>
         <SignUpTextField
+          type={"text"}
           labelText={"phone number"}
           value={number}
           onChange={handleChangeNumber}
@@ -89,6 +90,7 @@ const Donation = () => {
           errorText={"Enter valid number"}
         />
         <SignUpTextField
+          type={"text"}
           labelText={"how much do you want?"}
           value={amount}
           onChange={handleChangeAmount}
