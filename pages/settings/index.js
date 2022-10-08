@@ -7,6 +7,7 @@ import animationData from "../../public/animations/settings.json";
 import { Context } from "../../contexts/user-context/UserContext";
 import ForbiddenComponent from "../../components/misc/ForbiddenComponent";
 import { isGuest } from "../../controllers/UserController";
+import { APP_BAR_HEIGHT, BODY_HEIGHT } from "../../misc/constants";
 const Settings = () => {
   const { getRole } = useContext(Context);
   const classes = useStyles();
@@ -60,8 +61,8 @@ const Settings = () => {
 
 const useStyles = makeStyles(() => ({
   ccrt__setting__container: {
-    marginTop: "12vh",
-    height: "88vh",
+    marginTop: APP_BAR_HEIGHT,
+    height: BODY_HEIGHT,
   },
 }));
 export default Settings;

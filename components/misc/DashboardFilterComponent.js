@@ -16,8 +16,12 @@ const DashboardFilterComponent = ({ value, onChange, options }) => {
           inputProps={{ "aria-label": "Without label" }}
         >
           {Object.keys(options).map((key) => (
-            <MenuItem style={{ fontSize: "85%" }} key={key} value={key}>
-              {capitalize(lowerCase(options[key]))}
+            <MenuItem
+              style={{ fontSize: "85%" }}
+              key={key}
+              value={options[key]}
+            >
+              {capitalize(lowerCase(key))}
             </MenuItem>
           ))}
         </Select>

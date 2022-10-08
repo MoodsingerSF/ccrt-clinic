@@ -39,13 +39,6 @@ const HeroMobile = () => {
           width: "95%",
         }}
       >
-        {/* <Grid
-          container
-          style={{ position: "relative", width: "100vw", height: "88vh" }}
-        >
-          <Image src={hero} alt="hero" layout="fill" objectFit="cover" />
-        </Grid> */}
-
         <Grid container>
           <TextField
             fullWidth

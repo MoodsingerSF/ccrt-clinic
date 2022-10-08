@@ -7,7 +7,7 @@ import DoctorTrainingSection from "../components/doctor-info-form/DoctorTraining
 import DoctorAwardSection from "../components/doctor-info-form/DoctorAwardSection";
 import DoctorExperienceSection from "../components/doctor-info-form/DoctorExperienceSection";
 import CustomSnackbar from "../components/snackbar/CustomSnackbar";
-import { SNACKBAR_INITIAL_STATE } from "../misc/constants";
+import { APP_BAR_HEIGHT, SNACKBAR_INITIAL_STATE } from "../misc/constants";
 import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
 
 const DoctorInfoForm = ({
@@ -37,7 +37,7 @@ const DoctorInfoForm = ({
       container
       justifyContent={"center"}
       alignItems="center"
-      style={{ marginTop: headingShow && "12vh" }}
+      style={{ marginTop: headingShow && APP_BAR_HEIGHT }}
     >
       <h1 className={classes.ccrt__doctor__info__form__heading}>
         {headingShow && "Doctor details"}

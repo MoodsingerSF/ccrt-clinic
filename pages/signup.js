@@ -38,7 +38,11 @@ import {
 import CustomButton from "../components/button/CustomButton";
 import CustomCheckbox from "../components/checkbox/CustomCheckbox";
 import CustomSnackbar from "../components/snackbar/CustomSnackbar";
-import { SNACKBAR_INITIAL_STATE } from "../misc/constants";
+import {
+  APP_BAR_HEIGHT,
+  BODY_HEIGHT,
+  SNACKBAR_INITIAL_STATE,
+} from "../misc/constants";
 import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
 import { useRouter } from "next/router";
 import BasicDatePicker from "../components/misc/BasicDatePicker";
@@ -204,13 +208,13 @@ const SignupScreen = () => {
         container
         justifyContent="center"
         alignItems="center"
-        style={{ marginTop: "12vh" }}
+        style={{ marginTop: APP_BAR_HEIGHT }}
       >
         <Grid
           container
           alignItems="center"
           justifyContent="center"
-          style={{ minHeight: "88vh" }}
+          style={{ minHeight: BODY_HEIGHT }}
           className={classNames({
             [classes.containerMobile]: !matches,
             [classes.containerDesktopSm]: matches,
@@ -223,7 +227,7 @@ const SignupScreen = () => {
             item
             xs={12}
             md={8}
-            style={{ minHeight: "88vh" }}
+            style={{ minHeight: BODY_HEIGHT }}
             className={classNames({
               [classes.ccrt__signup__right]: !matches,
               [classes.ccrt__signup__right__Sm]: matches,

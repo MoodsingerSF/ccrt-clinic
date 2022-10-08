@@ -6,6 +6,7 @@ import hero from "../../../public/image/home-page/hero/Cover.png";
 import HotlineSection from "./HotlineSection";
 import HeroRightSection from "./HeroRightSection";
 import HeroMobile from "../../pages/home/HeroMobile";
+import { APP_BAR_HEIGHT } from "../../../misc/constants";
 
 const Hero = () => {
   const classes = useStyles();
@@ -48,7 +49,7 @@ const Hero = () => {
 const useStyles = makeStyles(() =>
   createStyles({
     ccrt__hero__section: {
-      paddingTop: "12vh",
+      paddingTop: APP_BAR_HEIGHT,
       minHeight: "100vh",
       position: "relative",
     },

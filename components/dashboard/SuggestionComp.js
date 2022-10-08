@@ -114,6 +114,7 @@ const useStyles = makeStyles((theme) =>
     titleStyle: {
       color: "white",
       fontSize: "85%",
+      fontWeight: 500,
     },
   })
 );

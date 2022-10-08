@@ -28,19 +28,6 @@ const BlogScreen = () => {
         alignItems="center"
         style={{ marginTop: "16vh" }}
       >
-        {/* <Grid
-          container
-          justifyContent="center"
-          alignItems="center"
-          // style={{
-          //   position: "relative",
-          // }}
-        > */}
-        {/* <Grid container className={classes.ccrt__blog__header}>
-            <Image src={img} alt="bg_img" layout="fill" />
-          </Grid> */}
-        {/* <h2 className={classes.ccrt__blog__header__title}>Blogs</h2>
-        </Grid> */}
         <Grid container style={{ width: "95%" }}>
           <Grid
             container
@@ -52,7 +39,6 @@ const BlogScreen = () => {
           </Grid>
           <Grid
             container
-            // style={{ background: "red" }}
             justifyContent="flex-start"
             alignItems="flex-start"
             spacing={4}
@@ -64,8 +50,6 @@ const BlogScreen = () => {
                     <BlogCard
                       key={blog.blogId}
                       blogId={blog.blogId}
-                      // avatar={blog.avatar}
-                      // name={blog.fullName}
                       date={prettyDate(blog.creationTime)}
                       image={blog.imageUrl}
                       name={blog.title}

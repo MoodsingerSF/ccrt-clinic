@@ -18,6 +18,7 @@ import ActionButton from "../../components/button/ActionButton";
 import BookOutlinedIcon from "@mui/icons-material/BookOutlined";
 import ReviewSection from "../../components/review/ReviewSection";
 import { retrieveAverageRating } from "../../controllers/RatingController";
+import { APP_BAR_HEIGHT } from "../../misc/constants";
 const DoctorDetails = ({ doctorId }) => {
   const router = useRouter();
 
@@ -268,7 +269,7 @@ DoctorDetails.propTypes = {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__doctor__details__page__container: {
-      marginTop: "12vh",
+      marginTop: APP_BAR_HEIGHT,
     },
     ccrt__doctor__details__page__image__container: {
       position: "relative",

@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 import { retrieveBlogDetails } from "../../controllers/BlogController";
 import Head from "next/head";
-import { DOMAIN_ADDRESS } from "../../misc/constants";
+import { APP_BAR_HEIGHT, DOMAIN_ADDRESS } from "../../misc/constants";
 import FallbackComponent from "../../components/misc/FallbackComponent";
 import NotFoundComponent from "../../components/misc/NotFoundComponent";
 const BlogDetailsLeft = dynamic(() =>
@@ -92,7 +92,7 @@ const BlogDetailsScreen = ({ blogId, title, imageUrl }) => {
           container
           justifyContent="center"
           alignItems="center"
-          style={{ paddingTop: "12vh" }}
+          style={{ paddingTop: APP_BAR_HEIGHT }}
         >
           {blog !== null && (
             <Grid container spacing={2} style={{ width: "95%", marginTop: 20 }}>

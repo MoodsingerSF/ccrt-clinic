@@ -4,9 +4,11 @@ import { Grid, Typography } from "@mui/material";
 // import bg from "../../../public/image/home-page/donate/bg.png";
 import sponsor from "../../../public/image/home-page/donate/sponsor.png";
 import { makeStyles, createStyles } from "@mui/styles";
+import { useRouter } from "next/router";
 
 const Sponsor = () => {
   const classes = useStyes();
+  const router = useRouter();
   return (
     <Grid
       container
@@ -22,10 +24,7 @@ const Sponsor = () => {
           sm={7}
           className={classes.ccrt__sponsor__description}
         >
-          <Typography
-            className={classes.ccrt__sponsor__description__first}
-            style={{}}
-          >
+          <Typography className={classes.ccrt__sponsor__description__first}>
             Be the part
           </Typography>
           <Typography className={classes.ccrt__sponsor__description__first}>
@@ -56,6 +55,7 @@ const Sponsor = () => {
               style={{
                 cursor: "pointer",
               }}
+              onClick={() => router.push("/request-donation-list")}
             />
           </Grid>
         </Grid>

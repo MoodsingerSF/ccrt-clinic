@@ -97,12 +97,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   iconStyle: { marginRight: 10, fontSize: "150%", cursor: "pointer" },
-  // root: {
-  //   fontSize: "100%",
-  //   fontWeight: "bold",
-  //   padding: "0px 10px",
-  //   color: theme.palette.custom.BLACK,
-  // },
+
 }));
 
 SignUpTextField.propTypes = {

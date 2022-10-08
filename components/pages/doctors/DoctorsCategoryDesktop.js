@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import Specialization from "../../doctor/Specialization";
 import useSpecializations from "../../../hooks/useSpecializations";
 import CustomButton from "../../button/CustomButton";
+import { BODY_HEIGHT } from "../../../misc/constants";
 const DoctorsCategoryDesktop = ({ filter }) => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
@@ -85,7 +86,7 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__dctr__page__left__menu: {
       position: "fixed",
-      height: "88vh",
+      height: BODY_HEIGHT,
       overflowY: "auto",
       boxShadow:
         "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",

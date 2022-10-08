@@ -11,7 +11,11 @@ import SignUpTextField from "../../components/textfields/SignUpTextField";
 import CustomSnackbar from "../../components/snackbar/CustomSnackbar";
 import classNames from "classnames";
 import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
-import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";
+import {
+  APP_BAR_HEIGHT,
+  BODY_HEIGHT,
+  SNACKBAR_INITIAL_STATE,
+} from "../../misc/constants";
 import { isGuest, updatePassword } from "../../controllers/UserController";
 import ForbiddenComponent from "../../components/misc/ForbiddenComponent";
 import { Context } from "../../contexts/user-context/UserContext";
@@ -180,8 +184,8 @@ const ChangePassword = () => {
 
 const useStyles = makeStyles((theme) => ({
   ccrt_change_password_container: {
-    marginTop: "12vh",
-    height: "88vh",
+    marginTop: APP_BAR_HEIGHT,
+    height: BODY_HEIGHT,
   },
   ccrt__change_password__containerMobile: {
     width: "90%",

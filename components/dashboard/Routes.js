@@ -21,7 +21,12 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import MedicationIcon from "@mui/icons-material/Medication";
 import ForumIcon from "@mui/icons-material/Forum";
 import SuggestionComp from "./SuggestionComp";
-
+import RequestForDonation from "./RequestForDonation";
+import Donation from "./Donation";
+import RequestPageIcon from "@mui/icons-material/RequestPage";
+import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
+import SummarizeIcon from "@mui/icons-material/Summarize";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 const iconStyle = {
   fontSize: "120%",
   color: "white",
@@ -105,5 +110,33 @@ export const DASHBOARD_ROUTES = [
     component: <SuggestionComp />,
     allowedRoles: [Role.ADMIN],
     icon: <ForumIcon style={iconStyle} />,
+  },
+  {
+    path: "requests-for-donation",
+    heading: "Requests For Donation",
+    component: <RequestForDonation />,
+    allowedRoles: [Role.ADMIN],
+    icon: <RequestPageIcon style={iconStyle} />,
+  },
+  {
+    path: "my-requests-for-donation",
+    heading: "My Donation Requests",
+    component: <RequestForDonation />,
+    allowedRoles: [Role.ADMIN, Role.USER, Role.DOCTOR],
+    icon: <SummarizeIcon style={iconStyle} />,
+  },
+  {
+    path: "donations",
+    heading: "Donations",
+    component: <Donation />,
+    allowedRoles: [Role.ADMIN],
+    icon: <VolunteerActivismIcon style={iconStyle} />,
+  },
+  {
+    path: "my-donations",
+    heading: "My Donations",
+    component: <Donation />,
+    allowedRoles: [Role.ADMIN, Role.USER, Role.DOCTOR],
+    icon: <AttachMoneyIcon style={iconStyle} />,
   },
 ];

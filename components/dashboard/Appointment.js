@@ -119,19 +119,6 @@ const Appointment = () => {
                       </Typography>
                     </th>
                   )}
-                  {/* {filterValue === "cancelled" && (
-                    <th className={classes.ccrt__table__heading}>
-                      Cancellation Time
-                    </th>
-                  )} */}
-                  {/* {status === APPOINTMENT_STATUS.PENDING &&
-                    getRole() === Role.DOCTOR && (
-                      <th className={classes.ccrt__table__heading}>
-                        <Typography className={classes.titleStyle}>
-                          Prescription
-                        </Typography>
-                      </th>
-                    )} */}
 
                   {status === APPOINTMENT_STATUS.PENDING && (
                     <th className={classes.ccrt__table__heading}>

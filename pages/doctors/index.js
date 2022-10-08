@@ -9,6 +9,7 @@ import LoaderComponent from "../../components/misc/LoaderComponent";
 import NoContentToShowComponent from "../../components/misc/NoContentToShowComponent";
 import useDoctors from "../../hooks/useDoctors";
 import CustomButton from "../../components/button/CustomButton";
+import { APP_BAR_HEIGHT, BODY_HEIGHT } from "../../misc/constants";
 
 const DoctorsScreen = withRouter((props) => {
   const specializationId = props.router.query.specialization;
@@ -107,8 +108,8 @@ const DoctorsScreen = withRouter((props) => {
 const useStyles = makeStyles(() =>
   createStyles({
     ccrt__dctr__page__container: {
-      marginTop: "12vh",
-      minHeight: "88vh",
+      marginTop: APP_BAR_HEIGHT,
+      minHeight: BODY_HEIGHT,
     },
     ccrt__dctr__page__right__content: {},
     ccrt__dctr__page__right__content_mobile: {
