@@ -22,6 +22,7 @@ const Donation = () => {
   const [loading, setLoading] = useState(false);
   const [number, setNumber] = useState("");
   const [amount, setAmount] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [disease, setDisease] = useState("");
   const [description, setDescription] = useState("");
   const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
@@ -100,30 +101,24 @@ const Donation = () => {
             </Typography>
           </Grid>
         </Grid>
+      </Grid>
+
+      <Grid container item xs={11} md={8} lg={6}>
         <SignUpTextField
-          label={"phone number"}
-          variant="outlined"
+          labelText={"phone number"}
           value={number}
           onChange={handleChangeNumber}
-          // adornment={"+880"}
+          adornment={"+880"}
+          variant="outlined"
           error={showError && validateEmpty(number)}
           errorText={"Enter valid number"}
         />
         <SignUpTextField
-          label={"Disease"}
-          variant="outlined"
-          value={disease}
-          onChange={(e) => setDisease(e.target.value)}
-          // adornment={"+880"}
-          error={showError && validateEmpty(disease)}
-          errorText={"Enter valid disease"}
-        />
-        <SignUpTextField
-          label={"How much do you need?"}
-          variant="outlined"
+          labelText={"how much do you want?"}
           value={amount}
           onChange={handleChangeAmount}
-          // adornment={"৳"}
+          adornment={"৳"}
+          variant="outlined"
           error={showError && validateEmpty(amount)}
           errorText={"Enter valid amount"}
         />
