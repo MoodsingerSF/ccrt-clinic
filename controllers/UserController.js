@@ -1,5 +1,6 @@
 import axios from "axios";
 import { StatusCodes } from "http-status-codes";
+import { Role } from "../enums/Role";
 import { AUTHORIZATION_HEADER_PREFIX, SERVER_PATH } from "../misc/constants";
 import { processDate } from "../misc/functions";
 import {
@@ -11,20 +12,18 @@ const headers = () => ({
   Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
 });
 
-const processUserDetails = (user) => {
+export const processUserDetails = (user) => {
   return {
     ...user,
-    profileImageUrl:
-      "https://moodsinger.com/album-arts-m/be50b66f17dc4e689c4ed7c017247854/default.jpg",
+    // profileImageUrl:
+    //   "https://moodsinger.com/album-arts-m/be50b66f17dc4e689c4ed7c017247854/default.jpg",
     fullName: user.firstName + " " + user.lastName,
-    patient_served: 0,
-    department: "Oncology",
-    patient_count: 0,
     specializations: user.specializations.map((item) => item.name),
   };
 };
 export const retrieveUserDetails = async (userId) => {
   const response = await axios.get(SERVER_PATH + "users/" + userId);
+  console.log(response.data);
   return processUserDetails(response.data);
 };
 
@@ -47,49 +46,16 @@ export const retrievePendingDoctors = async (page = 0, limit = 15) => {
   return data.map((doctor) => processUserDetails(doctor));
 };
 
-export const retrievePendingFeeChangingRequests = async (
+export const retrieveFeeChangingRequests = async (
   page = 0,
-  limit = 15
+  limit = 15,
+  status
 ) => {
   const { data } = await axios.get(SERVER_PATH + "fee-changing-requests", {
     params: {
       page,
       limit,
-      status: "PENDING",
-    },
-    headers: {
-      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
-    },
-  });
-  return data;
-};
-
-export const retrieveAcceptFeeChangingRequests = async (
-  page = 0,
-  limit = 15
-) => {
-  const { data } = await axios.get(SERVER_PATH + "fee-changing-requests", {
-    params: {
-      page,
-      limit,
-      status: "ACCEPTED",
-    },
-    headers: {
-      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
-    },
-  });
-  return data;
-};
-
-export const retrieveRejectFeeChangingRequests = async (
-  page = 0,
-  limit = 15
-) => {
-  const { data } = await axios.get(SERVER_PATH + "fee-changing-requests", {
-    params: {
-      page,
-      limit,
-      status: "REJECTED",
+      status,
     },
     headers: {
       Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
@@ -542,3 +508,46 @@ export const updateAward = async (name, year, id) => {
   );
   return response.data;
 };
+
+export const updatePassword = async (prevPassword, newPassword) => {
+  const { data } = await axios.put(
+    SERVER_PATH + "users/" + retrieveUserId() + "/password",
+    { previousPassword: prevPassword, password: newPassword },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return data;
+};
+
+export const findUserByEmail = async (email) => {
+  const { data } = await axios.get(SERVER_PATH + "users", {
+    params: { email },
+  });
+  return processUserDetails(data);
+};
+
+export const resetPassword = async (userId, code, newPassword) => {
+  const { data } = await axios.put(
+    SERVER_PATH + "users/" + userId + "/password-reset",
+    { resetPasswordToken: code, password: newPassword },
+    { headers: { "Content-Type": "application/json" } }
+  );
+  return data;
+};
+
+export const sendPasswordResetCode = async (userId) => {
+  const { data } = await axios.post(
+    SERVER_PATH + "users/" + userId + "/password-reset-verification-code",
+    null,
+    { headers: { "Content-Type": "application/json" } }
+  );
+  return data;
+};
+
+export const isGuest = (role) =>
+  role !== Role.ADMIN && role !== Role.USER && role !== Role.DOCTOR;

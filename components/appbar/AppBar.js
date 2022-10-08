@@ -18,14 +18,15 @@ import AppBarLink from "./AppBarLink";
 
 import { Context } from "../../contexts/user-context/UserContext";
 import ProfileMenu from "../menu/ProfileMenu";
+import { APP_BAR_HEIGHT } from "../../misc/constants";
+import DonationSection from "./DonationSection";
 
 const AppBar = () => {
   const classes = useStyles();
   const router = useRouter();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
-
-  const { isSignedIn } = useContext(Context);
+  const { isSignedIn, getProfileImageUrl } = useContext(Context);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleProfileClick = (event) => {
@@ -45,7 +46,12 @@ const AppBar = () => {
   };
 
   return (
-    <Grid container className={classes.ccrt_app_bar__container}>
+    <Grid
+      container
+      className={classes.ccrt_app_bar__container}
+      style={{ height: router.pathname === "/" ? "20vh" : APP_BAR_HEIGHT }}
+    >
+      {router.pathname === "/" && <DonationSection />}
       {matches ? (
         <Grid container>
           <Grid item xs={2} className={classes.ccrt_app_bar__logo}>
@@ -54,7 +60,7 @@ const AppBar = () => {
           <Grid container alignItems="center" item xs={2}></Grid>
 
           {isSignedIn() && (
-            <Grid container alignItems="center" item xs={2}></Grid>
+            <Grid container alignItems="center" item xs={3}></Grid>
           )}
           <Grid
             container
@@ -67,9 +73,8 @@ const AppBar = () => {
             <AppBarLink name="Home" link="/" />
             <AppBarLink name="Doctors" link="/doctors" />
             <AppBarLink name="Blogs" link="/blogs" />
-            <AppBarLink name="Contact" link="/contact" />
+            <AppBarLink name="Contact" link="/contact-us" />
             <AppBarLink name="FAQ" link="/faq" />
-            <AppBarLink name="Request Donation" link="/donation" />
 
             {!isSignedIn() && <AppBarLink name="Login" link="/login" />}
 
@@ -77,6 +82,7 @@ const AppBar = () => {
               <Avatar
                 className={classes.avatar}
                 onClick={handleProfileClick}
+                src={"/" + getProfileImageUrl()}
               ></Avatar>
             )}
             {open && (
@@ -146,7 +152,6 @@ const AppBar = () => {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt_app_bar__container: {
-      height: "12vh",
       background: "#fff",
       zIndex: 99,
       position: "fixed",
@@ -179,6 +184,7 @@ const useStyles = makeStyles((theme) =>
       marginRight: "2.5vw",
       border: `1px dashed ${theme.palette.primary.main}`,
       cursor: "pointer",
+      marginLeft: 10,
     },
   })
 );

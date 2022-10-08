@@ -3,112 +3,98 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Grid, Typography } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
-import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
-import { HOME_PAGE_DOCTOR_CARD_BOX_SHADOW } from "../../../misc/colors";
 import PropTypes from "prop-types";
-import avatar from "../../../public/image/doctor/docAvatar2.png";
+import avatar from "../../../public/image/doctor/doctor.jpg";
 import CustomChip from "../../chip/CustomChip";
 
-const DoctorCard = ({
-  doctorId,
-  image = null,
-  name,
-  specializations,
-  patient_count,
-  fee,
-}) => {
+const DoctorCard = ({ doctorId, imageUrl, name, specializations, fee }) => {
   const classes = useStyles();
   const router = useRouter();
 
   return (
-    <Grid container onClick={() => router.push(`/doctors/${doctorId}`)}>
-      <Grid container className={classes.ccrt__doctor__card}>
+    <Grid
+      container
+      item
+      xs={12}
+      onClick={() => router.push(`/doctors/${doctorId}`)}
+    >
+      <Grid container item xs={12} className={classes.ccrt__doctor__card}>
         <Grid container className={classes.ccrt__doctor__card__media}>
-          {image === null ? (
+          {imageUrl === null ? (
             <Image
               src={avatar}
               alt={name}
               layout="fill"
-              objectFit="contain"
-              style={{
-                borderTopLeftRadius: "10px",
-                borderTopRightRadius: "10px",
-              }}
+              objectFit="cover"
+              className={classes.ccrt__doctor__card__media_image}
             />
           ) : (
             <Image
-              loader={({ src }) => src}
-              src={image}
+              src={imageUrl}
               alt={name}
+              loader={({ src }) => src}
               layout="fill"
               objectFit="cover"
-              style={{
-                borderTopLeftRadius: "10px",
-                borderTopRightRadius: "10px",
-              }}
+              className={classes.ccrt__doctor__card__media_image}
             />
           )}
         </Grid>
         <Grid container justifyContent="center" alignItems="center">
           <Grid
             container
-            direction="column"
+            // direction="column"
             justifyContent="center"
             alignItems="center"
-            item
-            xs={12}
             className={classes.ccrt__doctor__card__name__container}
           >
-            <Typography className={classes.ccrt__doctor__card__name}>
-              {name}
-            </Typography>
-            <Typography className={classes.ccrt__doctor__card__name}>
-              {fee} tk
-            </Typography>
-          </Grid>
-
-          <Grid
-            container
-            justifyContent="center"
-            alignItems="center"
-            item
-            xs={12}
-            className={classes.ccrt__doctor__card__description}
-          >
-            {/* <Typography className={classes.ccrt__doctor__card__subtitle}> */}
-            {specializations.map((item) => (
-              <Grid item key={item}>
-                <CustomChip title={item} />
+            <Grid
+              // container
+              item
+              xs={9}
+              // justifyContent="flex-start"
+              // alignItems="flex-start"
+              // style={{ background: "red", height: "100%" }}
+            >
+              <Grid
+                container
+                justifyContent="flex-start"
+                alignItems="flex-start"
+                // style={{ marginBottom: 5, background: "green" }}
+              >
+                <Typography className={classes.ccrt__doctor__card__name}>
+                  {name}
+                </Typography>
               </Grid>
-            ))}
-            {/* </Typography> */}
-            {/* <Typography className={classes.ccrt__doctor__card__dep}>
-              {department}
-            </Typography> */}
+              <Grid
+                container
+                justifyContent="flex-start"
+                alignItems="center"
+                item
+                xs={12}
+                // style={{ overflowX: "scroll", width: "100%" }}
+              >
+                {specializations.map((item) => (
+                  <Grid item key={item}>
+                    <CustomChip title={item} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+            <Grid
+              item
+              xs={3}
+              container
+              direction={"row"}
+              justifyContent="center"
+              alignItems={"center"}
+              style={{ height: "100%" }}
+            >
+              <Typography className={classes.creditSignStyle}>
+                &#2547;
+              </Typography>
+              <Typography className={classes.amountStyle}>{fee}</Typography>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
-      <Grid container className={classes.ccrt__doctor__card__footer}>
-        <Grid item className={classes.ccrt__doctor__card__footer__icon}>
-          <GroupAddOutlinedIcon fontSize="large" />
-        </Grid>
-        <Grid
-          item
-          flexDirection="column"
-          className={classes.ccrt__doctor__card__footer__container}
-        >
-          <Typography
-            className={classes.ccrt__doctor__card__footer__patient_served}
-          >
-            patients served
-          </Typography>
-          <Typography
-            className={
-              classes.ccrt__doctor__card__footer__patient_served__count
-            }
-          >
-            {patient_count}
-          </Typography>
         </Grid>
       </Grid>
     </Grid>
@@ -117,70 +103,56 @@ const DoctorCard = ({
 
 DoctorCard.propTypes = {
   doctorId: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string,
   name: PropTypes.string.isRequired,
   specializations: PropTypes.array.isRequired,
-  patient_count: PropTypes.string.isRequired,
   fee: PropTypes.number.isRequired,
 };
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__doctor__card: {
-      boxShadow: HOME_PAGE_DOCTOR_CARD_BOX_SHADOW,
-      borderRadius: "10px",
+      boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+      borderRadius: 5,
+      marginBottom: 10,
+      background: "white",
+      border: `.5px solid ${theme.palette.custom.BLACK}`,
+      cursor: "pointer",
     },
     ccrt__doctor__card__media: {
-      minHeight: "27vh",
+      width: "100%",
+      aspectRatio: 1,
+      borderTopLeftRadius: 5,
+      borderTopRightRadius: 5,
+
       position: "relative",
+      overflow: "hidden",
+    },
+    ccrt__doctor__card__media_image: {
+      width: "100%",
+      aspectRatio: 1,
+      // borderRadius: 15,
     },
     ccrt__doctor__card__name__container: {
-      background: theme.palette.custom.DEFAULT_COLOR_3,
       padding: "10px 0",
+      width: "95%",
     },
     ccrt__doctor__card__name: {
       textTransform: "capitalize",
       fontSize: "85%",
       fontWeight: 500,
-      color: "#fff",
-      padding: "5px",
+      marginTop: 5,
+      color: theme.palette.custom.BLACK,
     },
-    ccrt__doctor__card__description: {
-      margin: "15px 0",
-      display: "flex",
-      flexDirection: "column",
+    creditSignStyle: {
+      fontSize: "100%",
+      color: theme.palette.custom.GREEN,
+      fontWeight: "bold",
     },
-    ccrt__doctor__card__subtitle: {
-      textTransform: "capitalize",
-      fontSize: "85%",
-      fontWeight: "600",
-    },
-    ccrt__doctor__card__dep: {
-      textTransform: "uppercase",
-      fontSize: "70%",
-      fontWeight: "500",
-    },
-    ccrt__doctor__card__footer: {
-      position: "relative",
-      margin: "20px 0",
-      padding: "8px 0",
-      display: "flex",
-      justifyContent: "center",
-    },
-    ccrt__doctor__card__footer__icon: {
-      marginRight: "5px",
-    },
-    ccrt__doctor__card__footer__patient_served: {
-      fontSize: "70%",
-      textTransform: "uppercase",
-      fontWeight: "500",
-      color: theme.palette.custom.DEFAULT_COLOR_2,
-    },
-    ccrt__doctor__card__footer__patient_served__count: {
-      fontSize: "90%",
-      textTransform: "uppercase",
-      fontWeight: "700",
-      color: theme.palette.custom.DEFAULT_COLOR_3,
+    amountStyle: {
+      fontSize: "130%",
+      color: theme.palette.custom.GREEN,
+      fontWeight: "bold",
     },
   })
 );

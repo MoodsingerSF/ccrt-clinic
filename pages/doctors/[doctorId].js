@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Button, Grid, Typography } from "@mui/material";
-import { createStyles, makeStyles } from "@mui/styles";
+import { Grid, Typography } from "@mui/material";
+import { createStyles, makeStyles, useTheme } from "@mui/styles";
 import { CategoryData } from "../../data/doctors-by-category/data";
 import { CATEGORY_TITLE } from "../../data/doctor/data";
 import FallbackComponent from "../../components/misc/FallbackComponent";
@@ -14,14 +14,17 @@ import { getActiveSchedule } from "../../controllers/DoctorScheduleController";
 import DoctorScheduleComponent from "../../components/misc/DoctorScheduleComponent";
 import LoaderComponent from "../../components/misc/LoaderComponent";
 import avatar from "../../public/image/doctor/docAvatar2.png";
+import ActionButton from "../../components/button/ActionButton";
+import BookOutlinedIcon from "@mui/icons-material/BookOutlined";
 import ReviewSection from "../../components/review/ReviewSection";
-import { retriveAverageRating } from "../../controllers/RatingController";
+import { retrieveAverageRating } from "../../controllers/RatingController";
+import { APP_BAR_HEIGHT } from "../../misc/constants";
 const DoctorDetails = ({ doctorId }) => {
   const router = useRouter();
 
   if (router.isFallback) return <FallbackComponent />;
   const classes = useStyles();
-
+  const theme = useTheme();
   const scheduleRef = useRef(null);
   const [doctorDetails, setDoctorDetails] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -56,7 +59,7 @@ const DoctorDetails = ({ doctorId }) => {
 
   const getAverageRating = async (doctorId) => {
     try {
-      const response = await retriveAverageRating(doctorId);
+      const response = await retrieveAverageRating(doctorId);
       setAverageRatings(response.data.ratings);
       const average =
         response.data.ratings.reduce((n, { rating }) => n + rating, 0) / 6;
@@ -110,7 +113,7 @@ const DoctorDetails = ({ doctorId }) => {
                         {doctorDetails && doctorDetails.profileImageUrl ? (
                           <Image
                             loader={({ src }) => src}
-                            src={doctorDetails.profileImageUrl}
+                            src={"/" + doctorDetails.profileImageUrl}
                             alt={doctorDetails.fullName}
                             layout="fill"
                             objectFit="contain"
@@ -124,17 +127,25 @@ const DoctorDetails = ({ doctorId }) => {
                           />
                         )}
                       </Grid>
-                      <Grid container style={{ marginTop: "20px" }}>
-                        <Button
-                          fullWidth
-                          size="small"
-                          variant="outlined"
+                      <Grid container style={{ marginTop: 10 }}>
+                        <ActionButton
+                          type="info"
+                          title="get an appointment"
                           onClick={() =>
                             window.scrollTo(0, scheduleRef.current.offsetTop)
                           }
+                          icon={<BookOutlinedIcon />}
+                          fullWidth={true}
+                        />
+                        {/* <Button
+                          fullWidth
+                          size="small"
+                          variant="outlined"
+                          
+                          style={{}}
                         >
                           get an appointment
-                        </Button>
+                        </Button> */}
                       </Grid>
                     </Grid>
                     <Grid container item xs={12} sm={8} lg={9}>
@@ -207,7 +218,12 @@ const DoctorDetails = ({ doctorId }) => {
                       <Typography className={classes.title}>
                         Doctor Weekly Schedule
                       </Typography>
-                      <Typography style={{ fontSize: "80%" }}>
+                      <Typography
+                        style={{
+                          fontSize: "80%",
+                          color: theme.palette.custom.GREY,
+                        }}
+                      >
                         (Please click on a time slot to book an appointment.)
                       </Typography>
                     </Grid>
@@ -253,7 +269,7 @@ DoctorDetails.propTypes = {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__doctor__details__page__container: {
-      marginTop: "12vh",
+      marginTop: APP_BAR_HEIGHT,
     },
     ccrt__doctor__details__page__image__container: {
       position: "relative",
@@ -261,16 +277,16 @@ const useStyles = makeStyles((theme) =>
     },
 
     ccrt__doctor__details__page__right__container__wrapper: {
-      boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
-      padding: "20px 0px",
+      // boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+      paddingBottom: 10,
       margin: "0px 0",
     },
     ccrt__doctor__details__page__right__container__title: {
-      textTransform: "uppercase",
+      // textTransform: "capitalize",
       marginBottom: "10px",
-      fontWeight: "500",
-      color: theme.palette.custom.DEFAULT_COLOR_3,
-      borderBottom: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
+      fontWeight: "bold",
+      color: theme.palette.custom.BLACK,
+      // borderBottom: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
       width: "100%",
       textAlign: "center",
       padding: "0 0 15px 0",
@@ -278,7 +294,7 @@ const useStyles = makeStyles((theme) =>
     },
     title: {
       fontWeight: "bold",
-      color: theme.palette.custom.DEFAULT_COLOR_3,
+      color: theme.palette.custom.BLACK,
     },
   })
 );

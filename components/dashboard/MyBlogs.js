@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import BlogCard from "../cards/BlogCard";
 import { makeStyles } from "@mui/styles";
-import { DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
 import { retrieveUserId } from "../../controllers/LocalStorageController";
-import LoaderComponent from "../misc/LoaderComponent";
+// import LoaderComponent from "../misc/LoaderComponent";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
 import {
   DASHBOARD_TITLE_MARGIN_TOP,
@@ -15,6 +14,8 @@ import { retrieveUserBlogs } from "../../controllers/BlogController";
 import DashboardTitle from "./DashboardTitle";
 import NoContentToShowComponent from "../misc/NoContentToShowComponent";
 import BlogEditorBackdrop from "../backdrops/BlogEditorBackdrop";
+import DashboardLoaderComponent from "./DashboardLoaderComponent";
+// import { prettyDate } from "../../controllers/DateController";
 const MyBlogs = () => {
   const classes = useStyles();
   // eslint-disable-next-line no-unused-vars
@@ -50,27 +51,29 @@ const MyBlogs = () => {
   };
   return (
     <Grid container>
-      <Grid
-        container
-        justifyContent="space-between"
-        alignItems="center"
-        style={{ marginBottom: 10, marginTop: DASHBOARD_TITLE_MARGIN_TOP }}
-      >
-        <Grid container item sm={6}>
-          <DashboardTitle title={"My Blogs"} />
+      {!loading && (
+        <Grid
+          container
+          justifyContent="space-between"
+          alignItems="center"
+          style={{ marginBottom: 20, marginTop: DASHBOARD_TITLE_MARGIN_TOP }}
+        >
+          <Grid container item sm={6}>
+            <DashboardTitle title={"My Blogs"} />
+          </Grid>
+          <Grid container item sm={3}>
+            <Typography
+              onClick={() => {
+                setOpenBlogEditor(true);
+              }}
+              className={classes.ccrt__dashboard__blogs__create__blog__link}
+            >
+              Create new blog
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid container item sm={3}>
-          <Typography
-            onClick={() => {
-              setOpenBlogEditor(true);
-            }}
-            className={classes.ccrt__dashboard__blogs__create__blog__link}
-          >
-            Create new blog
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid container>
+      )}
+      <Grid container style={{ marginBottom: 20 }}>
         {!loading ? (
           blogs.length === 0 ? (
             <NoContentToShowComponent />
@@ -108,7 +111,7 @@ const MyBlogs = () => {
             })
           )
         ) : (
-          <LoaderComponent />
+          <DashboardLoaderComponent />
         )}
       </Grid>
       <CustomSnackbar
@@ -134,7 +137,7 @@ const MyBlogs = () => {
   );
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   ccrt__dashboard_blogs__wrapper: {
     position: "relative",
   },
@@ -146,7 +149,7 @@ const useStyles = makeStyles({
   },
   ccrt__dashboard__blogs__create__blog__link: {
     textDecoration: "none",
-    background: DEFAULT_COLOR_MINUS_2,
+    background: theme.palette.custom.BLACK,
     fontSize: "80%",
     width: "100%",
     textAlign: "center",
@@ -157,5 +160,5 @@ const useStyles = makeStyles({
     borderRadius: 5,
     cursor: "pointer",
   },
-});
+}));
 export default MyBlogs;

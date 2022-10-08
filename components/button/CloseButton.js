@@ -11,10 +11,10 @@ CloseButton.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     iconStyle: {
-      color: "red",
+      color: theme.palette.custom.RED,
       fontSize: "120%",
       cursor: "pointer",
     },

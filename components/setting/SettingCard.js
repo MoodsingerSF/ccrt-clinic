@@ -1,13 +1,14 @@
 import React from "react";
 import { Grid, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { makeStyles, useTheme } from "@mui/styles";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
+import CustomButton from "../button/CustomButton";
 
 const SettingCard = ({ title, buttonText, link }) => {
   const classes = useStyles();
   const router = useRouter();
-
+  const theme = useTheme();
   return (
     <Grid
       container
@@ -19,12 +20,11 @@ const SettingCard = ({ title, buttonText, link }) => {
         <Typography className={classes.ccrt__setting__text}>{title}</Typography>
       </Grid>
       <Grid container item xs={12} lg={6} justifyContent="flex-end">
-        <Typography
-          className={classes.ccrt__setting__button}
+        <CustomButton
+          title={buttonText}
           onClick={() => router.push(link)}
-        >
-          {buttonText}
-        </Typography>
+          color={theme.palette.custom.GREEN}
+        />
       </Grid>
     </Grid>
   );
@@ -35,22 +35,14 @@ const useStyles = makeStyles((theme) => ({
     width: "80%",
     padding: "40px 20px",
     borderRadius: "5px",
-    background: "#9180BA",
+    background: theme.palette.custom.BLACK,
     marginTop: "20px",
   },
   ccrt__setting__text: {
     textTransform: "capitalize",
-    fontSize: "102%",
-    color: "#fff",
-  },
-  ccrt__setting__button: {
-    background: "#9DCB80",
-    padding: "10px 50px",
-    borderRadius: "5px",
-    color: "#fff",
-    fontSize: "80%",
-    cursor: "pointer",
-    textTransform: "uppercase",
+    fontSize: "90%",
+    color: "white",
+    fontWeight: 500,
   },
 }));
 

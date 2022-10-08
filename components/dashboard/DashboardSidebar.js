@@ -1,17 +1,20 @@
 import React, { useContext, useState } from "react";
-import Link from "next/link";
+// import Link from "next/link";
 import { Grid, Typography } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
-import { DEFAULT_COLOR, DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
 import { Context } from "../../contexts/user-context/UserContext";
 import { DASHBOARD_ROUTES } from "./Routes";
+import { findIndexOfActiveRoute } from "../../controllers/DashboardRouteController";
+import { useRouter } from "next/router";
 
-const DashboardSidebar = () => {
+// eslint-disable-next-line react/prop-types
+const DashboardSidebar = ({ routeName }) => {
   const classes = useStyles();
-
-  const [selected, setSelected] = useState(0);
+  const router = useRouter();
+  const [selected, setSelected] = useState(findIndexOfActiveRoute(routeName));
   const { getRole } = useContext(Context);
-  const handleClickTest = (index) => {
+  const handleClickTest = (index, path) => {
+    router.push("/dashboard/" + path);
     setSelected(index);
   };
 
@@ -22,23 +25,43 @@ const DashboardSidebar = () => {
         justifyContent="center"
         className={classes.ccrt__dashboard__sidebar__header}
       >
-        <Typography>Dashboard kit</Typography>
+        <Typography
+          style={{
+            color: "#FFFFFF",
+            textTransform: "capitalize",
+            fontSize: "100%",
+            fontWeight: 500,
+          }}
+        >
+          Dashboard
+        </Typography>
       </Grid>
-      <Grid container className={classes.ccrt__dashboard__sidebar__menu}>
-        <ul className={classes.ccrt__dashboard__sidebar__menu__items}>
-          {DASHBOARD_ROUTES.map((item, index) => {
-            if (item.allowedRoles.includes(getRole())) {
-              return (
-                <li
-                  key={index}
-                  className={
-                    selected === index
-                      ? classes.ccrt__dashboard__sidebar__menu__item__active
-                      : classes.ccrt__dashboard__sidebar__menu__item
-                  }
-                  onClick={() => handleClickTest(index)}
-                >
-                  <Link href={item.path}>
+      <Grid
+        container
+        // direction={"column"}
+        className={classes.ccrt__dashboard__sidebar__menu}
+      >
+        {/* <ul className={classes.ccrt__dashboard__sidebar__menu__items}> */}
+        {DASHBOARD_ROUTES.map((item, index) => {
+          if (item.allowedRoles.includes(getRole())) {
+            return (
+              <Grid
+                key={index}
+                container
+                // item
+                justifyContent={"flex-start"}
+                alignItems="center"
+                className={
+                  selected === index
+                    ? classes.ccrt__dashboard__sidebar__menu__item__active
+                    : classes.ccrt__dashboard__sidebar__menu__item
+                }
+                onClick={() => handleClickTest(index, item.path)}
+              >
+                {/* <Link href={item.path}> */}
+                <>
+                  {item.icon}
+                  <Typography>
                     <Grid
                       container
                       className={
@@ -47,33 +70,38 @@ const DashboardSidebar = () => {
                     >
                       {item.heading}
                     </Grid>
-                  </Link>
-                </li>
-              );
-            }
-            return null;
-          })}
-        </ul>
+                  </Typography>
+                </>
+                {/* </Link> */}
+              </Grid>
+            );
+          }
+          return null;
+        })}
+        {/* </ul> */}
       </Grid>
     </Grid>
   );
 };
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__dashboard__sidebar__container: {
       padding: "10px 0",
       minHeight: "100vh",
       width: "100%",
+      background: theme.palette.custom.BLACK,
+      // overflowY: "scroll",
     },
     ccrt__dashboard__sidebar__header: {
-      color: "#FFFFFF",
-      textTransform: "capitalize",
-      borderBottom: "2px solid #ffffff",
+      borderBottom: `2px solid ${theme.palette.custom.GREEN}`,
       paddingBottom: "10px",
+      // marginTop: APP_BAR_HEIGHT,
     },
     ccrt__dashboard__sidebar__menu: {
-      marginTop: "10px",
+      paddingTop: "10px",
+      overflowX: "auto",
+      height: "80vh",
     },
     ccrt__dashboard__sidebar__menu__items: {
       padding: "0",
@@ -83,10 +111,11 @@ const useStyles = makeStyles(() =>
     },
     ccrt__dashboard__sidebar__menu__item: {
       cursor: "pointer",
-      borderLeft: `5px solid ${DEFAULT_COLOR_MINUS_2}`,
+      borderLeft: `5px solid ${"transparent"}`,
       "&:hover": {
-        background: DEFAULT_COLOR,
-        borderLeft: "5px solid #FFFFFF",
+        background: theme.palette.custom.GREY,
+        // color: theme.palette.custom.GREEN,
+        borderLeft: `5px solid ${theme.palette.custom.GREEN}`,
       },
     },
     ccrt__dashboard__sidebar__menu__item__link: {
@@ -94,14 +123,15 @@ const useStyles = makeStyles(() =>
       color: "#FFF",
       width: "100%",
       cursor: "pointer",
-      padding: "10px",
-      fontSize: "85%",
+      padding: "10px 0px",
+
+      fontSize: "80%",
       fontWeight: "500",
     },
     ccrt__dashboard__sidebar__menu__item__active: {
-      background: DEFAULT_COLOR,
+      // background: DEFAULT_COLOR,
       cursor: "pointer",
-      borderLeft: "5px solid #FFFFFF",
+      borderLeft: `5px solid ${theme.palette.custom.GREEN}`,
     },
   })
 );

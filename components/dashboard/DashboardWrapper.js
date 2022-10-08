@@ -8,7 +8,7 @@ const DashboardSidebar = dynamic(() =>
   import("../../components/dashboard/DashboardSidebar")
 );
 // eslint-disable-next-line react/prop-types
-const DashboardWrapper = ({ children }) => {
+const DashboardWrapper = ({ children, routeName }) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
@@ -29,7 +29,7 @@ const DashboardWrapper = ({ children }) => {
             xs={2}
             className={classes.ccrt__dashboard__left__container}
           >
-            <DashboardSidebar />
+            <DashboardSidebar routeName={routeName} />
           </Grid>
         ) : null}
 

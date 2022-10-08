@@ -29,6 +29,7 @@ export const processShowDate = (date) => {
 };
 
 export const getAgeFromBirthDate = (birthDate) => {
+  if (!birthDate) return 0;
   const currYear = new Date().getFullYear();
   const birthYear = birthDate.split("-")[0];
   return currYear - birthYear;

@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Chip,
-  IconButton,
-  TableCell,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Grid, TableCell, Tooltip, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import ClearIcon from "@mui/icons-material/Clear";
 import DoneIcon from "@mui/icons-material/Done";
@@ -14,8 +8,13 @@ import {
   acceptFeeRequest,
   RejectFeeRequest,
 } from "../../controllers/UserController";
+import { APPOINTMENT_STATUS } from "../../misc/constants";
+import { makeStyles } from "@mui/styles";
+import ActionButton from "../button/ActionButton";
+import CustomChip from "../chip/CustomChip";
 
 const FeeChangingRequestRow = ({
+  serialNo,
   firstName,
   lastName,
   status,
@@ -25,6 +24,7 @@ const FeeChangingRequestRow = ({
   openSnackbar,
   filterValue,
 }) => {
+  const classes = useStyles();
   const fullName = `${firstName} ${lastName}`;
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -73,13 +73,13 @@ const FeeChangingRequestRow = ({
 
   return (
     <>
-      <TableCell>
-        <Typography style={{ fontSize: "105%", fontWeight: "500" }}>
-          {fullName}
-        </Typography>
+      <TableCell align="left">
+        <Typography
+          className={classes.textStyle}
+        >{`${serialNo}. ${fullName}`}</Typography>
       </TableCell>
       <TableCell align="center">
-        <Chip
+        {/* <Chip
           label={`${previousAmount} |=`}
           color="primary"
           size="small"
@@ -87,10 +87,13 @@ const FeeChangingRequestRow = ({
             fontSize: "95%",
             fontWeight: "500",
           }}
-        />
+        /> */}
+        <Typography className={classes.textStyle}>{previousAmount}</Typography>
       </TableCell>
       <TableCell align="center">
-        <Chip
+        <Typography className={classes.textStyle}>{changingAmount}</Typography>
+
+        {/* <Chip
           label={`${changingAmount} |=`}
           color="primary"
           size="small"
@@ -98,10 +101,13 @@ const FeeChangingRequestRow = ({
             fontSize: "95%",
             fontWeight: "500",
           }}
-        />
+        /> */}
       </TableCell>
-      <TableCell align={filterValue === "pending" ? "center" : "right"}>
-        <Chip
+      <TableCell align={"center"}>
+        <Grid container justifyContent={"center"} alignItems="center">
+          <CustomChip onlyBorder={false} title={status} />
+        </Grid>
+        {/* <Chip
           label={status}
           color="primary"
           size="small"
@@ -109,27 +115,25 @@ const FeeChangingRequestRow = ({
             fontSize: "80%",
             fontWeight: "400",
           }}
-        />
+        /> */}
       </TableCell>
-      {filterValue === "pending" && (
+      {filterValue === APPOINTMENT_STATUS.PENDING && (
         <TableCell align="right">
-          <Tooltip title="Reject">
-            <IconButton
-              size="small"
-              style={{ background: "red", marginRight: "5px" }}
-              onClick={() => setOpenConfirmationModal(true)}
-            >
-              <ClearIcon fontSize="small" style={{ color: "#fff" }} />
-            </IconButton>
-          </Tooltip>
           <Tooltip title="Accept">
-            <IconButton
-              size="small"
-              style={{ background: "green" }}
+            <ActionButton
+              title="Accept"
+              icon={<DoneIcon fontSize="small" />}
               onClick={handleClickAcceptButton}
-            >
-              <DoneIcon fontSize="small" style={{ color: "#fff" }} />
-            </IconButton>
+              type="success"
+            />
+          </Tooltip>
+          <Tooltip title="Reject">
+            <ActionButton
+              title="Reject"
+              icon={<ClearIcon fontSize="small" />}
+              onClick={() => setOpenConfirmationModal(true)}
+              type="error"
+            />
           </Tooltip>
         </TableCell>
       )}
@@ -149,6 +153,7 @@ const FeeChangingRequestRow = ({
 };
 
 FeeChangingRequestRow.propTypes = {
+  serialNo: PropTypes.number.isRequired,
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
@@ -158,4 +163,12 @@ FeeChangingRequestRow.propTypes = {
   openSnackbar: PropTypes.func.isRequired,
   filterValue: PropTypes.string.isRequired,
 };
+
+const useStyles = makeStyles((theme) => ({
+  textStyle: {
+    fontSize: "100%",
+    fontWeight: 500,
+    color: theme.palette.custom.BLACK,
+  },
+}));
 export default FeeChangingRequestRow;

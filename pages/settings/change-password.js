@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { formErrors } from "../../data/signup/data";
@@ -10,20 +10,30 @@ import CustomButton from "../../components/button/CustomButton";
 import SignUpTextField from "../../components/textfields/SignUpTextField";
 import CustomSnackbar from "../../components/snackbar/CustomSnackbar";
 import classNames from "classnames";
+import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
+import {
+  APP_BAR_HEIGHT,
+  BODY_HEIGHT,
+  SNACKBAR_INITIAL_STATE,
+} from "../../misc/constants";
+import { isGuest, updatePassword } from "../../controllers/UserController";
+import ForbiddenComponent from "../../components/misc/ForbiddenComponent";
+import { Context } from "../../contexts/user-context/UserContext";
 
 const ChangePassword = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const matcheSm = useMediaQuery(theme.breakpoints.up("sm"));
-  const matcheMd = useMediaQuery(theme.breakpoints.up("md"));
-  const matcheLg = useMediaQuery(theme.breakpoints.up("lg"));
+  const { getRole } = useContext(Context);
+  const matchesSm = useMediaQuery(theme.breakpoints.up("sm"));
+  const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
+  const matchesLg = useMediaQuery(theme.breakpoints.up("lg"));
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showError, setShowError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
 
   const handleCurrentPassword = (e) => {
     setCurrentPassword(e.target.value);
@@ -35,18 +45,30 @@ const ChangePassword = () => {
     setConfirmPassword(e.target.value);
   };
 
-  const handleSubmitForm = () => {
-    if (validate(currentPassword, newPassword, confirmPassword)) {
+  const openSnackbar = (message) => {
+    handleSnackbarOpen(message, setSnackbar);
+  };
+
+  const handleSubmitForm = async () => {
+    try {
       setLoading(true);
-      //   Api Call
-      console.log("Successful");
+      if (validate(currentPassword, newPassword, confirmPassword)) {
+        await updatePassword(currentPassword, newPassword);
+        setLoading(false);
+        openSnackbar("Password has been updated successfully.");
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        setShowError(false);
+      } else {
+        setShowError(true);
+      }
+    } catch (error) {
       setLoading(false);
-      setOpenSnackbar(true);
-      setCurrentPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
-    } else {
-      setShowError(true);
+      if (error && error.response) {
+        const { data } = error.response;
+        openSnackbar(data.code + ":" + data.message);
+      }
     }
   };
 
@@ -58,6 +80,8 @@ const ChangePassword = () => {
       validateConfirmPassword(confirmPassword, newPassword);
     return isEverythingAllRight;
   };
+
+  if (isGuest(getRole())) return <ForbiddenComponent />;
 
   return (
     <Grid
@@ -71,10 +95,10 @@ const ChangePassword = () => {
         justifyContent={"center"}
         alignItems="center"
         className={classNames({
-          [classes.ccrt__change_password__containerMobile]: !matcheSm,
-          [classes.ccrt__change_password__containerDesktopSm]: matcheSm,
-          [classes.ccrt__change_password__containerDesktopMd]: matcheMd,
-          [classes.ccrt__change_password__containerDesktopLg]: matcheLg,
+          [classes.ccrt__change_password__containerMobile]: !matchesSm,
+          [classes.ccrt__change_password__containerDesktopSm]: matchesSm,
+          [classes.ccrt__change_password__containerDesktopMd]: matchesMd,
+          [classes.ccrt__change_password__containerDesktopLg]: matchesLg,
         })}
       >
         <Typography className={classes.ccrt__change_password__header}>
@@ -87,11 +111,9 @@ const ChangePassword = () => {
             alignItems="center"
             className={classes.ccrt_textField_container}
           >
-            <Typography className={classes.ccrt_textField_label}>
-              What's your current password?
-            </Typography>
             <Grid container justifyContent={"center"} alignItems="center">
               <SignUpTextField
+                label={"Current password"}
                 type="password"
                 variant="outlined"
                 value={currentPassword}
@@ -108,11 +130,9 @@ const ChangePassword = () => {
             alignItems="center"
             className={classes.ccrt_textField_container}
           >
-            <Typography className={classes.ccrt_textField_label}>
-              New password
-            </Typography>
             <Grid container justifyContent={"center"} alignItems="center">
               <SignUpTextField
+                label={"New password"}
                 type="password"
                 variant="outlined"
                 value={newPassword}
@@ -129,11 +149,9 @@ const ChangePassword = () => {
             alignItems="center"
             className={classes.ccrt_textField_container}
           >
-            <Typography className={classes.ccrt_textField_label}>
-              Confirm new password
-            </Typography>
             <Grid container justifyContent={"center"} alignItems="center">
               <SignUpTextField
+                label={"Retype new password"}
                 type="password"
                 variant="outlined"
                 value={confirmPassword}
@@ -155,21 +173,19 @@ const ChangePassword = () => {
           </Grid>
         </Grid>
       </Grid>
-      {openSnackbar && (
-        <CustomSnackbar
-          open={openSnackbar}
-          onClose={() => setOpenSnackbar(false)}
-          message={"Successfully change password"}
-        />
-      )}
+      <CustomSnackbar
+        open={snackbar.open}
+        onClose={() => handleSnackbarClose(setSnackbar)}
+        message={snackbar.message}
+      />
     </Grid>
   );
 };
 
 const useStyles = makeStyles((theme) => ({
   ccrt_change_password_container: {
-    marginTop: "12vh",
-    height: "88vh",
+    marginTop: APP_BAR_HEIGHT,
+    height: BODY_HEIGHT,
   },
   ccrt__change_password__containerMobile: {
     width: "90%",
@@ -184,13 +200,14 @@ const useStyles = makeStyles((theme) => ({
     width: "40%",
   },
   ccrt__change_password__header: {
-    fontSize: "130%",
+    fontSize: "110%",
+    fontWeight: "bold",
     marginBottom: "15px",
-    letterSpacing: "1px",
     textTransform: "capitalize",
+    color: theme.palette.custom.BLACK,
   },
   ccrt_textField_container: {
-    marginBottom: "15px",
+    // marginBottom: "15px",
     width: "100%",
   },
   ccrt_textField_label: {

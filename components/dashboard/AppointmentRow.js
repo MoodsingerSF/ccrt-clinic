@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import AppointmentDetailsShowBackdrop from "../backdrops/AppointmentDetailsShowBackdrop";
 import { Context } from "../../contexts/user-context/UserContext";
 import { Role } from "../../enums/Role";
-import AppointmentTableButton from "../button/AppointmentTableButton";
 import {
   APPOINTMENT_STATUS,
   SNACKBAR_INITIAL_STATE,
@@ -16,6 +15,12 @@ import { cancelAppointment } from "../../controllers/AppointmentController";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
 import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
 import PrescriptionModal from "../modal/PrescriptionModal";
+import { Grid, Typography } from "@mui/material";
+import ActionButton from "../button/ActionButton";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import ClearIcon from "@mui/icons-material/Clear";
+import CheckIcon from "@mui/icons-material/Check";
+import EditIcon from "@mui/icons-material/Edit";
 
 const AppointmentRow = ({
   index,
@@ -27,7 +32,10 @@ const AppointmentRow = ({
   meetingLink,
   DoctorFee,
   status,
+  date,
 }) => {
+  // console.log(date);
+  // console.log(timeSlot);
   const classes = useStyles();
   const { getRole } = useContext(Context);
   const [openPrescriptionForViewing, setOpenPrescriptionForViewing] =
@@ -68,119 +76,94 @@ const AppointmentRow = ({
   return (
     <>
       <tr className={classes.ccrt__table__cell__row}>
-        <td className={classes.ccrt__table__cell}>{index + 1}</td>
-        <td className={classes.ccrt__table__cell}>
-          {patient.firstName + " " + patient.lastName}
+        {/* <td className={classes.ccrt__table__cell}>{index + 1}</td> */}
+        <td className={classes.ccrt__table__cell} align="left">
+          <Typography className={classes.textStyle}>
+            {index + 1}. {patient.firstName + " " + patient.lastName}
+          </Typography>
         </td>
-        <td className={classes.ccrt__table__cell}>{bookingTime}</td>
-        <td className={classes.ccrt__table__cell}>{timeSlot}</td>
+        <td className={classes.ccrt__table__cell} align="center">
+          <Typography className={classes.textStyle}>{bookingTime}</Typography>
+        </td>
+        <td className={classes.ccrt__table__cell} align="center">
+          <Typography className={classes.textStyle}>{timeSlot}</Typography>
+        </td>
         {/* <td className={classes.ccrt__table__cell}>{status}</td> */}
-        <td className={classes.ccrt__table__cell}>
-          {getRole() === Role.ADMIN && (
-            <>
-              <button
-                style={{ textTransform: "capitalize" }}
-                onClick={() => setAppointmentDetailsBackdrop(true)}
-              >
-                patient details
-              </button>
-              <button
-                style={{ textTransform: "capitalize" }}
-                onClick={() => setAppointmentDetailsBackdrop(true)}
-              >
-                doctor details
-              </button>
-              {status === APPOINTMENT_STATUS.PENDING && (
-                <button
-                  style={{ textTransform: "capitalize" }}
-                  onClick={() => setAppointmentDetailsBackdrop(true)}
-                >
-                  cancel
-                </button>
-              )}
-            </>
-          )}
+        <td className={classes.ccrt__table__cell} align="center">
+          <Grid item style={{ marginRight: 10, marginBottom: 10 }}>
+            <ActionButton
+              title="View Details"
+              icon={<VisibilityIcon />}
+              type="info"
+              onClick={() => setAppointmentDetailsBackdrop(true)}
+            />
+          </Grid>
           {getRole() === Role.DOCTOR && (
             <>
               {status === APPOINTMENT_STATUS.PENDING && (
-                <AppointmentTableButton
-                  title={"End Appointment"}
-                  onClick={() => setShowCompletionConfirmationModal(true)}
-                />
+                <Grid item style={{ marginRight: 10, marginBottom: 10 }}>
+                  <ActionButton
+                    title={"End Appointment"}
+                    onClick={() => setShowCompletionConfirmationModal(true)}
+                    type="success"
+                    icon={<CheckIcon />}
+                  />
+                </Grid>
               )}
-              <AppointmentTableButton
-                title={"view details"}
-                onClick={() => setAppointmentDetailsBackdrop(true)}
-              />
-
-              {/* {status === APPOINTMENT_STATUS.PENDING && (
-                <AppointmentTableButton
-                  title={"Cancel Appointment"}
-                  onClick={() => setShowConfirmationModal(true)}
-                />
-              )} */}
             </>
           )}
           {status === APPOINTMENT_STATUS.PENDING && (
-            <AppointmentTableButton
-              title={"Cancel Appointment"}
-              onClick={() => setShowCancellationConfirmationModal(true)}
-            />
-          )}
-          {getRole() === Role.USER && (
-            <button
-              style={{ textTransform: "capitalize" }}
-              onClick={() => setAppointmentDetailsBackdrop(true)}
-            >
-              view details
-            </button>
+            <Grid item style={{ marginRight: 10, marginBottom: 10 }}>
+              <ActionButton
+                icon={<ClearIcon />}
+                title="Cancel Appointment"
+                type="error"
+                onClick={() => setShowCancellationConfirmationModal(true)}
+              />
+            </Grid>
           )}
         </td>
-        {(getRole() === Role.ADMIN || getRole() === Role.USER) && (
-          <td className={classes.ccrt__table__cell}>{`${DoctorFee} tk`}</td>
-        )}
+
+        <td className={classes.ccrt__table__cell} align="center">
+          <Typography
+            className={classes.textStyle}
+          >{`${DoctorFee} tk`}</Typography>
+        </td>
 
         {(status === APPOINTMENT_STATUS.FINISHED ||
           status === APPOINTMENT_STATUS.PENDING) && (
-          <td className={classes.ccrt__table__cell}>
-            <AppointmentTableButton
-              title={"prescription"}
+          <td className={classes.ccrt__table__cell} align="center">
+            <ActionButton
+              title={
+                getRole() === Role.DOCTOR
+                  ? "Edit Prescription"
+                  : "View Prescription"
+              }
               onClick={() => {
-                setOpenPrescriptionForViewing(true);
+                if (getRole() === Role.DOCTOR) {
+                  setOpenPrescriptionForEditing(true);
+                } else {
+                  setOpenPrescriptionForViewing(true);
+                }
               }}
+              type="info"
+              icon={
+                getRole() === Role.DOCTOR ? <EditIcon /> : <VisibilityIcon />
+              }
             />
           </td>
         )}
-        {getRole() === Role.DOCTOR && (
-          <>
-            {status === APPOINTMENT_STATUS.PENDING && (
-              <td className={classes.ccrt__table__cell}>
-                <AppointmentTableButton
-                  title={"add prescription"}
-                  onClick={() => {
-                    setOpenPrescriptionForEditing(true);
-                  }}
-                  // onClick={() => setShowConfirmationModal(true)}
-                />
-              </td>
-            )}
-          </>
-        )}
 
         {status === APPOINTMENT_STATUS.PENDING && (
-          <td className={classes.ccrt__table__cell}>
+          <td className={classes.ccrt__table__cell} align="center">
             <a
               href={meetingLink}
-              style={{ textDecoration: "none", fontSize: "100%" }}
+              className={classes.linkStyle}
               target="_blank"
               rel="noopener noreferrer"
             >
               Open Meeting
             </a>
-            {/* <AppointmentTableButton
-              title={"link"}
-              // onClick={() => setShowConfirmationModal(true)}
-            /> */}
           </td>
         )}
       </tr>
@@ -194,7 +177,7 @@ const AppointmentRow = ({
       )}
       {showCancellationConfirmationModal && (
         <ConfirmationModal
-          title="Do you want to cancel it?"
+          title="Do you want to cancel this appointment?"
           onPositiveFeedback={handleDeleteAppointment}
           onNegativeFeedback={() => {
             setShowCancellationConfirmationModal(false);
@@ -211,6 +194,7 @@ const AppointmentRow = ({
             setAppointmentDetailsBackdrop(false);
           }}
           appointmentId={appointmentId}
+          editable={getRole() === Role.USER && new Date(date) < new Date()}
         />
       )}
       {openPrescriptionForEditing && (
@@ -234,6 +218,7 @@ const AppointmentRow = ({
           appointmentId={appointmentId}
           patient={patient}
           doctor={doctor}
+          date={date}
         />
       )}
       <CustomSnackbar
@@ -257,11 +242,20 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   ccrt__table__cell: {
-    padding: "12px 6px 12px 12px",
-    textAlign: "center",
-    fontSize: "80%",
     textTransform: "capitalize",
-    fontWeight: "400",
+    padding: "10px 0px",
+  },
+  textStyle: {
+    color: theme.palette.custom.BLACK,
+    fontSize: "80%",
+    fontWeight: 500,
+  },
+  linkStyle: {
+    color: theme.palette.custom.BLACK,
+    fontSize: "70%",
+    textDecoration: "none",
+    letterSpacing: 0,
+    fontWeight: 600,
   },
 }));
 
@@ -272,7 +266,7 @@ AppointmentRow.propTypes = {
 
   bookingTime: PropTypes.string.isRequired,
   timeSlot: PropTypes.string.isRequired,
-  // date: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
   // typeOfCancer,
   meetingLink: PropTypes.string.isRequired,
   DoctorFee: PropTypes.number.isRequired,

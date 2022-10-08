@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, IconButton, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -8,7 +8,7 @@ import DoctorFormTrainingModal from "../modal/DoctorFormTrainingModal";
 import ConfirmationModal from "../modal/ConfirmationModal";
 import { processShowDate } from "../../misc/functions";
 import { deleteTraining } from "../../controllers/UserController";
-import DoctorInfoButton from "../button/DoctorInfoButton";
+import ActionButton from "../button/ActionButton";
 
 const DoctorTrainingInfo = ({
   id,
@@ -55,45 +55,54 @@ const DoctorTrainingInfo = ({
     <>
       <Grid
         container
-        flexDirection={"column"}
+        // flexDirection={"column"}
         className={classes.ccrt__training__section__content__container}
       >
-        <Typography
-          className={
-            classes.ccrt__training__section__content__content__heading_1
-          }
-        >
-          {instituteName}
-        </Typography>
-        <Typography
-          className={
-            classes.ccrt__training__section__content__content__heading_2
-          }
-        >
-          {programName}
-        </Typography>
-        <Typography
-          className={
-            classes.ccrt__training__section__content__content__heading_3
-          }
-        >
-          {startDate} - {endDate}
-        </Typography>
+        <Grid item xs={9}>
+          <Typography
+            className={
+              classes.ccrt__training__section__content__content__heading_2
+            }
+          >
+            {programName}
+          </Typography>
+          <Typography
+            className={
+              classes.ccrt__training__section__content__content__heading_1
+            }
+          >
+            {instituteName}
+          </Typography>
 
-        {editable && (
-          <>
-            <DoctorInfoButton
-              className={classes.ccrt__doctor__training__info__edit}
-              onClick={() => setShowEditableModal(true)}
-              icon={<EditIcon fontSize="small" />}
-            />
-            <DoctorInfoButton
-              className={classes.ccrt__doctor__training__info__delete}
-              onClick={() => setConfirmationModal(true)}
-              icon={<DeleteIcon fontSize="small" />}
-            />
-          </>
-        )}
+          <Typography
+            className={
+              classes.ccrt__training__section__content__content__heading_3
+            }
+          >
+            {startDate} - {endDate}
+          </Typography>
+        </Grid>
+
+        <Grid item xs={3} container justifyContent="flex-end">
+          <Grid item>
+            {editable && (
+              <>
+                <ActionButton
+                  icon={<EditIcon fontSize="small" />}
+                  title={"Remove"}
+                  type="error"
+                  onClick={() => setConfirmationModal(true)}
+                />
+                <ActionButton
+                  icon={<DeleteIcon fontSize="small" />}
+                  title={"Edit"}
+                  type="info"
+                  onClick={() => setShowEditableModal(true)}
+                />
+              </>
+            )}
+          </Grid>
+        </Grid>
       </Grid>
 
       {showEditableModal && (
@@ -108,6 +117,7 @@ const DoctorTrainingInfo = ({
           start={startYear}
           end={endYear}
           editable={true}
+          openSnackbar={openSnackbar}
         />
       )}
       {confirmationModal && (
@@ -122,30 +132,35 @@ const DoctorTrainingInfo = ({
   );
 };
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   ccrt__training__section__content__container: {
     position: "relative",
     margin: "10px 0",
   },
   ccrt__training__section__content__content__heading_1: {
-    fontSize: "110%",
-    fontWeight: "500",
+    fontSize: "85%",
+    fontWeight: 500,
+    color: theme.palette.custom.BLACK,
   },
   ccrt__training__section__content__content__heading_2: {
-    fontSize: "90%",
-    fontWeight: "400",
+    fontSize: "85%",
+    fontWeight: 500,
+    color: theme.palette.custom.BLACK,
   },
   ccrt__training__section__content__content__heading_3: {
     fontSize: "80%",
-    fontWeight: "300",
+    fontWeight: 500,
+    color: theme.palette.custom.GREY,
   },
   ccrt__doctor__training__info__delete: {
     position: "absolute",
     right: "0",
+    color: theme.palette.custom.RED,
   },
   ccrt__doctor__training__info__edit: {
     position: "absolute",
     right: "50px",
+    color: theme.palette.custom.BLUE,
   },
 }));
 

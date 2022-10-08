@@ -1,21 +1,21 @@
 import React, { useState } from "react";
-import {
-  Grid,
-  TableCell,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Grid, TableCell, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import ConfirmationModal from "../modal/ConfirmationModal";
+import ActionButton from "../button/ActionButton";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
-const DonationRequestRow = ({ name, amount, phone, status }) => {
+const DonationRequestRow = ({
+  name,
+  amount,
+  phone,
+  disease,
+  description,
+  serialNo,
+}) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const matchesSm = useMediaQuery(theme.breakpoints.up("sm"));
-  const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
-
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [acceptRequest, setAcceptRequest] = useState(false);
@@ -40,50 +40,48 @@ const DonationRequestRow = ({ name, amount, phone, status }) => {
   return (
     <>
       <TableCell>
-        <Typography className={classes.ccrt__donation__request__row__name}>
-          {name}
-        </Typography>
-      </TableCell>
-      <TableCell>
         <Typography className={classes.ccrt__donation__request__row__common}>
-          +88 {phone}
+          {serialNo}. {name}
         </Typography>
       </TableCell>
-      <TableCell>
-        <Typography
-          style={{ width: matchesSm ? (matchesMd ? "40%" : "75%") : "100%" }}
-          className={classes.ccrt__donation__request__row__status}
-        >
+      <TableCell align="center">
+        <Typography className={classes.ccrt__donation__request__row__common}>
+          {phone}
+        </Typography>
+      </TableCell>
+      <TableCell align="center">
+        <Typography className={classes.ccrt__donation__request__row__common}>
           {amount}
         </Typography>
       </TableCell>
-      <TableCell>
-        <Typography
-          style={{ width: matchesSm ? (matchesMd ? "40%" : "75%") : "100%" }}
-          className={classes.ccrt__donation__request__row__status}
-        >
-          {status}
+      <TableCell align="center">
+        <Typography className={classes.ccrt__donation__request__row__common}>
+          {disease}
         </Typography>
       </TableCell>
-      <TableCell>
-        <Grid container item xs={12} spacing={1}>
-          <Grid container item xs={12} md={6}>
-            <Typography
-              className={classes.ccrt__donation__request__row__button}
-              onClick={handleClickAcceptButton}
-            >
-              accept
-            </Typography>
-          </Grid>
-          <Grid container item xs={12} md={6}>
-            <Typography
-              className={classes.ccrt__donation__request__row__button}
-              onClick={() => setOpenConfirmationModal(true)}
-            >
-              reject
-            </Typography>
-          </Grid>
+      <TableCell align="center">
+        <Typography
+          className={classes.ccrt__donation__request__row__description}
+        >
+          {description}
+        </Typography>
+      </TableCell>
+      <TableCell align="center">
+        <Grid item style={{ marginBottom: 5 }}>
+          <ActionButton
+            title={"Accept"}
+            // const handleClickAcceptButton = () => {
+            onClick={handleClickAcceptButton}
+            type="success"
+            icon={<CheckIcon />}
+          />
         </Grid>
+        <ActionButton
+          title={"Reject"}
+          onClick={() => {}}
+          type="error"
+          icon={<ClearIcon />}
+        />
       </TableCell>
 
       {openConfirmationModal && (
@@ -103,41 +101,28 @@ const DonationRequestRow = ({ name, amount, phone, status }) => {
 };
 
 const useStyles = makeStyles((theme) => ({
-  ccrt__donation__request__row__name: {
-    fontSize: "100%",
-    marginRight: "20px",
-    lineHeight: "1.7",
-    textTransform: "capitalize",
-  },
   ccrt__donation__request__row__common: {
     fontSize: "100%",
-    marginRight: "20px",
+    color: theme.palette.custom.BLACK,
+    fontWeight: "500",
   },
-  ccrt__donation__request__row__status: {
+  ccrt__donation__request__row__description: {
     fontSize: "100%",
-    marginRight: "20px",
-    border: "1px solid green",
-    borderRadius: "10px",
-    textAlign: "center",
-    lineHeight: "1.7",
-    textTransform: "capitalize",
-  },
-  ccrt__donation__request__row__button: {
-    fontSize: "100%",
-    marginRight: "20px",
-    border: "1px solid green",
-    borderRadius: "10px",
-    padding: "0 10px",
-    textAlign: "center",
-    lineHeight: "1.7",
-    textTransform: "capitalize",
-    cursor: "pointer",
+    color: theme.palette.custom.BLACK,
+    fontWeight: "500",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    "-webkit-line-clamp": 2 /* number of lines to show */,
+    "-webkit-box-orient": "vertical",
   },
 }));
 DonationRequestRow.propTypes = {
+  serialNo: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
+  disease: PropTypes.string.isRequired,
+  description: PropTypes.string,
 };
 export default DonationRequestRow;

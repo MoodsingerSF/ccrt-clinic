@@ -8,7 +8,11 @@ const AppointmentDetailsTypography = ({ heading, text }) => {
   return (
     <Grid
       container
+      // item
+      // xs={7}
       // flexDirection={"column"}
+      justifyContent={"flex-start"}
+      alignItems="center"
       className={classes.ccrt__appointment__details__typography__container}
     >
       <Typography className={classes.ccrt__appointment__details__header}>
@@ -20,23 +24,22 @@ const AppointmentDetailsTypography = ({ heading, text }) => {
     </Grid>
   );
 };
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__appointment__details__typography__container: {
       marginBottom: "10px",
     },
     ccrt__appointment__details__header: {
-      fontSize: "80%",
+      fontSize: "85%",
       textTransform: "capitalize",
-      fontWeight: 500,
+      fontWeight: "bold",
       marginRight: 8,
+      color: theme.palette.custom.DEFAULT_COLOR,
     },
     ccrt__appointment__details__title: {
-      // border: `1px solid ${theme.palette.custom.BORDER}`,
-      // padding: "10px 5px",
-      fontSize: "80%",
-      // fontWeight: "500",
-      // lineHeight: "1.25",
+      fontSize: "85%",
+      fontWeight: 500,
+      color: theme.palette.custom.BLACK,
       textTransform: "capitalize",
     },
   })

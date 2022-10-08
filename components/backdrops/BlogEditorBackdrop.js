@@ -26,8 +26,9 @@ import Editor from "../text-editor/Editor";
 import CustomButton from "../button/CustomButton";
 import PropTypes from "prop-types";
 import { DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
-import DashboardTitle from "../dashboard/DashboardTitle";
+// import DashboardTitle from "../dashboard/DashboardTitle";
 import ModalBodyWrapper from "../modal/ModalBodyWrapper";
+import DoctorInfoFormTextField from "../textfields/DoctorInfoFormTextField";
 const BlogEditorBackdrop = ({
   open,
   onClose,
@@ -51,9 +52,7 @@ const BlogEditorBackdrop = ({
 
   const [blogTitle, setBlogTitle] = useState(edit ? title : "");
   const [coverPhoto, setCoverPhoto] = useState(null);
-  const [coverPhotoPreview, setCoverPhotoPreview] = useState(
-    `${"/images/ArtistScreen/logo2.jpg"}`
-  );
+  const [coverPhotoPreview, setCoverPhotoPreview] = useState("");
   const [tagList, setTagList] = useState(edit ? tags : []);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -167,7 +166,16 @@ const BlogEditorBackdrop = ({
           </Head>
 
           <Grid container justifyContent="center" alignItems="center">
-            <DashboardTitle title={pageTitle} />
+            <Typography
+              style={{
+                color: theme.palette.custom.BLACK,
+                fontSize: "100%",
+                fontWeight: 600,
+                textAlign: "center",
+              }}
+            >
+              {pageTitle}
+            </Typography>
           </Grid>
 
           <Grid container>
@@ -237,7 +245,7 @@ const BlogEditorBackdrop = ({
               [classes.ccrt__blog__editor__container_Md]: matchesMd,
             })}
           >
-            <Grid container item md={12}>
+            <Grid container item md={12} spacing={1}>
               <Grid
                 container
                 justifyContent="center"
@@ -246,24 +254,17 @@ const BlogEditorBackdrop = ({
                 md={6}
                 mb={2}
               >
-                <TextField
-                  fullWidth
+                <DoctorInfoFormTextField
+                  label="Write your blog title here"
                   type="text"
                   value={blogTitle}
                   onChange={(e) => setBlogTitle(e.target.value)}
                   error={error && !isBlogTitleCorrect(blogTitle)}
-                  helperText={
+                  errorText={
                     error && !isBlogTitleCorrect(blogTitle)
                       ? "Title can not be empty"
                       : ""
                   }
-                  label="Write your blog title here"
-                  variant="outlined"
-                  size="small"
-                  className={classNames({
-                    [classes.ccrt__blog__title__field_mobile]: !matchesMd,
-                    [classes.ccrt__blog__title__field_Md]: matchesMd,
-                  })}
                 />
               </Grid>
               <Grid container item md={6} mb={2}>
@@ -303,7 +304,14 @@ const BlogEditorBackdrop = ({
                         hidden
                       />
                     </Box>
-                    <Typography style={{ paddingLeft: 5, fontSize: "70%" }}>
+                    <Typography
+                      style={{
+                        paddingLeft: 5,
+                        fontSize: "80%",
+                        color: theme.palette.custom.BLACK,
+                        fontWeight: 500,
+                      }}
+                    >
                       {coverPhoto !== null ? (
                         <span> {coverPhoto.name}</span>
                       ) : (
@@ -326,6 +334,7 @@ const BlogEditorBackdrop = ({
                       }}
                       onClick={() => {
                         setCoverPhoto(null);
+                        setCoverPhotoPreview("");
                       }}
                     />
                   </Grid>
@@ -363,6 +372,11 @@ const BlogEditorBackdrop = ({
                     setTagList(() => newValue);
                   }}
                   freeSolo
+                  classes={{
+                    tag: classes.tag,
+                    input: classes.resize,
+                    paper: classes.popper,
+                  }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -373,6 +387,21 @@ const BlogEditorBackdrop = ({
                           ? "Enter at least one tag"
                           : ""
                       }
+                      // InputProps={{
+                      //   classes: {
+                      //     input: classes.resize,
+                      //   },
+                      // }}
+
+                      InputLabelProps={{
+                        style: {
+                          color: theme.palette.custom.BLACK,
+                          fontSize: "85%",
+                          fontWeight: 500,
+                          margin: 0,
+                          padding: 0,
+                        },
+                      }}
                     />
                   )}
                 />
@@ -446,9 +475,10 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "Capitalize",
   },
   ccrt__blog__editor__image__button: {
-    backgroundColor: DEFAULT_COLOR_MINUS_2,
+    backgroundColor: theme.palette.custom.BLACK,
     borderRadius: 5,
-    height: 45,
+    // height: 45,
+    padding: "10px 0px",
     width: 200,
     cursor: "pointer",
 
@@ -496,8 +526,33 @@ const useStyles = makeStyles((theme) => ({
   },
   image_title: {
     fontSize: "80%",
+    color: theme.palette.custom.BLACK,
     fontWeight: 500,
     marginBottom: 10,
+  },
+  resize: {
+    fontSize: "85%",
+    color: theme.palette.custom.BLACK,
+    fontWeight: 500,
+  },
+  tag: {
+    fontSize: "70%",
+    background: theme.palette.custom.BLACK,
+    fontWeight: 500,
+    // textTransform: "capitalize",
+    color: "white",
+  },
+  popper: {
+    fontSize: "80%",
+    background: theme.palette.custom.BLACK,
+    fontWeight: 500,
+    // textTransform: "capitalize",
+    color: "white",
+  },
+  option: {
+    "&:hover": {
+      background: theme.palette.custom.GREY,
+    },
   },
 }));
 export default BlogEditorBackdrop;

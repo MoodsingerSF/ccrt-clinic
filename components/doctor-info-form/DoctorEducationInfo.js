@@ -8,8 +8,8 @@ import DoctorFormEducationModal from "../modal/DoctorFormEducationModal";
 import ConfirmationModal from "../modal/ConfirmationModal";
 // import axios from "axios";
 import { deleteEducation } from "../../controllers/UserController";
-import DoctorInfoButton from "../button/DoctorInfoButton";
 import { processShowDate } from "../../misc/functions";
+import ActionButton from "../button/ActionButton";
 
 const DoctorEducationInfo = ({
   id,
@@ -57,45 +57,54 @@ const DoctorEducationInfo = ({
     <>
       <Grid
         container
-        flexDirection={"column"}
+        // direction={"column"}
         className={classes.ccrt__education__section__content__container}
       >
-        <Typography
-          className={
-            classes.ccrt__education__section__content__content__heading_1
-          }
-        >
-          {instituteName}
-        </Typography>
-        <Typography
-          className={
-            classes.ccrt__education__section__content__content__heading_2
-          }
-        >
-          {degreeName}, {subjectName}
-        </Typography>
-        <Typography
-          className={
-            classes.ccrt__education__section__content__content__heading_3
-          }
-        >
-          {startDate} <span style={{ fontWeight: "700" }}>-</span> {endDate}
-        </Typography>
+        <Grid item xs={9}>
+          <Typography
+            className={
+              classes.ccrt__education__section__content__content__heading_2
+            }
+          >
+            {degreeName}, {subjectName}
+          </Typography>
+          <Typography
+            className={
+              classes.ccrt__education__section__content__content__heading_1
+            }
+          >
+            {instituteName}
+          </Typography>
 
-        {editable && (
-          <>
-            <DoctorInfoButton
-              className={classes.ccrt__doctor__training__info__edit}
-              onClick={() => setShowEditableModal(true)}
-              icon={<EditIcon fontSize="small" />}
-            />
-            <DoctorInfoButton
-              className={classes.ccrt__doctor__training__info__delete}
-              onClick={() => setConfirmationModal(true)}
-              icon={<DeleteIcon fontSize="small" />}
-            />
-          </>
-        )}
+          <Typography
+            className={
+              classes.ccrt__education__section__content__content__heading_3
+            }
+          >
+            {startDate} <span style={{ fontWeight: "700" }}>-</span> {endDate}
+          </Typography>
+        </Grid>
+
+        <Grid item xs={3} container justifyContent={"flex-end"}>
+          <Grid item>
+            {editable && (
+              <>
+                <ActionButton
+                  icon={<EditIcon fontSize="small" />}
+                  title={"Remove"}
+                  type="error"
+                  onClick={() => setConfirmationModal(true)}
+                />
+                <ActionButton
+                  icon={<DeleteIcon fontSize="small" />}
+                  title={"Edit"}
+                  type="info"
+                  onClick={() => setShowEditableModal(true)}
+                />
+              </>
+            )}
+          </Grid>
+        </Grid>
       </Grid>
       {showEditableModal && (
         <DoctorFormEducationModal
@@ -110,11 +119,14 @@ const DoctorEducationInfo = ({
           start={startYear}
           end={endYear}
           editable={true}
+          openSnackbar={openSnackbar}
         />
       )}
       {confirmationModal && (
         <ConfirmationModal
-          onPositiveFeedback={() => handleDeleteSection(id)}
+          onPositiveFeedback={() => {
+            handleDeleteSection(id);
+          }}
           onNegativeFeedback={() => setConfirmationModal(false)}
           title={"You want to delete this section"}
           loading={loading}
@@ -139,30 +151,35 @@ DoctorEducationInfo.propTypes = {
   editable: PropTypes.bool,
 };
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   ccrt__education__section__content__container: {
     position: "relative",
     margin: "10px 0",
   },
   ccrt__education__section__content__content__heading_1: {
-    fontSize: "110%",
-    fontWeight: "500",
+    fontSize: "85%",
+    fontWeight: 500,
+    color: theme.palette.custom.BLACK,
   },
   ccrt__education__section__content__content__heading_2: {
-    fontSize: "90%",
-    fontWeight: "400",
+    fontSize: "85%",
+    fontWeight: 500,
+    color: theme.palette.custom.BLACK,
   },
   ccrt__education__section__content__content__heading_3: {
     fontSize: "80%",
-    fontWeight: "300",
+    fontWeight: 500,
+    color: theme.palette.custom.GREY,
   },
   ccrt__doctor__training__info__delete: {
     position: "absolute",
     right: "0",
+    color: theme.palette.custom.RED,
   },
   ccrt__doctor__training__info__edit: {
     position: "absolute",
     right: "50px",
+    color: theme.palette.custom.BLUE,
   },
 }));
 

@@ -1,7 +1,7 @@
 export const COPY_RIGHT = "Copyright © 2022 by CCRT. All rights reserved";
 export const FOLLOW_US_TITLE = "Follow Us";
 export const FOLLOW_US_TEXT =
-  " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at est id leo luctus gravida a in ipsum.";
+  "Cancer Care & Research Trust Bangladesh is a humanity-inspired voluntary movement to extend support for cancer patients.";
 export const USEFUL_LINKS_TITLE = "Useful links";
 export const useful_links_data = [
   {

@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     anchorStyle: {
       width: "100%",
-      color: "inherit",
       fontSize: "85%",
+      color: theme.palette.custom.BLACK,
       textDecoration: "none",
       textAlign: "center",
       padding: 10,
@@ -37,8 +37,10 @@ const useStyles = makeStyles((theme) =>
       },
     },
     anchorContainerStyle: {
-      transition: "background 0.4s ease-in",
+      transition: "all 0.4s ease-in",
       // margin: "0 5px",
+      borderRadius: 5,
+
       "&:hover": {
         background: theme.palette.secondary.main,
         // color: "#fff",

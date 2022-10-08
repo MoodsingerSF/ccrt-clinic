@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow,
   TablePagination,
+  Typography,
 } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import BlogRequestRow from "./BlogRequestRow";
@@ -20,6 +21,7 @@ import {
 } from "../../../misc/functions";
 import LoaderBackdrop from "../../backdrops/LoaderBackdrop";
 import NoContentToShowComponent from "../../misc/NoContentToShowComponent";
+import DashboardLoaderComponent from "../DashboardLoaderComponent";
 const BlogRequest = () => {
   const classes = useStyle();
 
@@ -61,12 +63,26 @@ const BlogRequest = () => {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell>Author</TableCell>
-                  <TableCell align="center" style={{ width: "200px" }}>
-                    Blog title
+                  <TableCell align="center">
+                    <Typography className={classes.titleStyle}>
+                      Author
+                    </Typography>
                   </TableCell>
-                  <TableCell align="right">Status</TableCell>
-                  <TableCell align="right">Actions</TableCell>
+                  <TableCell align="center" style={{ width: "200px" }}>
+                    <Typography className={classes.titleStyle}>
+                      Blog title
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography className={classes.titleStyle}>
+                      Status
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography className={classes.titleStyle}>
+                      Actions
+                    </Typography>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -112,7 +128,7 @@ const BlogRequest = () => {
           </TableContainer>
         )
       ) : (
-        <LoaderBackdrop open={true} />
+        <DashboardLoaderComponent />
       )}
       <CustomSnackbar
         open={snackbar.open}
@@ -133,7 +149,7 @@ const useStyle = makeStyles((theme) =>
       "& thead th": {
         fontWeight: "500",
         color: "#FFFFFF",
-        background: theme.palette.primary.main_minus_2,
+        background: theme.palette.custom.BLACK,
       },
       "& tbody td": {
         fontWeight: "400",
@@ -144,6 +160,11 @@ const useStyle = makeStyles((theme) =>
         background: theme.palette.custom.TABLE_HOVER_COLOR,
         cursor: "pointer",
       },
+    },
+    titleStyle: {
+      color: "white",
+      fontSize: "90%",
+      fontWeight: 500,
     },
   })
 );

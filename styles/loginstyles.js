@@ -28,19 +28,24 @@ export const useStyles = makeStyles((theme) =>
       borderRadius: "5px",
     },
     ccrt__login__forgot__password: {
-      fontSize: "90%",
+      fontSize: "85%",
       margin: "15px 0",
       textDecoration: "none",
-      color: theme.palette.primary.main,
+      fontWeight: 500,
+      color: theme.palette.primary.BLACK,
+      cursor: "pointer",
     },
     ccrt__login__or__text: {
       margin: "10px 0",
       fontSize: "80%",
+      fontWeight: 500,
     },
     ccrt__login__signup__link: {
-      textDecoration: "none",
       marginLeft: "5px",
-      color: theme.palette.primary.main,
+      fontWeight: "bold",
+      fontSize: "90%",
+      color: theme.palette.custom.BLACK,
+      cursor: "pointer",
     },
   })
 );

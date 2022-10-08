@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Head from "next/head";
@@ -9,38 +9,58 @@ import { formErrors } from "../data/signup/data";
 import { BOX_SHADOW } from "../misc/colors";
 import AccountFound from "../components/passwordRecovery/AccountFound";
 import PasswordChange from "../components/passwordRecovery/PasswordChange";
+import { findUserByEmail } from "../controllers/UserController";
+import CustomSnackbar from "../components/snackbar/CustomSnackbar";
+import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
+import {
+  APP_BAR_HEIGHT,
+  BODY_HEIGHT,
+  SNACKBAR_INITIAL_STATE,
+} from "../misc/constants";
 
 const PasswordRecoveryScreen = () => {
   const classes = useStyles();
 
-  const [gmail, setGmail] = useState("");
+  const user = useRef(null);
+  const [email, setEmail] = useState("");
   //   const [userDetails, setUserDetails] = useState(null);
   const [showError, setShowError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isAccountFound, setIsAccountFound] = useState(false);
   const [hasRes, setHasRes] = useState(false);
   const [isChangingPass, setIsChangingPass] = useState(false);
-
-  const handleGmail = (e) => {
-    setGmail(e.target.value);
+  const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
+  const openSnackbar = (message) => {
+    handleSnackbarOpen(message, setSnackbar);
+  };
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
   };
 
-  const handleSubmitForm = () => {
-    if (validate(gmail)) {
-      setLoading(true);
-      //   Api Call
-      console.log("Successful");
-      setIsAccountFound(true);
-      setHasRes(true);
+  const searchUserByEmail = async () => {
+    try {
+      if (validate(email)) {
+        setLoading(true);
+        const foundUser = await findUserByEmail(email);
+        user.current = foundUser;
+        setIsAccountFound(true);
+        setHasRes(true);
+        setLoading(false);
+      } else {
+        setShowError(true);
+      }
+    } catch (error) {
       setLoading(false);
-    } else {
-      setShowError(true);
+      if (error && error.response) {
+        const { data } = error.response;
+        openSnackbar(data.code + ": " + data.message);
+      }
     }
   };
 
-  const validate = (gmail) => {
+  const validate = (email) => {
     let isEverythingAllRight = true;
-    isEverythingAllRight = validateEmail(gmail);
+    isEverythingAllRight = validateEmail(email);
     return isEverythingAllRight;
   };
 
@@ -69,16 +89,21 @@ const PasswordRecoveryScreen = () => {
           <>
             {hasRes === true && isAccountFound === true ? (
               <AccountFound
+                userId={user?.current.userId}
+                email={user?.current.email}
+                name={user?.current.firstName + " " + user?.current.lastName}
+                imageUrl={user?.current.profileImageUrl}
                 notYouHandler={() => {
                   setHasRes(false);
                   setIsAccountFound(false);
-                  setGmail("");
+                  setEmail("");
                 }}
                 onSuccess={() => {
                   setIsChangingPass(true);
                   setIsAccountFound(false);
                   setHasRes(false);
                 }}
+                openSnackbar={openSnackbar}
               />
             ) : (
               <>
@@ -86,7 +111,7 @@ const PasswordRecoveryScreen = () => {
                   <Typography
                     className={classes.ccrt__passwordRecovery__header}
                   >
-                    Search your profile
+                    Password Recovery
                   </Typography>
                 </Grid>
                 <Grid
@@ -96,7 +121,7 @@ const PasswordRecoveryScreen = () => {
                   className={classes.ccrt_textField_container}
                 >
                   <Typography className={classes.ccrt_textField_label}>
-                    Search your account by gmail
+                    Enter your email address
                   </Typography>
                   <Grid
                     container
@@ -108,14 +133,15 @@ const PasswordRecoveryScreen = () => {
                       container
                       justifyContent={"center"}
                       alignItems="center"
+                      style={{ marginBottom: 15 }}
                     >
                       <SignUpTextField
                         type="text"
+                        label="email address"
                         variant="outlined"
-                        placeholder="example@gmail.com"
-                        value={gmail}
-                        onChange={handleGmail}
-                        error={showError && !validateEmail(gmail)}
+                        value={email}
+                        onChange={handleEmail}
+                        error={showError && !validateEmail(email)}
                         errorText={formErrors.email}
                       />
                     </Grid>
@@ -126,7 +152,7 @@ const PasswordRecoveryScreen = () => {
                     >
                       <CustomButton
                         title={"search"}
-                        onClick={handleSubmitForm}
+                        onClick={searchUserByEmail}
                         loading={loading}
                       />
                     </Grid>
@@ -137,15 +163,22 @@ const PasswordRecoveryScreen = () => {
           </>
         ) : (
           <PasswordChange
+            userId={user?.current.userId}
             onCancel={() => {
               setIsChangingPass(false);
               setHasRes(false);
               setIsAccountFound(false);
-              setGmail("");
+              setEmail("");
             }}
+            openSnackbar={openSnackbar}
           />
         )}
       </Grid>
+      <CustomSnackbar
+        open={snackbar.open}
+        onClose={() => handleSnackbarClose(setSnackbar)}
+        message={snackbar.message}
+      />
     </Grid>
   );
 };
@@ -153,8 +186,8 @@ const PasswordRecoveryScreen = () => {
 const useStyles = makeStyles((theme) => ({
   ccrt__passwordRecovery__container: {
     width: "calc(100vw - 5px)",
-    height: "88vh",
-    marginTop: "12vh",
+    height: BODY_HEIGHT,
+    marginTop: APP_BAR_HEIGHT,
   },
   ccrt__passwordRecovery__wrapper: {
     boxShadow: BOX_SHADOW,
@@ -163,14 +196,16 @@ const useStyles = makeStyles((theme) => ({
   },
   ccrt__passwordRecovery__header: {
     fontSize: "120%",
-    fontWeight: "300",
+    fontWeight: "bold",
+    color: theme.palette.custom.BLACK,
     marginBottom: "10px",
     textTransform: "capitalize",
   },
   ccrt_textField_label: {
-    marginBottom: "5px",
-    fontSize: "80%",
+    marginBottom: "15px",
+    fontSize: "85%",
     fontWeight: "500",
+    color: theme.palette.custom.BLACK,
   },
 }));
 

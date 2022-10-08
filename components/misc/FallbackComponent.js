@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import React from "react";
-import Lottie from "lottie-react";
-import animationData from "../../public/animations/loading5.json";
+
+import LoaderComponent from "./LoaderComponent";
 const FallbackComponent = () => {
   return (
     <Grid
@@ -10,10 +10,7 @@ const FallbackComponent = () => {
       alignItems="center"
       style={{ height: "100vh", width: "100vw" }}
     >
-      <Lottie
-        animationData={animationData}
-        style={{ width: 80, height: 80 }}
-      ></Lottie>
+      <LoaderComponent />
     </Grid>
   );
 };

@@ -12,7 +12,7 @@ import {
 import { makeStyles, createStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 
-const DoctorsCategory = ({ title, filter, id }) => {
+const Specialization = ({ title, selected, id }) => {
   const classes = useStyles();
   const router = useRouter();
   const theme = useTheme();
@@ -25,12 +25,11 @@ const DoctorsCategory = ({ title, filter, id }) => {
             <Radio
               size="small"
               value={title}
-              checked={filter === title}
-              onChange={(e) =>
-                router.push("/doctors?specialization=" + e.target.value + id)
-              }
+              checked={selected}
+              onChange={() => router.push("/doctors?specialization=" + id)}
             />
           }
+          // classes={{ root: classes.root }}
           label={
             <Typography className={classes.ccrt__dctr__page__left__menu__list}>
               {title}
@@ -48,14 +47,15 @@ const useStyles = makeStyles((theme) =>
       width: "100%",
       padding: "5px",
       textTransform: "capitalize",
-      fontSize: "90%",
+      fontSize: "85%",
       fontWeight: "500",
-      color: theme.palette.grey[700],
+      color: theme.palette.BLACK,
     },
   })
 );
-DoctorsCategory.propTypes = {
+Specialization.propTypes = {
   title: PropTypes.string.isRequired,
-  filter: PropTypes.string.isRequired,
+  selected: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
 };
-export default DoctorsCategory;
+export default Specialization;

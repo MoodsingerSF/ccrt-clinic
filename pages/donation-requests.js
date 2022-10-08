@@ -7,6 +7,7 @@ import bgImg from "../public/image/home-page/donate/bg.png";
 import DonationRequestCard from "../components/cards/DonationRequestCard";
 import profilePic1 from "../public/image/home-page/doctors/Doctor1.png";
 import profilePic2 from "../public/image/home-page/doctors/Doctor2.png";
+import { APP_BAR_HEIGHT } from "../misc/constants";
 
 const data = [
   {
@@ -92,6 +93,7 @@ const data = [
 const RequestDonationList = () => {
   const classes = useStyles();
 
+  // eslint-disable-next-line no-unused-vars
   const [lists, setLists] = useState(data);
 
   return (
@@ -117,7 +119,7 @@ const RequestDonationList = () => {
           <Typography
             className={classes.ccrt__donation__container__header__text}
           >
-            We can't do this without your support
+            {`We can't do this without your support`}
           </Typography>
           <Grid container justifyContent={"center"} alignItems="center">
             <Typography
@@ -156,7 +158,7 @@ const RequestDonationList = () => {
 
 const useStyles = makeStyles((theme) => ({
   ccrt_request_donation_list_container: {
-    marginTop: "12vh",
+    marginTop: APP_BAR_HEIGHT,
   },
   ccrt__donation__container__header__text: {
     fontSize: "32px",

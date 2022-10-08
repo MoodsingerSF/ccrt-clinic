@@ -53,13 +53,16 @@ h1 {
 
 .editor-container {
   width: 100%;
-  color: #000;
+  /* color: #000; */
   position: relative;
   line-height: 20px;
   font-weight: 400;
   text-align: left;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  /* border-top-left-radius: 10px; */
+  /* border-top-right-radius: 10px;
+  border */
+  /* border-radius: 10px; */
+  /* border: 1px solid #34495e; */
 }
 
 .editor-inner {
@@ -73,6 +76,8 @@ h1 {
   resize: none;
   font-size: 15px;
   caret-color: rgb(5, 5, 5);
+  color: #34495e;
+  font-weight: 500;
   position: relative;
   tab-size: 1;
   outline: 0;
@@ -757,3 +762,25 @@ i.right-align {
 i.justify-align {
   background-image: url(../public/icons/justify.svg);
 }
+
+/*scrollbar*/
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2ecc71;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+/*scrollbar*/

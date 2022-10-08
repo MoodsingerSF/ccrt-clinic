@@ -11,10 +11,10 @@ import {
 } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import PhoneIcon from "@mui/icons-material/Phone";
-import { HOTELINE_BACKGROUND } from "../../../misc/colors";
+import { HOTLINE_BACKGROUND } from "../../../misc/colors";
 import {
   ASSISTANCE_BUTTON,
-  HOTELINE,
+  HOTLINE,
   PHONE_CODE,
 } from "../../../data/home/data";
 
@@ -33,73 +33,78 @@ const HotlineSection = () => {
       className={classes.ccrt__home_page__hotline__container}
       style={{
         position: "absolute",
-        bottom: matchesLG ? "15%" : "10%",
+        bottom: "0%",
+        // bottom: matchesLG ? "1%" : "10%",
       }}
     >
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={8}
-        className={classes.ccrt__home_page__hotline__textfield__wrapper}
-        style={{
-          marginBottom: matchesLG ? "0" : "10px",
-        }}
-      >
-        <TextField
-          className={classes.ccrt__home_page__hotline__textfield}
-          size="small"
-          fullWidth
-          placeholder="TELL US YOUR PHONE NUMBER"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Typography>{PHONE_CODE}</Typography>
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <Button
-                  className={
-                    classes.ccrt__home_page__hotline__textfield__button
-                  }
-                >
-                  <Avatar
-                    sx={{ width: 23, height: 23 }}
+      <Grid container style={{ width: "95%" }}>
+        <Grid
+          item
+          xs={12}
+          md={12}
+          lg={8}
+          className={classes.ccrt__home_page__hotline__textfield__wrapper}
+          // style={{
+          //   marginBottom: matchesLG ? "0" : "10px",
+          // }}
+        >
+          <TextField
+            className={classes.ccrt__home_page__hotline__textfield}
+            size="small"
+            fullWidth
+            placeholder="TELL US YOUR PHONE NUMBER"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Typography>{PHONE_CODE}</Typography>
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Button
                     className={
-                      classes.ccrt__home_page__hotline__textfield__button__avatar
+                      classes.ccrt__home_page__hotline__textfield__button
                     }
                   >
-                    <PhoneIcon
-                      className={classes.ccrt__home_page__hotline__phone__icon}
-                      fontSize="small"
-                    />
-                  </Avatar>
-                  {ASSISTANCE_BUTTON}
-                </Button>
-              </InputAdornment>
-            ),
-            classes: { notchedOutline: classes.noBorder },
-          }}
-        />
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={4}
-        container
-        flexDirection="row"
-        justifyContent={!matchesLG ? "center" : "flex-end"}
-      >
-        <Avatar style={{ background: "#fff", marginRight: "20px" }}>
-          <PhoneIcon
-            className={classes.ccrt__home_page__hotline__another__phone_icon}
+                    <Avatar
+                      sx={{ width: 23, height: 23 }}
+                      className={
+                        classes.ccrt__home_page__hotline__textfield__button__avatar
+                      }
+                    >
+                      <PhoneIcon
+                        className={
+                          classes.ccrt__home_page__hotline__phone__icon
+                        }
+                        fontSize="small"
+                      />
+                    </Avatar>
+                    {ASSISTANCE_BUTTON}
+                  </Button>
+                </InputAdornment>
+              ),
+              classes: { notchedOutline: classes.noBorder },
+            }}
           />
-        </Avatar>
-        <Typography className={classes.ccrt__home_page__hotline__textStyle}>
-          {HOTELINE}
-        </Typography>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={12}
+          lg={4}
+          container
+          flexDirection="row"
+          justifyContent={!matchesLG ? "center" : "flex-end"}
+        >
+          <Avatar style={{ background: "#fff", marginRight: "20px" }}>
+            <PhoneIcon
+              className={classes.ccrt__home_page__hotline__another__phone_icon}
+            />
+          </Avatar>
+          <Typography className={classes.ccrt__home_page__hotline__textStyle}>
+            {HOTLINE}
+          </Typography>
+        </Grid>
       </Grid>
     </Grid>
   );
@@ -108,9 +113,9 @@ const HotlineSection = () => {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__home_page__hotline__container: {
-      background: HOTELINE_BACKGROUND,
+      background: HOTLINE_BACKGROUND,
       width: "100%",
-      padding: "13px 70px",
+      padding: "13px 0px",
     },
     ccrt__home_page__hotline__textfield__wrapper: {
       position: "relative",
@@ -136,17 +141,17 @@ const useStyles = makeStyles((theme) =>
       marginRight: "10px",
     },
     ccrt__home_page__hotline__phone__icon: {
-      color: theme.palette.custom.DEFAULT_COLOR_3,
+      color: theme.palette.custom.GREEN,
       padding: "3px",
     },
     ccrt__home_page__hotline__another__phone_icon: {
-      color: theme.palette.custom.DEFAULT_COLOR_3,
+      color: theme.palette.custom.GREEN,
     },
     ccrt__home_page__hotline__textStyle: {
       textTransform: "uppercase",
       fontWeight: "700",
       fontSize: "150%",
-      color: theme.palette.custom.DEFAULT_COLOR_3,
+      color: theme.palette.custom.GREEN,
     },
     noBorder: {
       border: "none",

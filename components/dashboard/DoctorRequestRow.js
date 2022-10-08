@@ -3,8 +3,9 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import {
   Avatar,
+  // Button,
   Grid,
-  IconButton,
+  // IconButton,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -23,6 +24,8 @@ import {
 } from "../../controllers/UserController";
 import ConfirmationModal from "../modal/ConfirmationModal";
 import CustomChip from "../chip/CustomChip";
+import ActionButton from "../button/ActionButton";
+
 const DoctorRequestRow = ({
   serialNo,
   userId,
@@ -88,7 +91,7 @@ const DoctorRequestRow = ({
       <tr className={classes.ccrt__dashboard__doctor__req__table__data__row}>
         <td>
           <Grid container justifyContent="flex-start" alignItems="center">
-            <Typography
+            {/* <Typography
               className={classNames({
                 [classes.ccrt__dashboard__doctor__req__table__data__mobile]:
                   !matchesSm,
@@ -96,25 +99,26 @@ const DoctorRequestRow = ({
                   matchesSm,
               })}
               style={{ marginLeft: 5 }}
-            >
+            > */}
+            <Typography className={classes.textStyle}>
               {serialNo + 1}
             </Typography>
-            <Avatar
-              src={profileImageUrl}
-              style={{ marginLeft: 10, marginRight: 10 }}
-            >
+            {/* </Typography> */}
+            <Avatar src={profileImageUrl} className={classes.avatarStyle}>
               {profileImageUrl ? null : capitalize(firstName).charAt(0)}
             </Avatar>
-            <Typography
+            {/* <Typography
               className={classNames({
                 [classes.ccrt__dashboard__doctor__req__table__data__mobile]:
                   !matchesSm,
                 [classes.ccrt__dashboard__doctor__req__table__data__desktop]:
                   matchesSm,
               })}
-            >
+            > */}
+            <Typography className={classes.textStyle}>
               {firstName + " " + lastName}
             </Typography>
+            {/* </Typography> */}
           </Grid>
         </td>
         <td
@@ -129,7 +133,7 @@ const DoctorRequestRow = ({
             {specializations.map((item) => {
               return (
                 <Grid item key={item} style={{ marginRight: 4 }}>
-                  <CustomChip title={item} color={"#2ecc71"} />
+                  <CustomChip title={item} onlyBorder={true} />
                 </Grid>
               );
             })}
@@ -143,9 +147,9 @@ const DoctorRequestRow = ({
               matchesSm,
           })}
         >
-          {`${fee} tk`}
+          <Typography className={classes.textStyle}>{`${fee}`}</Typography>
         </td>
-        <td
+        {/* <td
           className={classNames({
             [classes.ccrt__dashboard__doctor__req__table__data__mobile]:
               !matchesSm,
@@ -153,9 +157,9 @@ const DoctorRequestRow = ({
               matchesSm,
           })}
         >
-          {email}
-        </td>
-        <td
+          <Typography className={classes.textStyle}>{email}</Typography>
+        </td> */}
+        {/* <td
           className={classNames({
             [classes.ccrt__dashboard__doctor__req__table__data__mobile]:
               !matchesSm,
@@ -164,9 +168,9 @@ const DoctorRequestRow = ({
           })}
         >
           <Grid container justifyContent="center" alignItems="center">
-            <CustomChip title="Pending" color="#1abc9c" />
+            <CustomChip title="Pending" onlyBorder={true} />
           </Grid>
-        </td>
+        </td> */}
         <td
           className={classNames({
             [classes.ccrt__dashboard__doctor__req__table__data__mobile]:
@@ -176,29 +180,55 @@ const DoctorRequestRow = ({
           })}
         >
           <Tooltip title="Accept Request">
-            <IconButton
+            <ActionButton
+              title="Accept"
+              icon={<FileDownloadDoneOutlinedIcon />}
+              type="success"
+              onClick={() => {
+                setShowAcceptanceConfirmationModal(true);
+              }}
+            />
+            {/* <Button
+              variant="outlined"
               size="small"
-              color="success"
+              startIcon={<FileDownloadDoneOutlinedIcon fontSize="small" />}
+            >
+              Accept
+            </Button> */}
+            {/* <IconButton
+              size="small"
+              // color="success"
               onClick={() => {
                 setShowAcceptanceConfirmationModal(true);
               }}
             >
               <FileDownloadDoneOutlinedIcon fontSize="small" />
-            </IconButton>
+            </IconButton> */}
           </Tooltip>
           <Tooltip title="Reject Request">
-            <IconButton
-              size="small"
-              color="error"
+            <ActionButton
+              title="Reject"
+              icon={<ClearIcon />}
+              type="error"
               onClick={() => {
                 setShowRejectionConfirmationModal(true);
               }}
-            >
-              <ClearIcon fontSize="small" />
-            </IconButton>
+            />
           </Tooltip>
           <Tooltip title={!showDoctorDetails ? "View Details" : "Hide Details"}>
-            <IconButton
+            <ActionButton
+              title={!showDoctorDetails ? "View Details" : "Hide Details"}
+              icon={
+                showDoctorDetails ? (
+                  <ExpandLessOutlinedIcon />
+                ) : (
+                  <ExpandMoreOutlinedIcon />
+                )
+              }
+              type="info"
+              onClick={handleShowDoctorDetails}
+            />
+            {/* <IconButton
               size="small"
               color="secondary"
               onClick={handleShowDoctorDetails}
@@ -208,41 +238,130 @@ const DoctorRequestRow = ({
               ) : (
                 <ExpandMoreOutlinedIcon />
               )}
-            </IconButton>
+            </IconButton> */}
           </Tooltip>
         </td>
       </tr>
       {showDoctorDetails ? (
         <tr
           style={{
-            background: "#F7F8FC",
+            background: theme.palette.custom.BLACK,
+            borderRadius: 5,
+            // width: "100%",
             boxShadow: DASHBOARD_DOCTOR_DETAILS_BOX_SHADOW,
           }}
         >
           <td
-            colSpan="4"
+            colSpan="5"
             style={{
               padding: "10px",
             }}
           >
-            <Typography className={classes.details_text}>
-              User Id: {userId}
-            </Typography>
-            <Typography className={classes.details_text}>
-              First Name: {firstName}
-            </Typography>
-            <Typography className={classes.details_text}>
-              Last Name: {lastName}
-            </Typography>
-            <Typography className={classes.details_text}>
-              Email: {email}
-            </Typography>
+            <Grid container justifyContent={"center"} alignItems="center">
+              <Grid
+                item
+                container
+                justifyContent={"center"}
+                alignItems="center"
+                style={{ marginBottom: 10 }}
+              >
+                <Avatar
+                  src={profileImageUrl}
+                  style={{
+                    height: "15vh",
+                    width: "15vh",
+                    borderRadius: "15vh",
+                    background: theme.palette.custom.GREEN,
+                  }}
+                >
+                  {profileImageUrl ? null : capitalize(firstName).charAt(0)}
+                </Avatar>
+              </Grid>
+              <Grid item>
+                <Typography className={classes.details_text}>
+                  User Id: {userId}
+                </Typography>
+                <Typography className={classes.details_text}>
+                  First Name: {firstName}
+                </Typography>
+                <Typography className={classes.details_text}>
+                  Last Name: {lastName}
+                </Typography>
+                <Typography className={classes.details_text}>
+                  Email: {email}
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                container
+                justifyContent="center"
+                alignItems="center"
+                direction="column"
+                style={{ marginTop: 10, marginBottom: 10 }}
+              >
+                <Typography
+                  style={{
+                    color: theme.palette.custom.GREEN,
+                    fontSize: "120%",
+                    fontWeight: 600,
+                    marginBottom: 10,
+                  }}
+                >
+                  Specializations
+                </Typography>
+                <Grid container justifyContent="center" alignItems="center">
+                  {specializations.map((item) => {
+                    return (
+                      <CustomChip
+                        key={item}
+                        title={item}
+                        color={theme.palette.custom.RED}
+                        // onlyBorder={true}
+                        fontColor="white"
+                      />
+                    );
+                  })}
+                </Grid>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                container
+                justifyContent="center"
+                alignItems="center"
+                direction="column"
+                style={{ marginTop: 10, marginBottom: 10 }}
+              >
+                <Typography
+                  style={{
+                    color: theme.palette.custom.GREEN,
+                    fontSize: "120%",
+                    fontWeight: 600,
+                    marginBottom: 10,
+                  }}
+                >
+                  Fee Per Visit
+                </Typography>
+
+                <Typography
+                  style={{
+                    color: "white",
+                    fontSize: "120%",
+                    fontWeight: 600,
+                    marginBottom: 10,
+                  }}
+                >
+                  &#2547; {fee} TK
+                </Typography>
+              </Grid>
+            </Grid>
           </td>
         </tr>
       ) : null}
       {showAcceptanceConfirmationModal && (
         <ConfirmationModal
-          title="Are you sure you want to accept this doctor request?"
+          title="Are you sure you want to accept this doctor registration request?"
           onPositiveFeedback={handleAcceptanceOfDoctorRequest}
           onNegativeFeedback={() => {
             setShowAcceptanceConfirmationModal(false);
@@ -252,7 +371,7 @@ const DoctorRequestRow = ({
 
       {showRejectionConfirmationModal && (
         <ConfirmationModal
-          title="Are you sure you want to reject this doctor request?"
+          title="Are you sure you want to reject this doctor registration request?"
           onPositiveFeedback={handleRejectionOfDoctorRequest}
           onNegativeFeedback={() => {
             setShowRejectionConfirmationModal(false);
@@ -283,7 +402,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "12px 0",
     cursor: "pointer",
     textAlign: "center",
-    fontSize: "85%",
+    // fontSize: "85%",
     fontWeight: 400,
   },
   ccrt__dashboard__doctor__req__table__data__desktop: {
@@ -291,21 +410,35 @@ const useStyles = makeStyles((theme) => ({
     padding: "8px 0",
     cursor: "pointer",
     textAlign: "center",
-    fontSize: "85%",
+    // fontSize: "85%",
     fontWeight: 400,
   },
   ccrt__dashboard__doctor__req__table__data__row: {
     "&:hover": {
       background: "#f6f6f6",
     },
+    height: 70,
     borderBottom: `.5px solid ${theme.palette.custom.DEFAULT_COLOR}`,
   },
   details_text: {
-    fontSize: "80%",
+    color: "white",
+    fontSize: "85%",
+    fontWeight: 500,
   },
 
   email: {
-    fontSize: "70%",
+    // fontSize: "70%",
+  },
+  avatarStyle: {
+    marginLeft: 10,
+    marginRight: 10,
+    border: `1px solid ${theme.palette.custom.GREEN}`,
+    background: theme.palette.custom.BLACK,
+  },
+  textStyle: {
+    color: theme.palette.custom.BLACK,
+    fontSize: "85%",
+    fontWeight: 500,
   },
 }));
 export default DoctorRequestRow;

@@ -7,6 +7,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import ContactPageCard from "../components/cards/ContactPageCard";
 import ContactFooter from "../components/contact/ContactFooter";
 import classNames from "classnames";
+import { APP_BAR_HEIGHT } from "../misc/constants";
 
 const Contact = () => {
   const classes = useStyles();
@@ -23,20 +24,20 @@ const Contact = () => {
         [classes.ccrt_contact__page_container__desktop]: matches,
       })}
     >
-      <Grid container spacing={2} style={{ margin: "30px 0" }}>
+      <Grid container spacing={2} style={{ marginBottom: 40, marginTop: 15 }}>
         <ContactPageCard
           heading="Phone"
-          text="212-333-4633"
+          text="+8801726932272"
           icon={<LocalPhoneIcon fontSize="large" />}
         />
         <ContactPageCard
           heading="Email"
-          text="yourname@gmail.com"
+          text="ccrtbd@gmail.com"
           icon={<EmailIcon fontSize="large" />}
         />
         <ContactPageCard
           heading="Address"
-          text="Ultrices tristique"
+          text="Dhaka, Bangladesh"
           icon={<PlaceIcon fontSize="large" />}
         />
       </Grid>
@@ -49,10 +50,12 @@ const useStyles = makeStyles(() => ({
   ccrt_contact__page_container__mobile: {
     padding: "0 10px",
     marginBottom: "10px",
+    paddingTop: APP_BAR_HEIGHT,
   },
   ccrt_contact__page_container__desktop: {
     padding: "0 70px",
     marginBottom: "10px",
+    paddingTop: APP_BAR_HEIGHT,
   },
 }));
 export default Contact;

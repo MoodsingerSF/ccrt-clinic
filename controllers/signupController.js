@@ -2,7 +2,6 @@ import axios from "axios";
 import {
   BIRTHDATE_REGEX,
   EMAIL_REGEX,
-  EMPTY_OR_WHITESPACE,
   NAME_REGEX,
   NUMBER_REGEX,
   SERVER_PATH,

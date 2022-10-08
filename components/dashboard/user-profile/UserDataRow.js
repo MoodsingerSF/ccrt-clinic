@@ -38,8 +38,8 @@ const UserDataRow = ({
         style={{
           width: IsDesktop ? "60vw" : "100vw",
           // height: 40,
-          marginBottom: "10px",
         }}
+        className={classes.containerStyle}
       >
         <Grid
           container
@@ -49,9 +49,10 @@ const UserDataRow = ({
           xs={12}
           md={5}
         >
-          <Typography className={classes.ccrt__dashboard__user__data__row}>
-            {icon}
-            <span style={{ margin: "0 5px" }} />
+          {icon}
+          <Typography
+            className={classes.ccrt__dashboard__user__data__row__title}
+          >
             {title}
           </Typography>
         </Grid>
@@ -66,15 +67,14 @@ const UserDataRow = ({
           <Typography
             style={{
               marginLeft: IsDesktop ? "0px" : "40px",
-              fontSize: "80%",
-              fontWeight: 500,
             }}
+            className={classes.valueStyle}
           >
             {value}
           </Typography>
           {editable ? (
             <IconButton onClick={() => setOpenUpdateProfileModal(editable)}>
-              <DriveFileRenameOutlineIcon style={{ fontSize: "80%" }} />
+              <DriveFileRenameOutlineIcon className={classes.editIconStyle} />
             </IconButton>
           ) : null}
         </Grid>
@@ -107,14 +107,29 @@ UserDataRow.propTypes = {
   openSnackbar: PropTypes.func,
 };
 
-const useStyles = makeStyles({
-  ccrt__dashboard__user__data__row: {
-    fontSize: "90%",
-    fontWeight: "500",
-    display: "flex",
+const useStyles = makeStyles((theme) => ({
+  ccrt__dashboard__user__data__row__title: {
+    fontSize: "85%",
+    fontWeight: 600,
+    color: theme.palette.custom.BLACK,
     justifyContent: "center",
     alignItems: "center",
+    marginLeft: 10,
   },
-});
+  valueStyle: {
+    fontSize: "85%",
+    fontWeight: 600,
+    color: theme.palette.custom.BLACK,
+  },
+  containerStyle: {
+    marginBottom: "10px",
+    height: 40,
+    // background: theme.palette.custom.GREY,
+  },
+  editIconStyle: {
+    color: theme.palette.custom.BLACK,
+    fontSize: "85%",
+  },
+}));
 
 export default UserDataRow;

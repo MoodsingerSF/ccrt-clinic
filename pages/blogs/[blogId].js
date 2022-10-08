@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 import { retrieveBlogDetails } from "../../controllers/BlogController";
 import Head from "next/head";
-import { DOMAIN_ADDRESS } from "../../misc/constants";
+import { APP_BAR_HEIGHT, DOMAIN_ADDRESS } from "../../misc/constants";
 import FallbackComponent from "../../components/misc/FallbackComponent";
 import NotFoundComponent from "../../components/misc/NotFoundComponent";
 const BlogDetailsLeft = dynamic(() =>
@@ -88,19 +88,24 @@ const BlogDetailsScreen = ({ blogId, title, imageUrl }) => {
       {loading ? (
         <FallbackComponent />
       ) : found ? (
-        <Grid container justifyContent="center" alignItems="center">
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          style={{ paddingTop: APP_BAR_HEIGHT }}
+        >
           {blog !== null && (
-            <Grid container spacing={4} style={{ width: "95%", marginTop: 20 }}>
-              <Grid item xs={12} sm={12} md={5} lg={4}>
+            <Grid container spacing={2} style={{ width: "95%", marginTop: 20 }}>
+              <Grid item xs={12} sm={12} md={5} lg={3}>
                 <BlogDetailsLeft
                   author={{
                     name: blog.fullName,
-                    avatar: blog.avatar,
+                    avatar: "/" + blog.avatar,
                   }}
                   tags={blog.tags}
                 />
               </Grid>
-              <Grid item xs={12} sm={12} md={7} lg={8}>
+              <Grid item xs={12} sm={12} md={7} lg={6}>
                 <BlogDetailsRight
                   title={blog.title}
                   description={blog.description}

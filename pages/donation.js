@@ -1,21 +1,33 @@
 import React, { useState } from "react";
-import { Grid, TextareaAutosize, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import Image from "next/image";
-import donation from "../public/image/donation/Donation.png";
+import { Grid, Typography } from "@mui/material";
+import { makeStyles, useTheme } from "@mui/styles";
 import CustomButton from "../components/button/CustomButton";
 import { grey } from "@mui/material/colors";
 import { validateEmpty } from "../controllers/DonationController";
+import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
+import {
+  APP_BAR_HEIGHT,
+  BODY_HEIGHT,
+  SNACKBAR_INITIAL_STATE,
+} from "../misc/constants";
 import SignUpTextField from "../components/textfields/SignUpTextField";
+import { createDonationRequest } from "../controllers/DonationRequestController";
+import CustomSnackbar from "../components/snackbar/CustomSnackbar";
+import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
 
 const Donation = () => {
   const classes = useStyles();
-
+  const theme = useTheme();
   const [showError, setShowError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [number, setNumber] = useState("");
   const [amount, setAmount] = useState("");
+  // eslint-disable-next-line no-unused-vars
+  const [disease, setDisease] = useState("");
   const [description, setDescription] = useState("");
+  const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
+
+  const openSnackbar = (message) => handleSnackbarOpen(message, setSnackbar);
 
   const handleChangeNumber = (e) => {
     setNumber(e.target.value);
@@ -25,13 +37,22 @@ const Donation = () => {
     setAmount(e.target.value);
   };
 
-  const handleSubmitRequest = () => {
-    if (validate(number, amount, description)) {
+  const handleSubmitRequest = async () => {
+    try {
       setLoading(true);
-      // Api call
+      if (validate(number, amount, description)) {
+        await createDonationRequest(number, disease, amount, description);
+        openSnackbar("Your request for donation has been added successfully.");
+      } else {
+        setShowError(true);
+      }
       setLoading(false);
-    } else {
-      setShowError(true);
+    } catch (error) {
+      setLoading(false);
+      if (error && error.response) {
+        const { data } = error.response;
+        openSnackbar(data.code + " " + data.message);
+      }
     }
   };
 
@@ -53,28 +74,32 @@ const Donation = () => {
     >
       <Grid
         container
-        justifyContent={"center"}
-        alignItems="center"
-        className={classes.ccrt_donation_header_section}
+        item
+        xs={11}
+        md={6}
+        lg={4}
+        style={{ background: "white", padding: "10px 15px", borderRadius: 5 }}
       >
         <Grid
           container
           justifyContent={"center"}
           alignItems="center"
-          style={{ position: "relative" }}
+          className={classes.ccrt_donation_header_section}
         >
-          <Image
-            src={donation}
-            alt={"donation"}
-            height={50}
-            width={50}
-            style={{ color: "red" }}
-          />
-        </Grid>
-        <Grid container justifyContent={"center"} alignItems="center">
-          <Typography className={classes.ccrt__donation__header}>
-            Request For Donation
-          </Typography>
+          <Grid container justifyContent={"center"} alignItems="center">
+            <VolunteerActivismIcon
+              style={{
+                color: theme.palette.custom.BLACK,
+                fontSize: "250%",
+                marginBottom: 10,
+              }}
+            />
+          </Grid>
+          <Grid container justifyContent={"center"} alignItems="center">
+            <Typography className={classes.ccrt__donation__header}>
+              Request For Donation
+            </Typography>
+          </Grid>
         </Grid>
       </Grid>
 
@@ -99,53 +124,53 @@ const Donation = () => {
           error={showError && validateEmpty(amount)}
           errorText={"Enter valid amount"}
         />
-        <Grid
-          container
-          justifyContent={"flex-start"}
-          alignItems="center"
-          className={classes.ccrt_textField_container}
-        >
-          <Typography className={classes.ccrt_textField_label}>
-            description
-          </Typography>
-          <Grid container>
-            <TextareaAutosize
-              aria-label="minimum height"
-              minRows={8}
-              placeholder="about yourself"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className={classes.ccrt_textArea}
-            />
-            {showError && validateEmpty(description) && (
-              <Typography style={{ color: "red", fontSize: "70%" }}>
-                {"Required"}
-              </Typography>
-            )}
-          </Grid>
-        </Grid>
+
+        <SignUpTextField
+          label={"About Yourself"}
+          variant="outlined"
+          multiline={true}
+          numRows={4}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          error={showError && validateEmpty(amount)}
+          errorText={"Enter valid amount"}
+        />
+
         <Grid container justifyContent={"center"} alignItems="center">
           <CustomButton
-            title={"requesr"}
+            title={"submit"}
             onClick={handleSubmitRequest}
             loading={loading}
           />
         </Grid>
       </Grid>
+      <CustomSnackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        onClose={() => handleSnackbarClose(setSnackbar)}
+      />
     </Grid>
   );
 };
 
 const useStyles = makeStyles((theme) => ({
   ccrt__donation__container: {
-    marginTop: "13vh",
+    marginTop: APP_BAR_HEIGHT,
+    minHeight: BODY_HEIGHT,
+    width: "100vw",
+    backgroundImage:
+      "linear-gradient(to right,rgba(0,0,0,.7),rgba(0,0,0,.7)),url(/image/donation.jpg)",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundAttachment: "fixed",
   },
   ccrt_donation_header_section: {
     margin: "20px 0",
   },
   ccrt__donation__header: {
-    fontSize: "120%",
+    fontSize: "100%",
     fontWeight: "500",
+    color: theme.palette.custom.BLACK,
   },
   ccrt_textField_container: {
     marginBottom: "15px",
@@ -163,6 +188,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "5px",
     padding: "10px",
     fontSize: "100%",
+    background: "transparent",
   },
 }));
 export default Donation;

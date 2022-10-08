@@ -3,7 +3,6 @@ import {
   Box,
   Grid,
   Modal,
-  TextField,
   Typography,
   useMediaQuery,
   useTheme,
@@ -13,6 +12,7 @@ import PropTypes from "prop-types";
 import { formErrors } from "../../data/signup/data";
 import CustomButton from "../button/CustomButton";
 import { retrieveUserId } from "../../controllers/LocalStorageController";
+import DoctorInfoFormTextField from "../textfields/DoctorInfoFormTextField";
 
 const UpdateProfileModal = ({
   fieldName,
@@ -44,6 +44,10 @@ const UpdateProfileModal = ({
         openSnackbar(`${fieldName} has been updated successfully.`);
       } catch (error) {
         setLoading(false);
+        if (error && error.response) {
+          const { data } = error.response;
+          openSnackbar(data.message);
+        }
       }
     } else {
       setShowError(true);
@@ -54,22 +58,18 @@ const UpdateProfileModal = ({
     if (validate(editableValue, updatedValue)) {
       try {
         setLoading(true);
-        const response = await onSave(
-          updatedValue,
-          editableValue,
-          retrieveUserId()
-        );
-        // onSuccess(updatedValue);
+        await onSave(updatedValue, editableValue, retrieveUserId());
+        openSnackbar(`Request has been sent successfully.`);
         setLoading(false);
         onClose();
-        openSnackbar(`Request has been send successfully.`);
-        console.log(response);
       } catch (error) {
-        console.log(error);
         setLoading(false);
+        if (error && error.response) {
+          const { data } = error.response;
+          openSnackbar(data.message);
+        }
       }
     } else {
-      console.log("Clicked-2");
       setShowError(true);
     }
   };
@@ -81,15 +81,19 @@ const UpdateProfileModal = ({
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={box__style} style={{ width: IsDesktop ? "50vw" : "90vw" }}>
-        <Typography style={{ marginBottom: "10px", fontWeight: 500 }}>
+        <Typography
+          style={{
+            marginBottom: "10px",
+            fontWeight: 600,
+            fontSize: "100%",
+            color: theme.palette.custom.BLACK,
+          }}
+        >
           {title}
         </Typography>
-        <TextField
-          style={{ fontSize: "80%", fontWeight: 500 }}
+        <DoctorInfoFormTextField
+          label={fieldName}
           value={updatedValue}
-          size="small"
-          fullWidth
-          multiline
           onChange={(e) => handleChangeValue(e)}
           error={
             showError &&
@@ -97,36 +101,24 @@ const UpdateProfileModal = ({
               ? !validate(editableValue, updatedValue)
               : !validate(updatedValue))
           }
+          errorText={
+            isPrice
+              ? "Fee can't be empty or equal to previous amount."
+              : formErrors.name
+          }
         />
-        {showError &&
-          (isPrice
-            ? !validate(editableValue, updatedValue) && (
-                <Typography
-                  style={{
-                    color: "red",
-                    fontSize: "70%",
-                    margin: "5px 0",
-                    textAlign: "left",
-                  }}
-                >
-                  {"price cann't be empty or equal"}
-                </Typography>
-              )
-            : !validate(updatedValue) && (
-                <Typography
-                  style={{
-                    color: "red",
-                    fontSize: "70%",
-                    margin: "5px 0",
-                    textAlign: "left",
-                  }}
-                >
-                  {formErrors.name}
-                </Typography>
-              ))}
+
         <Grid container style={{ marginTop: 20 }}></Grid>
-        <Grid container justifyContent="flex-end" alignItems="center">
-          <Grid item xs={12} sm={6} md={4}>
+        <Grid
+          container
+          justifyContent="flex-end"
+          alignItems="center"
+          spacing={2}
+        >
+          <Grid item xs={6} sm={6} md={4}>
+            <CustomButton title="Cancel" onClick={onClose} />
+          </Grid>
+          <Grid item xs={6} sm={6} md={4}>
             <CustomButton
               title="Save"
               onClick={isPrice ? handleSubmitPrice : handleSubmitValue}

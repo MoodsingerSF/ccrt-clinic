@@ -5,9 +5,9 @@ import PropTypes from "prop-types";
 import DoctorEducationSection from "../components/doctor-info-form/DoctorEducationSection";
 import DoctorTrainingSection from "../components/doctor-info-form/DoctorTrainingSection";
 import DoctorAwardSection from "../components/doctor-info-form/DoctorAwardSection";
-import DoctorExperianceSection from "../components/doctor-info-form/DoctorExperianceSection";
+import DoctorExperienceSection from "../components/doctor-info-form/DoctorExperienceSection";
 import CustomSnackbar from "../components/snackbar/CustomSnackbar";
-import { SNACKBAR_INITIAL_STATE } from "../misc/constants";
+import { APP_BAR_HEIGHT, SNACKBAR_INITIAL_STATE } from "../misc/constants";
 import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
 
 const DoctorInfoForm = ({
@@ -24,7 +24,7 @@ const DoctorInfoForm = ({
 
   const [education, setEducation] = useState(educationList);
   const [training, setTraining] = useState(trainingList);
-  const [experiances, setExperiances] = useState(experienceList);
+  const [experiences, setExperiences] = useState(experienceList);
   const [award, setAward] = useState(awardList);
 
   const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
@@ -37,7 +37,7 @@ const DoctorInfoForm = ({
       container
       justifyContent={"center"}
       alignItems="center"
-      style={{ marginTop: headingShow && "12vh" }}
+      style={{ marginTop: headingShow && APP_BAR_HEIGHT }}
     >
       <h1 className={classes.ccrt__doctor__info__form__heading}>
         {headingShow && "Doctor details"}
@@ -58,9 +58,9 @@ const DoctorInfoForm = ({
           />
         </Grid>
         <Grid container>
-          <DoctorExperianceSection
-            experiances={experiances}
-            setExperiances={setExperiances}
+          <DoctorExperienceSection
+            experiences={experiences}
+            setExperiences={setExperiences}
             openSnackbar={openSnackbar}
           />
         </Grid>

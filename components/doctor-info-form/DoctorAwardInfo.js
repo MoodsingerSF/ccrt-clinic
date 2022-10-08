@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, IconButton, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import EditIcon from "@mui/icons-material/Edit";
@@ -7,7 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DoctorFormAwardModal from "../modal/DoctorFormAwardModal";
 import ConfirmationModal from "../modal/ConfirmationModal";
 import { deleteAward } from "../../controllers/UserController";
-import DoctorInfoButton from "../button/DoctorInfoButton";
+import ActionButton from "../button/ActionButton";
 
 const DoctorAwardInfo = ({
   id,
@@ -16,6 +16,7 @@ const DoctorAwardInfo = ({
   award = [],
   setAward = () => {},
   editable = false,
+  openSnackbar,
 }) => {
   const classes = useStyles();
   const [showEditableModal, setShowEditableModal] = useState(false);
@@ -46,33 +47,45 @@ const DoctorAwardInfo = ({
     <>
       <Grid
         container
-        flexDirection={"column"}
+        // flexDirection={"column"}
         className={classes.ccrt__award__section__content__container}
       >
-        <Typography
-          className={classes.ccrt__award__section__content__content__heading_1}
-        >
-          {title}
-        </Typography>
-        <Typography
-          className={classes.ccrt__award__section__content__content__heading_2}
-        >
-          {year}
-        </Typography>
-        {editable && (
-          <>
-            <DoctorInfoButton
-              className={classes.ccrt__doctor__training__info__edit}
-              onClick={() => setShowEditableModal(true)}
-              icon={<EditIcon fontSize="small" />}
-            />
-            <DoctorInfoButton
-              className={classes.ccrt__doctor__training__info__delete}
-              onClick={() => setConfirmationModal(true)}
-              icon={<DeleteIcon fontSize="small" />}
-            />
-          </>
-        )}
+        <Grid item xs={9}>
+          <Typography
+            className={
+              classes.ccrt__award__section__content__content__heading_1
+            }
+          >
+            {title}
+          </Typography>
+          <Typography
+            className={
+              classes.ccrt__award__section__content__content__heading_2
+            }
+          >
+            {year}
+          </Typography>
+        </Grid>
+        <Grid item xs={3} container justifyContent="flex-end">
+          <Grid item>
+            {editable && (
+              <>
+                <ActionButton
+                  icon={<EditIcon fontSize="small" />}
+                  title={"Remove"}
+                  type="error"
+                  onClick={() => setConfirmationModal(true)}
+                />
+                <ActionButton
+                  icon={<DeleteIcon fontSize="small" />}
+                  title={"Edit"}
+                  type="info"
+                  onClick={() => setShowEditableModal(true)}
+                />
+              </>
+            )}
+          </Grid>
+        </Grid>
       </Grid>
       {showEditableModal && (
         <DoctorFormAwardModal
@@ -84,6 +97,7 @@ const DoctorAwardInfo = ({
           id={id}
           awardName={title}
           date={year}
+          openSnackbar={openSnackbar}
         />
       )}
       {confirmationModal && (
@@ -98,19 +112,22 @@ const DoctorAwardInfo = ({
   );
 };
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   ccrt__award__section__content__container: {
     position: "relative",
     margin: "10px 0",
   },
   ccrt__award__section__content__content__heading_1: {
-    fontSize: "110%",
-    fontWeight: "500",
+    fontSize: "85%",
+    fontWeight: 500,
+    color: theme.palette.custom.BLACK,
   },
   ccrt__award__section__content__content__heading_2: {
-    fontSize: "80%",
-    fontWeight: "300",
+    fontSize: "85%",
+    fontWeight: 500,
+    color: theme.palette.custom.BLACK,
   },
+
   ccrt__doctor__training__info__delete: {
     position: "absolute",
     right: "0",
@@ -128,5 +145,6 @@ DoctorAwardInfo.propTypes = {
   award: PropTypes.array,
   setAward: PropTypes.func,
   editable: PropTypes.bool,
+  openSnackbar: PropTypes.func,
 };
 export default DoctorAwardInfo;

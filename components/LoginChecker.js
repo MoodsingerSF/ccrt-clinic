@@ -7,7 +7,8 @@ import {
 import { Context } from "../contexts/user-context/UserContext";
 import { retrieveUserDetails } from "../controllers/UserController";
 import { getModifiedUserState } from "./data-middleware/UserDataMiddleware";
-import { Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
+import LoaderComponent from "./misc/LoaderComponent";
 // eslint-disable-next-line react/prop-types
 const LoginChecker = ({ children }) => {
   const { setAuthorizationToken, setUserId, setUser } = useContext(Context);
@@ -19,7 +20,6 @@ const LoginChecker = ({ children }) => {
       setUser(getModifiedUserState(data));
       setLoading(false);
     } catch (error) {
-      //
       setLoading(false);
     }
   };
@@ -41,7 +41,7 @@ const LoginChecker = ({ children }) => {
           justifyContent="center"
           alignItems="center"
         >
-          <Typography>loading...</Typography>
+          <LoaderComponent />
         </Grid>
       ) : (
         children

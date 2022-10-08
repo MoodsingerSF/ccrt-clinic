@@ -12,7 +12,7 @@ const ModalAppBar = ({ onClose }) => {
         height: MODAL_APP_BAR_HEIGHT,
         background: "white",
         zIndex: 1,
-        border: "1px solid black",
+        // border: "1px solid black",
       }}
     >
       <Grid

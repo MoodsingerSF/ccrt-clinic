@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
-import { DASHBOARD_DOCTOR_DETAILS_BOX_SHADOW } from "./colors";
+// import { DASHBOARD_DOCTOR_DETAILS_BOX_SHADOW } from "./colors";
 import PrescriptionHeader from "../components/prescription/PrescriptionHeader";
 import PrescriptionMiddle from "../components/prescription/PrescriptionMiddle";
 import PrescriptionBody from "../components/prescription/PrescriptionBody";
@@ -19,20 +19,20 @@ import {
 import CustomSnackbar from "../components/snackbar/CustomSnackbar";
 import { SNACKBAR_INITIAL_STATE } from "./constants";
 import LoaderComponent from "../components/misc/LoaderComponent";
-const Prescription = ({ patient, doctor, appointmentId, editable = false }) => {
-  const classes = useStyles();
+import AdvicesSection from "../components/prescription/body/AdvicesSection";
+import SaveIcon from "@mui/icons-material/Save";
 
-  const [patientName, setPatientName] = useState(patient.firstName);
-  const [patientGender, setPatientGender] = useState(patient.gender);
-  const [patientAge, setPatientAge] = useState(
-    getAgeFromBirthDate(patient.birthDate)
-  );
+const Prescription = ({
+  patient,
+  doctor,
+  appointmentId,
+  editable = false,
+  date,
+}) => {
+  const classes = useStyles();
   const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
-  // console.log(patientName, patientGender, patientAge);
   const [advices, setAdvices] = useState("");
   const [drugLists, setDrugLists] = useState([]);
-  // const [durations, setDurations] = useState([]);
-  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   const [loadingPrescription, setLoadingPrescription] = useState(false);
 
@@ -42,13 +42,8 @@ const Prescription = ({ patient, doctor, appointmentId, editable = false }) => {
   const handleSubmitPrescription = async () => {
     try {
       setLoading(true);
-      const response = await createPrescription(
-        appointmentId,
-        advices,
-        drugLists
-      );
+      await createPrescription(appointmentId, advices, drugLists);
       openSnackbar("Prescription has been added successfully.");
-      console.log(response);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -61,14 +56,11 @@ const Prescription = ({ patient, doctor, appointmentId, editable = false }) => {
     try {
       setLoadingPrescription(true);
       const prescription = await retrievePrescription(appointmentId);
-      console.log(prescription);
       setAdvices(prescription.advice);
       setDrugLists(prescription.medications);
       setLoadingPrescription(false);
     } catch (error) {
       setLoadingPrescription(false);
-
-      console.log(error);
     }
   };
 
@@ -77,53 +69,70 @@ const Prescription = ({ patient, doctor, appointmentId, editable = false }) => {
   }, [appointmentId]);
 
   return (
-    <Grid container justifyContent={"center"} alignItems="flex-start">
-      <Grid className={classes.ccrt__prescription__container}>
-        <PrescriptionHeader doctor={doctor} />
+    <Grid
+      container
+      justifyContent={"center"}
+      alignItems="flex-start"
+      style={{
+        borderRadius: 5,
+        minHeight: "85vh",
+        marginBottom: 40,
+        // borderRight: `1px solid ${"red"}`,
+      }}
+    >
+      <Grid container className={classes.ccrt__prescription__container}>
+        <PrescriptionHeader doctor={doctor} date={date} />
         <PrescriptionMiddle
-          patientName={patientName}
-          setPatientName={setPatientName}
-          patientGender={patientGender}
-          setPatientGender={setPatientGender}
-          patientAge={patientAge}
-          setPatientAge={setPatientAge}
+          patientName={patient.firstName + " " + patient.lastName}
+          patientGender={patient.gender}
+          patientAge={getAgeFromBirthDate(patient.birthDate)}
         />
-        {loadingPrescription ? (
-          <LoaderComponent />
-        ) : (
-          <>
-            <PrescriptionBody
-              advices={advices}
-              setAdvices={setAdvices}
-              addDrug={(drug) => {
-                setDrugLists((prev) => [...prev, drug]);
-              }}
-              // showAddedForm={true}
-              drugLists={drugLists}
-              editable={editable}
-              // setDrugLists={setDrugLists}
-              // durations={durations}
-              // setDurations={setDurations}
-            />
-            {editable && (
-              <Grid
-                container
-                justifyContent="flex-end"
-                style={{ marginTop: 30, marginBottom: 30 }}
-              >
-                <Grid item xs={2}>
-                  <CustomButton
-                    icon={null}
-                    title="save prescription"
-                    onClick={handleSubmitPrescription}
-                    size="small"
-                    loading={loading}
-                  />
+        <Grid item xs={4} className={classes.leftSide}>
+          <AdvicesSection
+            editable={editable}
+            advices={advices}
+            setAdvices={setAdvices}
+          />
+        </Grid>
+        <Grid item xs={8} container>
+          {loadingPrescription ? (
+            <LoaderComponent />
+          ) : (
+            <>
+              <PrescriptionBody
+                advices={advices}
+                setAdvices={setAdvices}
+                addDrug={(drug) => {
+                  setDrugLists((prev) => [...prev, drug]);
+                }}
+                editable={editable}
+                // showAddedForm={true}
+                drugLists={drugLists}
+                // editable={editable}
+                // setDrugLists={setDrugLists}
+                // durations={durations}
+                // setDurations={setDurations}
+              />
+              {editable && (
+                <Grid
+                  container
+                  justifyContent="flex-end"
+                  style={{ marginTop: 30 }}
+                >
+                  <Grid item xs={4}>
+                    <CustomButton
+                      icon={<SaveIcon />}
+                      title="save prescription"
+                      onClick={handleSubmitPrescription}
+                      size="small"
+                      loading={loading}
+                    />
+                  </Grid>
                 </Grid>
-              </Grid>
-            )}
-          </>
-        )}
+              )}
+            </>
+          )}
+        </Grid>
       </Grid>
       <CustomSnackbar
         open={snackbar.open}
@@ -138,19 +147,22 @@ Prescription.propTypes = {
   patient: PropTypes.object.isRequired,
   doctor: PropTypes.object.isRequired,
   appointmentId: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+
   editable: PropTypes.bool,
 };
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__prescription__container: {
-      // minHeight: "88vh",
+      // minHeight: "85vh",
       width: "100%",
-      background: "#fff",
-      boxShadow: `${DASHBOARD_DOCTOR_DETAILS_BOX_SHADOW}`,
-      // padding: "20px 20px 15px 20px",
-      borderRadius: "5px",
-      marginTop: "10vh",
+      // boxShadow: `${DASHBOARD_DOCTOR_DETAILS_BOX_SHADOW}`,
+      // borderRadius: "5px",/
+      // marginTop: "10vh",
+    },
+    leftSide: {
+      background: theme.palette.custom.BLACK,
     },
   })
 );

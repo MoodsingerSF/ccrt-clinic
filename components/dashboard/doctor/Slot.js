@@ -7,7 +7,7 @@ import {
 } from "../../../controllers/DoctorScheduleController";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { createStyles, makeStyles } from "@mui/styles";
+import { createStyles, makeStyles, useTheme } from "@mui/styles";
 import PropTypes from "prop-types";
 import ConfirmationModal from "../../modal/ConfirmationModal";
 import TimeSlotBookDialog from "../../dialogs/TimeSlotBookDialog";
@@ -27,6 +27,7 @@ const Slot = ({
   editable = false,
   clickable = false,
 }) => {
+  const theme = useTheme();
   const classes = useStyles();
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const [openTimeSlotBookedDialog, setOpenTimeSlotBookedDialog] =
@@ -72,7 +73,15 @@ const Slot = ({
       <Chip
         key={slotId}
         label={getSlotTimeAsString({ startTime, endTime })}
-        color={enabled ? "primary" : "error"}
+        // color={enabled ? "primary" : "error"}
+        style={{
+          background: enabled
+            ? theme.palette.custom.BLUE
+            : theme.palette.custom.GREY,
+          color: "white",
+          fontSize: "85%",
+          fontWeight: 500,
+        }}
         clickable={enabled}
         className={classes.ccrt__doctor__time__slot__chip}
         onClick={

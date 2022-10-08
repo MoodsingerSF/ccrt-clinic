@@ -1,57 +1,44 @@
 import React, { useState } from "react";
 import {
   Grid,
-  MenuItem,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
   TableRow,
-  TextField,
+  Typography,
 } from "@mui/material";
 import DashboardTitle from "./DashboardTitle";
-import { DASHBOARD_TITLE_MARGIN_TOP } from "../../misc/constants";
+import {
+  DASHBOARD_TITLE_MARGIN_TOP,
+  DONATION_REQUEST_STATUS,
+} from "../../misc/constants";
 import NoContentToShowComponent from "../misc/NoContentToShowComponent";
-import LoaderBackdrop from "../backdrops/LoaderBackdrop";
+// import LoaderBackdrop from "../backdrops/LoaderBackdrop";
 import { makeStyles } from "@mui/styles";
 import DonationRequestRow from "./DonationRequestRow";
-
-const data = [
-  {
-    id: 1,
-    name: "Azizul Islam Rajib",
-    phone: "01888397458",
-    amount: "10,000",
-    status: "pending",
-  },
-  {
-    id: 2,
-    name: "Rakibul Islam Rafi",
-    phone: "01888397458",
-    amount: "10,000",
-    status: "pending",
-  },
-];
+import DashboardFilterComponent from "../misc/DashboardFilterComponent";
+import useDonationRequests from "../../hooks/useDonationRequests";
+import DashboardLoaderComponent from "./DashboardLoaderComponent";
 
 const RequestForDonation = () => {
   const classes = useStyles();
 
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [loading, setLoading] = useState(false);
-  const [filterValue, setFilterValue] = useState("pending");
-  const [allRequest, setAllRequest] = useState(data);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+  const [filterValue, setFilterValue] = useState(
+    DONATION_REQUEST_STATUS.PENDING
+  );
+  const {
+    data: donationRequests,
+    loading,
+    hasMore,
+  } = useDonationRequests(
+    page,
+    15,
+    filterValue.requestStatus,
+    filterValue.completionStatus
+  );
 
   return (
     <Grid container justifyContent={"center"} alignItems={"center"}>
@@ -61,25 +48,19 @@ const RequestForDonation = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <DashboardTitle title="Request For Donation" />
-        <Grid container justifyContent={"flex-end"}>
-          <TextField
-            style={{ width: "200px" }}
-            size="small"
-            id="outlined-select-currency"
-            select
+        <DashboardTitle title="Request For Donation">
+          <DashboardFilterComponent
             value={filterValue}
-            onChange={(e) => setFilterValue(e.target.value)}
-          >
-            <MenuItem value="pending">Pending</MenuItem>
-            <MenuItem value="accepted">Accepted</MenuItem>
-            <MenuItem value="rejected">Rejected</MenuItem>
-          </TextField>
-        </Grid>
+            onChange={(e) => {
+              setFilterValue(e.target.value);
+            }}
+            options={DONATION_REQUEST_STATUS}
+          />
+        </DashboardTitle>
       </Grid>
       {loading ? (
-        <LoaderBackdrop open={true} />
-      ) : allRequest.length === 0 ? (
+        <DashboardLoaderComponent />
+      ) : donationRequests.length === 0 ? (
         <NoContentToShowComponent title="There is no requests to show." />
       ) : (
         <Grid container>
@@ -87,37 +68,56 @@ const RequestForDonation = () => {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell style={{ width: "20%" }}>Name</TableCell>
-                  <TableCell style={{ width: "20%" }}>Phone Number</TableCell>
-                  <TableCell style={{ width: "20%" }}>Request Amonut</TableCell>
-                  <TableCell style={{ width: "20%" }}>Status</TableCell>
-                  <TableCell style={{ width: "20%" }}>Actions</TableCell>
+                  <TableCell>
+                    <Typography className={classes.titleStyle}>Name</Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography className={classes.titleStyle}>
+                      Phone Number
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography className={classes.titleStyle}>
+                      Requested Amount
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography className={classes.titleStyle}>
+                      Disease
+                    </Typography>
+                  </TableCell>
+                  <TableCell style={{ width: "25%" }} align="center">
+                    <Typography className={classes.titleStyle}>
+                      Description
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography className={classes.titleStyle}>
+                      Actions
+                    </Typography>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {allRequest
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((request) => (
+                {donationRequests &&
+                  donationRequests.map((request, index) => (
                     <TableRow key={request.id} hover>
                       <DonationRequestRow
-                        name={request.name}
-                        phone={request.phone}
+                        serialNo={index + 1}
+                        name={
+                          request.requestor.firstName +
+                          " " +
+                          request.requestor.lastName
+                        }
+                        phone={request.phoneNo}
                         amount={request.amount}
-                        status={request.status}
+                        description={request.description}
+                        disease={request.disease}
                       />
                     </TableRow>
                   ))}
               </TableBody>
             </Table>
-            <TablePagination
-              rowsPerPageOptions={[5]}
-              component="div"
-              count={allRequest.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
           </TableContainer>
         </Grid>
       )}
@@ -128,16 +128,17 @@ const RequestForDonation = () => {
 const useStyles = makeStyles((theme) => ({
   table: {
     "& thead th": {
-      fontWeight: "500",
-      color: "#FFFFFF",
-      background: theme.palette.primary.main_minus_2,
+      background: theme.palette.custom.BLACK,
     },
-    "& tbody td": {
-      fontSize: "85%",
-    },
+
     "& tbody tr:hover": {
       background: theme.palette.custom.TABLE_HOVER_COLOR,
     },
+  },
+  titleStyle: {
+    color: "white",
+    fontSize: "90%",
+    fontWeight: 500,
   },
 }));
 export default RequestForDonation;

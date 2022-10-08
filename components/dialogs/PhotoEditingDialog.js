@@ -10,11 +10,11 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import AddSharpIcon from "@mui/icons-material/AddSharp";
+import SaveIcon from "@mui/icons-material/Save";
 import { createStyles, makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import CustomButton from "../button/CustomButton";
-
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 const PhotoEditingDialog = ({ open, onClose, title, onSave, openSnackbar }) => {
   const classes = useStyles();
   const inputRef = useRef();
@@ -59,10 +59,7 @@ const PhotoEditingDialog = ({ open, onClose, title, onSave, openSnackbar }) => {
         }}
       >
         <DialogTitle>
-          <Typography
-            className={classes.ccrt__photo__editing__dialog__title}
-            style={{}}
-          >
+          <Typography className={classes.ccrt__photo__editing__dialog__title}>
             {title}
           </Typography>
         </DialogTitle>
@@ -97,7 +94,7 @@ const PhotoEditingDialog = ({ open, onClose, title, onSave, openSnackbar }) => {
               alignItems="center"
               justifyContent="center"
             >
-              <AddSharpIcon
+              <AddAPhotoIcon
                 className={
                   classes.ccrt__photo__editing__dialog__content__add__icon
                 }
@@ -146,6 +143,7 @@ const PhotoEditingDialog = ({ open, onClose, title, onSave, openSnackbar }) => {
             </Grid>
             <Grid item xs={6} md={3}>
               <CustomButton
+                icon={<SaveIcon />}
                 title="save"
                 onClick={saveProfilePicture}
                 loading={loading}
@@ -160,19 +158,22 @@ const PhotoEditingDialog = ({ open, onClose, title, onSave, openSnackbar }) => {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__photo__editing__dialog__title: {
-      color: theme.palette.custom.DEFAULT_COLOR,
-      fontWeight: "600",
+      color: theme.palette.custom.BLACK,
+      fontWeight: 600,
+      fontSize: "85%",
       textAlign: "center",
     },
     ccrt__photo__editing__dialog__content: {
       height: "200px",
       width: "200px",
       borderRadius: "50%",
+      border: `1.3px dashed ${theme.palette.custom.BLACK}`,
       backgroundSize: "cover",
       backgroundPosition: "center",
     },
     ccrt__photo__editing__dialog__content__add__wrapper: {
-      backgroundColor: theme.palette.custom.DEFAULT_COLOR_MINUS_2,
+      // backgroundColor: theme.palette.custom.BLACK,
+      border: `1.3px dashed ${theme.palette.custom.BLACK}`,
       borderRadius: 5,
       height: 45,
       cursor: "pointer",
@@ -180,14 +181,15 @@ const useStyles = makeStyles((theme) =>
     },
     ccrt__photo__editing__dialog__content__add__icon: {
       fontSize: "90%",
-      color: "white",
+      color: theme.palette.custom.BLACK,
       marginRight: "10px",
       fontWeight: "bold",
     },
     ccrt__photo__editing__dialog__content__add__button__title: {
-      fontSize: "80%",
-      color: "white",
-      textTransform: "uppercase",
+      fontSize: "85%",
+      fontWeight: 500,
+      color: theme.palette.custom.BLACK,
+      textTransform: "capitalize",
     },
     ccrt__photo__editing__dialog__action__wrapper: {
       justifyContent: "center",

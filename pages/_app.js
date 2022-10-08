@@ -14,12 +14,12 @@ import AppBar from "../components/appbar/AppBar";
 // of the user in the browser.
 import { Provider } from "../contexts/user-context/UserContext";
 import LoginChecker from "../components/LoginChecker";
+// import { useRouter } from "next/router";
 
 const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-
   return (
     <Provider>
       <CacheProvider value={emotionCache}>
@@ -42,6 +42,7 @@ export default function MyApp(props) {
         </Head>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+
           <AppBar />
 
           <LoginChecker>

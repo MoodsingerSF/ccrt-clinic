@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import { Grid, TextField, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { makeStyles, useTheme } from "@mui/styles";
 // import PropTypes from "prop-types";
 const DoctorInfoFormTextField = ({
   label,
@@ -13,6 +13,7 @@ const DoctorInfoFormTextField = ({
   errorText = "",
 }) => {
   const classes = useStyles();
+  const theme = useTheme();
   return (
     <Grid container>
       <TextField
@@ -26,6 +27,15 @@ const DoctorInfoFormTextField = ({
         InputProps={{
           classes: {
             input: classes.resize,
+          },
+        }}
+        InputLabelProps={{
+          style: {
+            color: theme.palette.custom.BLACK,
+            fontSize: "85%",
+            fontWeight: 500,
+            margin: 0,
+            padding: 0,
           },
         }}
       />
@@ -45,14 +55,17 @@ const DoctorInfoFormTextField = ({
 //   errorText = "",
 // }
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   resize: {
-    fontSize: "90%",
+    fontSize: "85%",
+    color: theme.palette.custom.BLACK,
+    fontWeight: 500,
   },
   ccrt_error_text: {
-    color: "red",
+    color: theme.palette.custom.RED,
     fontSize: "70%",
-    marginBottom: "5px",
+    fontWeight: 500,
+    marginTop: "5px",
   },
 }));
 export default DoctorInfoFormTextField;
