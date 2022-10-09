@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import useSuggestions from "../../hooks/useSuggestions";
 import { DASHBOARD_TITLE_MARGIN_TOP } from "../../misc/constants";
 import CustomButton from "../button/CustomButton";
-import LoaderComponent from "../misc/LoaderComponent";
 import NoContentToShowComponent from "../misc/NoContentToShowComponent";
+import DashboardLoaderComponent from "./DashboardLoaderComponent";
 import DashboardTitle from "./DashboardTitle";
 import SuggestionRow from "./SuggestionRow";
 
@@ -25,8 +25,8 @@ const SuggestionComp = () => {
         <DashboardTitle title={"Suggestions"} />
       </Grid>
       <Grid container>
-        {loading ? (
-          <LoaderComponent />
+        {loading && page === 0 ? (
+          <DashboardLoaderComponent />
         ) : suggestions.length === 0 ? (
           <NoContentToShowComponent title={"No suggestions to show."} />
         ) : (
@@ -79,6 +79,7 @@ const SuggestionComp = () => {
                   <CustomButton
                     title={"Load More"}
                     onClick={() => setPage((prev) => prev + 1)}
+                    loading={loading}
                   />
                 )}
               </Grid>

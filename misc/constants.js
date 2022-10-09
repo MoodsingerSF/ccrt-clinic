@@ -48,3 +48,10 @@ export const DONATION_REQUEST_STATUS = {
   REJECTED: { requestStatus: "REJECTED", completionStatus: "INCOMPLETE" },
   INCOMPLETE: { requestStatus: "ACCEPTED", completionStatus: "INCOMPLETE" },
 };
+
+export const CHIP_COLORS = {
+  PENDING: "#f39c12",
+  COMPLETE: "#2980b9",
+  REJECTED: "#d63031",
+  INCOMPLETE: "#2ecc71",
+};

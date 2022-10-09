@@ -6,14 +6,24 @@ import ConfirmationModal from "../modal/ConfirmationModal";
 import ActionButton from "../button/ActionButton";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import {
+  acceptDonationRequest,
+  rejectDonationRequest,
+} from "../../controllers/DonationRequestController";
+import CustomChip from "../chip/CustomChip";
+import { CHIP_COLORS } from "../../misc/constants";
 
 const DonationRequestRow = ({
+  requestId,
   name,
   amount,
   phone,
   disease,
   description,
   serialNo,
+  openSnackbar,
+  showActions = false,
+  status,
 }) => {
   const classes = useStyles();
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
@@ -25,16 +35,45 @@ const DonationRequestRow = ({
     setAcceptRequest(true);
   };
 
+  const handleClickRejectButton = () => {
+    setOpenConfirmationModal(true);
+    setAcceptRequest(false);
+  };
+
   const handleAcceptDonationRequest = async () => {
-    setLoading(true);
-    //  Api Call
-    setLoading(false);
+    try {
+      setLoading(true);
+      await acceptDonationRequest(requestId);
+      setLoading(false);
+      openSnackbar("Donation request has been accepted successfully.");
+      setOpenConfirmationModal(false);
+    } catch (error) {
+      setLoading(false);
+      if (error && error.response) {
+        const { data } = error.response;
+        if (data && data.code && data.message)
+          openSnackbar(data.code + ": " + data.message);
+        else openSnackbar("Something went wrong. Please try again later.");
+      }
+    }
   };
 
   const handleRejectDonationRequest = async () => {
-    setLoading(true);
-    //  Api Call
-    setLoading(false);
+    try {
+      setLoading(true);
+      await rejectDonationRequest(requestId);
+      setLoading(false);
+      openSnackbar("Donation request has been rejected successfully.");
+      setOpenConfirmationModal(false);
+    } catch (error) {
+      setLoading(false);
+      if (error && error.response) {
+        const { data } = error.response;
+        if (data && data.code && data.message)
+          openSnackbar(data.code + ": " + data.message);
+        else openSnackbar("Something went wrong. Please try again later.");
+      }
+    }
   };
 
   return (
@@ -66,27 +105,36 @@ const DonationRequestRow = ({
           {description}
         </Typography>
       </TableCell>
-      <TableCell align="center">
-        <Grid item style={{ marginBottom: 5 }}>
+      {!showActions && (
+        <TableCell align="center">
+          <Grid container justifyContent={"center"} alignItems="center">
+            <CustomChip title={status} color={CHIP_COLORS[status]} />
+          </Grid>
+        </TableCell>
+      )}
+      {showActions && (
+        <TableCell align="center">
+          <Grid item style={{ marginBottom: 5 }}>
+            <ActionButton
+              title={"Accept"}
+              onClick={handleClickAcceptButton}
+              type="success"
+              icon={<CheckIcon />}
+            />
+          </Grid>
           <ActionButton
-            title={"Accept"}
-            // const handleClickAcceptButton = () => {
-            onClick={handleClickAcceptButton}
-            type="success"
-            icon={<CheckIcon />}
+            title={"Reject"}
+            onClick={handleClickRejectButton}
+            type="error"
+            icon={<ClearIcon />}
           />
-        </Grid>
-        <ActionButton
-          title={"Reject"}
-          onClick={() => {}}
-          type="error"
-          icon={<ClearIcon />}
-        />
-      </TableCell>
-
+        </TableCell>
+      )}
       {openConfirmationModal && (
         <ConfirmationModal
-          title="Are you sure?"
+          title={`Are you sure you want to ${
+            acceptRequest ? "accept" : "reject"
+          } this donation request?`}
           onNegativeFeedback={() => setOpenConfirmationModal(false)}
           onPositiveFeedback={
             acceptRequest
@@ -120,9 +168,13 @@ const useStyles = makeStyles((theme) => ({
 DonationRequestRow.propTypes = {
   serialNo: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
+  requestId: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
   disease: PropTypes.string.isRequired,
+  openSnackbar: PropTypes.func.isRequired,
+  showActions: PropTypes.bool,
   description: PropTypes.string,
+  status: PropTypes.string.isRequired,
 };
 export default DonationRequestRow;

@@ -5,6 +5,20 @@ import {
   retrieveUserId,
 } from "./LocalStorageController";
 
+const processDonationRequest = (donationRequest) => {
+  const { requestStatus, completionStatus } = donationRequest;
+  let status = "";
+
+  if (requestStatus === "PENDING" && completionStatus === "INCOMPLETE")
+    status = "PENDING";
+  else if (requestStatus === "ACCEPTED" && completionStatus === "COMPLETE")
+    status = "COMPLETE";
+  else if (requestStatus === "REJECTED" && completionStatus === "INCOMPLETE")
+    status = "REJECTED";
+  else if (requestStatus === "ACCEPTED" && completionStatus === "INCOMPLETE")
+    status = "INCOMPLETE";
+  return { ...donationRequest, status };
+};
 export const createDonationRequest = async (
   phoneNo,
   disease,
@@ -29,7 +43,7 @@ export const createDonationRequest = async (
       },
     }
   );
-  return data;
+  return processDonationRequest(data);
 };
 
 export const retrieveDonationRequests = async (
@@ -49,12 +63,12 @@ export const retrieveDonationRequests = async (
       Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
     },
   });
-  return data;
+  return data.map((item) => processDonationRequest(item));
 };
 
 export const acceptDonationRequest = async (requestId) => {
   const { data } = await axios.put(
-    SERVER_PATH + "/donation-requests/" + requestId + "/request-status",
+    SERVER_PATH + "donation-requests/" + requestId + "/request-status",
     { requestStatus: "ACCEPTED" },
     {
       headers: {
@@ -64,12 +78,12 @@ export const acceptDonationRequest = async (requestId) => {
       },
     }
   );
-  return data;
+  return processDonationRequest(data);
 };
 
 export const rejectDonationRequest = async (requestId) => {
   const { data } = await axios.put(
-    SERVER_PATH + "/donation-requests/" + requestId + "/request-status",
+    SERVER_PATH + "donation-requests/" + requestId + "/request-status",
     { requestStatus: "REJECTED" },
     {
       headers: {
@@ -79,12 +93,12 @@ export const rejectDonationRequest = async (requestId) => {
       },
     }
   );
-  return data;
+  return processDonationRequest(data);
 };
 
 export const endDonationRequest = async (requestId) => {
   const { data } = await axios.put(
-    SERVER_PATH + "/donation-requests/" + requestId + "/completion-status",
+    SERVER_PATH + "donation-requests/" + requestId + "/completion-status",
     { completionStatus: "COMPLETE" },
     {
       headers: {
@@ -94,7 +108,7 @@ export const endDonationRequest = async (requestId) => {
       },
     }
   );
-  return data;
+  return processDonationRequest(data);
 };
 
 export const retrieveUserDonationRequests = async (page, limit) => {
@@ -111,5 +125,5 @@ export const retrieveUserDonationRequests = async (page, limit) => {
       },
     }
   );
-  return data;
+  return data.map((item) => processDonationRequest(item));
 };
