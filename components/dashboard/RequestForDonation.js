@@ -8,6 +8,7 @@ const RequestForDonation = () => {
   const [filterValue, setFilterValue] = useState(
     DONATION_REQUEST_STATUS.PENDING
   );
+
   const {
     data: donationRequests,
     loading,
@@ -18,7 +19,6 @@ const RequestForDonation = () => {
     filterValue.requestStatus,
     filterValue.completionStatus
   );
-
   return (
     <>
       <DonationRequestsComp

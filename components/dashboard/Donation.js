@@ -6,51 +6,24 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
   TableRow,
+  Typography,
 } from "@mui/material";
 import DashboardTitle from "./DashboardTitle";
 import { DASHBOARD_TITLE_MARGIN_TOP } from "../../misc/constants";
 import LoaderBackdrop from "../backdrops/LoaderBackdrop";
 import NoContentToShowComponent from "../misc/NoContentToShowComponent";
-import { makeStyles } from "@mui/styles";
+import { createStyles, makeStyles, useTheme } from "@mui/styles";
 import DonationRow from "./DonationRow";
-
-const data = [
-  {
-    id: 1,
-    donarName: "Azizul Islam Rajib",
-    recipientName: "Rakibul Islam Rafi",
-    phone: "01888397458",
-    amount: "10,000",
-    date: new Date().toDateString(),
-  },
-  {
-    id: 2,
-    donarName: "Rakibul Islam Rafi",
-    recipientName: "Azizul Islam Rajib",
-    phone: "01888397458",
-    amount: "10,000",
-    date: new Date().toDateString(),
-  },
-];
+import useDonations from "../../hooks/useDonations";
+import CustomButton from "../button/CustomButton";
 
 const Donation = () => {
   const classes = useStyles();
+  const theme = useTheme();
 
-  const [donations, setDonations] = useState(data);
-  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+  const { data: donations, loading, hasMore } = useDonations(page, 5);
 
   return (
     <Grid container justifyContent={"center"} alignItems={"center"}>
@@ -72,62 +45,97 @@ const Donation = () => {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell style={{ width: "20%" }}>Donar Name</TableCell>
-                  <TableCell style={{ width: "20%" }}>Recipient Name</TableCell>
-                  <TableCell style={{ width: "20%" }}>
-                    Recipient Number
+                  <TableCell style={{ width: "25%" }}>
+                    <Typography className={classes.titleStyle}>
+                      Donar Name
+                    </Typography>
                   </TableCell>
-                  <TableCell style={{ width: "20%" }}>Amonut</TableCell>
-                  <TableCell style={{ width: "20%" }}>Date</TableCell>
-                  <TableCell style={{ width: "20%" }}>Action</TableCell>
+                  <TableCell style={{ width: "25%" }}>
+                    <Typography className={classes.titleStyle}>
+                      Recipient Name
+                    </Typography>
+                  </TableCell>
+                  <TableCell style={{ width: "25%" }}>
+                    <Typography className={classes.titleStyle}>Date</Typography>
+                  </TableCell>
+                  <TableCell style={{ width: "25%" }}>
+                    <Typography className={classes.titleStyle}>
+                      Action
+                    </Typography>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {donations
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((request) => (
-                    <TableRow key={request.id} hover>
-                      <DonationRow
-                        donarName={request.donarName}
-                        recipientName={request.recipientName}
-                        phone={request.phone}
-                        amount={request.amount}
-                        date={request.date}
-                      />
-                    </TableRow>
-                  ))}
+                {donations.map((request) => (
+                  <TableRow key={request.donationId} hover>
+                    <DonationRow
+                      recipientName={
+                        request.donationRequest.requestor.firstName +
+                        " " +
+                        request.donationRequest.requestor.lastName
+                      }
+                      donarName={
+                        request.donor.firstName + " " + request.donor.lastName
+                      }
+                      phone={request.donationRequest.phoneNo}
+                      amount={request.amount}
+                      date={request.creationTime}
+                      disease={request.donationRequest.disease}
+                      description={request.donationRequest.description}
+                    />
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
-            <TablePagination
-              rowsPerPageOptions={[5]}
-              component="div"
-              count={donations.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
           </TableContainer>
+          {!loading && hasMore && (
+            <Grid
+              container
+              justifyContent={"center"}
+              alignItems="center"
+              style={{ marginTop: 20 }}
+            >
+              <Grid item xs={12} sm={2}>
+                <CustomButton
+                  title="Load More"
+                  onClick={() => setPage((prev) => prev + 1)}
+                  color={theme.palette.custom.BLACK}
+                />
+              </Grid>
+            </Grid>
+          )}
         </Grid>
       )}
     </Grid>
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  table: {
-    "& thead th": {
-      fontWeight: "500",
-      color: "#FFFFFF",
-      background: theme.palette.primary.main_minus_2,
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    table: {
+      marginTop: theme.spacing(3),
+
+      "& thead th": {
+        fontWeight: "500",
+        color: "#FFFFFF",
+        background: theme.palette.custom.BLACK,
+      },
+      "& tbody td": {
+        fontWeight: "400",
+        fontSize: "85%",
+        padding: "10px",
+      },
+      "& tbody tr:hover": {
+        background: theme.palette.custom.TABLE_HOVER_COLOR,
+        cursor: "pointer",
+      },
     },
-    "& tbody td": {
+    titleStyle: {
+      color: "white",
       fontSize: "85%",
+      fontWeight: 500,
     },
-    "& tbody tr:hover": {
-      background: theme.palette.custom.TABLE_HOVER_COLOR,
-    },
-  },
-}));
+  })
+);
 
 export default Donation;

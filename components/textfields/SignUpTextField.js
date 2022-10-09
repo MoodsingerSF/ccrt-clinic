@@ -120,7 +120,7 @@ SignUpTextField.propTypes = {
 
 const useStyles = makeStyles((theme) => ({
   ccrt_textField_container: {
-    marginBottom: "15px",
+    marginBottom: "10px",
     width: "100%",
   },
   ccrt_textField_label: {

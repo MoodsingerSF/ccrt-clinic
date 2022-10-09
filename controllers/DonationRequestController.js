@@ -111,7 +111,7 @@ export const endDonationRequest = async (requestId) => {
   return processDonationRequest(data);
 };
 
-export const retrieveUserDonationRequests = async (page, limit) => {
+export const retrieveUserDonationRequests = async (page, limit = 2) => {
   const { data } = await axios.get(
     SERVER_PATH + "users/" + retrieveUserId() + "/donation-requests",
     {
@@ -126,4 +126,32 @@ export const retrieveUserDonationRequests = async (page, limit) => {
     }
   );
   return data.map((item) => processDonationRequest(item));
+};
+
+export const giveDonationToOthers = async (amount, requestId) => {
+  const data = {
+    amount,
+    donationRequestId: requestId,
+    donorUserId: retrieveUserId(),
+  };
+  const response = await axios.post(SERVER_PATH + "donations", data, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+    },
+  });
+  return response.status;
+};
+
+export const retrieveAllDonation = async (page, limit) => {
+  const { data } = await axios.get(SERVER_PATH + "donations", {
+    params: {
+      page,
+      limit,
+    },
+    headers: {
+      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+    },
+  });
+  return data;
 };
