@@ -80,7 +80,7 @@ const MyDonations = () => {
                           fullName={
                             request.donationRequest.requestor.firstName +
                             " " +
-                            request.donationRequest.requestor.firstName
+                            request.donationRequest.requestor.lastName
                           }
                           amount={request.amount}
                           date={request.creationTime}

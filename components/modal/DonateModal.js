@@ -13,9 +13,6 @@ import SignUpTextField from "../textfields/SignUpTextField";
 import CustomButton from "../button/CustomButton";
 import { validateEmpty } from "../../controllers/DonationController";
 import { giveDonationToOthers } from "../../controllers/DonationRequestController";
-import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
-import CustomSnackbar from "../snackbar/CustomSnackbar";
-import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";
 
 const DonateModal = ({
   open,
@@ -43,7 +40,7 @@ const DonateModal = ({
     try {
       if (validate(donateAmount)) {
         setLoading(true);
-        await giveDonationToOthers(amount, requestId);
+        await giveDonationToOthers(donateAmount, requestId);
         setLoading(false);
         setDonateAmount("");
         onNegativeFeedback();

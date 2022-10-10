@@ -47,7 +47,7 @@ const DonationRequestCard = ({
       <Card className={classes.ccrt__card__container}>
         <CardMedia className={classes.ccrt__card_media}>
           <Image
-            src={profilePic2}
+            src={profilePic ? profilePic : profilePic2}
             alt="blog"
             layout="fill"
             objectFit="contain"

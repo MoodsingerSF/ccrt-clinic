@@ -155,3 +155,20 @@ export const retrieveAllDonation = async (page, limit) => {
   });
   return data;
 };
+
+export const retrieveAllDonor = async (page, limit, requestId) => {
+  const { data } = await axios.get(
+    SERVER_PATH + "donation-requests/" + requestId + "/donations",
+    {
+      params: {
+        page,
+        limit,
+      },
+      headers: {
+        Authorization:
+          AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      },
+    }
+  );
+  return data;
+};

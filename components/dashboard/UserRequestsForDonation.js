@@ -28,6 +28,7 @@ const UserRequestsForDonation = () => {
         donationRequests={donationRequests}
         hasMore={hasMore}
         onLoadMore={() => setPage((prev) => prev + 1)}
+        showViewActions={true}
       />
     </>
   );
