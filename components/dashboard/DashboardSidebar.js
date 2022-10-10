@@ -20,65 +20,67 @@ const DashboardSidebar = ({ routeName }) => {
 
   return (
     <Grid className={classes.ccrt__dashboard__sidebar__container}>
-      <Grid
-        container
-        justifyContent="center"
-        className={classes.ccrt__dashboard__sidebar__header}
-      >
-        <Typography
-          style={{
-            color: "#FFFFFF",
-            textTransform: "capitalize",
-            fontSize: "100%",
-            fontWeight: 500,
-          }}
+      <Grid container>
+        <Grid
+          container
+          justifyContent="center"
+          className={classes.ccrt__dashboard__sidebar__header}
         >
-          Dashboard
-        </Typography>
-      </Grid>
-      <Grid
-        container
-        // direction={"column"}
-        className={classes.ccrt__dashboard__sidebar__menu}
-      >
-        {/* <ul className={classes.ccrt__dashboard__sidebar__menu__items}> */}
-        {DASHBOARD_ROUTES.map((item, index) => {
-          if (item.allowedRoles.includes(getRole())) {
-            return (
-              <Grid
-                key={index}
-                container
-                // item
-                justifyContent={"flex-start"}
-                alignItems="center"
-                className={
-                  selected === index
-                    ? classes.ccrt__dashboard__sidebar__menu__item__active
-                    : classes.ccrt__dashboard__sidebar__menu__item
-                }
-                onClick={() => handleClickTest(index, item.path)}
-              >
-                {/* <Link href={item.path}> */}
-                <>
-                  {item.icon}
-                  <Typography>
-                    <Grid
-                      container
-                      className={
-                        classes.ccrt__dashboard__sidebar__menu__item__link
-                      }
-                    >
-                      {item.heading}
-                    </Grid>
-                  </Typography>
-                </>
-                {/* </Link> */}
-              </Grid>
-            );
-          }
-          return null;
-        })}
-        {/* </ul> */}
+          <Typography
+            style={{
+              color: "#FFFFFF",
+              textTransform: "capitalize",
+              fontSize: "100%",
+              fontWeight: 500,
+            }}
+          >
+            Dashboard
+          </Typography>
+        </Grid>
+        <Grid
+          container
+          // direction={"column"}
+          className={classes.ccrt__dashboard__sidebar__menu}
+        >
+          {/* <ul className={classes.ccrt__dashboard__sidebar__menu__items}> */}
+          {DASHBOARD_ROUTES.map((item, index) => {
+            if (item.allowedRoles.includes(getRole())) {
+              return (
+                <Grid
+                  key={index}
+                  container
+                  // item
+                  justifyContent={"flex-start"}
+                  alignItems="center"
+                  className={
+                    selected === index
+                      ? classes.ccrt__dashboard__sidebar__menu__item__active
+                      : classes.ccrt__dashboard__sidebar__menu__item
+                  }
+                  onClick={() => handleClickTest(index, item.path)}
+                >
+                  {/* <Link href={item.path}> */}
+                  <>
+                    {item.icon}
+                    <Typography>
+                      <Grid
+                        container
+                        className={
+                          classes.ccrt__dashboard__sidebar__menu__item__link
+                        }
+                      >
+                        {item.heading}
+                      </Grid>
+                    </Typography>
+                  </>
+                  {/* </Link> */}
+                </Grid>
+              );
+            }
+            return null;
+          })}
+          {/* </ul> */}
+        </Grid>
       </Grid>
     </Grid>
   );
