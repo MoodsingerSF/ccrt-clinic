@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Grid } from "@mui/material";
-import { createStyles, makeStyles } from "@mui/styles";
+import { Grid, useMediaQuery } from "@mui/material";
+import { createStyles, makeStyles, useTheme } from "@mui/styles";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -17,6 +17,8 @@ const Blog = () => {
   const classes = useStyles();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const getPopularBlogs = async () => {
     try {
       setLoading(true);
@@ -54,8 +56,8 @@ const Blog = () => {
 
             <Grid container style={{ marginTop: 30 }}>
               <Swiper
-                slidesPerView={2}
-                spaceBetween={30}
+                slidesPerView={1.5}
+                spaceBetween={isDesktop ? 30 : 15}
                 slidesPerGroup={1}
                 loop={false}
                 pagination={{
@@ -65,16 +67,16 @@ const Blog = () => {
                 className={classes.ccrt__home__blog__card__mySwiper}
                 breakpoints={{
                   600: {
-                    slidesPerView: 2,
-                  },
-                  900: {
                     slidesPerView: 3,
                   },
-                  1200: {
+                  900: {
                     slidesPerView: 4,
                   },
-                  1400: {
+                  1200: {
                     slidesPerView: 5,
+                  },
+                  1400: {
+                    slidesPerView: 6,
                   },
                 }}
               >

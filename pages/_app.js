@@ -8,19 +8,17 @@ import { CacheProvider } from "@emotion/react";
 import createEmotionCache from "../src/emotion_cache/createEmotionCache";
 import theme from "../themes/theme";
 import AppBar from "../components/appbar/AppBar";
-// import Footer from "../components/footer/Footer";
-
-// Client-side cache shared for the whole session
-// of the user in the browser.
 import { Provider } from "../contexts/user-context/UserContext";
 import LoginChecker from "../components/LoginChecker";
 import MyErrorBoundary from "../components/MyErrorBoundary";
-// import { useRouter } from "next/router";
+import Footer from "../components/footer/Footer";
+import { useRouter } from "next/router";
 
 const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const router = useRouter();
   return (
     <Provider>
       <CacheProvider value={emotionCache}>
@@ -49,6 +47,7 @@ export default function MyApp(props) {
               <LoginChecker>
                 <Component {...pageProps} />
               </LoginChecker>
+              {!router.pathname.startsWith("/dashboard") && <Footer />}
             </>
           </MyErrorBoundary>
         </ThemeProvider>

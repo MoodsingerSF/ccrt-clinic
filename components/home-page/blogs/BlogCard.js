@@ -45,7 +45,8 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__home__blog__img__container: {
       position: "relative",
-      height: "30vh",
+      // height: "30vh",
+      aspectRatio: 1.5,
       boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
       // borderLeft: `1px solid ${theme.palette.custom.GREEN}`,
       // borderRight: `1px solid ${theme.palette.custom.GREEN}`,
