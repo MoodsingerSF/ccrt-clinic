@@ -1,4 +1,4 @@
-import React, { lazy, useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Grid, IconButton, useMediaQuery, useTheme } from "@mui/material";
@@ -9,8 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { APP_BAR_HEIGHT } from "../../misc/constants";
 import DonationSection from "./DonationSection";
 import dynamic from "next/dynamic";
-import LazyLoader from "../LazyLoader";
-const AppBarDeskTop = lazy(() => import("./AppBarDeskTop"));
+import AppBarDeskTop from "./AppBarDeskTop";
 const AppbarDrawer = dynamic(() => import("../drawer/AppbarDrawer"));
 
 const AppBar = () => {
@@ -27,6 +26,8 @@ const AppBar = () => {
   const appbarDrawerClose = useCallback(() => {
     setOpenAppbarDrawer(false);
   }, [setOpenAppbarDrawer]);
+  console.log("app bar");
+  const appBarDesktop = useMemo(() => <AppBarDeskTop />, []);
   return (
     <Grid
       container
@@ -37,9 +38,7 @@ const AppBar = () => {
     >
       {router.pathname === "/" && <DonationSection />}
       {matches ? (
-        <LazyLoader>
-          <AppBarDeskTop />
-        </LazyLoader>
+        appBarDesktop
       ) : (
         <Grid
           container

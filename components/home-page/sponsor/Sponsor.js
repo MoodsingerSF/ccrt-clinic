@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Image from "next/image";
 import { Grid, Typography } from "@mui/material";
 import sponsor from "../../../public/image/home-page/donate/sponsor.png";
@@ -108,4 +108,4 @@ const useStyes = makeStyles((theme) =>
     },
   })
 );
-export default Sponsor;
+export default memo(Sponsor);

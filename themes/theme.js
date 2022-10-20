@@ -1,8 +1,7 @@
-import { createTheme } from "@mui/material/styles";
 import { grey, purple, red } from "@mui/material/colors";
 
 // Create a theme instance.
-const theme = createTheme({
+const theme = {
   palette: {
     primary: {
       main_minus_2: purple[400],
@@ -36,6 +35,6 @@ const theme = createTheme({
   typography: {
     fontSize: 16,
   },
-});
+};
 
 export default theme;

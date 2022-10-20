@@ -1,17 +1,16 @@
 import { Avatar, Grid, Typography } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 import { Context } from "../../contexts/user-context/UserContext";
 import { APP_BAR_ROUTES, VIEW_CRITERIA } from "../dashboard/Routes";
 import logo from "../../public/image/logo/logo2.png";
 import ProfileMenu from "../menu/ProfileMenu";
 import AppBarLink from "./AppBarLink";
+import Link from "next/link";
 
 const AppBarDeskTop = () => {
   const classes = useStyles();
-  const router = useRouter();
   const { isSignedIn, getProfileImageUrl } = useContext(Context);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -69,14 +68,9 @@ const AppBarDeskTop = () => {
             <Typography
               className={classes.sign_up_title}
             >{`Haven't registered yet?`}</Typography>
-            <Typography
-              className={classes.sign_up_button_style}
-              onClick={() => {
-                router.push("/signup");
-              }}
-            >
-              Register Now
-            </Typography>
+            <Link prefetch={false} href={"/signup"}>
+              <a className={classes.sign_up_button_style}>Register Now</a>
+            </Link>
           </Grid>
         )}
       </Grid>
@@ -103,6 +97,7 @@ const useStyles = makeStyles((theme) =>
       cursor: "pointer",
       borderRadius: 30,
       transition: "background .2s",
+      textDecoration: "none",
       "&:hover": {
         background: theme.palette.primary.main,
       },

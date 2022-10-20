@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Grid, useMediaQuery } from "@mui/material";
 import { createStyles, makeStyles, useTheme } from "@mui/styles";
 import Image from "next/image";
@@ -15,7 +15,6 @@ const Hero = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
-
   return (
     <>
       <Grid
@@ -74,4 +73,4 @@ const useStyles = makeStyles(() =>
   })
 );
 
-export default Hero;
+export default memo(Hero);

@@ -1,4 +1,4 @@
-import React, { memo, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useRouter } from "next/router";
 
 import { Box, Drawer, IconButton, List, Typography } from "@mui/material";
@@ -23,7 +23,7 @@ const AppbarDrawer = ({ open, onClose }) => {
   const theme = useTheme();
   const { isSignedIn, logout } = useContext(Context);
   const [searchKeyword, setSearchKeyword] = useState("");
-
+  console.log("app bar drawer");
   return (
     <>
       <Drawer anchor="left" open={open} onClose={onClose}>
@@ -148,4 +148,4 @@ AppbarDrawer.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
 };
-export default memo(AppbarDrawer);
+export default AppbarDrawer;

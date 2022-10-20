@@ -27,7 +27,6 @@ const Doctor = () => {
   useEffect(() => {
     retrieveDoctors();
   }, []);
-
   return (
     <>
       {loading ? (
