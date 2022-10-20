@@ -34,6 +34,7 @@ const DonationRequestsComp = ({
   hasMore,
   onLoadMore,
   showActions = false,
+  showViewActions = false,
 }) => {
   const classes = useStyles();
 
@@ -93,13 +94,27 @@ const DonationRequestsComp = ({
                     </Typography>
                   </TableCell>
                   {!showActions && (
-                    <TableCell style={{ width: "25%" }} align="center">
+                    <TableCell align="center">
                       <Typography className={classes.titleStyle}>
                         Status
                       </Typography>
                     </TableCell>
                   )}
-                  {showActions && (
+                  {showViewActions && (
+                    <TableCell align="center">
+                      <Typography className={classes.titleStyle}>
+                        Actions
+                      </Typography>
+                    </TableCell>
+                  )}
+                  {showActions && filterValue.requestStatus === "ACCEPTED" && (
+                    <TableCell align="center">
+                      <Typography className={classes.titleStyle}>
+                        Actions
+                      </Typography>
+                    </TableCell>
+                  )}
+                  {showActions && filterValue.requestStatus === "PENDING" && (
                     <TableCell align="center">
                       <Typography className={classes.titleStyle}>
                         Actions
@@ -127,6 +142,8 @@ const DonationRequestsComp = ({
                         openSnackbar={openSnackbar}
                         showActions={showActions}
                         status={request.status}
+                        showViewActions={showViewActions}
+                        filterValue={filterValue}
                       />
                     </TableRow>
                   ))}
@@ -164,6 +181,7 @@ DonationRequestsComp.propTypes = {
   donationRequests: PropTypes.array.isRequired,
   hasMore: PropTypes.bool.isRequired,
   showActions: PropTypes.bool,
+  showViewActions: PropTypes.bool,
   onLoadMore: PropTypes.func.isRequired,
 };
 

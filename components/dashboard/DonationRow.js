@@ -15,6 +15,7 @@ const DonationRow = ({
   date,
   disease,
   description,
+  serialNo,
 }) => {
   const classes = useStyles();
   const [openDonationInfoModal, setOpenDonationInfoModal] = useState(false);
@@ -23,20 +24,20 @@ const DonationRow = ({
     <>
       <TableCell>
         <Typography className={classes.ccrt__donation__request__row__name}>
-          {donarName}
+          {serialNo}.{donarName}
         </Typography>
       </TableCell>
-      <TableCell>
+      <TableCell align="center">
         <Typography className={classes.ccrt__donation__request__row__name}>
           {recipientName}
         </Typography>
       </TableCell>
-      <TableCell>
+      <TableCell align="center">
         <Typography className={classes.ccrt__donation__request__row__name}>
           {prettyDate(date)}
         </Typography>
       </TableCell>
-      <TableCell>
+      <TableCell align="center">
         {/* <Tooltip title="View"> */}
         <ActionButton
           title="View"
@@ -70,13 +71,14 @@ DonationRow.propTypes = {
   date: PropTypes.string.isRequired,
   disease: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  serialNo: PropTypes.number.isRequired,
 };
 
 const useStyles = makeStyles((theme) => ({
   ccrt__donation__request__row__name: {
     fontSize: "100%",
-    marginRight: "20px",
-    lineHeight: "1.7",
+    color: theme.palette.custom.BLACK,
+    fontWeight: "500",
     textTransform: "capitalize",
   },
   ccrt__donation__request__row__action: {

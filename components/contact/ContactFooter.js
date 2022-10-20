@@ -62,7 +62,7 @@ const ContactFooter = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item lg={6}>
+      <Grid item md={6}>
         <Grid container>
           <Grid
             container
@@ -84,7 +84,7 @@ const ContactFooter = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item lg={6}>
+      <Grid item xs={12} md={6}>
         <SignUpTextField
           label="Name"
           type="text"

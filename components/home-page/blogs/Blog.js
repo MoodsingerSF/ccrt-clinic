@@ -54,15 +54,10 @@ const Blog = () => {
 
             <Grid container style={{ marginTop: 30 }}>
               <Swiper
-                slidesPerView={1}
+                slidesPerView={2}
                 spaceBetween={30}
                 slidesPerGroup={1}
                 loop={false}
-                // autoplay={{
-                //   delay: 2500,
-                //   disableOnInteraction: false,
-                // }}
-                //   navigation={true}
                 pagination={{
                   clickable: true,
                 }}

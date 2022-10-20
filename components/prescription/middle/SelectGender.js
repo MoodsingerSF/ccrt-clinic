@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Grid, Tooltip, Typography } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import OutsideClick from "../OutsideClick";
-
+import PropTypes from "prop-types";
 const SelectGender = ({
   heading,
   title,
@@ -55,6 +55,15 @@ const SelectGender = ({
       </Typography>
     </Grid>
   );
+};
+
+SelectGender.propTypes = {
+  heading: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  tooltip: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+  onKeyDown: PropTypes.func.isRequired,
 };
 
 const useStyles = makeStyles((theme) =>

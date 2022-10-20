@@ -12,6 +12,7 @@ import {
 } from "../../controllers/DonationRequestController";
 import CustomChip from "../chip/CustomChip";
 import { CHIP_COLORS } from "../../misc/constants";
+import DonorListBackdrop from "../backdrops/DonorListBackdrop";
 
 const DonationRequestRow = ({
   requestId,
@@ -23,12 +24,16 @@ const DonationRequestRow = ({
   serialNo,
   openSnackbar,
   showActions = false,
+  showViewActions = false,
   status,
+  filterValue,
 }) => {
+  console.log(filterValue);
   const classes = useStyles();
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [acceptRequest, setAcceptRequest] = useState(false);
+  const [openDonorListBackdrop, setOpenDonorListBackdrop] = useState(false);
 
   const handleClickAcceptButton = () => {
     setOpenConfirmationModal(true);
@@ -108,11 +113,40 @@ const DonationRequestRow = ({
       {!showActions && (
         <TableCell align="center">
           <Grid container justifyContent={"center"} alignItems="center">
-            <CustomChip title={status} color={CHIP_COLORS[status]} />
+            <CustomChip
+              title={filterValue.completionStatus}
+              color={CHIP_COLORS[status]}
+            />
           </Grid>
         </TableCell>
       )}
-      {showActions && (
+      {showViewActions ? (
+        <TableCell align="center">
+          <Grid container justifyContent={"center"} alignItems="center">
+            <ActionButton
+              title="view donors"
+              onClick={() => setOpenDonorListBackdrop(true)}
+              type=""
+              icon={null}
+            />
+          </Grid>
+        </TableCell>
+      ) : (
+        filterValue.requestStatus === "ACCEPTED" && (
+          <TableCell align="center">
+            <Grid container justifyContent={"center"} alignItems="center">
+              <ActionButton
+                title="view donors"
+                onClick={() => setOpenDonorListBackdrop(true)}
+                type=""
+                icon={null}
+              />
+            </Grid>
+          </TableCell>
+        )
+      )}
+
+      {showActions && filterValue.requestStatus === "PENDING" && (
         <TableCell align="center">
           <Grid item style={{ marginBottom: 5 }}>
             <ActionButton
@@ -142,6 +176,13 @@ const DonationRequestRow = ({
               : handleRejectDonationRequest
           }
           loading={loading}
+        />
+      )}
+      {openDonorListBackdrop && (
+        <DonorListBackdrop
+          open={openDonorListBackdrop}
+          onNegativeFeedback={() => setOpenDonorListBackdrop(false)}
+          requestId={requestId}
         />
       )}
     </>
@@ -174,6 +215,8 @@ DonationRequestRow.propTypes = {
   disease: PropTypes.string.isRequired,
   openSnackbar: PropTypes.func.isRequired,
   showActions: PropTypes.bool,
+  showViewActions: PropTypes.bool,
+  filterValue: PropTypes.object.isRequired,
   description: PropTypes.string,
   status: PropTypes.string.isRequired,
 };

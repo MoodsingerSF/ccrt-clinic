@@ -23,7 +23,6 @@ export const processUserDetails = (user) => {
 };
 export const retrieveUserDetails = async (userId) => {
   const response = await axios.get(SERVER_PATH + "users/" + userId);
-  console.log(response.data);
   return processUserDetails(response.data);
 };
 
@@ -167,8 +166,13 @@ export const updateProfilePicture = async (profilePicture) => {
   return data;
 };
 
-export const retrieveAcceptedDoctors = async (page = 0, limit = 15) => {
+export const retrieveAcceptedDoctors = async (
+  page = 0,
+  limit = 15,
+  cancelToken
+) => {
   const { data } = await axios.get(SERVER_PATH + "users/doctors", {
+    ...(cancelToken ? { cancelToken } : {}),
     params: {
       page,
       limit,
@@ -179,7 +183,6 @@ export const retrieveAcceptedDoctors = async (page = 0, limit = 15) => {
 };
 
 export const feeChangingRequests = async (amount, previousAmount, userId) => {
-  console.log("Amount", amount, "PreAm", previousAmount);
   const data = {
     amount,
     previousAmount,

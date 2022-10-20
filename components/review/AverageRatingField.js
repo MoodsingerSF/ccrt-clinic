@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Rating, Typography } from "@mui/material";
-
+import PropTypes from "prop-types";
 const AverageRatingField = ({ value, title, maxValue }) => {
   return (
     <Grid container flexDirection={"column"}>
@@ -15,6 +15,13 @@ const AverageRatingField = ({ value, title, maxValue }) => {
       </Grid>
     </Grid>
   );
+};
+
+AverageRatingField.propTypes = {
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  title: PropTypes.string.isRequired,
+  maxValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
 };
 
 export default AverageRatingField;

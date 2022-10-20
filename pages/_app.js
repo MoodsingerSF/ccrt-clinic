@@ -14,6 +14,7 @@ import AppBar from "../components/appbar/AppBar";
 // of the user in the browser.
 import { Provider } from "../contexts/user-context/UserContext";
 import LoginChecker from "../components/LoginChecker";
+import MyErrorBoundary from "../components/MyErrorBoundary";
 // import { useRouter } from "next/router";
 
 const clientSideEmotionCache = createEmotionCache();
@@ -41,15 +42,15 @@ export default function MyApp(props) {
           />
         </Head>
         <ThemeProvider theme={theme}>
-          <CssBaseline />
-
-          <AppBar />
-
-          <LoginChecker>
-            {/* <Grid container style={{ minHeight: "100vh" }}> */}
-            <Component {...pageProps} />
-            {/* </Grid> */}
-          </LoginChecker>
+          <MyErrorBoundary>
+            <>
+              <CssBaseline />
+              <AppBar />
+              <LoginChecker>
+                <Component {...pageProps} />
+              </LoginChecker>
+            </>
+          </MyErrorBoundary>
         </ThemeProvider>
       </CacheProvider>
     </Provider>

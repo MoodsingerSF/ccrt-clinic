@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { useRouter } from "next/router";
 import React from "react";
@@ -9,6 +9,8 @@ import RequestPageIcon from "@mui/icons-material/RequestPage";
 const DonationSection = () => {
   const theme = useTheme();
   const router = useRouter();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+
   return (
     <Grid
       container
@@ -29,9 +31,10 @@ const DonationSection = () => {
       >
         <Grid
           item
-          xs={6}
+          xs={12}
+          md={6}
           container
-          justifyContent="flex-start"
+          justifyContent={isDesktop ? "flex-start" : "center"}
           alignItems="center"
         >
           <Typography
@@ -48,9 +51,10 @@ const DonationSection = () => {
         </Grid>
         <Grid
           item
-          xs={6}
+          xs={12}
+          md={6}
           container
-          justifyContent="flex-end"
+          justifyContent={isDesktop ? "flex-end" : "center"}
           alignItems="center"
         >
           <Grid item style={{ marginRight: 60 }}>

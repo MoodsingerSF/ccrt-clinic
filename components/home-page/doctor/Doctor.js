@@ -17,7 +17,7 @@ const Doctor = () => {
   const retrieveDoctors = async () => {
     try {
       setLoading(true);
-      const data = await retrieveAcceptedDoctors();
+      const data = await retrieveAcceptedDoctors(0, 15, null);
       setDoctors(data);
       setLoading(false);
     } catch (error) {
@@ -52,7 +52,7 @@ const Doctor = () => {
             </Grid>
             <Grid container>
               <Swiper
-                slidesPerView={1}
+                slidesPerView={2}
                 spaceBetween={20}
                 slidesPerGroup={1}
                 loop={false}

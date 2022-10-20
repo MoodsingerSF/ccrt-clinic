@@ -2,7 +2,7 @@ import { Grid, Typography } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import React from "react";
 
-const NotFoundComponent = () => {
+const ErrorComponent = () => {
   const theme = useTheme();
   return (
     <Grid
@@ -18,10 +18,10 @@ const NotFoundComponent = () => {
           color: theme.palette.custom.BLACK,
         }}
       >
-        404! Not Found
+        Oops! Something went wrong.
       </Typography>
     </Grid>
   );
 };
 
-export default NotFoundComponent;
+export default ErrorComponent;

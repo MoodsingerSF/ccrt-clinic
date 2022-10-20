@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 
 const OutsideClick = (props) => {
   const ref = useRef(null);
+  // eslint-disable-next-line react/prop-types
   const { onClickOutside, children } = props;
 
   const handleClickOutside = (event) => {

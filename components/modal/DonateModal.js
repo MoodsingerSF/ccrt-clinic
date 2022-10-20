@@ -40,7 +40,7 @@ const DonateModal = ({
     try {
       if (validate(donateAmount)) {
         setLoading(true);
-        await giveDonationToOthers(amount, requestId);
+        await giveDonationToOthers(donateAmount, requestId);
         setLoading(false);
         setDonateAmount("");
         onNegativeFeedback();

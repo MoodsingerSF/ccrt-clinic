@@ -20,11 +20,13 @@ const SignUpTextField = ({
   variant = "standard",
   multiline = false,
   numRows = 5,
+  color,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [textfieldType, setTextfieldType] = useState(type);
   const [viewPassword, setViewPassword] = useState(false);
+
   useEffect(() => {
     if (type === "password") {
       if (viewPassword) {
@@ -52,10 +54,9 @@ const SignUpTextField = ({
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e)}
-        // classes={{ root: classes.root }}
         InputLabelProps={{
           style: {
-            color: theme.palette.custom.BLACK,
+            color: color ? color : theme.palette.custom.BLACK,
             fontSize: "85%",
             fontWeight: 500,
             margin: 0,
@@ -76,7 +77,7 @@ const SignUpTextField = ({
                 ),
               }
             : {}),
-          className: classes.input,
+          className: color ? classes.inputWhite : classes.input,
           ...(multiline ? { rows: numRows } : {}),
           endAdornment:
             type === "password" ? (
@@ -116,6 +117,7 @@ SignUpTextField.propTypes = {
   placeholder: PropTypes.string,
   variant: PropTypes.string,
   numRows: PropTypes.number,
+  color: PropTypes.string,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -137,6 +139,14 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "85%",
     fontWeight: 500,
     color: theme.palette.custom.BLACK,
+    paddingTop: 10,
+    margin: 0,
+    padding: 0,
+  },
+  inputWhite: {
+    fontSize: "85%",
+    fontWeight: 500,
+    color: "white",
     paddingTop: 10,
     margin: 0,
     padding: 0,

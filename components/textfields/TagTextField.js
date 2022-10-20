@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Autocomplete, TextField, Typography } from "@mui/material";
 import { useEffect } from "react";
 import axios from "axios";
-
+import PropTypes from "prop-types";
 const TagTextField = ({
   label,
   value,
@@ -60,5 +60,14 @@ const TagTextField = ({
       )}
     </>
   );
+};
+TagTextField.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  error: PropTypes.bool,
+  errorText: PropTypes.string.isRequired,
+  retrieveSuggestions: PropTypes.func.isRequired,
+  processData: PropTypes.func.isRequired,
 };
 export default TagTextField;

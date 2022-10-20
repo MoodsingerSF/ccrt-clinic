@@ -1,121 +1,45 @@
-import React, { useContext, useState } from "react";
+import React, { lazy, useCallback, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import {
-  Grid,
-  IconButton,
-  Typography,
-  useMediaQuery,
-  useTheme,
-  Avatar,
-} from "@mui/material";
+import { Grid, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 
 import logo from "../../public/image/logo/logo2.png";
 import MenuIcon from "@mui/icons-material/Menu";
-import AppbarDrawer from "../drawer/AppbarDrawer";
-import AppBarLink from "./AppBarLink";
-
-import { Context } from "../../contexts/user-context/UserContext";
-import ProfileMenu from "../menu/ProfileMenu";
 import { APP_BAR_HEIGHT } from "../../misc/constants";
 import DonationSection from "./DonationSection";
+import dynamic from "next/dynamic";
+import LazyLoader from "../LazyLoader";
+const AppBarDeskTop = lazy(() => import("./AppBarDeskTop"));
+const AppbarDrawer = dynamic(() => import("../drawer/AppbarDrawer"));
 
 const AppBar = () => {
   const classes = useStyles();
   const router = useRouter();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
-  const { isSignedIn, getProfileImageUrl } = useContext(Context);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleProfileClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleProfileClose = () => {
-    setAnchorEl(null);
-  };
 
   const [openAppbarDrawer, setOpenAppbarDrawer] = useState(false);
 
   const appbarDrawerOpen = () => {
     setOpenAppbarDrawer(true);
   };
-  const appbarDrawerClose = () => {
+  const appbarDrawerClose = useCallback(() => {
     setOpenAppbarDrawer(false);
-  };
-
+  }, [setOpenAppbarDrawer]);
   return (
     <Grid
       container
       className={classes.ccrt_app_bar__container}
-      style={{ height: router.pathname === "/" ? "20vh" : APP_BAR_HEIGHT }}
+      style={{
+        height: router.pathname === "/" ? "20vh" : APP_BAR_HEIGHT,
+      }}
     >
       {router.pathname === "/" && <DonationSection />}
       {matches ? (
-        <Grid container>
-          <Grid item xs={2} className={classes.ccrt_app_bar__logo}>
-            <Image src={logo} layout="fill" objectFit="contain" />
-          </Grid>
-          <Grid container alignItems="center" item xs={2}></Grid>
-
-          {isSignedIn() && (
-            <Grid container alignItems="center" item xs={3}></Grid>
-          )}
-          <Grid
-            container
-            justifyContent="center"
-            alignItems="center"
-            item
-            xs
-            // xs={8}
-          >
-            <AppBarLink name="Home" link="/" />
-            <AppBarLink name="Doctors" link="/doctors" />
-            <AppBarLink name="Blogs" link="/blogs" />
-            <AppBarLink name="Contact" link="/contact-us" />
-            <AppBarLink name="FAQ" link="/faq" />
-
-            {!isSignedIn() && <AppBarLink name="Login" link="/login" />}
-
-            {isSignedIn() && (
-              <Avatar
-                className={classes.avatar}
-                onClick={handleProfileClick}
-                src={"/" + getProfileImageUrl()}
-              ></Avatar>
-            )}
-            {open && (
-              <ProfileMenu
-                open={open}
-                onClose={handleProfileClose}
-                anchorEl={anchorEl}
-              />
-            )}
-            {!isSignedIn() && (
-              <Grid
-                item
-                xs={3}
-                container
-                flexDirection="column"
-                justifyContent={"center"}
-                alignItems="center"
-              >
-                <Typography
-                  className={classes.sign_up_title}
-                >{`Haven't registered yet?`}</Typography>
-                <Typography
-                  className={classes.sign_up_button_style}
-                  onClick={() => {
-                    router.push("/signup");
-                  }}
-                >
-                  Register Now
-                </Typography>
-              </Grid>
-            )}
-          </Grid>
-        </Grid>
+        <LazyLoader>
+          <AppBarDeskTop />
+        </LazyLoader>
       ) : (
         <Grid
           container
@@ -144,12 +68,14 @@ const AppBar = () => {
           </Grid>
         </Grid>
       )}
-      <AppbarDrawer open={openAppbarDrawer} onClose={appbarDrawerClose} />
+      {openAppbarDrawer && (
+        <AppbarDrawer open={openAppbarDrawer} onClose={appbarDrawerClose} />
+      )}
     </Grid>
   );
 };
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     ccrt_app_bar__container: {
       background: "#fff",
@@ -162,29 +88,6 @@ const useStyles = makeStyles((theme) =>
     ccrt_app_bar__logo: {
       position: "relative",
       margin: "5px 0px",
-    },
-    sign_up_title: {
-      fontSize: "80%",
-      fontWeight: "500",
-    },
-    sign_up_button_style: {
-      background: theme.palette.primary.main_minus_2,
-      color: "white",
-      padding: "5px 20px",
-      fontSize: "80%",
-      fontWeight: 500,
-      cursor: "pointer",
-      borderRadius: 30,
-      transition: "background .2s",
-      "&:hover": {
-        background: theme.palette.primary.main,
-      },
-    },
-    avatar: {
-      marginRight: "2.5vw",
-      border: `1px dashed ${theme.palette.primary.main}`,
-      cursor: "pointer",
-      marginLeft: 10,
     },
   })
 );
