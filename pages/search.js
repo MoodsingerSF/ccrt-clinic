@@ -8,6 +8,7 @@ import NoContentToShowComponent from "../components/misc/NoContentToShowComponen
 import LoaderComponent from "../components/misc/LoaderComponent";
 import BlogCard from "../components/cards/BlogCard";
 import { prettyDate } from "../controllers/DateController";
+import { APP_BAR_HEIGHT, BODY_HEIGHT } from "../misc/constants";
 
 const search = () => {
   const router = useRouter();
@@ -76,7 +77,10 @@ const search = () => {
   console.log(doctors);
 
   return (
-    <Grid container style={{ marginTop: "12vh" }}>
+    <Grid
+      // container
+      style={{ minHeight: BODY_HEIGHT, marginTop: APP_BAR_HEIGHT }}
+    >
       <Grid container justifyContent={"center"} alignItems={"center"}>
         <Grid
           container

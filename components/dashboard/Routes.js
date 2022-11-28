@@ -145,6 +145,13 @@ export const DASHBOARD_ROUTES = [
     allowedRoles: [Role.ADMIN, Role.USER, Role.DOCTOR],
     icon: <AttachMoneyIcon style={ROUTE_ICON_STYLE} />,
   },
+  {
+    path: "dynamic-covars",
+    heading: "Covers",
+    component: <DynamicCovers />,
+    allowedRoles: [Role.ADMIN],
+    icon: <CloudUploadIcon style={ROUTE_ICON_STYLE} />,
+  },
 ];
 
 export const VIEW_CRITERIA = {
@@ -195,12 +202,5 @@ export const APP_BAR_ROUTES = [
     path: "/login",
     icon: <LoginIcon style={ROUTE_ICON_STYLE} />,
     showCriteria: VIEW_CRITERIA.BEFORE_AUTHORIZATION,
-  },
-  {
-    path: "dynamic-covars",
-    heading: "Covers",
-    component: <DynamicCovers />,
-    allowedRoles: [Role.ADMIN],
-    icon: <CloudUploadIcon style={ROUTE_ICON_STYLE} />,
   },
 ];
