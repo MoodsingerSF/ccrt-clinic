@@ -23,7 +23,7 @@ export const processUserDetails = (user) => {
 };
 export const retrieveUserDetails = async (userId) => {
   const response = await axios.get(SERVER_PATH + "users/" + userId);
-  console.log(response.data);
+  // console.log(response.data);
   return processUserDetails(response.data);
 };
 
@@ -551,3 +551,23 @@ export const sendPasswordResetCode = async (userId) => {
 
 export const isGuest = (role) =>
   role !== Role.ADMIN && role !== Role.USER && role !== Role.DOCTOR;
+
+export const searchDoctor = async (keyword) => {
+  const { data } = await axios.get(SERVER_PATH + "misc/search/doctors", {
+    // cancelToken: cancelToken,
+    params: {
+      keyword,
+    },
+  });
+  return data;
+};
+
+export const searchBlogs = async (keyword) => {
+  const { data } = await axios.get(SERVER_PATH + "misc/search/blogs", {
+    // cancelToken: cancelToken,
+    params: {
+      keyword,
+    },
+  });
+  return data;
+};

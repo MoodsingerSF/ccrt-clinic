@@ -8,6 +8,8 @@ import {
   useMediaQuery,
   useTheme,
   Avatar,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 
@@ -20,6 +22,7 @@ import { Context } from "../../contexts/user-context/UserContext";
 import ProfileMenu from "../menu/ProfileMenu";
 import { APP_BAR_HEIGHT } from "../../misc/constants";
 import DonationSection from "./DonationSection";
+import SearchIcon from "@mui/icons-material/Search";
 
 const AppBar = () => {
   const classes = useStyles();
@@ -37,12 +40,21 @@ const AppBar = () => {
   };
 
   const [openAppbarDrawer, setOpenAppbarDrawer] = useState(false);
+  const [searchText, setSearchText] = useState("");
 
   const appbarDrawerOpen = () => {
     setOpenAppbarDrawer(true);
   };
   const appbarDrawerClose = () => {
     setOpenAppbarDrawer(false);
+  };
+  const onSearch = () => {
+    router.push({
+      pathname: "/search",
+      query: {
+        keyword: searchText,
+      },
+    });
   };
 
   return (
@@ -57,11 +69,41 @@ const AppBar = () => {
           <Grid item xs={2} className={classes.ccrt_app_bar__logo}>
             <Image src={logo} layout="fill" objectFit="contain" />
           </Grid>
-          <Grid container alignItems="center" item xs={2}></Grid>
+          <Grid
+            container
+            justifyContent={"center"}
+            alignItems="center"
+            item
+            xs={5}
+          >
+            <TextField
+              className={classes.ccrt__home_page__search_field}
+              size="small"
+              placeholder="search doctor and blog"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" style={{ cursor: "pointer" }}>
+                    <SearchIcon onClick={onSearch} />
+                  </InputAdornment>
+                ),
+                classes: { notchedOutline: classes.noBorder },
+              }}
+              // onClick={() => {
+              //   router.push("/search");
+              // }}
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  onSearch();
+                }
+              }}
+            />
+          </Grid>
 
-          {isSignedIn() && (
+          {/* {isSignedIn() && (
             <Grid container alignItems="center" item xs={3}></Grid>
-          )}
+          )} */}
           <Grid
             container
             justifyContent="center"
@@ -185,6 +227,15 @@ const useStyles = makeStyles((theme) =>
       border: `1px dashed ${theme.palette.primary.main}`,
       cursor: "pointer",
       marginLeft: 10,
+    },
+    ccrt__home_page__search_field: {
+      background: "#fff",
+      borderRadius: "20px",
+      boxShadow: "inset 0 0 5px rgba(0,0,0,0.5)",
+      margin: "20px 0 20px 0",
+    },
+    noBorder: {
+      border: "none",
     },
   })
 );

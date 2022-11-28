@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // import Image from "next/image";
 import {
   Grid,
@@ -11,12 +11,25 @@ import {
 import classNames from "classnames";
 import { createStyles, makeStyles } from "@mui/styles";
 import SearchIcon from "@mui/icons-material/Search";
+import { useRouter } from "next/router";
 // import appoinment from "../../../public/image/home-page/hero/appoinment.png";
 
 const HeroRightSection = () => {
   const classes = useStyles();
   const theme = useTheme();
+  const router = useRouter();
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
+
+  const [searchText, setSearchText] = useState("");
+
+  const onSearch = () => {
+    router.push({
+      pathname: "/search",
+      query: {
+        keyword: searchText,
+      },
+    });
+  };
 
   return (
     <Grid container className={classes.ccrt__hero_right__section}>
@@ -32,11 +45,21 @@ const HeroRightSection = () => {
           placeholder="search"
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon />
+              <InputAdornment position="end" style={{ cursor: "pointer" }}>
+                <SearchIcon onClick={onSearch} />
               </InputAdornment>
             ),
             classes: { notchedOutline: classes.noBorder },
+          }}
+          // onClick={() => {
+          //   router.push("/search");
+          // }}
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              onSearch();
+            }
           }}
         />
         <Grid

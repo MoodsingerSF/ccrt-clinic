@@ -48,9 +48,9 @@ const DoctorCard = ({ doctorId, imageUrl, name, specializations, fee }) => {
             className={classes.ccrt__doctor__card__name__container}
           >
             <Grid
-              // container
-              item
-              xs={9}
+              container
+              // item
+              // xs={9}
               // justifyContent="flex-start"
               // alignItems="flex-start"
               // style={{ background: "red", height: "100%" }}
@@ -58,7 +58,8 @@ const DoctorCard = ({ doctorId, imageUrl, name, specializations, fee }) => {
               <Grid
                 container
                 justifyContent="flex-start"
-                alignItems="flex-start"
+                alignItems="center"
+                mb={1}
                 // style={{ marginBottom: 5, background: "green" }}
               >
                 <Typography className={classes.ccrt__doctor__card__name}>
@@ -69,30 +70,32 @@ const DoctorCard = ({ doctorId, imageUrl, name, specializations, fee }) => {
                 container
                 justifyContent="flex-start"
                 alignItems="center"
-                item
-                xs={12}
+                // item
+                // xs={12}
                 // style={{ overflowX: "scroll", width: "100%" }}
               >
                 {specializations.map((item) => (
-                  <Grid item key={item}>
-                    <CustomChip title={item} />
+                  <Grid item key={item.id}>
+                    <CustomChip title={item.name} />
                   </Grid>
                 ))}
               </Grid>
             </Grid>
             <Grid
-              item
-              xs={3}
-              container
-              direction={"row"}
-              justifyContent="center"
-              alignItems={"center"}
-              style={{ height: "100%" }}
+              // item
+              // xs={3}
+              // container
+              // direction={"row"}
+              // justifyContent="center"
+              // alignItems={"center"}
+              style={{ position: "absolute", top: "20%", right: "0" }}
             >
-              <Typography className={classes.creditSignStyle}>
+              {/* <Typography className={classes.creditSignStyle}>
                 &#2547;
+              </Typography> */}
+              <Typography className={classes.amountStyle}>
+                &#2547; {fee}
               </Typography>
-              <Typography className={classes.amountStyle}>{fee}</Typography>
             </Grid>
           </Grid>
         </Grid>
@@ -134,6 +137,7 @@ const useStyles = makeStyles((theme) =>
       // borderRadius: 15,
     },
     ccrt__doctor__card__name__container: {
+      position: "relative",
       padding: "10px 0",
       width: "95%",
     },
@@ -145,14 +149,14 @@ const useStyles = makeStyles((theme) =>
       color: theme.palette.custom.BLACK,
     },
     creditSignStyle: {
-      fontSize: "100%",
+      fontSize: "85%",
       color: theme.palette.custom.GREEN,
-      fontWeight: "bold",
+      fontWeight: "500",
     },
     amountStyle: {
-      fontSize: "130%",
+      fontSize: "100%",
       color: theme.palette.custom.GREEN,
-      fontWeight: "bold",
+      fontWeight: "500",
     },
   })
 );

@@ -116,6 +116,7 @@ const useStyles = makeStyles((theme) =>
       background: HOTLINE_BACKGROUND,
       width: "100%",
       padding: "13px 0px",
+      zIndex: "99",
     },
     ccrt__home_page__hotline__textfield__wrapper: {
       position: "relative",
