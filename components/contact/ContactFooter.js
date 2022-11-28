@@ -15,7 +15,6 @@ import { createSuggestion } from "../../controllers/SuggestionController";
 
 const ContactFooter = () => {
   const classes = useStyles();
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
@@ -56,7 +55,6 @@ const ContactFooter = () => {
       validateName(name) &&
       validateEmail(email) &&
       validateDescription(description);
-    // validateTitle(name);
     return isEverythingAllRight;
   };
 

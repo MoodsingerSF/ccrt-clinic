@@ -67,7 +67,7 @@ const DonationSection = () => {
           <Grid item>
             <DonationLink
               icon={<RequestPageIcon style={{ color: "white" }} />}
-              title={"Make Donation Request"}
+              title={"Request for Financial Aid"}
               onClick={() => router.push("/donation")}
             />
           </Grid>

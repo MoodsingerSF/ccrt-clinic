@@ -13,10 +13,12 @@ import LoaderComponent from "../components/misc/LoaderComponent";
 import NoContentToShowComponent from "../components/misc/NoContentToShowComponent";
 import CustomButton from "../components/button/CustomButton";
 import ActionButton from "../components/button/ActionButton";
+import DonateModal from "../components/modal/DonateModal";
 
 const RequestDonationList = () => {
   const classes = useStyles();
   const theme = useTheme();
+  const [openDonateModal, setOpenDonateModal] = useState(false);
 
   // eslint-disable-next-line no-unused-vars
   const [page, setPage] = useState(0);
@@ -27,8 +29,7 @@ const RequestDonationList = () => {
     data: donationRequests,
     loading,
     hasMore,
-  } = useDonationRequests(page, 5, "ACCEPTED", "INCOMPLETE");
-  console.log(donationRequests);
+  } = useDonationRequests(page, 8, "ACCEPTED", "INCOMPLETE");
 
   return (
     <Grid
@@ -58,14 +59,20 @@ const RequestDonationList = () => {
           <Grid container justifyContent={"center"} alignItems="center">
             <ActionButton
               type="success"
-              title="Donate Now"
-              onClick={() => {}}
+              title="Donate to CCRT"
+              onClick={() => {
+                setOpenDonateModal(true);
+              }}
             />
-            {/* <Typography
-              className={classes.ccrt__donation__request__row__button}
-            >
-              donate today
-            </Typography> */}
+            <Grid container justifyContent={"center"} alignItems="center">
+              <Grid container item xs={11} md={6}>
+                <Typography
+                  className={classes.ccrt__donation__request__row__button}
+                >
+                  {`This donation will go to CCRT's account. CCRT will spend this to sponsor an appointment/ sponsor treatment of a patient.`}
+                </Typography>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
@@ -115,6 +122,17 @@ const RequestDonationList = () => {
               </Grid>
             </Grid>
           )}
+          {openDonateModal && (
+            <DonateModal
+              open={true}
+              onNegativeFeedback={() => setOpenDonateModal(false)}
+              name={null}
+              amount={null}
+              number={null}
+              requestId={null}
+              openSnackbar={openSnackbar}
+            />
+          )}
         </Grid>
       )}
 
@@ -158,20 +176,22 @@ const useStyles = makeStyles((theme) => ({
   },
   ccrt__donation__request__row__button: {
     fontSize: "90%",
-    marginRight: "20px",
-    border: `1px solid ${theme.palette.custom.DEFAULT_COLOR_2}`,
+    // marginRight: "20px",
+    // border: `1px solid ${theme.palette.custom.DEFAULT_COLOR_2}`,
     borderRadius: "5px",
     textAlign: "center",
-    lineHeight: "1.7",
+    // lineHeight: "1.7",
     textTransform: "capitalize",
     cursor: "pointer",
+    color: theme.palette.custom.BLACK,
     padding: "0 10px",
-    transition: "all 0.3s ease",
-    "&:hover": {
-      border: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
-      background: theme.palette.custom.DEFAULT_COLOR_3,
-      color: "#fff",
-    },
+    fontWeight: "500",
+    // transition: "all 0.3s ease",
+    // "&:hover": {
+    //   border: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
+    //   background: theme.palette.custom.DEFAULT_COLOR_3,
+    //   color: "#fff",
+    // },
   },
 }));
 export default RequestDonationList;

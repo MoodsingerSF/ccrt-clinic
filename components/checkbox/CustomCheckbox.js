@@ -5,6 +5,7 @@ import { capitalize, lowerCase } from "lodash";
 import { useTheme } from "@mui/styles";
 const CustomCheckbox = ({ name, checked, value, onChange }) => {
   const theme = useTheme();
+  console.log(name + " checkbox rendered");
   return (
     <FormControlLabel
       value="female"

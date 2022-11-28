@@ -26,7 +26,7 @@ const SignUpTextField = ({
   const theme = useTheme();
   const [textfieldType, setTextfieldType] = useState(type);
   const [viewPassword, setViewPassword] = useState(false);
-
+  console.log(label + " textfield rendered");
   useEffect(() => {
     if (type === "password") {
       if (viewPassword) {

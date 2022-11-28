@@ -115,14 +115,14 @@ export const DASHBOARD_ROUTES = [
   },
   {
     path: "requests-for-donation",
-    heading: "Requests For Donation",
+    heading: "Financial Aid Requests",
     component: <RequestForDonation />,
     allowedRoles: [Role.ADMIN],
     icon: <RequestPageIcon style={ROUTE_ICON_STYLE} />,
   },
   {
     path: "my-requests-for-donation",
-    heading: "My Donation Requests",
+    heading: "My Financial Aid Requests",
     component: <UserRequestsForDonation />,
     allowedRoles: [Role.ADMIN, Role.USER, Role.DOCTOR],
     icon: <SummarizeIcon style={ROUTE_ICON_STYLE} />,

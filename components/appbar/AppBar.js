@@ -26,7 +26,6 @@ const AppBar = () => {
   const appbarDrawerClose = useCallback(() => {
     setOpenAppbarDrawer(false);
   }, [setOpenAppbarDrawer]);
-  console.log("app bar");
   const appBarDesktop = useMemo(() => <AppBarDeskTop />, []);
   return (
     <Grid

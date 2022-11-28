@@ -150,7 +150,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
     textOverflow: "ellipsis",
     display: "-webkit-box",
-    "-webkit-line-clamp": 2 /* number of lines to show */,
+    "-webkit-line-clamp": 3 /* number of lines to show */,
     "-webkit-box-orient": "vertical",
     cursor: "pointer",
     "&:hover": {

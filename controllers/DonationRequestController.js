@@ -128,13 +128,13 @@ export const retrieveUserDonationRequests = async (page, limit = 2) => {
 export const giveDonationToOthers = async (amount, requestId) => {
   const data = {
     amount,
-    donationRequestId: requestId,
-    donorUserId: retrieveUserId(),
+    ...(requestId ? { donationRequestId: requestId } : {}),
+    ...(retrieveUserId() ? { donorUserId: retrieveUserId() } : {}),
   };
   const response = await axios.post(SERVER_PATH + "donations", data, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
+      // Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
     },
   });
   return response.status;

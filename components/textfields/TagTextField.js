@@ -15,7 +15,7 @@ const TagTextField = ({
   const cancelToken = useRef(null);
   const [suggestions, setSuggestions] = useState([]);
   const [prefix, setPrefix] = useState("");
-
+  console.log(label + " text field rendered");
   const getSuggestions = async (cancelToken, prefix) => {
     try {
       const data = await retrieveSuggestions(cancelToken, prefix);

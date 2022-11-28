@@ -44,13 +44,16 @@ const DonateModal = ({
         setLoading(false);
         setDonateAmount("");
         onNegativeFeedback();
-        openSnackbar("Your donation has been added successfully.");
+        openSnackbar("Your donation has been sent successfully.");
       } else {
         setShowError(true);
       }
     } catch (error) {
-      console.log(error);
       setLoading(false);
+      if (error && error.response) {
+        const { data } = error.response;
+        if (data && data.message) openSnackbar(data.message);
+      }
     }
   };
 
@@ -68,36 +71,44 @@ const DonateModal = ({
           width: matches ? (matcheLg ? "50vw" : "70vw") : "95vw",
         }}
       >
-        <Grid container justifyContent={"center"} alignItems={"center"}>
-          <Typography className={classes.ccrt__donate_modal__section_header}>
-            Recipient details
-          </Typography>
-        </Grid>
-        <Grid container alignItems="center">
-          <Typography className={classes.ccrt__donate_modal__label}>
-            Name:
-          </Typography>
-          <Typography className={classes.ccrt__donate_modal__text}>
-            {name}
-          </Typography>
-        </Grid>
+        {name && (
+          <Grid container justifyContent={"center"} alignItems={"center"}>
+            <Typography className={classes.ccrt__donate_modal__section_header}>
+              Recipient details
+            </Typography>
+          </Grid>
+        )}
+        {name && (
+          <Grid container alignItems="center">
+            <Typography className={classes.ccrt__donate_modal__label}>
+              Name:
+            </Typography>
+            <Typography className={classes.ccrt__donate_modal__text}>
+              {name}
+            </Typography>
+          </Grid>
+        )}
         <Grid container justifyContent={"space-between"}>
-          <Grid container item sm={12} lg={5} alignItems="center">
-            <Typography className={classes.ccrt__donate_modal__label}>
-              Phone Number:
-            </Typography>
-            <Typography className={classes.ccrt__donate_modal__text}>
-              {number}
-            </Typography>
-          </Grid>
-          <Grid container sm={12} lg={5} alignItems="center">
-            <Typography className={classes.ccrt__donate_modal__label}>
-              amount:
-            </Typography>
-            <Typography className={classes.ccrt__donate_modal__text}>
-              {amount} &#2547;
-            </Typography>
-          </Grid>
+          {number && (
+            <Grid container item sm={12} lg={5} alignItems="center">
+              <Typography className={classes.ccrt__donate_modal__label}>
+                Phone Number:
+              </Typography>
+              <Typography className={classes.ccrt__donate_modal__text}>
+                {number}
+              </Typography>
+            </Grid>
+          )}
+          {amount && (
+            <Grid container sm={12} lg={5} alignItems="center">
+              <Typography className={classes.ccrt__donate_modal__label}>
+                amount:
+              </Typography>
+              <Typography className={classes.ccrt__donate_modal__text}>
+                {amount} &#2547;
+              </Typography>
+            </Grid>
+          )}
         </Grid>
         <Grid container flexDirection={"column"} style={{ marginTop: 20 }}>
           <SignUpTextField
