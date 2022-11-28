@@ -2,9 +2,13 @@ export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const NAME_REGEX = /^[a-zA-Z\- ]+$/;
 export const EMPTY_OR_WHITESPACE = /^\s*$/;
 export const NUMBER_REGEX = /^-?\d+\.?\d*$/;
+
 export const APP_BAR_HEIGHT = "12vh";
 export const BODY_HEIGHT = "88vh";
 export const DONATION_SECTION_HEIGHT = "8vh";
+export const DONATION_SECTION_HEIGHT_MOBILE = "12vh";
+export const HERO_SECTION_HEIGHT = "100vh";
+export const HERO_SECTION_HEIGHT_MOBILE = "70vh";
 
 export const BIRTHDATE_REGEX =
   /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;

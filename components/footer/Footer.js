@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import UsefulLinks from "./UsefulLinks";
@@ -11,7 +11,6 @@ const Footer = () => {
   const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
-
   return (
     <Grid
       container
@@ -63,4 +62,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Footer;
+export default memo(Footer);

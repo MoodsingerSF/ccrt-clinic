@@ -25,7 +25,7 @@ const DoctorScheduleComponent = ({
   const classes = useStyles();
   const theme = useTheme();
 
-  const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
+  const matchesMD = useMediaQuery(theme.breakpoints.up("sm"));
 
   return (
     <TableContainer style={{ marginTop: 20 }}>
@@ -38,7 +38,7 @@ const DoctorScheduleComponent = ({
           <TableRow className={classes.ccrt__doctor__time__slot__table__header}>
             <TableCell
               style={{
-                width: matchesMD ? "15%" : "38%",
+                width: matchesMD ? "15%" : "20%",
               }}
             >
               <Typography className={classes.tableHeaderStyle}>Day</Typography>

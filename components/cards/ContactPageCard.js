@@ -26,11 +26,6 @@ const useStyles = makeStyles((theme) => ({
     background: "#f2f7ff",
     padding: "30px 20px 30px 140px",
     transition: "transform 0.15s ease-in-out,background 0.15s ease-in-out",
-    // "&:hover": {
-    //   transform: "scale3d(1.05, 1.05, 1)",
-    //   background: theme.palette.primary.main_minus_2,
-    //   color: "#fff",
-    // },
   },
   ccrt__contact_page_card_icon: {
     position: "absolute",

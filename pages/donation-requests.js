@@ -12,6 +12,7 @@ import CustomSnackbar from "../components/snackbar/CustomSnackbar";
 import LoaderComponent from "../components/misc/LoaderComponent";
 import NoContentToShowComponent from "../components/misc/NoContentToShowComponent";
 import CustomButton from "../components/button/CustomButton";
+import ActionButton from "../components/button/ActionButton";
 
 const RequestDonationList = () => {
   const classes = useStyles();
@@ -26,7 +27,7 @@ const RequestDonationList = () => {
     data: donationRequests,
     loading,
     hasMore,
-  } = useDonationRequests(page, 6, "ACCEPTED", "INCOMPLETE");
+  } = useDonationRequests(page, 5, "ACCEPTED", "INCOMPLETE");
   console.log(donationRequests);
 
   return (
@@ -55,15 +56,20 @@ const RequestDonationList = () => {
             {`We can't do this without your support`}
           </Typography>
           <Grid container justifyContent={"center"} alignItems="center">
-            <Typography
+            <ActionButton
+              type="success"
+              title="Donate Now"
+              onClick={() => {}}
+            />
+            {/* <Typography
               className={classes.ccrt__donation__request__row__button}
             >
               donate today
-            </Typography>
+            </Typography> */}
           </Grid>
         </Grid>
       </Grid>
-      {loading ? (
+      {loading && page === 0 ? (
         <LoaderComponent />
       ) : donationRequests.length === 0 ? (
         <NoContentToShowComponent title="No requests to show." />
@@ -71,20 +77,19 @@ const RequestDonationList = () => {
         <Grid
           container
           item
-          xs={11}
-          md={10}
-          justifyContent={"center"}
-          alignItems="center"
+          style={{ width: "95%" }}
+          justifyContent={"flex-start"}
+          alignItems="flex-start"
           spacing={2}
           my={2}
         >
           {donationRequests.map((request) => (
-            <Grid container item xs={11} sm={5} md={4} lg={3} key={request.id}>
+            <Grid container item xs={11} sm={5} md={3} lg={2} key={request.id}>
               <DonationRequestCard
                 name={
                   request.requestor.firstName + " " + request.requestor.lastName
                 }
-                profilePic={request.requestor.profileImageUrl}
+                profileImageUrl={request.requestor.profileImageUrl}
                 amount={request.amount}
                 details={request.description}
                 number={request.phoneNo}
@@ -93,24 +98,26 @@ const RequestDonationList = () => {
               />
             </Grid>
           ))}
+          {hasMore && (
+            <Grid
+              container
+              justifyContent={"center"}
+              alignItems="center"
+              style={{ marginTop: 20 }}
+            >
+              <Grid item xs={12} sm={2}>
+                <CustomButton
+                  title="Load More"
+                  onClick={() => setPage((prev) => prev + 1)}
+                  color={theme.palette.custom.BLACK}
+                  loading={loading}
+                />
+              </Grid>
+            </Grid>
+          )}
         </Grid>
       )}
-      {!loading && hasMore && (
-        <Grid
-          container
-          justifyContent={"center"}
-          alignItems="center"
-          style={{ marginTop: 20 }}
-        >
-          <Grid item xs={12} sm={2}>
-            <CustomButton
-              title="Load More"
-              onClick={() => setPage((prev) => prev + 1)}
-              color={theme.palette.custom.BLACK}
-            />
-          </Grid>
-        </Grid>
-      )}
+
       <CustomSnackbar
         open={snackbar.open}
         message={snackbar.message}
@@ -126,11 +133,12 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "20px",
   },
   ccrt__donation__container__header__text: {
-    fontSize: "32px",
+    fontSize: "120%",
     textTransform: "capitalize",
-    fontWeight: "700",
-    letterSpacing: "1px",
+    fontWeight: "bold",
     textAlign: "center",
+    color: theme.palette.custom.BLACK,
+    marginBottom: 10,
   },
   ccrt__donation__container: {
     position: "relative",

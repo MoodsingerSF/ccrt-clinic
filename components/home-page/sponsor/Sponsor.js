@@ -1,7 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 import Image from "next/image";
 import { Grid, Typography } from "@mui/material";
-// import bg from "../../../public/image/home-page/donate/bg.png";
 import sponsor from "../../../public/image/home-page/donate/sponsor.png";
 import { makeStyles, createStyles } from "@mui/styles";
 import { useRouter } from "next/router";
@@ -16,13 +15,15 @@ const Sponsor = () => {
       alignItems="center"
       className={classes.ccrt__sponsor__section}
     >
-      {/* <Image src={bg} alt="bg" layout="fill" objectFit="cover" /> */}
       <Grid container>
         <Grid
           item
           xs={12}
           sm={7}
           className={classes.ccrt__sponsor__description}
+          container
+          justifyContent={"center"}
+          alignItems="center"
         >
           <Typography className={classes.ccrt__sponsor__description__first}>
             Be the part
@@ -55,7 +56,7 @@ const Sponsor = () => {
               style={{
                 cursor: "pointer",
               }}
-              onClick={() => router.push("/request-donation-list")}
+              onClick={() => router.push("/donation-requests")}
             />
           </Grid>
         </Grid>
@@ -107,4 +108,4 @@ const useStyes = makeStyles((theme) =>
     },
   })
 );
-export default Sponsor;
+export default memo(Sponsor);

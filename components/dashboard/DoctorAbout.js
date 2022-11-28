@@ -46,15 +46,17 @@ const DoctorAbout = ({
         <Grid
           container
           justifyContent="flex-start"
-          alignItems="center"
+          alignItems={IsDesktop ? "center" : "flex-start"}
           item
           xs={12}
           md={5}
         >
           {icon}
-          <Typography className={classes.ccrt__dashboard__user__data__row}>
-            {title}
-          </Typography>
+          <Grid item>
+            <Typography className={classes.ccrt__dashboard__user__data__row}>
+              {title}
+            </Typography>
+          </Grid>
         </Grid>
 
         <Grid
@@ -65,54 +67,64 @@ const DoctorAbout = ({
           xs={12}
           md={7}
         >
-          {value ? (
-            <Typography
-              style={{
-                marginLeft: IsDesktop ? "0px" : "40px",
-                fontSize: "85%",
-                fontWeight: 600,
-                width: IsDesktop ? "80%" : "79%",
-                textAlign: "justify",
-                color: theme.palette.custom.BLACK,
-              }}
-            >
-              {showMore ? `${value}` : `${value.substring(0, 80)}`}
-              {`${value.substring(0, 100)}`.length >= 100 && (
-                <span
-                  style={{
-                    marginLeft: "5px",
-                    fontSize: "100%",
-                    fontWeight: "700",
-                    cursor: "pointer",
-                    display: "inline-block",
-                    color: DEFAULT_COLOR_MINUS_2,
-                    textTransform: "capitalize",
-                  }}
-                  onClick={() => setShowMore(!showMore)}
-                >
-                  {showMore ? "view less" : "view more"}
-                </span>
-              )}
-            </Typography>
-          ) : (
-            <Typography
-              style={{
-                fontSize: "90%",
-                textAlign: "center",
-                width: IsDesktop ? "90%" : "79%",
-                // textAlign: "center",
-                textTransform: "capitalize",
-              }}
-            >
-              please update about
-            </Typography>
-          )}
+          <Grid item xs={10}>
+            {value ? (
+              <Typography
+                style={{
+                  marginLeft: IsDesktop ? "0px" : "40px",
+                  fontSize: "85%",
+                  fontWeight: 600,
+                  width: IsDesktop ? "80%" : "79%",
+                  textAlign: "justify",
+                  color: theme.palette.custom.BLACK,
+                }}
+              >
+                {showMore ? `${value}` : `${value.substring(0, 80)}`}
+                {`${value.substring(0, 100)}`.length >= 100 && (
+                  <span
+                    style={{
+                      marginLeft: "5px",
+                      fontSize: "100%",
+                      fontWeight: "700",
+                      cursor: "pointer",
+                      display: "inline-block",
+                      color: DEFAULT_COLOR_MINUS_2,
+                      textTransform: "capitalize",
+                    }}
+                    onClick={() => setShowMore(!showMore)}
+                  >
+                    {showMore ? "view less" : "view more"}
+                  </span>
+                )}
+              </Typography>
+            ) : (
+              <Typography
+                style={{
+                  fontSize: "90%",
+                  textAlign: "center",
+                  width: IsDesktop ? "90%" : "79%",
+                  // textAlign: "center",
+                  textTransform: "capitalize",
+                }}
+              >
+                please update about
+              </Typography>
+            )}
+          </Grid>
 
-          {editable ? (
-            <IconButton onClick={() => setOpenUpdateProfileModal(editable)}>
-              <DriveFileRenameOutlineIcon className={classes.editIconStyle} />
-            </IconButton>
-          ) : null}
+          <Grid
+            item
+            xs={2}
+            container
+            alignItems={"center"}
+            justifyContent={"flex-end"}
+          >
+            {editable ? (
+              <IconButton onClick={() => setOpenUpdateProfileModal(editable)}>
+                <DriveFileRenameOutlineIcon className={classes.editIconStyle} />
+              </IconButton>
+            ) : null}
+          </Grid>
         </Grid>
       </Grid>
       {editable && (

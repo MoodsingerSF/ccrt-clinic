@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import { makeStyles } from "@mui/styles";
 
@@ -7,23 +7,26 @@ const MiddleSection = () => {
   const classes = useStyles();
 
   return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      flexDirection="column"
-      item
-      sm={4}
-    >
-      <Link href="#">
-        <a className={classes.ccrt__footer__middle__section}>Contribute</a>
-      </Link>
-      <Link href="#">
-        <a className={classes.ccrt__footer__middle__section}>Privacy Policy</a>
-      </Link>
-      <Link href="#">
-        <a className={classes.ccrt__footer__middle__section}>Terms</a>
-      </Link>
+    <Grid item xs={12} sm={4}>
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+      >
+        <Typography className={classes.headerStyle}>Conditions</Typography>
+        <Link href="#">
+          <a className={classes.ccrt__footer__middle__section}>Contribute</a>
+        </Link>
+        <Link href="#">
+          <a className={classes.ccrt__footer__middle__section}>
+            Privacy Policy
+          </a>
+        </Link>
+        <Link href="#">
+          <a className={classes.ccrt__footer__middle__section}>Terms</a>
+        </Link>
+      </Grid>
     </Grid>
   );
 };
@@ -38,6 +41,13 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       color: theme.palette.primary.main_minus_2,
     },
+  },
+  headerStyle: {
+    color: theme.palette.custom.BLACK,
+    fontWeight: "bold",
+    fontSize: "130%",
+    textTransform: "capitalize",
+    opacity: 0,
   },
 }));
 export default MiddleSection;

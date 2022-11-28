@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Avatar, Button, Grid, TextField, Typography } from "@mui/material";
+import { Avatar, Button, Grid, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import Comment from "./Comment";

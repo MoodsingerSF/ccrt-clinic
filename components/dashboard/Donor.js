@@ -57,7 +57,7 @@ Donor.propTypes = {
   serialNo: PropTypes.number.isRequired,
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ccrt__donor__name: {
     fontSize: "90%",
     fontWeight: "500",

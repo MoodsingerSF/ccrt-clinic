@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import {
@@ -11,25 +11,32 @@ import {
   TextField,
   InputAdornment,
 } from "@mui/material";
+// import { Grid, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 
 import logo from "../../public/image/logo/logo2.png";
 import MenuIcon from "@mui/icons-material/Menu";
-import AppbarDrawer from "../drawer/AppbarDrawer";
-import AppBarLink from "./AppBarLink";
-
-import { Context } from "../../contexts/user-context/UserContext";
-import ProfileMenu from "../menu/ProfileMenu";
 import { APP_BAR_HEIGHT } from "../../misc/constants";
 import DonationSection from "./DonationSection";
 import SearchIcon from "@mui/icons-material/Search";
+import dynamic from "next/dynamic";
+import AppBarDeskTop from "./AppBarDeskTop";
+import AppBarLink from "./AppBarLink";
+import {
+  getProfileImageUrl,
+  isSignedIn,
+} from "../../contexts/user-context/UserContextFunctions";
+import ProfileMenu from "../menu/ProfileMenu";
+const AppbarDrawer = dynamic(() => import("../drawer/AppbarDrawer"));
 
 const AppBar = () => {
   const classes = useStyles();
   const router = useRouter();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
-  const { isSignedIn, getProfileImageUrl } = useContext(Context);
+
+  const [openAppbarDrawer, setOpenAppbarDrawer] = useState(false);
+  const [searchText, setSearchText] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleProfileClick = (event) => {
@@ -39,15 +46,12 @@ const AppBar = () => {
     setAnchorEl(null);
   };
 
-  const [openAppbarDrawer, setOpenAppbarDrawer] = useState(false);
-  const [searchText, setSearchText] = useState("");
-
   const appbarDrawerOpen = () => {
     setOpenAppbarDrawer(true);
   };
-  const appbarDrawerClose = () => {
+  const appbarDrawerClose = useCallback(() => {
     setOpenAppbarDrawer(false);
-  };
+  });
   const onSearch = () => {
     router.push({
       pathname: "/search",
@@ -57,11 +61,16 @@ const AppBar = () => {
     });
   };
 
+  // }, [setOpenAppbarDrawer]);
+  // console.log("app bar");
+  const appBarDesktop = useMemo(() => <AppBarDeskTop />, []);
   return (
     <Grid
       container
       className={classes.ccrt_app_bar__container}
-      style={{ height: router.pathname === "/" ? "20vh" : APP_BAR_HEIGHT }}
+      style={{
+        height: router.pathname === "/" ? "20vh" : APP_BAR_HEIGHT,
+      }}
     >
       {router.pathname === "/" && <DonationSection />}
       {matches ? (
@@ -159,6 +168,7 @@ const AppBar = () => {
           </Grid>
         </Grid>
       ) : (
+        // appBarDesktop
         <Grid
           container
           justifyContent="space-between"
@@ -186,7 +196,9 @@ const AppBar = () => {
           </Grid>
         </Grid>
       )}
-      <AppbarDrawer open={openAppbarDrawer} onClose={appbarDrawerClose} />
+      {openAppbarDrawer && (
+        <AppbarDrawer open={openAppbarDrawer} onClose={appbarDrawerClose} />
+      )}
     </Grid>
   );
 };

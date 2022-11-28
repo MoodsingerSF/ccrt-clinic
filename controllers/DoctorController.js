@@ -5,9 +5,11 @@ import { processUserDetails } from "./UserController";
 export const retrieveDoctorsBySpecialization = async (
   page,
   limit,
-  specializationId
+  specializationId,
+  cancelToken
 ) => {
   const { data } = await axios.get(SERVER_PATH + "misc/popular-doctors", {
+    cancelToken: cancelToken,
     params: {
       page,
       limit,

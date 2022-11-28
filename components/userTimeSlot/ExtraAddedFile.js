@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme) =>
     ccrt__content__header: {
       textTransform: "capitalize",
       fontWeight: "500",
-      fontSize: "100%",
       marginBottom: "5px",
       fontSize: "85%",
       color: `${theme.palette.grey[700]}`,

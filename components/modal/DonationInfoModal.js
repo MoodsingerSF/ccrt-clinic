@@ -25,7 +25,7 @@ const DonationInfoModal = ({
   const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
-  const matcheLg = useMediaQuery(theme.breakpoints.up("md"));
+  const matchesLg = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
     <div>
@@ -38,7 +38,7 @@ const DonationInfoModal = ({
         <Box
           sx={style}
           style={{
-            width: matches ? (matcheLg ? "60vw" : "70vw") : "95vw",
+            width: matches ? (matchesLg ? "60vw" : "70vw") : "95vw",
           }}
         >
           <Grid container spacing={2}>
@@ -49,7 +49,7 @@ const DonationInfoModal = ({
                 component="h2"
                 className={classes.ccrt__donation_info_modal_title}
               >
-                donar details
+                donor details
               </Typography>
               <DonationInfoGroup label={"name"} text={donarName} />
               <DonationInfoGroup label={"amount"} text={amount} />
@@ -89,7 +89,8 @@ DonationInfoModal.propTypes = {
 const useStyles = makeStyles((theme) => ({
   ccrt__donation_info_modal_title: {
     textTransform: "capitalize",
-    fontWeight: "400",
+    fontWeight: "bold",
+    color: theme.palette.custom.BLACK,
   },
   ccrt__donation__text_group__container: {
     boxShadow: BOX_SHADOW,

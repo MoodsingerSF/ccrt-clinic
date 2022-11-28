@@ -17,11 +17,11 @@ export const useful_links_data = [
   {
     id: "3",
     heading: "Contact Us",
-    link: "/contact",
+    link: "/contact-us",
   },
   {
     id: "4",
-    heading: "About Us",
-    link: "/about",
+    heading: "FAQ",
+    link: "/faq",
   },
 ];

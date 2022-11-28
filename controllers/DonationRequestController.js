@@ -59,9 +59,6 @@ export const retrieveDonationRequests = async (
       "request-status": requestStatus,
       "completion-status": completionStatus,
     },
-    headers: {
-      Authorization: AUTHORIZATION_HEADER_PREFIX + retrieveAuthorizationToken(),
-    },
   });
   return data.map((item) => processDonationRequest(item));
 };

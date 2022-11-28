@@ -1,13 +1,25 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, useMediaQuery } from "@mui/material";
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@mui/styles";
+import { makeStyles, useTheme } from "@mui/styles";
 const DashboardTitle = ({ title, children }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
   return (
-    <Grid container justifyContent="space-between" alignItems="center">
+    <Grid
+      container
+      justifyContent={isDesktop ? "space-between" : "center"}
+      alignItems="center"
+    >
       <Typography className={classes.titleStyle}>{title}</Typography>
-      <Grid item xs={2}>
+      <Grid
+        item
+        xs={12}
+        sm={3}
+        md={2}
+        style={{ marginTop: isDesktop ? 0 : 10 }}
+      >
         {children}
       </Grid>
     </Grid>

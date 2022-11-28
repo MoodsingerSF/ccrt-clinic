@@ -84,7 +84,7 @@ const BlogDetailsRight = ({
           src={"/" + imageUrl}
           alt="blog-img"
           layout="fill"
-          objectFit="cover"
+          objectFit="contain"
         />
       </Grid>
       <Editor readOnly={true} initialEditorState={description} />
@@ -96,25 +96,27 @@ const BlogDetailsRight = ({
           marginTop: "20px",
         }}
       >
-        <Grid
-          item
-          container
-          xs={12}
-          lg={6}
-          className={classNames({
-            [classes.ccrt__blogDetails__right__blog__tags__mobile]: !matches,
-            [classes.ccrt__blogDetails__right__blog__tags__tablet]: matches,
-            [classes.ccrt__blogDetails__right__blog__tags__laptop]: matchesMD,
-            [classes.ccrt__blogDetails__right__blog__tags__LG]: matchesLG,
-          })}
-        >
-          {tags.map((tag) => (
-            <CustomChip key={tag} title={tag} />
-          ))}
-        </Grid>
+        {matchesMD && (
+          <Grid
+            item
+            container
+            xs={12}
+            lg={6}
+            className={classNames({
+              [classes.ccrt__blogDetails__right__blog__tags__mobile]: !matches,
+              [classes.ccrt__blogDetails__right__blog__tags__tablet]: matches,
+              [classes.ccrt__blogDetails__right__blog__tags__laptop]: matchesMD,
+              [classes.ccrt__blogDetails__right__blog__tags__LG]: matchesLG,
+            })}
+          >
+            {tags.map((tag) => (
+              <CustomChip key={tag} title={tag} />
+            ))}
+          </Grid>
+        )}
         <Grid item xs={12} lg={6} container>
           <SocialShareComponent
-            justifyContent="flex-end"
+            justifyContent={matchesMD ? "flex-end" : "center"}
             link={DOMAIN_ADDRESS + "blogs/" + blogId}
           />
         </Grid>

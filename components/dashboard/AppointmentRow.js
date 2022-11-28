@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { makeStyles } from "@mui/styles";
+import { makeStyles, useTheme } from "@mui/styles";
 import ConfirmationModal from "../modal/ConfirmationModal";
 import PropTypes from "prop-types";
 import AppointmentDetailsShowBackdrop from "../backdrops/AppointmentDetailsShowBackdrop";
@@ -15,7 +15,7 @@ import { cancelAppointment } from "../../controllers/AppointmentController";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
 import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
 import PrescriptionModal from "../modal/PrescriptionModal";
-import { Grid, Typography } from "@mui/material";
+import { Grid, TableCell, Typography, useMediaQuery } from "@mui/material";
 import ActionButton from "../button/ActionButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -34,8 +34,8 @@ const AppointmentRow = ({
   status,
   date,
 }) => {
-  // console.log(date);
-  // console.log(timeSlot);
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
   const classes = useStyles();
   const { getRole } = useContext(Context);
   const [openPrescriptionForViewing, setOpenPrescriptionForViewing] =
@@ -75,98 +75,97 @@ const AppointmentRow = ({
   };
   return (
     <>
-      <tr className={classes.ccrt__table__cell__row}>
-        {/* <td className={classes.ccrt__table__cell}>{index + 1}</td> */}
-        <td className={classes.ccrt__table__cell} align="left">
-          <Typography className={classes.textStyle}>
-            {index + 1}. {patient.firstName + " " + patient.lastName}
-          </Typography>
-        </td>
-        <td className={classes.ccrt__table__cell} align="center">
+      <TableCell align="left">
+        <Typography className={classes.textStyle}>
+          {index + 1}. {patient.firstName + " " + patient.lastName}
+        </Typography>
+      </TableCell>
+      {isDesktop && (
+        <TableCell align="center">
           <Typography className={classes.textStyle}>{bookingTime}</Typography>
-        </td>
-        <td className={classes.ccrt__table__cell} align="center">
-          <Typography className={classes.textStyle}>{timeSlot}</Typography>
-        </td>
-        {/* <td className={classes.ccrt__table__cell}>{status}</td> */}
-        <td className={classes.ccrt__table__cell} align="center">
+        </TableCell>
+      )}
+      <TableCell align="center">
+        <Typography className={classes.textStyle}>{timeSlot}</Typography>
+      </TableCell>
+      {/* <TableCell >{status}</TableCell> */}
+      <TableCell align="center">
+        <Grid item style={{ marginRight: 10, marginBottom: 10 }}>
+          <ActionButton
+            title="View Details"
+            icon={<VisibilityIcon />}
+            type="info"
+            onClick={() => setAppointmentDetailsBackdrop(true)}
+          />
+        </Grid>
+        {getRole() === Role.DOCTOR && (
+          <>
+            {status === APPOINTMENT_STATUS.PENDING && (
+              <Grid item style={{ marginRight: 10, marginBottom: 10 }}>
+                <ActionButton
+                  title={"End Appointment"}
+                  onClick={() => setShowCompletionConfirmationModal(true)}
+                  type="success"
+                  icon={<CheckIcon />}
+                />
+              </Grid>
+            )}
+          </>
+        )}
+        {status === APPOINTMENT_STATUS.PENDING && (
           <Grid item style={{ marginRight: 10, marginBottom: 10 }}>
             <ActionButton
-              title="View Details"
-              icon={<VisibilityIcon />}
-              type="info"
-              onClick={() => setAppointmentDetailsBackdrop(true)}
+              icon={<ClearIcon />}
+              title="Cancel Appointment"
+              type="error"
+              onClick={() => setShowCancellationConfirmationModal(true)}
             />
           </Grid>
-          {getRole() === Role.DOCTOR && (
-            <>
-              {status === APPOINTMENT_STATUS.PENDING && (
-                <Grid item style={{ marginRight: 10, marginBottom: 10 }}>
-                  <ActionButton
-                    title={"End Appointment"}
-                    onClick={() => setShowCompletionConfirmationModal(true)}
-                    type="success"
-                    icon={<CheckIcon />}
-                  />
-                </Grid>
-              )}
-            </>
-          )}
-          {status === APPOINTMENT_STATUS.PENDING && (
-            <Grid item style={{ marginRight: 10, marginBottom: 10 }}>
-              <ActionButton
-                icon={<ClearIcon />}
-                title="Cancel Appointment"
-                type="error"
-                onClick={() => setShowCancellationConfirmationModal(true)}
-              />
-            </Grid>
-          )}
-        </td>
+        )}
+      </TableCell>
 
-        <td className={classes.ccrt__table__cell} align="center">
+      {isDesktop && (
+        <TableCell align="center">
           <Typography
             className={classes.textStyle}
           >{`${DoctorFee} tk`}</Typography>
-        </td>
+        </TableCell>
+      )}
 
-        {(status === APPOINTMENT_STATUS.FINISHED ||
-          status === APPOINTMENT_STATUS.PENDING) && (
-          <td className={classes.ccrt__table__cell} align="center">
-            <ActionButton
-              title={
-                getRole() === Role.DOCTOR
-                  ? "Edit Prescription"
-                  : "View Prescription"
+      {(status === APPOINTMENT_STATUS.FINISHED ||
+        status === APPOINTMENT_STATUS.PENDING) && (
+        <TableCell align="center">
+          <ActionButton
+            title={
+              getRole() === Role.DOCTOR
+                ? "Edit Prescription"
+                : "View Prescription"
+            }
+            onClick={() => {
+              if (getRole() === Role.DOCTOR) {
+                setOpenPrescriptionForEditing(true);
+              } else {
+                setOpenPrescriptionForViewing(true);
               }
-              onClick={() => {
-                if (getRole() === Role.DOCTOR) {
-                  setOpenPrescriptionForEditing(true);
-                } else {
-                  setOpenPrescriptionForViewing(true);
-                }
-              }}
-              type="info"
-              icon={
-                getRole() === Role.DOCTOR ? <EditIcon /> : <VisibilityIcon />
-              }
-            />
-          </td>
-        )}
+            }}
+            type="info"
+            icon={getRole() === Role.DOCTOR ? <EditIcon /> : <VisibilityIcon />}
+          />
+        </TableCell>
+      )}
 
-        {status === APPOINTMENT_STATUS.PENDING && (
-          <td className={classes.ccrt__table__cell} align="center">
-            <a
-              href={meetingLink}
-              className={classes.linkStyle}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Open Meeting
-            </a>
-          </td>
-        )}
-      </tr>
+      {status === APPOINTMENT_STATUS.PENDING && (
+        <TableCell align="center">
+          <a
+            href={meetingLink}
+            className={classes.linkStyle}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open Meeting
+          </a>
+        </TableCell>
+      )}
       {showCompletionConfirmationModal && (
         <AppointmentConfirmationModal
           open={showCompletionConfirmationModal}
@@ -233,26 +232,14 @@ const AppointmentRow = ({
 };
 
 const useStyles = makeStyles((theme) => ({
-  ccrt__table__cell__row: {
-    // cursor: "pointer",
-    borderBottom: "1px solid rgba(113, 110, 182, 0.15)",
-    transition: "all 0.3s ease",
-    "&:hover": {
-      background: theme.palette.custom.TABLE_HOVER_COLOR,
-    },
-  },
-  ccrt__table__cell: {
-    textTransform: "capitalize",
-    padding: "10px 0px",
-  },
   textStyle: {
     color: theme.palette.custom.BLACK,
-    fontSize: "80%",
+    fontSize: "85%",
     fontWeight: 500,
   },
   linkStyle: {
     color: theme.palette.custom.BLACK,
-    fontSize: "70%",
+    fontSize: "85%",
     textDecoration: "none",
     letterSpacing: 0,
     fontWeight: 600,

@@ -12,7 +12,7 @@ import {
 } from "../../controllers/DonationRequestController";
 import CustomChip from "../chip/CustomChip";
 import { CHIP_COLORS } from "../../misc/constants";
-import DonorlistBackdrop from "../backdrops/DonorlistBackdrop";
+import DonorListBackdrop from "../backdrops/DonorListBackdrop";
 
 const DonationRequestRow = ({
   requestId,
@@ -33,7 +33,7 @@ const DonationRequestRow = ({
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [acceptRequest, setAcceptRequest] = useState(false);
-  const [openDonorlistBackdrop, setOpenDonorlistBackdrop] = useState(false);
+  const [openDonorListBackdrop, setOpenDonorListBackdrop] = useState(false);
 
   const handleClickAcceptButton = () => {
     setOpenConfirmationModal(true);
@@ -125,7 +125,7 @@ const DonationRequestRow = ({
           <Grid container justifyContent={"center"} alignItems="center">
             <ActionButton
               title="view donors"
-              onClick={() => setOpenDonorlistBackdrop(true)}
+              onClick={() => setOpenDonorListBackdrop(true)}
               type=""
               icon={null}
             />
@@ -137,7 +137,7 @@ const DonationRequestRow = ({
             <Grid container justifyContent={"center"} alignItems="center">
               <ActionButton
                 title="view donors"
-                onClick={() => setOpenDonorlistBackdrop(true)}
+                onClick={() => setOpenDonorListBackdrop(true)}
                 type=""
                 icon={null}
               />
@@ -178,10 +178,10 @@ const DonationRequestRow = ({
           loading={loading}
         />
       )}
-      {openDonorlistBackdrop && (
-        <DonorlistBackdrop
-          open={openDonorlistBackdrop}
-          onNegativeFeedback={() => setOpenDonorlistBackdrop(false)}
+      {openDonorListBackdrop && (
+        <DonorListBackdrop
+          open={openDonorListBackdrop}
+          onNegativeFeedback={() => setOpenDonorListBackdrop(false)}
           requestId={requestId}
         />
       )}
@@ -215,6 +215,8 @@ DonationRequestRow.propTypes = {
   disease: PropTypes.string.isRequired,
   openSnackbar: PropTypes.func.isRequired,
   showActions: PropTypes.bool,
+  showViewActions: PropTypes.bool,
+  filterValue: PropTypes.object.isRequired,
   description: PropTypes.string,
   status: PropTypes.string.isRequired,
 };

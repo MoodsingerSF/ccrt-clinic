@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
+import React, { lazy, useEffect, useState } from "react";
 import { Grid, useTheme } from "@mui/material";
 // import { useStyles } from "../../styles/BlogDetailStyle";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -11,16 +10,16 @@ import Head from "next/head";
 import { APP_BAR_HEIGHT, DOMAIN_ADDRESS } from "../../misc/constants";
 import FallbackComponent from "../../components/misc/FallbackComponent";
 import NotFoundComponent from "../../components/misc/NotFoundComponent";
-const BlogDetailsLeft = dynamic(() =>
+const BlogDetailsLeft = lazy(() =>
   import("../../components/blogs/blog-details/BlogDetailsLeft")
 );
-const BlogDetailsRight = dynamic(() =>
+const BlogDetailsRight = lazy(() =>
   import("../../components/blogs/blog-details/BlogDetailsRight")
 );
-const BlogPopularTags = dynamic(() =>
+const BlogPopularTags = lazy(() =>
   import("../../components/blogs/blog-details/BlogPopularTags")
 );
-const BlogDetailsAuthorCard = dynamic(() =>
+const BlogDetailsAuthorCard = lazy(() =>
   import("../../components/cards/BlogDetailsAuthorCard")
 );
 

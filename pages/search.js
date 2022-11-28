@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  ButtonGroup,
-  Grid,
-  InputAdornment,
-  TextField,
-} from "@mui/material";
+import { Button, ButtonGroup, Grid } from "@mui/material";
 import { useRouter } from "next/router";
 import { searchBlogs, searchDoctor } from "../controllers/UserController";
 // import axios from "axios";
@@ -14,11 +8,8 @@ import NoContentToShowComponent from "../components/misc/NoContentToShowComponen
 import LoaderComponent from "../components/misc/LoaderComponent";
 import BlogCard from "../components/cards/BlogCard";
 import { prettyDate } from "../controllers/DateController";
-import SearchIcon from "@mui/icons-material/Search";
-import { makeStyles } from "@mui/styles";
 
 const search = () => {
-  const classes = useStyles();
   const router = useRouter();
   const searchParam = router.query.keyword;
   //   const cancelToken = useRef();
@@ -82,33 +73,10 @@ const search = () => {
     retrieveDoctors_Blogs(searchParam);
   }, [searchParam]);
 
+  console.log(doctors);
+
   return (
     <Grid container style={{ marginTop: "12vh" }}>
-      {/* <Grid container alignItems={"center"} justifyContent={"center"}>
-        <Grid container item xs={11} md={6} my={2}>
-          <TextField
-            className={classes.ccrt__home_page__search_field}
-            size="small"
-            placeholder="search doctor and blog"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end" style={{ cursor: "pointer" }}>
-                  <SearchIcon onClick={onSearch} />
-                </InputAdornment>
-              ),
-              classes: { notchedOutline: classes.noBorder },
-            }}
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                onSearch();
-              }
-            }}
-            style={{ width: "100%" }}
-          />
-        </Grid>
-      </Grid> */}
       <Grid container justifyContent={"center"} alignItems={"center"}>
         <Grid
           container
@@ -219,15 +187,5 @@ const search = () => {
     </Grid>
   );
 };
-const useStyles = makeStyles((theme) => ({
-  ccrt__home_page__search_field: {
-    background: "#fff",
-    borderRadius: "20px",
-    boxShadow: "inset 0 0 5px rgba(0,0,0,0.5)",
-    margin: "20px 0 20px 0",
-  },
-  noBorder: {
-    border: "none",
-  },
-}));
+
 export default search;

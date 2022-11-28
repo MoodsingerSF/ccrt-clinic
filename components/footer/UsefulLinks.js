@@ -1,25 +1,38 @@
 import React from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, useMediaQuery } from "@mui/material";
 import Link from "next/link";
-import { makeStyles } from "@mui/styles";
+import { makeStyles, useTheme } from "@mui/styles";
 import { useful_links_data, USEFUL_LINKS_TITLE } from "../../data/footer/data";
 
 const UsefulLinks = () => {
   const classes = useStyles();
-
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
   return (
     <Grid item xs={12} sm={4}>
-      <Typography className={classes.headerStyle}>
-        {USEFUL_LINKS_TITLE}
-      </Typography>
-      <Grid direction={"column"} container style={{ marginTop: 10 }}>
-        {useful_links_data.map((link) => (
-          <Grid item key={link.id}>
-            <Link href={link.link}>
-              <a className={classes.ccrt__footer__link}>{link.heading}</a>
-            </Link>
-          </Grid>
-        ))}
+      <Grid
+        container
+        justifyContent={!isDesktop ? "center" : "flex-start"}
+        alignItems="flex-start"
+      >
+        <Typography className={classes.headerStyle}>
+          {USEFUL_LINKS_TITLE}
+        </Typography>
+        <Grid
+          direction={"column"}
+          container
+          style={{ marginTop: 10 }}
+          alignItems={!isDesktop ? "center" : "flex-start"}
+          justifyContent="flex-start"
+        >
+          {useful_links_data.map((link) => (
+            <Grid item key={link.id}>
+              <Link href={link.link}>
+                <a className={classes.ccrt__footer__link}>{link.heading}</a>
+              </Link>
+            </Grid>
+          ))}
+        </Grid>
       </Grid>
     </Grid>
   );

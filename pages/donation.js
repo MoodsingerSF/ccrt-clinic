@@ -22,7 +22,7 @@ const Donation = () => {
   const [loading, setLoading] = useState(false);
   const [number, setNumber] = useState("");
   const [amount, setAmount] = useState("");
-  // eslint-disable-next-line no-unused-vars
+
   const [disease, setDisease] = useState("");
   const [description, setDescription] = useState("");
   const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
@@ -100,49 +100,58 @@ const Donation = () => {
             </Typography>
           </Grid>
         </Grid>
-      </Grid>
-
-      <Grid container item xs={11} md={8} lg={6}>
-        <SignUpTextField
-          type={"text"}
-          labelText={"phone number"}
-          value={number}
-          onChange={handleChangeNumber}
-          adornment={"+880"}
-          variant="outlined"
-          error={showError && validateEmpty(number)}
-          errorText={"Enter valid number"}
-        />
-        <SignUpTextField
-          type={"text"}
-          labelText={"how much do you want?"}
-          value={amount}
-          onChange={handleChangeAmount}
-          adornment={"৳"}
-          variant="outlined"
-          error={showError && validateEmpty(amount)}
-          errorText={"Enter valid amount"}
-        />
-
-        <SignUpTextField
-          label={"About Yourself"}
-          variant="outlined"
-          multiline={true}
-          numRows={4}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          error={showError && validateEmpty(amount)}
-          errorText={"Enter valid amount"}
-        />
-
-        <Grid container justifyContent={"center"} alignItems="center">
-          <CustomButton
-            title={"submit"}
-            onClick={handleSubmitRequest}
-            loading={loading}
+        <Grid container item xs={12}>
+          <SignUpTextField
+            type={"text"}
+            value={number}
+            onChange={handleChangeNumber}
+            label="Phone Number"
+            variant="outlined"
+            error={showError && validateEmpty(number)}
+            errorText={"Enter valid number"}
           />
+
+          <SignUpTextField
+            type={"text"}
+            value={disease}
+            onChange={(e) => setDisease(e.target.value)}
+            label={"Disease"}
+            variant="outlined"
+            error={showError && validateEmpty(number)}
+            errorText={"Enter valid disease."}
+          />
+          <SignUpTextField
+            type={"text"}
+            value={amount}
+            label={"Required amount"}
+            onChange={handleChangeAmount}
+            // adornment={"৳"}
+            variant="outlined"
+            error={showError && validateEmpty(amount)}
+            errorText={"Enter valid amount"}
+          />
+
+          <SignUpTextField
+            label={"About Yourself"}
+            variant="outlined"
+            multiline={true}
+            numRows={4}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            error={showError && validateEmpty(amount)}
+            errorText={"Enter valid amount"}
+          />
+
+          <Grid container justifyContent={"center"} alignItems="center">
+            <CustomButton
+              title={"submit"}
+              onClick={handleSubmitRequest}
+              loading={loading}
+            />
+          </Grid>
         </Grid>
       </Grid>
+
       <CustomSnackbar
         open={snackbar.open}
         message={snackbar.message}

@@ -36,7 +36,7 @@ const MyDonations = () => {
         <DashboardTitle title="My Donations" />
       </Grid>
       {!loading && data.length === 0 ? (
-        <NoContentToShowComponent title="You don't give any donations." />
+        <NoContentToShowComponent title="No donations to show." />
       ) : (
         <Grid container style={{ marginBottom: 40 }}>
           {!loading ? (

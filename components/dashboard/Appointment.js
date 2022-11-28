@@ -1,12 +1,22 @@
 import React, { useState } from "react";
-import { Grid, Typography } from "@mui/material";
+import {
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import DashboardTitle from "./DashboardTitle";
 import {
   APPOINTMENT_STATUS,
   DASHBOARD_TITLE_MARGIN_TOP,
 } from "../../misc/constants";
 import NoContentToShowComponent from "../misc/NoContentToShowComponent";
-import { makeStyles, createStyles } from "@mui/styles";
+import { makeStyles, createStyles, useTheme } from "@mui/styles";
 import AppointmentRow from "./AppointmentRow";
 // import { Role } from "../../enums/Role";
 // import { Context } from "../../contexts/user-context/UserContext";
@@ -25,7 +35,7 @@ const getDate = (dateObj) => {
 
 const Appointment = () => {
   const classes = useStyles();
-  // const { getRole } = useContext(Context);
+  const theme = useTheme();
   const [page, setPage] = useState(0);
   const [status, setStatus] = useState(APPOINTMENT_STATUS.PENDING);
   const [date, setDate] = useState(dayjs());
@@ -35,6 +45,7 @@ const Appointment = () => {
     getDate(date),
     status
   );
+  const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
   return (
     <Grid container>
       <Grid
@@ -77,78 +88,80 @@ const Appointment = () => {
           <NoContentToShowComponent title={"No appointments to show."} />
         ) : (
           <Grid container>
-            <table className={classes.ccrt__table}>
-              <thead className={classes.ccrt__table__head}>
-                <tr className={classes.ccrt__table__heading__row}>
-                  {/* <th className={classes.ccrt__table__heading}><Typography>Id</Typography></th> */}
-                  <th className={classes.ccrt__table__heading}>
-                    <Typography className={classes.titleStyle}>
-                      Patient Name
-                    </Typography>
-                  </th>
-                  <th className={classes.ccrt__table__heading}>
-                    <Typography className={classes.titleStyle}>
-                      Booking Time
-                    </Typography>
-                  </th>
-                  <th className={classes.ccrt__table__heading}>
-                    <Typography className={classes.titleStyle}>
-                      Slot Time
-                    </Typography>
-                  </th>
-                  {/* <th className={classes.ccrt__table__heading}>Status</th> */}
-                  <th className={classes.ccrt__table__heading}>
-                    {" "}
-                    <Typography className={classes.titleStyle}>
-                      Actions
-                    </Typography>
-                  </th>
-                  {/* {(getRole() === Role.ADMIN || getRole() === Role.USER) && ( */}
-                  <th className={classes.ccrt__table__heading}>
-                    <Typography className={classes.titleStyle}>
-                      Doctor Fee
-                    </Typography>
-                  </th>
-                  {/* )} */}
-
-                  {(status === APPOINTMENT_STATUS.FINISHED ||
-                    status === APPOINTMENT_STATUS.PENDING) && (
-                    <th className={classes.ccrt__table__heading}>
+            <TableContainer>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
                       <Typography className={classes.titleStyle}>
-                        Prescription
+                        Patient Name
                       </Typography>
-                    </th>
-                  )}
-
-                  {status === APPOINTMENT_STATUS.PENDING && (
-                    <th className={classes.ccrt__table__heading}>
+                    </TableCell>
+                    {isDesktop && (
+                      <TableCell align="center">
+                        <Typography className={classes.titleStyle}>
+                          Booking Time
+                        </Typography>
+                      </TableCell>
+                    )}
+                    <TableCell align="center">
                       <Typography className={classes.titleStyle}>
-                        Meeting Link
+                        Slot Time
                       </Typography>
-                    </th>
-                  )}
-                </tr>
-              </thead>
-              <tbody>
-                {appointments.map((appointment, index) => {
-                  return (
-                    <AppointmentRow
-                      key={appointment.appointmentId}
-                      appointmentId={appointment.appointmentId}
-                      index={index}
-                      meetingLink={appointment.meetingLink}
-                      date={appointment.date}
-                      bookingTime={appointment.creationTime}
-                      timeSlot={appointment.timeSlot}
-                      DoctorFee={appointment.fee}
-                      status={appointment.status}
-                      patient={appointment.patient}
-                      doctor={appointment.doctor}
-                    />
-                  );
-                })}
-              </tbody>
-            </table>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Typography className={classes.titleStyle}>
+                        Actions
+                      </Typography>
+                    </TableCell>
+                    {isDesktop && (
+                      <TableCell align="center">
+                        <Typography className={classes.titleStyle}>
+                          Doctor Fee
+                        </Typography>
+                      </TableCell>
+                    )}
+
+                    {(status === APPOINTMENT_STATUS.FINISHED ||
+                      status === APPOINTMENT_STATUS.PENDING) && (
+                      <TableCell align="center">
+                        <Typography className={classes.titleStyle}>
+                          Prescription
+                        </Typography>
+                      </TableCell>
+                    )}
+
+                    {status === APPOINTMENT_STATUS.PENDING && (
+                      <TableCell align="center">
+                        <Typography className={classes.titleStyle}>
+                          Meeting Link
+                        </Typography>
+                      </TableCell>
+                    )}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {appointments.map((appointment, index) => {
+                    return (
+                      <TableRow key={appointment.appointmentId} hover>
+                        <AppointmentRow
+                          appointmentId={appointment.appointmentId}
+                          index={index}
+                          meetingLink={appointment.meetingLink}
+                          date={appointment.date}
+                          bookingTime={appointment.creationTime}
+                          timeSlot={appointment.timeSlot}
+                          DoctorFee={appointment.fee}
+                          status={appointment.status}
+                          patient={appointment.patient}
+                          doctor={appointment.doctor}
+                        />
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
             <Grid container justifyContent={"center"} alignItems="center">
               <Grid item xs={12} sm={4}>
                 {hasMore && (
@@ -169,28 +182,19 @@ const Appointment = () => {
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    ccrt__table: {
-      background: "#fff",
-      lineHeight: "1.25",
-      marginBottom: "24px",
-      width: "100%",
-      borderCollapse: "collapse",
-      borderSpacing: "0",
-    },
-    ccrt__table__head: {
-      background: theme.palette.custom.BLACK,
-    },
-    ccrt__table__heading__row: {
-      color: "#fff",
-    },
-    ccrt__table__heading: {
-      padding: "18px 6px 18px 12px",
-      fontSize: "90%",
-      fontWeight: "500",
+    table: {
+      "& thead th": {
+        background: theme.palette.custom.BLACK,
+      },
+
+      "& tbody tr:hover": {
+        background: theme.palette.custom.TABLE_HOVER_COLOR,
+      },
     },
     titleStyle: {
       color: "white",
       fontSize: "85%",
+      fontWeight: 500,
     },
   })
 );

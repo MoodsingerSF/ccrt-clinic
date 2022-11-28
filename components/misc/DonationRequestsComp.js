@@ -181,6 +181,7 @@ DonationRequestsComp.propTypes = {
   donationRequests: PropTypes.array.isRequired,
   hasMore: PropTypes.bool.isRequired,
   showActions: PropTypes.bool,
+  showViewActions: PropTypes.bool,
   onLoadMore: PropTypes.func.isRequired,
 };
 

@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme) =>
       fontWeight: 600,
       color: "white",
       textTransform: "capitalize",
-      marginRight: 10,
       "&:hover": {
         background: `${theme.palette.custom.GREEN}`,
       },
@@ -59,7 +58,6 @@ const useStyles = makeStyles((theme) =>
       fontSize: "70%",
       color: "white",
       textTransform: "capitalize",
-      marginRight: 10,
       "&:hover": {
         background: `${theme.palette.custom.RED}`,
       },

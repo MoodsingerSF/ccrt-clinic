@@ -9,14 +9,12 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
+// import GoogleIcon from "@mui/icons-material/Google";
+// import FacebookIcon from "@mui/icons-material/Facebook";
 import {
   formErrors,
   SIGN_UP_BUTTON,
   SIGN_UP_TITLE,
-  SIGN_UP_WITH_FACEBOOK,
-  SIGN_UP_WITH_GOOGLE,
   TERMS_CONDITIONS,
 } from "../data/signup/data";
 import SignUpTextField from "../components/textfields/SignUpTextField";
@@ -449,7 +447,7 @@ const SignupScreen = () => {
                 />
               </Grid>
             </Grid>
-            <Grid
+            {/* <Grid
               container
               alignItems="center"
               justifyContent="center"
@@ -457,8 +455,8 @@ const SignupScreen = () => {
               xs={12}
             >
               <Typography style={{ margin: "10px 0" }}>Or</Typography>
-            </Grid>
-            <Grid container>
+            </Grid> */}
+            {/* <Grid container>
               <CustomButton
                 title={SIGN_UP_WITH_GOOGLE}
                 icon={<GoogleIcon />}
@@ -471,7 +469,7 @@ const SignupScreen = () => {
                 icon={<FacebookIcon />}
                 onClick={() => {}}
               />
-            </Grid>
+            </Grid> */}
             <Grid
               container
               alignItems="center"
