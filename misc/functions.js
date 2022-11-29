@@ -17,6 +17,19 @@ export const processDate = (date) => {
   }${day}`;
 };
 
+export const errorHandler = (error, openSnackbar) => {
+  if (error && error.response) {
+    const { data } = error.response;
+    if (data && data.message) {
+      openSnackbar(data.message);
+    } else {
+      openSnackbar("Something went wrong. Please try again later.");
+    }
+  } else {
+    openSnackbar("Something went wrong. Please try again later.");
+  }
+};
+
 export const processShowDate = (date) => {
   if (date == null) return null;
   const dateObj = new Date(date);

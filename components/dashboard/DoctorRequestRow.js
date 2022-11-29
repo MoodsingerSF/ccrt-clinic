@@ -29,7 +29,6 @@ import CustomChip from "../chip/CustomChip";
 import ActionButton from "../button/ActionButton";
 
 const DoctorRequestRow = ({
-  serialNo,
   userId,
   firstName,
   lastName,
@@ -97,24 +96,22 @@ const DoctorRequestRow = ({
           alignItems="center"
           style={{ width: matchesMd ? "15vw" : matchesSm ? "25vw" : "50vw" }}
         >
-          <Typography className={classes.textStyle}>{serialNo + 1}</Typography>
-          <Avatar src={profileImageUrl} className={classes.avatarStyle}>
-            {profileImageUrl ? null : capitalize(firstName).charAt(0)}
-          </Avatar>
-
-          <Typography className={classes.textStyle}>
-            {firstName + " " + lastName}
-          </Typography>
+          <Grid item xs={4} container alignItems="center">
+            {/* <Typography className={classes.textStyle}>
+              {serialNo + 1}
+            </Typography> */}
+            <Avatar src={profileImageUrl} className={classes.avatarStyle}>
+              {profileImageUrl ? null : capitalize(firstName).charAt(0)}
+            </Avatar>
+          </Grid>
+          <Grid item xs={8}>
+            <Typography className={classes.textStyle}>
+              {firstName + " " + lastName}
+            </Typography>
+          </Grid>
         </Grid>
       </TableCell>
-      <TableCell
-      // className={classNames({
-      //   [classes.ccrt__dashboard__doctor__req__table__data__mobile]:
-      //     !matchesMd,
-      //   [classes.ccrt__dashboard__doctor__req__table__data__desktop]:
-      //     matchesMd,
-      // })}
-      >
+      <TableCell>
         <Grid
           container
           justifyContent={"center"}
@@ -130,27 +127,11 @@ const DoctorRequestRow = ({
           })}
         </Grid>
       </TableCell>
-      <TableCell
-        align="center"
-        // className={classNames({
-        //   [classes.ccrt__dashboard__doctor__req__table__data__mobile]:
-        //     !matchesMd,
-        //   [classes.ccrt__dashboard__doctor__req__table__data__desktop]:
-        //     matchesMd,
-        // })}
-      >
+      <TableCell align="center">
         <Typography className={classes.textStyle}>{`${fee}`}</Typography>
       </TableCell>
 
-      <TableCell
-        align="center"
-        // className={classNames({
-        //   [classes.ccrt__dashboard__doctor__req__table__data__mobile]:
-        //     !matchesMd,
-        //   [classes.ccrt__dashboard__doctor__req__table__data__desktop]:
-        //     matchesMd,
-        // })}
-      >
+      <TableCell align="center">
         <Grid
           container
           justifyContent={"center"}
@@ -338,7 +319,6 @@ const DoctorRequestRow = ({
   );
 };
 DoctorRequestRow.propTypes = {
-  serialNo: PropTypes.number.isRequired,
   userId: PropTypes.string.isRequired,
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
@@ -353,43 +333,18 @@ DoctorRequestRow.propTypes = {
 };
 
 const useStyles = makeStyles((theme) => ({
-  ccrt__dashboard__doctor__req__table__data__mobile: {
-    // borderBottom: "1px solid #ddd",
-    padding: "12px 0",
-    cursor: "pointer",
-    textAlign: "center",
-    // fontSize: "85%",
-    fontWeight: 400,
-  },
-  ccrt__dashboard__doctor__req__table__data__desktop: {
-    // borderBottom: "1px solid #ddd",
-    padding: "8px 0",
-    cursor: "pointer",
-    textAlign: "center",
-    // fontSize: "85%",
-    fontWeight: 400,
-  },
-  ccrt__dashboard__doctor__req__table__data__row: {
-    "&:hover": {
-      background: "#f6f6f6",
-    },
-    height: 70,
-    borderBottom: `.5px solid ${theme.palette.custom.DEFAULT_COLOR}`,
-  },
   details_text: {
     color: theme.palette.custom.BLACK,
     fontSize: "85%",
     fontWeight: 500,
   },
-
-  email: {
-    // fontSize: "70%",
-  },
   avatarStyle: {
-    marginLeft: 10,
+    // marginLeft: 10,
     marginRight: 10,
     border: `1px solid ${theme.palette.custom.GREEN}`,
     background: theme.palette.custom.BLACK,
+    height: "100%",
+    aspectRatio: 1,
   },
   textStyle: {
     color: theme.palette.custom.BLACK,

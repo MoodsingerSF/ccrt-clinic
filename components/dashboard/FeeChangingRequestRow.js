@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Grid, TableCell, Tooltip, Typography } from "@mui/material";
+import {
+  Grid,
+  TableCell,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import PropTypes from "prop-types";
 import ClearIcon from "@mui/icons-material/Clear";
 import DoneIcon from "@mui/icons-material/Done";
@@ -9,9 +15,10 @@ import {
   RejectFeeRequest,
 } from "../../controllers/UserController";
 import { APPOINTMENT_STATUS } from "../../misc/constants";
-import { makeStyles } from "@mui/styles";
+import { makeStyles, useTheme } from "@mui/styles";
 import ActionButton from "../button/ActionButton";
 import CustomChip from "../chip/CustomChip";
+import { errorHandler } from "../../misc/functions";
 
 const FeeChangingRequestRow = ({
   serialNo,
@@ -25,6 +32,9 @@ const FeeChangingRequestRow = ({
   filterValue,
 }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
+  const matchesSm = useMediaQuery(theme.breakpoints.up("sm"));
   const fullName = `${firstName} ${lastName}`;
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -44,7 +54,8 @@ const FeeChangingRequestRow = ({
       setLoading(false);
       setOpenConfirmationModal(false);
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      errorHandler(error, openSnackbar);
     }
   };
 
@@ -62,7 +73,8 @@ const FeeChangingRequestRow = ({
       setLoading(false);
       setOpenConfirmationModal(false);
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      errorHandler(error, openSnackbar);
     }
   };
 
@@ -74,21 +86,24 @@ const FeeChangingRequestRow = ({
   return (
     <>
       <TableCell align="left">
-        <Typography
-          className={classes.textStyle}
-        >{`${serialNo}. ${fullName}`}</Typography>
+        <Grid
+          container
+          style={{ width: matchesMd ? "15vw" : matchesSm ? "25vw" : "50vw" }}
+        >
+          <Typography
+            className={classes.textStyle}
+          >{`${serialNo}. ${fullName}`}</Typography>
+        </Grid>
       </TableCell>
       <TableCell align="center">
-        {/* <Chip
-          label={`${previousAmount} |=`}
-          color="primary"
-          size="small"
-          style={{
-            fontSize: "95%",
-            fontWeight: "500",
-          }}
-        /> */}
-        <Typography className={classes.textStyle}>{previousAmount}</Typography>
+        <Grid
+          container
+          style={{ width: matchesMd ? "15vw" : matchesSm ? "25vw" : "50vw" }}
+        >
+          <Typography className={classes.textStyle}>
+            {previousAmount}
+          </Typography>
+        </Grid>
       </TableCell>
       <TableCell align="center">
         <Typography className={classes.textStyle}>{changingAmount}</Typography>
@@ -169,6 +184,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "100%",
     fontWeight: 500,
     color: theme.palette.custom.BLACK,
+    textAlign: "center",
   },
 }));
 export default FeeChangingRequestRow;
