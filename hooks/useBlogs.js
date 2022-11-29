@@ -5,7 +5,7 @@ import {
 } from "../controllers/BlogController";
 import { VerificationStatus } from "../enums/VerificationStatus";
 
-const useBlogs = (page, verificationStatus) => {
+const useBlogs = (page, limit, verificationStatus) => {
   const [blogs, setBlogs] = useState([]);
   const [totalBlogs, setTotalBlogs] = useState(0);
   const [error, setError] = useState(false);
@@ -16,12 +16,12 @@ const useBlogs = (page, verificationStatus) => {
       setLoading(true);
       let responseData = [];
       if (verificationStatus === VerificationStatus.PENDING) {
-        responseData = await getPendingBlogs(page);
+        responseData = await getPendingBlogs(page, limit);
       } else if (verificationStatus === VerificationStatus.ACCEPTED) {
-        responseData = await getAcceptedBlogs(page);
+        responseData = await getAcceptedBlogs(page, limit);
       }
       setTotalBlogs(responseData.totalBlogs);
-      if (responseData.blogs.length === 0) {
+      if (responseData.blogs.length < limit) {
         setHasMore(false);
       }
       if (page === 0) setBlogs(responseData.blogs);
@@ -34,7 +34,7 @@ const useBlogs = (page, verificationStatus) => {
   };
   useEffect(() => {
     retrieveBlogs(page);
-  }, [page]);
+  }, [page, limit, verificationStatus]);
   return { blogs, totalBlogs, loading, hasMore, error };
 };
 

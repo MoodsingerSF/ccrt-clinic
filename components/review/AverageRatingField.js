@@ -8,7 +8,7 @@ const AverageRatingField = ({ value, title, maxValue }) => {
         {title}
       </Typography>
       <Grid container flexDirection="row" justifyContent={"space-between"}>
-        <Rating size="medium" value={value} precision={0.5} />
+        <Rating size="medium" value={value} readOnly={true} precision={0.5} />
         <Typography>
           {value}/{maxValue}
         </Typography>

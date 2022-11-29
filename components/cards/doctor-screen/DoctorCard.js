@@ -62,13 +62,13 @@ const DoctorCard = ({
             &#2547;{fee}
           </Typography>
           <Grid container>
-            <Grid item xs={2}>
+            <Grid item xs={12}>
               <Typography className={classes.sectionTitle}>
                 specializations:
               </Typography>
             </Grid>
 
-            <Grid item container xs={9} style={{ paddingLeft: 10 }}>
+            <Grid item container xs={12}>
               {specializations.map((item) => (
                 <CustomChip key={item} title={item} />
               ))}

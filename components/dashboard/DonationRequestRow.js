@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Grid, TableCell, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { Grid, TableCell, Typography, useMediaQuery } from "@mui/material";
+import { makeStyles, useTheme } from "@mui/styles";
 import PropTypes from "prop-types";
 import ConfirmationModal from "../modal/ConfirmationModal";
 import ActionButton from "../button/ActionButton";
@@ -13,6 +13,8 @@ import {
 import CustomChip from "../chip/CustomChip";
 import { CHIP_COLORS } from "../../misc/constants";
 import DonorListBackdrop from "../backdrops/DonorListBackdrop";
+import { errorHandler } from "../../misc/functions";
+import classNames from "classnames";
 
 const DonationRequestRow = ({
   requestId,
@@ -28,12 +30,15 @@ const DonationRequestRow = ({
   status,
   filterValue,
 }) => {
-  console.log(filterValue);
+  const theme = useTheme();
+  const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
+  const matchesSm = useMediaQuery(theme.breakpoints.up("sm"));
   const classes = useStyles();
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [acceptRequest, setAcceptRequest] = useState(false);
   const [openDonorListBackdrop, setOpenDonorListBackdrop] = useState(false);
+  const [showDescriptionDetails, setShowDescriptionDetails] = useState(false);
 
   const handleClickAcceptButton = () => {
     setOpenConfirmationModal(true);
@@ -54,12 +59,7 @@ const DonationRequestRow = ({
       setOpenConfirmationModal(false);
     } catch (error) {
       setLoading(false);
-      if (error && error.response) {
-        const { data } = error.response;
-        if (data && data.code && data.message)
-          openSnackbar(data.code + ": " + data.message);
-        else openSnackbar("Something went wrong. Please try again later.");
-      }
+      errorHandler(error, openSnackbar);
     }
   };
 
@@ -72,43 +72,89 @@ const DonationRequestRow = ({
       setOpenConfirmationModal(false);
     } catch (error) {
       setLoading(false);
-      if (error && error.response) {
-        const { data } = error.response;
-        if (data && data.code && data.message)
-          openSnackbar(data.code + ": " + data.message);
-        else openSnackbar("Something went wrong. Please try again later.");
-      }
+      errorHandler(error, openSnackbar);
     }
   };
 
   return (
     <>
       <TableCell>
-        <Typography className={classes.ccrt__donation__request__row__common}>
-          {serialNo}. {name}
-        </Typography>
-      </TableCell>
-      <TableCell align="center">
-        <Typography className={classes.ccrt__donation__request__row__common}>
-          {phone}
-        </Typography>
-      </TableCell>
-      <TableCell align="center">
-        <Typography className={classes.ccrt__donation__request__row__common}>
-          {amount}
-        </Typography>
-      </TableCell>
-      <TableCell align="center">
-        <Typography className={classes.ccrt__donation__request__row__common}>
-          {disease}
-        </Typography>
-      </TableCell>
-      <TableCell align="center">
-        <Typography
-          className={classes.ccrt__donation__request__row__description}
+        <Grid
+          container
+          justifyContent={"flex-start"}
+          alignItems="center"
+          style={{ width: matchesMd ? "15vw" : matchesSm ? "25vw" : "40vw" }}
         >
-          {description}
-        </Typography>
+          <Typography className={classes.ccrt__donation__request__row__common}>
+            {serialNo}. {name}
+          </Typography>
+        </Grid>
+      </TableCell>
+      <TableCell align="center">
+        <Grid
+          container
+          justifyContent={"center"}
+          alignItems="center"
+          style={{ width: matchesMd ? "15vw" : matchesSm ? "25vw" : "40vw" }}
+        >
+          <Typography className={classes.ccrt__donation__request__row__common}>
+            {phone}
+          </Typography>
+        </Grid>
+      </TableCell>
+      <TableCell align="center">
+        <Grid
+          container
+          justifyContent={"center"}
+          alignItems="center"
+          style={{ width: matchesMd ? "15vw" : matchesSm ? "25vw" : "40vw" }}
+        >
+          <Typography className={classes.ccrt__donation__request__row__common}>
+            {amount}
+          </Typography>
+        </Grid>
+      </TableCell>
+      <TableCell align="center">
+        <Grid
+          container
+          justifyContent={"center"}
+          alignItems="center"
+          style={{ width: matchesMd ? "15vw" : matchesSm ? "25vw" : "40vw" }}
+        >
+          <Typography className={classes.ccrt__donation__request__row__common}>
+            {disease}
+          </Typography>
+        </Grid>
+      </TableCell>
+      <TableCell align="center">
+        <Grid
+          container
+          justifyContent={"center"}
+          alignItems="center"
+          style={{ width: matchesMd ? "30vw" : matchesSm ? "50" : "80vw" }}
+        >
+          <Typography
+            className={classNames({
+              [classes.ccrt__donation__request__row__description]: true,
+              [classes.ccrt__donation__request__row__description__details]:
+                !showDescriptionDetails,
+            })}
+          >
+            {description}
+          </Typography>
+          <Grid container justifyContent={"center"} alignItems="center">
+            <Typography
+              style={{
+                color: theme.palette.custom.GREEN,
+                fontSize: "85%",
+                fontWeight: "500",
+              }}
+              onClick={() => setShowDescriptionDetails((prev) => !prev)}
+            >
+              {showDescriptionDetails ? "Hide Details" : "Show Details"}
+            </Typography>
+          </Grid>
+        </Grid>
       </TableCell>
       {!showActions && (
         <TableCell align="center">
@@ -148,20 +194,29 @@ const DonationRequestRow = ({
 
       {showActions && filterValue.requestStatus === "PENDING" && (
         <TableCell align="center">
-          <Grid item style={{ marginBottom: 5 }}>
-            <ActionButton
-              title={"Accept"}
-              onClick={handleClickAcceptButton}
-              type="success"
-              icon={<CheckIcon />}
-            />
+          <Grid
+            container
+            justifyContent={"center"}
+            alignItems="center"
+            spacing={0.5}
+          >
+            <Grid item>
+              <ActionButton
+                title={"Accept"}
+                onClick={handleClickAcceptButton}
+                type="success"
+                icon={<CheckIcon />}
+              />
+            </Grid>
+            <Grid item>
+              <ActionButton
+                title={"Reject"}
+                onClick={handleClickRejectButton}
+                type="error"
+                icon={<ClearIcon />}
+              />
+            </Grid>
           </Grid>
-          <ActionButton
-            title={"Reject"}
-            onClick={handleClickRejectButton}
-            type="error"
-            icon={<ClearIcon />}
-          />
         </TableCell>
       )}
       {openConfirmationModal && (
@@ -199,6 +254,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "100%",
     color: theme.palette.custom.BLACK,
     fontWeight: "500",
+  },
+  ccrt__donation__request__row__description__details: {
     overflow: "hidden",
     textOverflow: "ellipsis",
     display: "-webkit-box",

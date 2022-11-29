@@ -7,13 +7,15 @@ import CssBaseline from "@mui/material/CssBaseline";
 import theme from "../themes/theme";
 import AppBar from "../components/appbar/AppBar";
 import { Provider } from "../contexts/user-context/UserContext";
+import { Provider as LoginPromptProvider } from "../contexts/LoginPromptContext";
+
 import LoginChecker from "../components/LoginChecker";
 import MyErrorBoundary from "../components/MyErrorBoundary";
+import LoginPromptComp from "../components/misc/LoginPromptComp";
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
   const memoizedTheme = React.useMemo(() => createTheme(theme), []);
-  console.log("app");
   return (
     <Provider>
       <Head>
@@ -35,17 +37,20 @@ export default function MyApp(props) {
       </Head>
 
       <ThemeProvider theme={memoizedTheme}>
-        <MyErrorBoundary>
-          <>
-            <CssBaseline />
+        <LoginPromptProvider>
+          <MyErrorBoundary>
+            <>
+              <LoginPromptComp />
+              <CssBaseline />
 
-            <AppBar />
+              <AppBar />
 
-            <LoginChecker>
-              <Component {...pageProps} />
-            </LoginChecker>
-          </>
-        </MyErrorBoundary>
+              <LoginChecker>
+                <Component {...pageProps} />
+              </LoginChecker>
+            </>
+          </MyErrorBoundary>
+        </LoginPromptProvider>
       </ThemeProvider>
     </Provider>
   );

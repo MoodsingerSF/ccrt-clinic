@@ -88,6 +88,8 @@ const FeeChangingRequestRow = ({
       <TableCell align="left">
         <Grid
           container
+          justifyContent={"flex-start"}
+          alignItems="center"
           style={{ width: matchesMd ? "15vw" : matchesSm ? "25vw" : "50vw" }}
         >
           <Typography
@@ -98,7 +100,9 @@ const FeeChangingRequestRow = ({
       <TableCell align="center">
         <Grid
           container
-          style={{ width: matchesMd ? "15vw" : matchesSm ? "25vw" : "50vw" }}
+          justifyContent={"center"}
+          alignItems="center"
+          style={{ width: matchesMd ? "15vw" : matchesSm ? "25vw" : "40vw" }}
         >
           <Typography className={classes.textStyle}>
             {previousAmount}
@@ -106,50 +110,50 @@ const FeeChangingRequestRow = ({
         </Grid>
       </TableCell>
       <TableCell align="center">
-        <Typography className={classes.textStyle}>{changingAmount}</Typography>
-
-        {/* <Chip
-          label={`${changingAmount} |=`}
-          color="primary"
-          size="small"
-          style={{
-            fontSize: "95%",
-            fontWeight: "500",
-          }}
-        /> */}
+        <Grid
+          container
+          justifyContent={"center"}
+          alignItems="center"
+          style={{ width: matchesMd ? "15vw" : matchesSm ? "25vw" : "40vw" }}
+        >
+          <Typography className={classes.textStyle}>
+            {changingAmount}
+          </Typography>
+        </Grid>
       </TableCell>
       <TableCell align={"center"}>
-        <Grid container justifyContent={"center"} alignItems="center">
-          <CustomChip onlyBorder={false} title={status} />
-        </Grid>
-        {/* <Chip
-          label={status}
-          color="primary"
-          size="small"
-          style={{
-            fontSize: "80%",
-            fontWeight: "400",
-          }}
-        /> */}
+        <CustomChip onlyBorder={false} title={status} />
       </TableCell>
       {filterValue === APPOINTMENT_STATUS.PENDING && (
         <TableCell align="right">
-          <Tooltip title="Accept">
-            <ActionButton
-              title="Accept"
-              icon={<DoneIcon fontSize="small" />}
-              onClick={handleClickAcceptButton}
-              type="success"
-            />
-          </Tooltip>
-          <Tooltip title="Reject">
-            <ActionButton
-              title="Reject"
-              icon={<ClearIcon fontSize="small" />}
-              onClick={() => setOpenConfirmationModal(true)}
-              type="error"
-            />
-          </Tooltip>
+          <Grid
+            container
+            justifyContent={"center"}
+            alignItems="center"
+            style={{ width: matchesMd ? "15vw" : matchesSm ? "25vw" : "60vw" }}
+            spacing={0.5}
+          >
+            <Grid item>
+              <Tooltip title="Accept">
+                <ActionButton
+                  title="Accept"
+                  icon={<DoneIcon fontSize="small" />}
+                  onClick={handleClickAcceptButton}
+                  type="success"
+                />
+              </Tooltip>
+            </Grid>
+            <Grid item>
+              <Tooltip title="Reject">
+                <ActionButton
+                  title="Reject"
+                  icon={<ClearIcon fontSize="small" />}
+                  onClick={() => setOpenConfirmationModal(true)}
+                  type="error"
+                />
+              </Tooltip>
+            </Grid>
+          </Grid>
         </TableCell>
       )}
 

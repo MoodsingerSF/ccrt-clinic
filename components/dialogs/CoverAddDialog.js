@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Dialog, Grid } from "@mui/material";
-import BackdropHeaderComp from "../misc/BackdropHeaderComp";
+import { Dialog, DialogContent, Grid } from "@mui/material";
 import SignUpTextField from "../textfields/SignUpTextField";
 import CustomButton from "../button/CustomButton";
 import { addCover } from "../../controllers/CoverController";
 import PropTypes from "prop-types";
+import { errorHandler } from "../../misc/functions";
+import { capitalize } from "lodash";
 
 const CoverAddDialog = ({
   open,
@@ -29,56 +30,60 @@ const CoverAddDialog = ({
       openSnackbar(`Cover has been added successfully.`);
     } catch (error) {
       setLoading(false);
-      openSnackbar(error.message);
-      console.log(error);
+      errorHandler(error, openSnackbar);
     }
   };
 
   return (
-    <Dialog fullScreen open={open} onClose={onNegativeFeedback}>
-      <Grid container>
-        <BackdropHeaderComp onClose={onNegativeFeedback} />
-        <Grid
-          container
-          justifyContent={"center"}
-          alignItems={"center"}
-          style={{ height: "88vh" }}
-        >
+    <Dialog open={open} onClose={onNegativeFeedback}>
+      <DialogContent>
+        <Grid container>
           <Grid
             container
             justifyContent={"center"}
             alignItems={"center"}
-            item
-            xs={11}
-            sm={8}
-            md={7}
-            lg={6}
-            xl={4}
+            // style={{ height: "88vh" }}
           >
-            <SignUpTextField
-              label={`What's the ${type.toLowerCase()} id?`}
-              type={"text"}
-              value={itemId}
-              onChange={(e) => setItemId(e.target.value)}
-              placeholder={`${type.toLowerCase()} id`}
-            />
-            <CustomButton
-              title={"Save"}
-              onClick={() => {
-                if (itemId === "") {
-                  openSnackbar(
-                    `Please provide a valid ${type.toLowerCase()} id`
-                  );
-                } else {
-                  onSave(type, itemId);
-                  console.log(type, itemId);
-                }
-              }}
-              loading={loading}
-            />
+            <Grid
+              container
+              justifyContent={"center"}
+              alignItems={"center"}
+              item
+              xs={12}
+            >
+              <Grid
+                container
+                justifyContent={"center"}
+                alignItems={"center"}
+                item
+                xs={12}
+                style={{ width: "95%" }}
+              >
+                <SignUpTextField
+                  label={`${capitalize(type)} id`}
+                  type={"text"}
+                  value={itemId}
+                  onChange={(e) => setItemId(e.target.value)}
+                  placeholder={`${type.toLowerCase()} id`}
+                />
+                <CustomButton
+                  title={"Save"}
+                  onClick={() => {
+                    if (itemId === "") {
+                      openSnackbar(
+                        `Please provide a valid ${type.toLowerCase()} id`
+                      );
+                    } else {
+                      onSave(type, itemId);
+                    }
+                  }}
+                  loading={loading}
+                />
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </DialogContent>
     </Dialog>
   );
 };

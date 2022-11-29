@@ -30,6 +30,7 @@ const BlogRequest = () => {
   const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
   const { loading, blogs, totalBlogs } = useBlogs(
     page,
+    15,
     VerificationStatus.PENDING
   );
   const [loading2, setLoading2] = useState(false);

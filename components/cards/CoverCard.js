@@ -9,8 +9,16 @@ import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined
 import ConfirmationModal from "../modal/ConfirmationModal";
 import { deleteCover, visibleCover } from "../../controllers/CoverController";
 import { COVER_FILTER } from "../../misc/constants";
+import { errorHandler } from "../../misc/functions";
 
-const CoverCard = ({ imageUrl, id, type, openSnackbar, status }) => {
+const CoverCard = ({
+  imageUrl,
+  id,
+  type,
+  openSnackbar,
+  status,
+  onDeleteSuccess,
+}) => {
   const classes = useStyles();
   const ref = useRef(null);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
@@ -22,6 +30,7 @@ const CoverCard = ({ imageUrl, id, type, openSnackbar, status }) => {
       setLoading(true);
       await deleteCover(id);
       setLoading(false);
+      onDeleteSuccess();
       openSnackbar("Cover has been removed successfully.");
       setOpenConfirmationModal(false);
     } catch (error) {
@@ -38,7 +47,7 @@ const CoverCard = ({ imageUrl, id, type, openSnackbar, status }) => {
       openSnackbar("This cover is now visible.");
     } catch (error) {
       setLoading(false);
-      openSnackbar(error.message);
+      errorHandler(error, openSnackbar);
     }
   };
 
@@ -47,10 +56,11 @@ const CoverCard = ({ imageUrl, id, type, openSnackbar, status }) => {
       setLoading(true);
       await visibleCover(id, COVER_FILTER.NON_VISIBLE);
       setLoading(false);
+      onDeleteSuccess();
       openSnackbar("This cover is now non-visible.");
     } catch (error) {
       setLoading(false);
-      openSnackbar(error.message);
+      errorHandler(error, openSnackbar);
     }
   };
 
@@ -137,6 +147,7 @@ CoverCard.propTypes = {
   onSuccessfulRemoval: PropTypes.func.isRequired,
   openSnackbar: PropTypes.func.isRequired,
   status: PropTypes.any,
+  onDeleteSuccess: PropTypes.func.isRequired,
 };
 const useStyles = makeStyles((theme) => ({
   ccrt__image__container: {

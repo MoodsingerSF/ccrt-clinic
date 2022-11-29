@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import {
@@ -22,11 +22,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import dynamic from "next/dynamic";
 // import AppBarDeskTop from "./AppBarDeskTop";
 import AppBarLink from "./AppBarLink";
-import {
-  getProfileImageUrl,
-  isSignedIn,
-} from "../../contexts/user-context/UserContextFunctions";
+
 import ProfileMenu from "../menu/ProfileMenu";
+import { Context } from "../../contexts/user-context/UserContext";
 const AppbarDrawer = dynamic(() => import("../drawer/AppbarDrawer"));
 
 const AppBar = () => {
@@ -34,6 +32,7 @@ const AppBar = () => {
   const router = useRouter();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
+  const { isSignedIn, getProfileImageUrl } = useContext(Context);
   // const [appbarHeight, setAppbarHeight] = useState(APP_BAR_HEIGHT);
   const [openAppbarDrawer, setOpenAppbarDrawer] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -96,7 +95,7 @@ const AppBar = () => {
             justifyContent={"center"}
             alignItems="center"
             item
-            xs={5}
+            xs={3}
           >
             <TextField
               className={classes.ccrt__home_page__search_field}

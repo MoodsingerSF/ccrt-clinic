@@ -41,7 +41,7 @@ CoverCardSelect.propTypes = {
   openSnackbar: PropTypes.func.isRequired,
 };
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   cardRoot: {
     boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
     borderRadius: 10,
@@ -54,8 +54,9 @@ const useStyles = makeStyles(() => ({
     },
   },
   card__title: {
-    fontSize: "120%",
+    fontSize: "100%",
     fontWeight: "700",
+    color: theme.palette.custom.BLACK,
   },
 }));
 

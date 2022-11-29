@@ -2,11 +2,18 @@ import React from "react";
 import { makeStyles, createStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import { Grid, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 
-const DoctorsCategory = ({ title }) => {
+const DoctorsCategory = ({ id, title }) => {
+  const router = useRouter();
   const classes = useStyles();
   return (
-    <Grid item>
+    <Grid
+      item
+      onClick={() => {
+        router.push("/doctors?specialization=" + id);
+      }}
+    >
       <Typography
         className={classes.ccrt__doctor__details__dctr__category__list}
       >
@@ -34,6 +41,7 @@ const useStyles = makeStyles((theme) =>
 
 DoctorsCategory.propTypes = {
   title: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
 export default DoctorsCategory;

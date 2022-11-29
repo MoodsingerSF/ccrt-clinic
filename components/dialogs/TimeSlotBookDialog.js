@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Grid,
   ToggleButton,
@@ -28,6 +27,8 @@ import {
 import LoaderComponent from "../misc/LoaderComponent";
 import classNames from "classnames";
 import CustomButton from "../button/CustomButton";
+import { Context } from "../../contexts/user-context/UserContext";
+import { Context as LoginPromptContext } from "../../contexts/LoginPromptContext";
 
 const TimeSlotBookDialog = ({
   slotId,
@@ -40,6 +41,9 @@ const TimeSlotBookDialog = ({
   openSnackbar,
 }) => {
   const classes = useStyles();
+  const { isSignedIn } = useContext(Context);
+  const { openLoginPrompt } = useContext(LoginPromptContext);
+
   const [possibleDates, setPossibleDates] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
   const handleChangeSelectedDate = (event, selected) => {
@@ -127,7 +131,7 @@ const TimeSlotBookDialog = ({
   }, [slotId]);
 
   return (
-    <Dialog open={true} onClose={onNegativeFeedback} maxWidth="md">
+    <Dialog open={true} onClose={onNegativeFeedback} maxWidth={false}>
       <DialogTitle>
         <Typography
           style={{
@@ -140,17 +144,15 @@ const TimeSlotBookDialog = ({
         </Typography>
       </DialogTitle>
       <DialogContent dividers>
-        <DialogContentText id="alert-dialog-description">
-          <Typography style={{ textAlign: "center", marginBottom: "20px" }}>
-            <strong>{getSlotTimeAsString({ startTime, endTime })}</strong>
-          </Typography>
-        </DialogContentText>
         <Grid
           container
           justifyContent="center"
           alignItems="center"
-          style={{ width: "37vw", height: "18vh" }}
+          // style={{ width: "37vw", height: "18vh" }}
         >
+          <Typography style={{ textAlign: "center", marginBottom: "20px" }}>
+            <strong>{getSlotTimeAsString({ startTime, endTime })}</strong>
+          </Typography>
           {loading ? (
             <LoaderComponent />
           ) : (
@@ -197,11 +199,16 @@ const TimeSlotBookDialog = ({
         <CustomButton
           loading={creatingAppointment}
           onClick={() => {
-            if (!selectedDate) {
-              setError(true);
+            if (!isSignedIn()) {
+              openLoginPrompt();
               return;
             } else {
-              handleCreateAppointment();
+              if (!selectedDate) {
+                setError(true);
+                return;
+              } else {
+                handleCreateAppointment();
+              }
             }
           }}
           title="Confirm"

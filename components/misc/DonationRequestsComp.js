@@ -70,7 +70,7 @@ const DonationRequestsComp = ({
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell>
+                  <TableCell align="left">
                     <Typography className={classes.titleStyle}>Name</Typography>
                   </TableCell>
                   <TableCell align="center">
@@ -88,7 +88,7 @@ const DonationRequestsComp = ({
                       Disease
                     </Typography>
                   </TableCell>
-                  <TableCell style={{ width: "25%" }} align="center">
+                  <TableCell align="center">
                     <Typography className={classes.titleStyle}>
                       Description
                     </Typography>

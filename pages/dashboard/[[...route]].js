@@ -8,7 +8,6 @@ import DashboardWrapper from "../../components/dashboard/DashboardWrapper";
 
 const Dashboard = () => {
   const { getRole } = useContext(Context);
-  console.log("dashboard");
   const router = useRouter();
 
   const getComponent = (route) => {

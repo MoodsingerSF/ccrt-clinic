@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import React, { useContext, useState } from "react";
-// import Link from "next/link";
 import { Grid, Typography } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { Context } from "../../contexts/user-context/UserContext";
@@ -7,7 +7,6 @@ import { DASHBOARD_ROUTES } from "./Routes";
 import { findIndexOfActiveRoute } from "../../controllers/DashboardRouteController";
 import { useRouter } from "next/router";
 
-// eslint-disable-next-line react/prop-types
 const DashboardSidebar = ({
   routeName,
   showMobile = false,

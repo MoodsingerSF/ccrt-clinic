@@ -10,3 +10,12 @@ export const searchSpecializations = async (cancelToken, prefix) => {
   });
   return data;
 };
+
+export const retrievePopularSpecializations = async (page = 0, limit = 0) => {
+  const { data } = await axios({
+    method: "GET",
+    url: SERVER_PATH + "misc/popular-specializations",
+    params: { page, limit },
+  });
+  return data;
+};

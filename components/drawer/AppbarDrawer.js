@@ -57,29 +57,12 @@ const AppbarDrawer = ({ open, onClose }) => {
         onClose={onClose}
         PaperProps={{
           sx: {
-            width: 250,
+            width: "80vw",
             background: `${theme.palette.custom.BLACK}`,
           },
         }}
       >
         <Box>
-          {/* <Box
-            style={{
-              padding: "10px",
-              textAlign: "end",
-            }}
-          >
-            <IconButton
-              size="small"
-              onClick={onClose}
-              style={{
-                background: "white",
-                color: `${theme.palette.custom.BLACK}`,
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-          </Box> */}
           <Box
             style={{
               padding: "10px",
@@ -108,62 +91,64 @@ const AppbarDrawer = ({ open, onClose }) => {
           </Box>
           <CustomDivider />
           <List style={{ padding: "0" }}>
-            <ListItem
-              className={classes.ccrt__mobile__dashboard__container}
-              style={{ padding: "0" }}
-              onClick={() => setShowDashboardMenu(!showDashboardMenu)}
-            >
-              <Grid container style={{ padding: "8px 16px" }}>
-                <DashboardIcon
-                  className={classes.ccrt__mobile__dashboard__icon}
-                />
-                <Typography
-                  className={classes.ccrt__mobile__dashboard__heading}
-                >
-                  Dashboard
+            {isSignedIn() && (
+              <ListItem
+                className={classes.ccrt__mobile__dashboard__container}
+                style={{ padding: "0" }}
+                onClick={() => setShowDashboardMenu(!showDashboardMenu)}
+              >
+                <Grid container style={{ padding: "8px 16px" }}>
+                  <DashboardIcon
+                    className={classes.ccrt__mobile__dashboard__icon}
+                  />
                   <Typography
-                    style={{ position: "absolute", top: "0", right: "0" }}
+                    className={classes.ccrt__mobile__dashboard__heading}
                   >
-                    {showDashboardMenu ? (
-                      <ExpandLessIcon />
-                    ) : (
-                      <ExpandMoreIcon />
-                    )}
+                    Dashboard
+                    <Typography
+                      style={{ position: "absolute", top: "0", right: "0" }}
+                    >
+                      {showDashboardMenu ? (
+                        <ExpandLessIcon />
+                      ) : (
+                        <ExpandMoreIcon />
+                      )}
+                    </Typography>
                   </Typography>
-                </Typography>
-                {showDashboardMenu && (
-                  <DashboardSidebar
-                    showMobile={true}
-                    onClose={onClose}
-                    onNegativeFeedback={() => setShowDashboardMenu(false)}
-                  />
-                )}
-              </Grid>
-            </ListItem>
-            <CustomDivider />
-
-            {APP_BAR_ROUTES.map((item) => {
-              if (
-                item.showCriteria === VIEW_CRITERIA.ALWAYS ||
-                (item.showCriteria === VIEW_CRITERIA.AFTER_AUTHORIZATION &&
-                  isSignedIn()) ||
-                (item.showCriteria === VIEW_CRITERIA.BEFORE_AUTHORIZATION &&
-                  !isSignedIn())
-              ) {
-                return (
-                  <AppbarDrawerLink
-                    key={item.title}
-                    name={item.title}
-                    onClick={() => {
-                      router.push(item.path);
-                      onClose();
-                    }}
-                    icon={item.icon}
-                  />
-                );
-              } else return null;
-            })}
+                  {showDashboardMenu && (
+                    <DashboardSidebar
+                      routeName={router.query.route?.[0]}
+                      showMobile={true}
+                      onClose={onClose}
+                      onNegativeFeedback={() => setShowDashboardMenu(false)}
+                    />
+                  )}
+                </Grid>
+              </ListItem>
+            )}
           </List>
+
+          {APP_BAR_ROUTES.map((item) => {
+            if (
+              item.showCriteria === VIEW_CRITERIA.ALWAYS ||
+              (item.showCriteria === VIEW_CRITERIA.AFTER_AUTHORIZATION &&
+                isSignedIn()) ||
+              (item.showCriteria === VIEW_CRITERIA.BEFORE_AUTHORIZATION &&
+                !isSignedIn())
+            ) {
+              return (
+                <AppbarDrawerLink
+                  key={item.title}
+                  name={item.title}
+                  onClick={() => {
+                    router.push(item.path);
+                    onClose();
+                  }}
+                  icon={item.icon}
+                />
+              );
+            } else return null;
+          })}
 
           <>
             <CustomDivider />
@@ -209,6 +194,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "90%",
     fontWeight: "500",
     textAlign: "center",
+    color: "white",
   },
   sign_up_button_style: {
     background: theme.palette.primary.main_minus_2,

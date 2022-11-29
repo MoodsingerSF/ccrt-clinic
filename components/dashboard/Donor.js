@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { Avatar, TableCell, Typography } from "@mui/material";
-import profilePic2 from "../../public/image/doctor/doctor.jpg";
+import { Avatar, Grid, TableCell, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { prettyDate } from "../../controllers/DateController";
 import PropTypes from "prop-types";
@@ -18,32 +17,54 @@ const Donor = ({
   return (
     <>
       <TableCell align="left">
-        <Typography>{serialNo}</Typography>
-      </TableCell>
-      <TableCell>
-        <Typography className={classes.ccrt__donor__name}>
-          <Avatar
-            sx={{ width: 45, height: 45 }}
-            style={{ marginRight: "20px" }}
-          >
-            <Image
-              src={profileImageUrl ? profileImageUrl : profilePic2}
-              alt="name"
-              layout="fill"
-            />
-          </Avatar>
-          {DonorFullName}
-        </Typography>
+        <Grid container alignItems={"center"} style={{ width: "100%" }}>
+          <Grid item xs={6} sm={3} md={2} container alignItems={"center"}>
+            <Typography className={classes.ccrt__donor__name}>
+              {serialNo}.
+            </Typography>
+
+            <Avatar
+              sx={{ width: 45, height: 45 }}
+              style={{ marginRight: "20px" }}
+            >
+              <Image
+                loader={({ src }) => src}
+                src={profileImageUrl}
+                alt="name"
+                layout="fill"
+              />
+            </Avatar>
+          </Grid>
+          <Grid item xs={6} sm={9} md={10}>
+            <Typography className={classes.ccrt__donor__name}>
+              {DonorFullName}
+            </Typography>
+          </Grid>
+        </Grid>
       </TableCell>
       <TableCell align="center">
-        <Typography className={classes.ccrt__donor__time}>
-          {prettyDate(creationTime)}
-        </Typography>
+        <Grid
+          container
+          justifyContent={"center"}
+          alignItems="center"
+          style={{ width: "100%" }}
+        >
+          <Typography className={classes.ccrt__donor__time}>
+            {prettyDate(creationTime)}
+          </Typography>
+        </Grid>
       </TableCell>
       <TableCell align="center">
-        <Typography className={classes.ccrt__donor__amount}>
-          {amount} ৳
-        </Typography>
+        <Grid
+          container
+          justifyContent={"center"}
+          alignItems="center"
+          style={{ width: "100%" }}
+        >
+          <Typography className={classes.ccrt__donor__amount}>
+            {amount} ৳
+          </Typography>
+        </Grid>
       </TableCell>
     </>
   );
@@ -64,10 +85,7 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     alignItems: "center",
   },
-  ccrt__donor__time_wrapper: {
-    padding: "10px 10px 0 10px",
-    margin: "0",
-  },
+
   ccrt__donor__time: {
     fontSize: "90%",
     fontWeight: "500",

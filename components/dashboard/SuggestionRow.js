@@ -1,61 +1,66 @@
 import React from "react";
-import { makeStyles } from "@mui/styles";
+import { makeStyles, useTheme } from "@mui/styles";
 import PropTypes from "prop-types";
 
-import { Typography } from "@mui/material";
+import {
+  Grid,
+  TableCell,
+  TableRow,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 
 const SuggestionRow = ({ index, name, email, message }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
+  const matchesSm = useMediaQuery(theme.breakpoints.up("sm"));
 
   return (
     <>
-      <tr className={classes.ccrt__table__cell__row}>
-        {/* <td className={classes.ccrt__table__cell}>{index + 1}</td> */}
-        <td
-          className={classes.ccrt__table__cell}
-          align="left"
-          style={{ width: "20%" }}
-        >
-          <Typography className={classes.textStyle}>
-            {index + 1}. {name}
-          </Typography>
-        </td>
-        <td
-          className={classes.ccrt__table__cell}
-          align="center"
-          style={{ width: "20%" }}
-        >
-          <Typography className={classes.textStyle}>{email}</Typography>
-        </td>
-        <td
-          className={classes.ccrt__table__cell}
-          align="center"
-          style={{ width: "60%" }}
-        >
-          <Typography className={classes.textStyle}>{message}</Typography>
-        </td>
-      </tr>
+      <TableRow>
+        <TableCell align="left">
+          <Grid
+            container
+            alignItems="center"
+            style={{ width: matchesMd ? "20vw" : matchesSm ? "25vw" : "50vw" }}
+          >
+            <Typography className={classes.textStyle}>
+              {index + 1}. {name}
+            </Typography>
+          </Grid>
+        </TableCell>
+        <TableCell align="center">
+          <Grid
+            container
+            justifyContent={"center"}
+            alignItems="center"
+            style={{ width: matchesMd ? "20vw" : matchesSm ? "25vw" : "50vw" }}
+          >
+            <Typography className={classes.textStyle}>{email}</Typography>
+          </Grid>
+        </TableCell>
+        <TableCell align="center">
+          <Grid
+            container
+            justifyContent={"center"}
+            alignItems="center"
+            style={{ width: matchesMd ? "55vw" : matchesSm ? "50vw" : "80vw" }}
+          >
+            <Typography className={classes.textStyle}>{message}</Typography>
+          </Grid>
+        </TableCell>
+      </TableRow>
     </>
   );
 };
 
 const useStyles = makeStyles((theme) => ({
-  ccrt__table__cell__row: {
-    // cursor: "pointer",
-    borderBottom: "1px solid rgba(113, 110, 182, 0.15)",
-    transition: "all 0.3s ease",
-    "&:hover": {
-      background: theme.palette.custom.TABLE_HOVER_COLOR,
-    },
-  },
-  ccrt__table__cell: {
-    textTransform: "capitalize",
-    padding: "10px 0px",
-  },
   textStyle: {
     color: theme.palette.custom.BLACK,
     fontSize: "80%",
     fontWeight: 500,
+    textAlign: "center",
   },
 }));
 

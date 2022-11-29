@@ -36,7 +36,7 @@ const selectCoverData = [
 const DynamicCovers = () => {
   const [covers, setCovers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [type, setType] = useState(COVER_FILTER.NON_VISIBLE);
+  const [type, setType] = useState(COVER_FILTER.VISIBLE);
   const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
 
   const openSnackbar = (message) => {
@@ -81,7 +81,9 @@ const DynamicCovers = () => {
               <CoverCardSelect
                 type={item.type}
                 icon={item.icon}
-                onSuccess={(cover) => setCovers((prev) => [cover, ...prev])}
+                onSuccess={(cover) => {
+                  console.log(cover);
+                }}
                 openSnackbar={openSnackbar}
               />
             </Grid>
@@ -116,6 +118,11 @@ const DynamicCovers = () => {
                   imageUrl={item.imageUrl}
                   openSnackbar={openSnackbar}
                   status={type}
+                  onDeleteSuccess={() => {
+                    setCovers((prev) =>
+                      prev.filter((item2) => item2.coverId !== item.coverId)
+                    );
+                  }}
                 />
               </Grid>
             );

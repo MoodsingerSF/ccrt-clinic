@@ -7,13 +7,10 @@ import {
   Typography,
   DialogContent,
   Grid,
-  useTheme,
-  useMediaQuery,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 import { makeStyles, createStyles } from "@mui/styles";
-import classNames from "classnames";
 import ReportComp from "../dashboard/ReportComp";
 import {
   addAppointmentResource,
@@ -21,44 +18,6 @@ import {
   updateAppointmentResource,
 } from "../../controllers/AppointmentController";
 import CustomButton from "../button/CustomButton";
-// import FormDialog from "./FormDialog";
-// import TimeSlotBookedUserInfo from "../userTimeSlot/TimeSlotBookedUserInfo";
-// import AddFileButton from "../userTimeSlot/AddFileButton";
-
-// const cancers = [
-//   {
-//     value: "breast cancer",
-//     label: "breast cancer",
-//   },
-//   {
-//     value: "lung cancer",
-//     label: "lung cancer",
-//   },
-//   {
-//     value: "stomach cancer",
-//     label: "stomach cancer",
-//   },
-//   {
-//     value: "bone cancer",
-//     label: "bone cancer",
-//   },
-//   {
-//     value: "brain cancer",
-//     label: "brain cancer",
-//   },
-//   {
-//     value: "ovarian cancer",
-//     label: "ovarian cancer",
-//   },
-//   {
-//     value: "prostate cancer",
-//     label: "prostate cancer",
-//   },
-//   {
-//     value: "testicular cancer",
-//     label: "testicular cancer",
-//   },
-// ];
 
 const TimeSlotBookUserInfoDialog = ({
   onNegativeFeedback,
@@ -66,20 +25,6 @@ const TimeSlotBookUserInfoDialog = ({
   openSnackbar,
 }) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const matchesMobile = useMediaQuery(theme.breakpoints.up("sm"));
-  const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
-
-  // const [files, setFiles] = useState([]);
-  // console.log(files);
-  // const [prescription, setPrescription] = useState(null);
-  // console.log(prescription);
-
-  // const validate = (cancerType) => {
-  //   let isEverythingAllRight = true;
-  //   isEverythingAllRight = !validateField(cancerType);
-  //   return isEverythingAllRight;
-  // };
 
   const getAppointmentResources = async (appointmentId) => {
     const resources = await retrieveAppointmentResources(appointmentId);
@@ -101,59 +46,38 @@ const TimeSlotBookUserInfoDialog = ({
   };
 
   return (
-    <div>
-      <Dialog fullScreen open={true} onClose={onNegativeFeedback}>
-        <AppBar sx={{ position: "relative" }}>
-          <Toolbar className={classes.ccrt__toolbar}>
-            <Typography className={classes.ccrt__toolbar__title}>
-              User Information
-            </Typography>
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={onNegativeFeedback}
-              aria-label="close"
-            >
-              <CloseIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <DialogContent>
-          <Grid container justifyContent={"center"} alignItems="center">
-            <Grid
-              container
-              justifyContent={"center"}
-              alignItems="flex-start"
-              flexDirection={"column"}
-              className={classNames({
-                [classes.ccrt__dialog__content__section__small]: !matchesMobile,
-                [classes.ccrt__dialog__content__section__medium]: !matchesMd,
-                [classes.ccrt__dialog__content__section_large]: matchesMd,
-              })}
-            >
-              {/* <Grid
-                container
-                flexDirection={"column"}
-                className={classes.ccrt__content__wrapper}
-              >
-                <Typography className={classes.ccrt__content__header}>
-                  type of cancer:
-                </Typography>
-                <TextField
-                  size="small"
-                  id="outlined-select-currency"
-                  select
-                  value={cancerType}
-                  onChange={handleChangeCancerType}
-                >
-                  {cancers.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                
-              </Grid> */}
+    <Dialog
+      fullScreen
+      open={true}
+      onClose={onNegativeFeedback}
+      maxWidth={false}
+      PaperProps={{ background: "green" }}
+    >
+      <AppBar sx={{ position: "relative" }}>
+        <Toolbar className={classes.ccrt__toolbar}>
+          <Typography className={classes.ccrt__toolbar__title}>
+            {"Patient's Medical Reports"}
+          </Typography>
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={onNegativeFeedback}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <DialogContent style={{ margin: 0, padding: 0 }}>
+        <Grid container justifyContent={"center"} alignItems="center">
+          <Grid
+            container
+            justifyContent={"center"}
+            alignItems="flex-start"
+            // flexDirection={"column"}
+            style={{ width: "95%", marginBottom: "10vh" }}
+          >
+            <Grid container item xs={12} md={6}>
               <ReportComp
                 retrieveReports={() => getAppointmentResources(appointmentId)}
                 addReport={handleCreateAppointmentResource}
@@ -168,22 +92,15 @@ const TimeSlotBookUserInfoDialog = ({
                   onNegativeFeedback();
                 }}
               />
-
-              {/* <TimeSlotBookedUserInfo
-                title="previous/current prescription"
-                onFileDrop={onPrescriptionFileDrop}
-                onFileRemove={() => setPrescription(null)}
-                isFilePicked={prescription}
-              /> */}
             </Grid>
           </Grid>
-        </DialogContent>
-      </Dialog>
-    </div>
+        </Grid>
+      </DialogContent>
+    </Dialog>
   );
 };
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     ccrt__toolbar: {
       display: "flex",
@@ -194,26 +111,6 @@ const useStyles = makeStyles((theme) =>
       textTransform: "uppercase",
       fontSize: "85%",
       fontWeight: "500",
-    },
-    ccrt__dialog__content__section_large: {
-      width: "50%",
-    },
-    ccrt__dialog__content__section__medium: {
-      width: "85%",
-    },
-    ccrt__dialog__content__section__small: {
-      position: "relative",
-      width: "95%",
-    },
-    ccrt__content__wrapper: {
-      marginBottom: "20px",
-    },
-    ccrt__content__header: {
-      textTransform: "capitalize",
-      fontWeight: "500",
-      marginBottom: "5px",
-      fontSize: "85%",
-      color: `${theme.palette.grey[700]}`,
     },
   })
 );
