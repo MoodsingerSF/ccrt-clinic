@@ -59,3 +59,8 @@ export const CHIP_COLORS = {
   REJECTED: "#d63031",
   INCOMPLETE: "#2ecc71",
 };
+
+export const COVER_FILTER = {
+  VISIBLE: "VISIBLE",
+  NON_VISIBLE: "NON_VISIBLE",
+};

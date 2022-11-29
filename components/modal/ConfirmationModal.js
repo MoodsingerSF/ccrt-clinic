@@ -1,25 +1,14 @@
 import React from "react";
 import {
   Grid,
-  Modal,
-  Box,
   Typography,
   Button,
   CircularProgress,
+  Dialog,
+  DialogContent,
 } from "@mui/material";
 import PropTypes from "prop-types";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-  textAlign: "center",
-};
+import { useTheme } from "@mui/styles";
 
 const ConfirmationModal = ({
   onPositiveFeedback,
@@ -28,37 +17,43 @@ const ConfirmationModal = ({
   subTitle = null,
   loading = false,
 }) => {
+  const theme = useTheme();
   return (
-    <Modal open={true} onClose={onNegativeFeedback}>
-      <Box sx={style}>
-        <Typography
-          id="modal-modal-title"
-          variant="h6"
-          component="h1"
-          style={{ fontSize: "90%", marginBottom: "10px" }}
-        >
-          {title}
-        </Typography>
-        {subTitle && (
+    <Dialog open={true} onClose={onNegativeFeedback}>
+      <DialogContent>
+        <Grid container justifyContent={"center"} alignItems="center">
           <Typography
             id="modal-modal-title"
-            style={{ fontSize: "80%", marginBottom: "10px" }}
+            style={{
+              fontSize: "85%",
+              marginBottom: "10px",
+              fontWeight: 500,
+              color: theme.palette.custom.BLACK,
+            }}
           >
-            {subTitle}
+            {title}
           </Typography>
-        )}
-        <Grid container justifyContent="center" alignItems="center">
-          {loading ? (
-            <CircularProgress size={24} />
-          ) : (
-            <>
-              <Button onClick={onPositiveFeedback}>yes</Button>
-              <Button onClick={onNegativeFeedback}>No</Button>
-            </>
+          {subTitle && (
+            <Typography
+              id="modal-modal-title"
+              style={{ fontSize: "80%", marginBottom: "10px" }}
+            >
+              {subTitle}
+            </Typography>
           )}
+          <Grid container justifyContent="center" alignItems="center">
+            {loading ? (
+              <CircularProgress size={24} />
+            ) : (
+              <>
+                <Button onClick={onPositiveFeedback}>yes</Button>
+                <Button onClick={onNegativeFeedback}>No</Button>
+              </>
+            )}
+          </Grid>
         </Grid>
-      </Box>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 };
 

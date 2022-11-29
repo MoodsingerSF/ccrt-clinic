@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  // useMediaQuery,
+  // useTheme,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 // import { DEFAULT_COLOR_MINUS_2 } from "../../misc/colors";
 import DoctorRequestRow from "./DoctorRequestRow";
-import classNames from "classnames";
+// import classNames from "classnames";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
 import {
   DASHBOARD_TITLE_MARGIN_TOP,
@@ -18,8 +29,8 @@ import DashboardLoaderComponent from "./DashboardLoaderComponent";
 
 const DoctorsRequest = () => {
   const classes = useStyles();
-  const theme = useTheme();
-  const matchesSm = useMediaQuery(theme.breakpoints.up("sm"));
+  // const theme = useTheme();
+  // const matchesSm = useMediaQuery(theme.breakpoints.up("sm"));
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [backdropLoading, setBackdropLoading] = useState(false);
@@ -35,7 +46,6 @@ const DoctorsRequest = () => {
       setLoading(false);
       setDoctors(retrievedDoctors);
     } catch (error) {
-      console.log(error);
       setLoading(false);
       if (error && error.response) {
         openSnackbar(error.response.data.message);
@@ -67,47 +77,53 @@ const DoctorsRequest = () => {
       ) : doctors.length === 0 ? (
         <NoContentToShowComponent title="No doctor requests to show" />
       ) : (
-        <table className={classes.ccrt__dashboard__dctr__req__table}>
-          <thead>
-            <tr className={classes.ccrt__dashboard__dctr__req__table__row}>
-              <th
-                align="center"
-                className={classNames({
-                  [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
-                    !matchesSm,
-                  [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
-                    matchesSm,
-                })}
-              >
-                <Typography className={classes.titleStyle}>Name</Typography>
-              </th>
+        <TableContainer>
+          <Table className={classes.table}>
+            <TableHead
+              className={classes.ccrt__dashboard__dctr__req__table__row}
+            >
+              <TableRow>
+                <TableCell
+                  align="center"
+                  width={300}
+                  // className={classNames({
+                  //   [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
+                  //     !matchesSm,
+                  //   [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
+                  //     matchesSm,
+                  // })}
+                >
+                  <Typography className={classes.titleStyle}>Name</Typography>
+                </TableCell>
 
-              <th
-                align="center"
-                className={classNames({
-                  [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
-                    !matchesSm,
-                  [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
-                    matchesSm,
-                })}
-              >
-                <Typography className={classes.titleStyle}>
-                  Specializations
-                </Typography>
-              </th>
+                <TableCell
+                  align="center"
+                  // className={classNames({
+                  //   [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
+                  //     !matchesSm,
+                  //   [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
+                  //     matchesSm,
+                  // })}
+                >
+                  <Typography className={classes.titleStyle}>
+                    Specializations
+                  </Typography>
+                </TableCell>
 
-              <th
-                align="center"
-                className={classNames({
-                  [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
-                    !matchesSm,
-                  [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
-                    matchesSm,
-                })}
-              >
-                <Typography className={classes.titleStyle}>Fee (TK)</Typography>
-              </th>
-              {/* <th
+                <TableCell
+                  align="center"
+                  // className={classNames({
+                  //   [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
+                  //     !matchesSm,
+                  //   [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
+                  //     matchesSm,
+                  // })}
+                >
+                  <Typography className={classes.titleStyle}>
+                    Fee (TK)
+                  </Typography>
+                </TableCell>
+                {/* <TableCell
                 className={classNames({
                   [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
                     !matchesSm,
@@ -116,8 +132,8 @@ const DoctorsRequest = () => {
                 })}
               >
                 <Typography className={classes.titleStyle}>Email</Typography>
-              </th> */}
-              {/* <th
+              </TableCell> */}
+                {/* <TableCell
                 className={classNames({
                   [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
                     !matchesSm,
@@ -126,45 +142,50 @@ const DoctorsRequest = () => {
                 })}
               >
                 <Typography className={classes.titleStyle}>Status</Typography>
-              </th> */}
-              <th
-                className={classNames({
-                  [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
-                    !matchesSm,
-                  [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
-                    matchesSm,
-                })}
-              >
-                <Typography className={classes.titleStyle}>Actions</Typography>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {doctors.map((doctor, index) => {
-              return (
-                <DoctorRequestRow
-                  key={doctor.userId}
-                  serialNo={index}
-                  userId={doctor.userId}
-                  firstName={doctor.firstName}
-                  lastName={doctor.lastName}
-                  email={doctor.email}
-                  specializations={doctor.specializations}
-                  fee={doctor.fee}
-                  profileImageUrl={doctor.profileImageUrl}
-                  openSnackbar={openSnackbar}
-                  openLoader={openLoader}
-                  closeLoader={closeLoader}
-                  onSuccess={(userId) => {
-                    setDoctors((prev) =>
-                      prev.filter((item) => item.userId !== userId)
-                    );
-                  }}
-                />
-              );
-            })}
-          </tbody>
-        </table>
+              </TableCell> */}
+                <TableCell
+                  // className={classNames({
+                  //   [classes.ccrt__dashboard__dctr__req__table__head__mobile]:
+                  //     !matchesSm,
+                  //   [classes.ccrt__dashboard__dctr__req__table__head__desktop]:
+                  //     matchesSm,
+                  // })}
+                  align="center"
+                >
+                  <Typography className={classes.titleStyle}>
+                    Actions
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {doctors.map((doctor, index) => {
+                return (
+                  <TableRow key={doctor.userId}>
+                    <DoctorRequestRow
+                      serialNo={index}
+                      userId={doctor.userId}
+                      firstName={doctor.firstName}
+                      lastName={doctor.lastName}
+                      email={doctor.email}
+                      specializations={doctor.specializations}
+                      fee={doctor.fee}
+                      profileImageUrl={doctor.profileImageUrl}
+                      openSnackbar={openSnackbar}
+                      openLoader={openLoader}
+                      closeLoader={closeLoader}
+                      onSuccess={(userId) => {
+                        setDoctors((prev) =>
+                          prev.filter((item) => item.userId !== userId)
+                        );
+                      }}
+                    />
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
       )}
       <CustomSnackbar
         open={snackbar.open}
@@ -185,6 +206,15 @@ const useStyles = makeStyles((theme) => ({
     width: "auto",
     borderCollapse: "collapse",
     margin: "25px 0",
+  },
+  table: {
+    "& thead th": {
+      background: theme.palette.custom.BLACK,
+    },
+
+    "& tbody tr:hover": {
+      background: theme.palette.custom.TABLE_HOVER_COLOR,
+    },
   },
   ccrt__dashboard__dctr__req__table__row: {
     background: theme.palette.custom.BLACK,

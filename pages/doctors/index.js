@@ -29,7 +29,12 @@ const DoctorsScreen = withRouter((props) => {
   }, [specializationId]);
 
   return (
-    <Grid container justifyContent={"center"} alignItems="center">
+    <Grid
+      container
+      justifyContent={"center"}
+      alignItems="center"
+      style={{ height: "100vh" }}
+    >
       <Grid
         container
         spacing={4}
@@ -109,11 +114,17 @@ const useStyles = makeStyles(() =>
   createStyles({
     ccrt__dctr__page__container: {
       marginTop: APP_BAR_HEIGHT,
-      minHeight: BODY_HEIGHT,
+      height: BODY_HEIGHT,
+      overflow: "auto",
     },
-    ccrt__dctr__page__right__content: {},
+    ccrt__dctr__page__right__content: {
+      height: BODY_HEIGHT,
+      overflow: "auto",
+    },
     ccrt__dctr__page__right__content_mobile: {
       borderLeft: "none",
+      height: BODY_HEIGHT,
+      overflow: "auto",
     },
   })
 );

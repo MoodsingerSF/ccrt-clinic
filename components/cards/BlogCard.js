@@ -100,8 +100,8 @@ const BlogCard = ({
             {title}
           </Typography>
           <Grid container>
-            {tags.map((tag) => (
-              <CustomChip key={tag} title={tag} />
+            {tags.map((tag, index) => (
+              <CustomChip key={index} title={tag.name} />
             ))}
           </Grid>
         </CardContent>

@@ -30,6 +30,7 @@ const theme = {
       BLACK: "#34495e",
       RED: "#d63031",
       BLUE: "#2980b9",
+      TAG_BACKGROUND: "#F0F6FD",
     },
   },
   typography: {

@@ -45,9 +45,35 @@ const useStyles = makeStyles((theme) =>
     ccrt__home_page__hotline__container: {
       background: HOTLINE_BACKGROUND,
       width: "100%",
-      padding: "10px 0px",
-      position: "absolute",
-      bottom: 0,
+      padding: "13px 0px",
+      zIndex: "99",
+    },
+    ccrt__home_page__hotline__textfield__wrapper: {
+      position: "relative",
+      borderRadius: "10px",
+    },
+    ccrt__home_page__hotline__textfield: {
+      background: "#fff",
+      borderRadius: "20px",
+    },
+    ccrt__home_page__hotline__textfield__button: {
+      background: theme.palette.custom.DEFAULT_COLOR_2,
+      padding: "4px 10px",
+      borderRadius: "15px",
+      color: "#fff",
+      fontSize: "85%",
+      marginRight: "-10px",
+      "&:hover": {
+        background: theme.palette.custom.DEFAULT_COLOR_2,
+      },
+    },
+    ccrt__home_page__hotline__textfield__button__avatar: {
+      background: "#fff",
+      marginRight: "10px",
+    },
+    ccrt__home_page__hotline__phone__icon: {
+      color: theme.palette.custom.GREEN,
+      padding: "3px",
     },
     ccrt__home_page__hotline__another__phone_icon: {
       color: "white",

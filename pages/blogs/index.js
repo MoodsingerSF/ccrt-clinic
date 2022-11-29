@@ -27,7 +27,7 @@ const BlogScreen = () => {
         alignItems="center"
         style={{ marginTop: "16vh" }}
       >
-        <Grid container style={{ width: "95%" }}>
+        <Grid container style={{ width: "95%", minHeight: "84vh" }}>
           <Grid
             container
             justifyContent={"flex-start"}
