@@ -56,7 +56,7 @@ const DonationRequestCard = ({
             {name}
           </Typography>
           <Typography className={classes.ccrt__card__content__amount}>
-            Requested Amount: {amount}&#2547;
+            Requested Amount: &#2547; {amount}
           </Typography>
           <Typography
             variant="body2"
@@ -68,9 +68,10 @@ const DonationRequestCard = ({
           </Typography>
           <Grid container style={{ marginTop: 5 }}>
             <CustomButton
+              size="small"
               title="Donate"
               onClick={() => setOpenDonateModal(true)}
-              color={theme.palette.custom.GREEN}
+              variant={"outlined"}
             />
           </Grid>
         </Grid>
@@ -98,15 +99,7 @@ const DonationRequestCard = ({
 const useStyles = makeStyles((theme) => ({
   ccrt__card__container: {
     width: "100%",
-    padding: 0,
-    margin: 0,
     marginBottom: "5px",
-    // border: `1px solid #fff`,
-    // transition: "all 0.3s ease",
-    // "&:hover": {
-    //   border: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
-    //   transform: "scale(1.05)",
-    // },
   },
   ccrt__card_media: {
     cursor: "pointer",
@@ -119,13 +112,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
   ccrt__card__content__name: {
-    fontSize: "85%",
-    fontWeight: "500",
+    fontSize: "80%",
+    fontWeight: "700",
     color: theme.palette.custom.BLACK,
   },
   ccrt__card__content__amount: {
-    fontSize: "85%",
-    fontWeight: "500",
+    fontSize: "80%",
+    fontWeight: "700",
     color: theme.palette.custom.BLACK,
   },
   ccrt__card__action__button: {
@@ -144,13 +137,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   ccrt__card__content__details: {
-    fontSize: "85%",
+    fontSize: "80%",
     color: theme.palette.custom.GREY,
-    fontWeight: "400",
+    // fontWeight: "400",
     overflow: "hidden",
     textOverflow: "ellipsis",
     display: "-webkit-box",
-    "-webkit-line-clamp": 3 /* number of lines to show */,
+    "-webkit-line-clamp": 1 /* number of lines to show */,
     "-webkit-box-orient": "vertical",
     cursor: "pointer",
     "&:hover": {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, useMediaQuery } from "@mui/material";
 import { makeStyles, useTheme } from "@mui/styles";
 import { BOX_SHADOW } from "../misc/colors";
 import Image from "next/image";
@@ -18,6 +18,8 @@ import DonateModal from "../components/modal/DonateModal";
 const RequestDonationList = () => {
   const classes = useStyles();
   const theme = useTheme();
+  const matcheSm = useMediaQuery(theme.breakpoints.up("sm"));
+  const matcheMd = useMediaQuery(theme.breakpoints.up("md"));
   const [openDonateModal, setOpenDonateModal] = useState(false);
 
   // eslint-disable-next-line no-unused-vars
@@ -43,8 +45,13 @@ const RequestDonationList = () => {
         justifyContent={"center"}
         alignItems={"center"}
         className={classes.ccrt__donation__container}
+        style={{
+          position: "relative",
+          height: !matcheSm ? "200px" : matcheMd ? "350px" : "280px",
+          background: "#EFF5F5",
+        }}
       >
-        <Image src={bgImg} alt="bg" layout="fill" />
+        {!matcheSm ? null : <Image src={bgImg} alt="bg" layout="fill" />}
         <Grid
           container
           justifyContent={"center"}
@@ -52,11 +59,15 @@ const RequestDonationList = () => {
           style={{ position: "absolute" }}
         >
           <Typography
-            className={classes.ccrt__donation__container__header__text}
+            className={
+              !matcheSm
+                ? classes.ccrt__donation__container__header__text_mobile
+                : classes.ccrt__donation__container__header__text
+            }
           >
             {`We can't do this without your support`}
           </Typography>
-          <Grid container justifyContent={"center"} alignItems="center">
+          <Grid container justifyContent={"center"} alignItems="center" my={1}>
             <ActionButton
               type="success"
               title="Donate to CCRT"
@@ -64,14 +75,18 @@ const RequestDonationList = () => {
                 setOpenDonateModal(true);
               }}
             />
-            <Grid container justifyContent={"center"} alignItems="center">
-              <Grid container item xs={11} md={6}>
-                <Typography
-                  className={classes.ccrt__donation__request__row__button}
-                >
-                  {`This donation will go to CCRT's account. CCRT will spend this to sponsor an appointment/ sponsor treatment of a patient.`}
-                </Typography>
-              </Grid>
+          </Grid>
+          <Grid container justifyContent={"center"} alignItems="center">
+            <Grid container item xs={11} md={6}>
+              <Typography
+                className={
+                  !matcheSm
+                    ? classes.ccrt__donation__request__row__button_mobile
+                    : classes.ccrt__donation__request__row__button
+                }
+              >
+                {`This donation will go to CCRT's account. CCRT will spend this to sponsor an appointment/ sponsor treatment of a patient.`}
+              </Typography>
             </Grid>
           </Grid>
         </Grid>
@@ -79,19 +94,30 @@ const RequestDonationList = () => {
       {loading && page === 0 ? (
         <LoaderComponent />
       ) : donationRequests.length === 0 ? (
-        <NoContentToShowComponent title="No requests to show." />
+        <Grid container mb={2}>
+          <NoContentToShowComponent title="No requests to show." />
+        </Grid>
       ) : (
         <Grid
           container
           item
           style={{ width: "95%" }}
           justifyContent={"flex-start"}
-          alignItems="flex-start"
+          alignItems="center"
           spacing={2}
           my={2}
         >
           {donationRequests.map((request) => (
-            <Grid container item xs={11} sm={5} md={3} lg={2} key={request.id}>
+            <Grid
+              container
+              justifyContent={"flex-start"}
+              item
+              xs={12}
+              sm={5}
+              md={3}
+              lg={2}
+              key={request.id}
+            >
               <DonationRequestCard
                 name={
                   request.requestor.firstName + " " + request.requestor.lastName
@@ -112,12 +138,13 @@ const RequestDonationList = () => {
               alignItems="center"
               style={{ marginTop: 20 }}
             >
-              <Grid item xs={12} sm={2}>
+              <Grid item sm={2}>
                 <CustomButton
                   title="Load More"
                   onClick={() => setPage((prev) => prev + 1)}
                   color={theme.palette.custom.BLACK}
                   loading={loading}
+                  size={"small"}
                 />
               </Grid>
             </Grid>
@@ -150,6 +177,14 @@ const useStyles = makeStyles((theme) => ({
     marginTop: APP_BAR_HEIGHT,
     marginBottom: "20px",
   },
+  ccrt__donation__container__header__text_mobile: {
+    fontSize: "100%",
+    textTransform: "capitalize",
+    fontWeight: "700",
+    textAlign: "center",
+    color: theme.palette.custom.BLACK,
+    // marginBottom: 10,
+  },
   ccrt__donation__container__header__text: {
     fontSize: "120%",
     textTransform: "capitalize",
@@ -160,7 +195,6 @@ const useStyles = makeStyles((theme) => ({
   },
   ccrt__donation__container: {
     position: "relative",
-    height: "350px",
   },
   ccrt__donation__container__wrapper: {
     background: theme.palette.custom.DEFAULT_COLOR_3,
@@ -174,24 +208,24 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     fontWeight: "300",
   },
-  ccrt__donation__request__row__button: {
-    fontSize: "90%",
-    // marginRight: "20px",
-    // border: `1px solid ${theme.palette.custom.DEFAULT_COLOR_2}`,
+  ccrt__donation__request__row__button_mobile: {
+    fontSize: "80%",
     borderRadius: "5px",
     textAlign: "center",
-    // lineHeight: "1.7",
     textTransform: "capitalize",
     cursor: "pointer",
     color: theme.palette.custom.BLACK,
     padding: "0 10px",
-    fontWeight: "500",
-    // transition: "all 0.3s ease",
-    // "&:hover": {
-    //   border: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
-    //   background: theme.palette.custom.DEFAULT_COLOR_3,
-    //   color: "#fff",
-    // },
+  },
+  ccrt__donation__request__row__button: {
+    fontSize: "90%",
+    borderRadius: "5px",
+    textAlign: "center",
+    textTransform: "capitalize",
+    cursor: "pointer",
+    // color: theme.palette.custom.BLACK,
+    color: "#000",
+    padding: "0 10px",
   },
 }));
 export default RequestDonationList;
