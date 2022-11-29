@@ -19,8 +19,9 @@ const DetailsModal = ({ open, onClose, details }) => {
         <Typography
           style={{
             color: theme.palette.custom.BLACK,
-            fontSize: "85%",
-            fontWeight: "500",
+            fontSize: "80%",
+            // fontWeight: "400",
+            textAlign: "justify",
           }}
         >
           {details}
