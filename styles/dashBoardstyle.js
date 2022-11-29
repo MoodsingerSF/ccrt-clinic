@@ -5,11 +5,10 @@ export const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__dashboard__container: {
       position: "relative",
-      // marginTop: "4vh",
     },
     ccrt__dashboard__left__container: {
       minHeight: "100vh",
-      background: theme.palette.custom.DEFAULT_COLOR_MINUS_2,
+      background: theme.palette.custom.BLACK,
       position: "fixed",
       top: "12%",
       overflowY: "scroll",
@@ -23,8 +22,6 @@ export const useStyles = makeStyles((theme) =>
       },
     },
     ccrt__dashboard__right__container: {
-      // background: "red",
-      // minHeight: "100vh",
       padding: `${APP_BAR_HEIGHT} 20px 0px 20px`,
     },
   })
