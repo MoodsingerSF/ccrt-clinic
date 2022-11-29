@@ -197,13 +197,14 @@ const AppBar = () => {
               }}
             />
           </Grid>
-          <Grid container item xs={2} justifyContent="flex-end">
-            <IconButton
-              size="large"
-              color="inherit"
-              aria-label="menu"
-              onClick={appbarDrawerOpen}
-            >
+          <Grid
+            container
+            item
+            xs={2}
+            justifyContent="flex-end"
+            alignItems={"center"}
+          >
+            <IconButton color="primary" onClick={appbarDrawerOpen}>
               <MenuIcon />
             </IconButton>
           </Grid>

@@ -3,7 +3,10 @@ import { ListItem, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 const AppbarDrawerLink = ({ icon, name, onClick }) => {
   return (
-    <ListItem style={{ padding: 0, margin: 0 }} onClick={onClick}>
+    <ListItem
+      style={{ padding: 0, margin: 0, cursor: "pointer" }}
+      onClick={onClick}
+    >
       {icon}
       <Typography
         style={{

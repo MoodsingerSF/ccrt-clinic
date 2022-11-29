@@ -37,7 +37,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import LiveHelpIcon from "@mui/icons-material/LiveHelp";
 import LoginIcon from "@mui/icons-material/Login";
 import RateReviewIcon from "@mui/icons-material/RateReview";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+// import DashboardIcon from "@mui/icons-material/Dashboard";
 import UserRequestsForDonation from "./UserRequestsForDonation";
 import MyDonations from "./MyDonations";
 export const ROUTE_ICON_STYLE = {
@@ -167,12 +167,12 @@ export const APP_BAR_ROUTES = [
     icon: <HomeIcon style={ROUTE_ICON_STYLE} />,
     showCriteria: VIEW_CRITERIA.ALWAYS,
   },
-  {
-    title: "Dashboard",
-    path: "/dashboard/profile",
-    icon: <DashboardIcon style={ROUTE_ICON_STYLE} />,
-    showCriteria: VIEW_CRITERIA.AFTER_AUTHORIZATION,
-  },
+  // {
+  //   title: "Dashboard",
+  //   path: "/dashboard/profile",
+  //   icon: <DashboardIcon style={ROUTE_ICON_STYLE} />,
+  //   showCriteria: VIEW_CRITERIA.AFTER_AUTHORIZATION,
+  // },
   {
     title: "Doctors",
     path: "/doctors",
