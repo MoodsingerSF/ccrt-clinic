@@ -46,7 +46,7 @@ const DashboardSidebar = ({
 
         <Grid
           container
-          direction={"column"}
+          // direction={"column"}
           className={classes.ccrt__dashboard__sidebar__menu}
         >
           {/* <ul className={classes.ccrt__dashboard__sidebar__menu__items}> */}
@@ -117,8 +117,8 @@ const useStyles = makeStyles((theme) =>
     },
     ccrt__dashboard__sidebar__menu: {
       paddingTop: "10px",
-      // overflowX: "auto",
-      // height: "80vh",
+      overflowY: "auto",
+      height: "80vh",
     },
     ccrt__dashboard__sidebar__menu__items: {
       padding: "0",

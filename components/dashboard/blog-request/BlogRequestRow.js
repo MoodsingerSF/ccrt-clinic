@@ -233,8 +233,11 @@ const useStyle = makeStyles((theme) =>
       fontSize: "90%",
       fontWeight: 500,
       textTransform: "capitalize",
-      whiteSpace: "nowrap",
+      overflow: "hidden",
       textOverflow: "ellipsis",
+      display: "-webkit-box",
+      "-webkit-line-clamp": 1 /* number of lines to show */,
+      "-webkit-box-orient": "vertical",
     },
     rowContainer: {
       height: 60,

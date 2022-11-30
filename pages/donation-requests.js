@@ -103,7 +103,7 @@ const RequestDonationList = () => {
           item
           style={{ width: "95%" }}
           justifyContent={"flex-start"}
-          alignItems="center"
+          alignItems="flex-start"
           spacing={2}
           my={2}
         >

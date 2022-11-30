@@ -4,7 +4,7 @@ import Image from "next/image";
 import PropTypes from "prop-types";
 import { makeStyles, useTheme } from "@mui/styles";
 import DonateModal from "../modal/DonateModal";
-import { Grid } from "@mui/material";
+import { Grid, useMediaQuery } from "@mui/material";
 import CustomButton from "../button/CustomButton";
 import DetailsModal from "../modal/DetailsModal";
 // import profilePic2 from "../../public/image/home-page/doctors/Doctor2.png";
@@ -20,6 +20,7 @@ const DonationRequestCard = ({
 }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
   const [openDonateModal, setOpenDonateModal] = useState(false);
   const [viewDetails, setViewDetails] = useState(false);
   return (
@@ -33,7 +34,7 @@ const DonationRequestCard = ({
           container
           style={{
             position: "relative",
-            height: 150,
+            height: matchesMd ? 150 : 220,
             borderRadius: 5,
             marginBottom: 10,
             background: theme.palette.custom.BLACK,
