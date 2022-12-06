@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import WindowIcon from "@mui/icons-material/Window";
 import theme from "../../themes/theme";
 import CoverCardSelect from "../cards/CoverCardSelect";
 import { retrieveAllCovers } from "../../controllers/CoverController";
@@ -30,6 +31,11 @@ const selectCoverData = [
     id: "2",
     type: "BLOG",
     icon: <TextSnippetIcon style={iconStyle} />,
+  },
+  {
+    id: "3",
+    type: "OTHERS",
+    icon: <WindowIcon style={iconStyle} />,
   },
 ];
 

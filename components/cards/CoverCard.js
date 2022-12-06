@@ -96,7 +96,7 @@ const CoverCard = ({
         <Grid>
           {status === "VISIBLE" ? (
             <IconButton className={classes.ccrt__icon__wrapper}>
-              <Tooltip title="Visible this cover" arrow>
+              <Tooltip title="Hide this cover" arrow>
                 <VisibilityOutlinedIcon
                   className={classes.iconStyle}
                   onClick={makeItNonVisible}

@@ -66,15 +66,9 @@ const AppBar = () => {
   return (
     <Grid
       container
-      // className={classes.ccrt_app_bar__container}
+      className={classes.ccrt_app_bar__container}
       style={{
         height: router.pathname === "/" ? "20vh" : APP_BAR_HEIGHT,
-        background: "#fff",
-        zIndex: 99,
-        position: "fixed",
-        top: 0,
-        left: 0,
-        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       }}
       alignItems="center"
       justifyContent={"center"}
@@ -109,9 +103,6 @@ const AppBar = () => {
                 ),
                 classes: { notchedOutline: classes.noBorder },
               }}
-              // onClick={() => {
-              //   router.push("/search");
-              // }}
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               onKeyDown={(e) => {
@@ -122,17 +113,7 @@ const AppBar = () => {
             />
           </Grid>
 
-          {/* {isSignedIn() && (
-            <Grid container alignItems="center" item xs={3}></Grid>
-          )} */}
-          <Grid
-            container
-            justifyContent="center"
-            alignItems="center"
-            item
-            xs
-            // xs={8}
-          >
+          <Grid container justifyContent="center" alignItems="center" item xs>
             <AppBarLink name="Home" link="/" />
             <AppBarLink name="Doctors" link="/doctors" />
             <AppBarLink name="Blogs" link="/blogs" />
@@ -227,7 +208,6 @@ const useStyles = makeStyles((theme) =>
       boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
     },
     ccrt_app_bar__logo: {
-      // height: "100%",
       position: "relative",
       margin: "5px 0px",
     },
