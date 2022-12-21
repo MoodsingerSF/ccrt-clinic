@@ -1,11 +1,9 @@
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/router";
-
 import {
   Box,
   Drawer,
   Grid,
-  // IconButton,
   InputAdornment,
   List,
   ListItem,
@@ -15,7 +13,6 @@ import {
 import { makeStyles, useTheme } from "@mui/styles";
 import PropTypes from "prop-types";
 import AppbarDrawerLink from "../appbar/AppbarDrawerLink";
-// import CloseIcon from "@mui/icons-material/Close";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -63,11 +60,7 @@ const AppbarDrawer = ({ open, onClose }) => {
         }}
       >
         <Box>
-          <Box
-            style={{
-              padding: "10px",
-            }}
-          >
+          <Grid container justifyContent={"center"} alignItems={"center"}>
             <TextField
               className={classes.ccrt__home_page__search_field}
               size="small"
@@ -88,7 +81,7 @@ const AppbarDrawer = ({ open, onClose }) => {
                 }
               }}
             />
-          </Box>
+          </Grid>
           <CustomDivider />
           <List style={{ padding: "0" }}>
             {isSignedIn() && (

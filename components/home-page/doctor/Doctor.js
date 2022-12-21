@@ -51,7 +51,7 @@ const Doctor = () => {
             </Grid>
             <Grid container>
               <Swiper
-                slidesPerView={2}
+                slidesPerView={1}
                 spaceBetween={20}
                 slidesPerGroup={1}
                 loop={false}
@@ -60,7 +60,7 @@ const Doctor = () => {
                 modules={[Navigation]}
                 className={classes.ccrt__doctor__card__mySwiper}
                 breakpoints={{
-                  600: {
+                  450: {
                     slidesPerView: 2,
                   },
                   900: {
