@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -9,14 +9,10 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
 import {
   formErrors,
   SIGN_UP_BUTTON,
   SIGN_UP_TITLE,
-  SIGN_UP_WITH_FACEBOOK,
-  SIGN_UP_WITH_GOOGLE,
   TERMS_CONDITIONS,
 } from "../data/signup/data";
 import SignUpTextField from "../components/textfields/SignUpTextField";
@@ -38,7 +34,11 @@ import {
 import CustomButton from "../components/button/CustomButton";
 import CustomCheckbox from "../components/checkbox/CustomCheckbox";
 import CustomSnackbar from "../components/snackbar/CustomSnackbar";
-import { SNACKBAR_INITIAL_STATE } from "../misc/constants";
+import {
+  APP_BAR_HEIGHT,
+  BODY_HEIGHT,
+  SNACKBAR_INITIAL_STATE,
+} from "../misc/constants";
 import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
 import { useRouter } from "next/router";
 import BasicDatePicker from "../components/misc/BasicDatePicker";
@@ -194,7 +194,181 @@ const SignupScreen = () => {
       policy;
     return isEverythingAllRight;
   };
+  const firstNameTextField = useMemo(
+    () => (
+      <SignUpTextField
+        label="First Name"
+        variant="outlined"
+        type="text"
+        value={firstName}
+        onChange={handleFirstName}
+        error={showError && !validateName(firstName)}
+        errorText={formErrors.name}
+      />
+    ),
+    [firstName, showError]
+  );
+  const lastNameTextField = useMemo(
+    () => (
+      <SignUpTextField
+        label="Last Name"
+        variant="outlined"
+        type="text"
+        value={lastName}
+        onChange={handleLastName}
+        error={showError && !validateName(lastName)}
+        errorText={formErrors.name}
+      />
+    ),
+    [lastName, showError]
+  );
+  const emailTextField = useMemo(
+    () => (
+      <SignUpTextField
+        label="Email"
+        variant="outlined"
+        type="email"
+        value={email}
+        onChange={handleEmail}
+        error={showError && !validateEmail(email)}
+        errorText={formErrors.email}
+      />
+    ),
+    [email, showError]
+  );
 
+  const passwordTextField = useMemo(
+    () => (
+      <SignUpTextField
+        label="Password"
+        variant="outlined"
+        type="password"
+        value={password}
+        onChange={handlePassword}
+        error={showError && !validatePassword(password)}
+        errorText={formErrors.password}
+      />
+    ),
+    [password, showError]
+  );
+  const confirmedPasswordTextField = useMemo(
+    () => (
+      <SignUpTextField
+        label="Confirm Password"
+        variant="outlined"
+        type="password"
+        value={confirmedPassword}
+        onChange={handleConfirmPassword}
+        error={
+          showError && !validateConfirmPassword(confirmedPassword, password)
+        }
+        errorText={formErrors.confirmPassword}
+      />
+    ),
+    [confirmedPassword, showError]
+  );
+  const userTypeRadioGroup = useMemo(
+    () => (
+      <>
+        <Typography className={classes.field_title}>Sign up as</Typography>
+        <Grid container justifyContent="flex-start" alignItems="center">
+          {USER_TYPES.map((role) => {
+            return (
+              <CustomCheckbox
+                key={role}
+                name={role}
+                checked={userType === role}
+                value={role}
+                onChange={handleUserTypeChange}
+              />
+            );
+          })}
+        </Grid>
+      </>
+    ),
+    [userType, showError]
+  );
+
+  const genderRadioGroup = useMemo(
+    () => (
+      <>
+        <Typography className={classes.field_title}>Gender</Typography>
+        <Grid container justifyContent="flex-start" alignItems="center">
+          {USER_GENDERS.map((item) => {
+            return (
+              <CustomCheckbox
+                key={item}
+                name={item}
+                checked={gender === item}
+                value={item}
+                onChange={handleGenderChange}
+              />
+            );
+          })}
+        </Grid>
+      </>
+    ),
+    [gender, showError]
+  );
+
+  const feeTextField = useMemo(
+    () => (
+      <SignUpTextField
+        label="Fee"
+        variant="outlined"
+        type="text"
+        value={fee}
+        onChange={handleFee}
+        error={showError && !validateFee(fee)}
+        errorText={formErrors.fee}
+      />
+    ),
+    [fee, showError]
+  );
+
+  const tagTextField = useMemo(
+    () => (
+      <TagTextField
+        label={"Specialization"}
+        value={specializationList}
+        onChange={(event, newValue) => {
+          setSpecializationList(() => newValue);
+        }}
+        error={showError && !isTagListCorrect(specializationList)}
+        errorText={formErrors.specializationList}
+        retrieveSuggestions={searchSpecializations}
+        processData={(data) => data.map((item) => item.name)}
+      />
+    ),
+    [specializationList, showError]
+  );
+
+  const birthDateSelector = useMemo(
+    () => (
+      <>
+        <Grid item xs={8}>
+          <BasicDatePicker
+            label={"Date of birth"}
+            value={value}
+            onChange={(newValue) => setValue(newValue)}
+            error={showError && !validateBirthDate(birthDate)}
+            errorText={formErrors.birthDate}
+          />
+        </Grid>
+        <Typography
+          style={{
+            fontSize: "85%",
+            fontWeight: 500,
+            marginLeft: 10,
+            color: theme.palette.custom.BLACK,
+          }}
+        >
+          Birth Date
+        </Typography>
+      </>
+    ),
+    [value, showError]
+  );
   return (
     <Grid container style={{ minHeight: "100vh" }}>
       <Head>
@@ -204,13 +378,13 @@ const SignupScreen = () => {
         container
         justifyContent="center"
         alignItems="center"
-        style={{ marginTop: "12vh" }}
+        style={{ marginTop: APP_BAR_HEIGHT }}
       >
         <Grid
           container
           alignItems="center"
           justifyContent="center"
-          style={{ minHeight: "88vh" }}
+          style={{ minHeight: BODY_HEIGHT }}
           className={classNames({
             [classes.containerMobile]: !matches,
             [classes.containerDesktopSm]: matches,
@@ -223,7 +397,7 @@ const SignupScreen = () => {
             item
             xs={12}
             md={8}
-            style={{ minHeight: "88vh" }}
+            style={{ minHeight: BODY_HEIGHT }}
             className={classNames({
               [classes.ccrt__signup__right]: !matches,
               [classes.ccrt__signup__right__Sm]: matches,
@@ -247,77 +421,25 @@ const SignupScreen = () => {
               style={{ marginBottom: "10px" }}
             >
               <Grid item xs={12} md={6}>
-                <Typography className={classes.field_title}>
-                  Sign up as
-                </Typography>
-                <Grid container justifyContent="flex-start" alignItems="center">
-                  {USER_TYPES.map((role) => {
-                    return (
-                      <CustomCheckbox
-                        key={role}
-                        name={role}
-                        checked={userType === role}
-                        value={role}
-                        onChange={handleUserTypeChange}
-                      />
-                    );
-                  })}
-                </Grid>
+                {userTypeRadioGroup}
               </Grid>
               <Grid item xs={12} md={6}>
-                <Typography className={classes.field_title}>Gender</Typography>
-                <Grid container justifyContent="flex-start" alignItems="center">
-                  {USER_GENDERS.map((item) => {
-                    return (
-                      <CustomCheckbox
-                        key={item}
-                        name={item}
-                        checked={gender === item}
-                        value={item}
-                        onChange={handleGenderChange}
-                      />
-                    );
-                  })}
-                </Grid>
+                {genderRadioGroup}
               </Grid>
             </Grid>
             <Grid container>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
-                  <SignUpTextField
-                    label="First Name"
-                    variant="outlined"
-                    type="text"
-                    value={firstName}
-                    onChange={handleFirstName}
-                    error={showError && !validateName(firstName)}
-                    errorText={formErrors.name}
-                  />
+                  {firstNameTextField}
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <SignUpTextField
-                    label="Last Name"
-                    variant="outlined"
-                    type="text"
-                    value={lastName}
-                    onChange={handleLastName}
-                    error={showError && !validateName(lastName)}
-                    errorText={formErrors.name}
-                  />
+                  {lastNameTextField}
                 </Grid>
               </Grid>
 
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
-                  <SignUpTextField
-                    label="Email"
-                    variant="outlined"
-                    type="email"
-                    value={email}
-                    onChange={handleEmail}
-                    error={showError && !validateEmail(email)}
-                    errorText={formErrors.email}
-                  />
+                  {emailTextField}
                 </Grid>
                 <Grid
                   item
@@ -328,84 +450,25 @@ const SignupScreen = () => {
                   style={{ marginBottom: 10 }}
                   alignItems="center"
                 >
-                  <Grid item xs={8}>
-                    <BasicDatePicker
-                      label={"Date of birth"}
-                      value={value}
-                      onChange={(newValue) => setValue(newValue)}
-                      error={showError && !validateBirthDate(birthDate)}
-                      errorText={formErrors.birthDate}
-                    />
-                  </Grid>
-                  <Typography
-                    style={{
-                      fontSize: "85%",
-                      fontWeight: 500,
-                      marginLeft: 10,
-                      color: theme.palette.custom.BLACK,
-                    }}
-                  >
-                    Birth Date
-                  </Typography>
+                  {birthDateSelector}
                 </Grid>
               </Grid>
 
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
-                  {userType === "DOCTOR" && (
-                    <TagTextField
-                      label={"Specialization"}
-                      value={specializationList}
-                      onChange={(event, newValue) => {
-                        setSpecializationList(() => newValue);
-                      }}
-                      error={showError && !isTagListCorrect(specializationList)}
-                      errorText={formErrors.specializationList}
-                      retrieveSuggestions={searchSpecializations}
-                      processData={(data) => data.map((item) => item.name)}
-                    />
-                  )}
+                  {userType === "DOCTOR" && tagTextField}
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  {userType === "DOCTOR" && (
-                    <SignUpTextField
-                      label="Fee"
-                      variant="outlined"
-                      type="text"
-                      value={fee}
-                      onChange={handleFee}
-                      error={showError && !validateFee(fee)}
-                      errorText={formErrors.fee}
-                    />
-                  )}
+                  {userType === "DOCTOR" && feeTextField}
                 </Grid>
               </Grid>
 
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
-                  <SignUpTextField
-                    label="Password"
-                    variant="outlined"
-                    type="password"
-                    value={password}
-                    onChange={handlePassword}
-                    error={showError && !validatePassword(password)}
-                    errorText={formErrors.password}
-                  />
+                  {passwordTextField}
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <SignUpTextField
-                    label="Confirm Password"
-                    variant="outlined"
-                    type="password"
-                    value={confirmedPassword}
-                    onChange={handleConfirmPassword}
-                    error={
-                      showError &&
-                      !validateConfirmPassword(confirmedPassword, password)
-                    }
-                    errorText={formErrors.confirmPassword}
-                  />
+                  {confirmedPasswordTextField}
                 </Grid>
               </Grid>
 
@@ -444,29 +507,6 @@ const SignupScreen = () => {
                   loading={loading}
                 />
               </Grid>
-            </Grid>
-            <Grid
-              container
-              alignItems="center"
-              justifyContent="center"
-              item
-              xs={12}
-            >
-              <Typography style={{ margin: "10px 0" }}>Or</Typography>
-            </Grid>
-            <Grid container>
-              <CustomButton
-                title={SIGN_UP_WITH_GOOGLE}
-                icon={<GoogleIcon />}
-                onClick={() => {}}
-              />
-            </Grid>
-            <Grid container style={{ marginTop: "10px" }}>
-              <CustomButton
-                title={SIGN_UP_WITH_FACEBOOK}
-                icon={<FacebookIcon />}
-                onClick={() => {}}
-              />
             </Grid>
             <Grid
               container

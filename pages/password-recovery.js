@@ -12,7 +12,11 @@ import PasswordChange from "../components/passwordRecovery/PasswordChange";
 import { findUserByEmail } from "../controllers/UserController";
 import CustomSnackbar from "../components/snackbar/CustomSnackbar";
 import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
-import { SNACKBAR_INITIAL_STATE } from "../misc/constants";
+import {
+  APP_BAR_HEIGHT,
+  BODY_HEIGHT,
+  SNACKBAR_INITIAL_STATE,
+} from "../misc/constants";
 
 const PasswordRecoveryScreen = () => {
   const classes = useStyles();
@@ -182,8 +186,8 @@ const PasswordRecoveryScreen = () => {
 const useStyles = makeStyles((theme) => ({
   ccrt__passwordRecovery__container: {
     width: "calc(100vw - 5px)",
-    height: "88vh",
-    marginTop: "12vh",
+    height: BODY_HEIGHT,
+    marginTop: APP_BAR_HEIGHT,
   },
   ccrt__passwordRecovery__wrapper: {
     boxShadow: BOX_SHADOW,

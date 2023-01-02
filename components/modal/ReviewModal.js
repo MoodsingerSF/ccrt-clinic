@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid, Modal, Typography } from "@mui/material";
+import { Dialog, DialogContent, Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import AverageRatingField from "../review/AverageRatingField";
 import PropTypes from "prop-types";
@@ -8,32 +8,41 @@ const ReviewModal = ({ onNegativeFeedback, averageRatings }) => {
   const classes = useStyles();
 
   return (
-    <Modal
+    <Dialog
       open={true}
       onClose={onNegativeFeedback}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
-        <Typography className={classes.ccrt__patient_review__header}>
-          Patient Reviews
-        </Typography>
-        <Grid container>
-          {averageRatings.length === 0 ? (
-            <Typography>There is no rating to given</Typography>
-          ) : (
-            averageRatings.map((item, index) => (
-              <AverageRatingField
-                key={index}
-                title={item.ratingCriteria.title}
-                value={item.rating}
-                maxValue={item.ratingCriteria.maxValue}
-              />
-            ))
-          )}
+      <DialogContent>
+        <Grid container justifyContent="center" alignItems="center">
+          <Grid
+            container
+            style={{ width: "95%" }}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Typography className={classes.ccrt__patient_review__header}>
+              Patient Reviews
+            </Typography>
+            <Grid container>
+              {averageRatings.length === 0 ? (
+                <Typography>There is no rating to given</Typography>
+              ) : (
+                averageRatings.map((item, index) => (
+                  <AverageRatingField
+                    key={index}
+                    title={item.ratingCriteria.title}
+                    value={item.rating}
+                    maxValue={item.ratingCriteria.maxValue}
+                  />
+                ))
+              )}
+            </Grid>
+          </Grid>
         </Grid>
-      </Box>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 };
 
@@ -61,13 +70,3 @@ ReviewModal.propTypes = {
 };
 
 export default ReviewModal;
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-};

@@ -1,11 +1,20 @@
-import { Grid, Typography } from "@mui/material";
+import {
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import React, { useState } from "react";
 import useSuggestions from "../../hooks/useSuggestions";
 import { DASHBOARD_TITLE_MARGIN_TOP } from "../../misc/constants";
 import CustomButton from "../button/CustomButton";
-import LoaderComponent from "../misc/LoaderComponent";
 import NoContentToShowComponent from "../misc/NoContentToShowComponent";
+import DashboardLoaderComponent from "./DashboardLoaderComponent";
 import DashboardTitle from "./DashboardTitle";
 import SuggestionRow from "./SuggestionRow";
 
@@ -25,60 +34,55 @@ const SuggestionComp = () => {
         <DashboardTitle title={"Suggestions"} />
       </Grid>
       <Grid container>
-        {loading ? (
-          <LoaderComponent />
+        {loading && page === 0 ? (
+          <DashboardLoaderComponent />
         ) : suggestions.length === 0 ? (
           <NoContentToShowComponent title={"No suggestions to show."} />
         ) : (
           <Grid container>
-            <table className={classes.ccrt__table}>
-              <thead className={classes.ccrt__table__head}>
-                <tr className={classes.ccrt__table__heading__row}>
-                  <th
-                    className={classes.ccrt__table__heading}
-                    style={{ width: "20%" }}
-                    align="left"
-                  >
-                    <Typography className={classes.titleStyle}>Name</Typography>
-                  </th>
-                  <th
-                    className={classes.ccrt__table__heading}
-                    style={{ width: "20%" }}
-                  >
-                    <Typography className={classes.titleStyle}>
-                      Email
-                    </Typography>
-                  </th>
-                  <th
-                    className={classes.ccrt__table__heading}
-                    style={{ width: "60%" }}
-                  >
-                    <Typography className={classes.titleStyle}>
-                      Message
-                    </Typography>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {suggestions.map((item, index) => {
-                  return (
-                    <SuggestionRow
-                      key={item.id}
-                      index={index}
-                      name={item.name}
-                      email={item.email}
-                      message={item.message}
-                    />
-                  );
-                })}
-              </tbody>
-            </table>
+            <TableContainer>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="left">
+                      <Typography className={classes.titleStyle}>
+                        Name
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Typography className={classes.titleStyle}>
+                        Email
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Typography className={classes.titleStyle}>
+                        Message
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {suggestions.map((item, index) => {
+                    return (
+                      <SuggestionRow
+                        key={item.id}
+                        index={index}
+                        name={item.name}
+                        email={item.email}
+                        message={item.message}
+                      />
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
             <Grid container justifyContent={"center"} alignItems="center">
               <Grid item xs={12} sm={4}>
                 {hasMore && (
                   <CustomButton
                     title={"Load More"}
                     onClick={() => setPage((prev) => prev + 1)}
+                    loading={loading}
                   />
                 )}
               </Grid>
@@ -92,28 +96,28 @@ const SuggestionComp = () => {
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    ccrt__table: {
-      background: "#fff",
-      lineHeight: "1.25",
-      marginBottom: "24px",
-      width: "100%",
-      borderCollapse: "collapse",
-      borderSpacing: "0",
-    },
-    ccrt__table__head: {
-      background: theme.palette.custom.BLACK,
-    },
-    ccrt__table__heading__row: {
-      color: "#fff",
-    },
-    ccrt__table__heading: {
-      padding: "18px 6px 18px 12px",
-      fontSize: "90%",
-      fontWeight: "500",
+    table: {
+      marginTop: theme.spacing(3),
+
+      "& thead th": {
+        fontWeight: "500",
+        color: "#FFFFFF",
+        background: theme.palette.custom.BLACK,
+      },
+      "& tbody td": {
+        fontWeight: "400",
+        fontSize: "85%",
+        padding: "10px",
+      },
+      "& tbody tr:hover": {
+        background: theme.palette.custom.TABLE_HOVER_COLOR,
+        cursor: "pointer",
+      },
     },
     titleStyle: {
       color: "white",
       fontSize: "85%",
+      fontWeight: 500,
     },
   })
 );

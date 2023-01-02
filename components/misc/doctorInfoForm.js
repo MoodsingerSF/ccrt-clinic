@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
-import DoctorEducationSection from "../components/doctor-info-form/DoctorEducationSection";
-import DoctorTrainingSection from "../components/doctor-info-form/DoctorTrainingSection";
-import DoctorAwardSection from "../components/doctor-info-form/DoctorAwardSection";
-import DoctorExperienceSection from "../components/doctor-info-form/DoctorExperienceSection";
-import CustomSnackbar from "../components/snackbar/CustomSnackbar";
-import { SNACKBAR_INITIAL_STATE } from "../misc/constants";
-import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
+import { APP_BAR_HEIGHT, SNACKBAR_INITIAL_STATE } from "../../misc/constants";
+import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
+import CustomSnackbar from "../snackbar/CustomSnackbar";
+import DoctorAwardSection from "../doctor-info-form/DoctorAwardSection";
+import DoctorExperienceSection from "../doctor-info-form/DoctorExperienceSection";
+import DoctorTrainingSection from "../doctor-info-form/DoctorTrainingSection";
+import DoctorEducationSection from "../doctor-info-form/DoctorEducationSection";
 
 const DoctorInfoForm = ({
   headingShow = true,
@@ -37,7 +37,7 @@ const DoctorInfoForm = ({
       container
       justifyContent={"center"}
       alignItems="center"
-      style={{ marginTop: headingShow && "12vh" }}
+      style={{ marginTop: headingShow && APP_BAR_HEIGHT }}
     >
       <h1 className={classes.ccrt__doctor__info__form__heading}>
         {headingShow && "Doctor details"}
@@ -93,4 +93,4 @@ DoctorInfoForm.propTypes = {
   experienceList: PropTypes.array,
   awardList: PropTypes.array,
 };
-export default DoctorInfoForm;
+export default memo(DoctorInfoForm);

@@ -7,11 +7,12 @@ import {
   TableRow,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DoneIcon from "@mui/icons-material/Done";
-import { createStyles, makeStyles } from "@mui/styles";
+import { createStyles, makeStyles, useTheme } from "@mui/styles";
 import BlogRequestModal from "../../modal/BlogRequestModal";
 import PropTypes from "prop-types";
 import { capitalize } from "lodash";
@@ -33,7 +34,9 @@ const BlogRequestRow = ({
   handleLoadingClose,
 }) => {
   const classes = useStyle();
-
+  const theme = useTheme();
+  const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
+  const matchesSm = useMediaQuery(theme.breakpoints.up("sm"));
   const [blogReqModalOpen, setBlogReqModalOpen] = useState(false);
 
   const handleOpenBlogReqModal = () => setBlogReqModalOpen(true);
@@ -86,10 +89,14 @@ const BlogRequestRow = ({
 
   return (
     <>
-      <TableRow className={classes.rowContainer}>
-        <TableCell>
-          <Grid container>
-            <Grid item lg={2}>
+      <TableRow>
+        <TableCell align="left">
+          <Grid
+            container
+            style={{ width: matchesMd ? "15vw" : matchesSm ? "25vw" : "50vw" }}
+            alignItems="center"
+          >
+            <Grid item xs={2}>
               <Avatar
                 className={classes.ccrt__dashboard__blog__request__avatar}
                 src={"/" + avatar}
@@ -97,7 +104,7 @@ const BlogRequestRow = ({
             </Grid>
             <Grid
               item
-              lg={10}
+              xs={10}
               className={classes.ccrt__dashboard__blog__request__name}
             >
               <Typography className={classes.nameStyle}>
@@ -109,7 +116,9 @@ const BlogRequestRow = ({
         <TableCell align="center">
           <Grid
             container
-            className={classes.ccrt__dashboard__blog__request__title}
+            justifyContent={"center"}
+            alignItems="center"
+            style={{ width: matchesMd ? "15vw" : matchesSm ? "25vw" : "50vw" }}
           >
             <Typography className={classes.titleStyle}>{title}</Typography>
           </Grid>
@@ -122,31 +131,44 @@ const BlogRequestRow = ({
           />
         </TableCell>
         <TableCell align="center">
-          <Tooltip title="Accept the blog">
-            <ActionButton
-              type="success"
-              title="Accept"
-              icon={<DoneIcon />}
-              onClick={handleAcceptBlog}
-            />
-          </Tooltip>
-
-          <Tooltip title="Reject the blog">
-            <ActionButton
-              type="error"
-              title="Reject"
-              icon={<ClearIcon />}
-              onClick={handleRejectBlog}
-            />
-          </Tooltip>
-          <Tooltip title="View Blog">
-            <ActionButton
-              type="info"
-              title="View Blog"
-              icon={<VisibilityIcon />}
-              onClick={handleOpenBlogReqModal}
-            />
-          </Tooltip>
+          <Grid
+            container
+            justifyContent={"center"}
+            alignItems="center"
+            style={{ width: matchesMd ? "30vw" : matchesSm ? "50vw" : "80vw" }}
+            spacing={0.5}
+          >
+            <Grid item>
+              <Tooltip title="Accept the blog">
+                <ActionButton
+                  type="success"
+                  title="Accept"
+                  icon={<DoneIcon />}
+                  onClick={handleAcceptBlog}
+                />
+              </Tooltip>
+            </Grid>
+            <Grid item>
+              <Tooltip title="Reject the blog">
+                <ActionButton
+                  type="error"
+                  title="Reject"
+                  icon={<ClearIcon />}
+                  onClick={handleRejectBlog}
+                />
+              </Tooltip>
+            </Grid>
+            <Grid item>
+              <Tooltip title="View Blog">
+                <ActionButton
+                  type="info"
+                  title="View Blog"
+                  icon={<VisibilityIcon />}
+                  onClick={handleOpenBlogReqModal}
+                />
+              </Tooltip>
+            </Grid>
+          </Grid>
         </TableCell>
       </TableRow>
 
@@ -182,13 +204,7 @@ const useStyle = makeStyles((theme) =>
       width: "30px",
       height: "30px",
     },
-    ccrt__dashboard__blog__request__title: {
-      whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
-      // width: "200px",
-      display: "block",
-      overflow: "hidden",
-    },
+
     ccrt__dashboard__blog__request__name: {
       marginTop: "5px",
     },
@@ -217,8 +233,11 @@ const useStyle = makeStyles((theme) =>
       fontSize: "90%",
       fontWeight: 500,
       textTransform: "capitalize",
-      whiteSpace: "nowrap",
+      overflow: "hidden",
       textOverflow: "ellipsis",
+      display: "-webkit-box",
+      "-webkit-line-clamp": 1 /* number of lines to show */,
+      "-webkit-box-orient": "vertical",
     },
     rowContainer: {
       height: 60,

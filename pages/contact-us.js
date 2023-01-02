@@ -7,6 +7,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import ContactPageCard from "../components/cards/ContactPageCard";
 import ContactFooter from "../components/contact/ContactFooter";
 import classNames from "classnames";
+import { APP_BAR_HEIGHT } from "../misc/constants";
 
 const Contact = () => {
   const classes = useStyles();
@@ -49,12 +50,12 @@ const useStyles = makeStyles(() => ({
   ccrt_contact__page_container__mobile: {
     padding: "0 10px",
     marginBottom: "10px",
-    paddingTop: "12vh",
+    paddingTop: APP_BAR_HEIGHT,
   },
   ccrt_contact__page_container__desktop: {
     padding: "0 70px",
     marginBottom: "10px",
-    paddingTop: "12vh",
+    paddingTop: APP_BAR_HEIGHT,
   },
 }));
 export default Contact;

@@ -9,10 +9,13 @@ import { retrieveUserDetails } from "../controllers/UserController";
 import { getModifiedUserState } from "./data-middleware/UserDataMiddleware";
 import { Grid } from "@mui/material";
 import LoaderComponent from "./misc/LoaderComponent";
+import Footer from "./footer/Footer";
+import { useRouter } from "next/router";
 // eslint-disable-next-line react/prop-types
 const LoginChecker = ({ children }) => {
   const { setAuthorizationToken, setUserId, setUser } = useContext(Context);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const retrieveUserDetailsHelper = async () => {
     try {
       setLoading(true);
@@ -31,7 +34,6 @@ const LoginChecker = ({ children }) => {
       retrieveUserDetailsHelper();
     }
   }, []);
-
   return (
     <>
       {loading ? (
@@ -44,7 +46,10 @@ const LoginChecker = ({ children }) => {
           <LoaderComponent />
         </Grid>
       ) : (
-        children
+        <>
+          {children}
+          {!router.pathname.startsWith("/dashboard") && <Footer />}
+        </>
       )}
     </>
   );

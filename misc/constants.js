@@ -2,9 +2,17 @@ export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const NAME_REGEX = /^[a-zA-Z\- ]+$/;
 export const EMPTY_OR_WHITESPACE = /^\s*$/;
 export const NUMBER_REGEX = /^-?\d+\.?\d*$/;
+
+export const APP_BAR_HEIGHT = "12vh";
+export const BODY_HEIGHT = "88vh";
+export const DONATION_SECTION_HEIGHT = "8vh";
+export const DONATION_SECTION_HEIGHT_MOBILE = "12vh";
+export const HERO_SECTION_HEIGHT = "100vh";
+export const HERO_SECTION_HEIGHT_MOBILE = "70vh";
+
 export const BIRTHDATE_REGEX =
   /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
-export const SERVER_PATH = "http://127.0.0.1:8080/";
+export const SERVER_PATH = "http://localhost:8080/ccrt_clinic/";
 export const SNACKBAR_INITIAL_STATE = { open: false, message: "" };
 export const SNACKBAR_TIMEOUT = 6000;
 export const AUTHORIZATION_HEADER_PREFIX = "Bearer ";
@@ -34,6 +42,25 @@ export const APPOINTMENT_STATUS = {
   FINISHED: "FINISHED",
 };
 export const RELATION_WITH_MEAL = {
-  BEFORE: "BEFORE",
-  AFTER: "AFTER",
+  "BEFORE MEAL": "BEFORE",
+  "AFTER MEAL": "AFTER",
+};
+
+export const DONATION_REQUEST_STATUS = {
+  PENDING: { requestStatus: "PENDING", completionStatus: "INCOMPLETE" },
+  COMPLETE: { requestStatus: "ACCEPTED", completionStatus: "COMPLETE" },
+  REJECTED: { requestStatus: "REJECTED", completionStatus: "INCOMPLETE" },
+  INCOMPLETE: { requestStatus: "ACCEPTED", completionStatus: "INCOMPLETE" },
+};
+
+export const CHIP_COLORS = {
+  PENDING: "#f39c12",
+  COMPLETE: "#2980b9",
+  REJECTED: "#d63031",
+  INCOMPLETE: "#2ecc71",
+};
+
+export const COVER_FILTER = {
+  VISIBLE: "VISIBLE",
+  NON_VISIBLE: "NON_VISIBLE",
 };

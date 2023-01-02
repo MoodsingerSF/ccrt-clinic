@@ -3,10 +3,13 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles, useTheme } from "@mui/styles";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { useState } from "react";
+import { InputAdornment } from "@mui/material";
+
 const SignUpTextField = ({
+  labelText = "",
+  adornment = "",
   label = "",
   type,
   placeholder = "",
@@ -17,11 +20,13 @@ const SignUpTextField = ({
   variant = "standard",
   multiline = false,
   numRows = 5,
+  color,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [textfieldType, setTextfieldType] = useState(type);
   const [viewPassword, setViewPassword] = useState(false);
+  // console.log(label + " textfield rendered");
   useEffect(() => {
     if (type === "password") {
       if (viewPassword) {
@@ -34,6 +39,11 @@ const SignUpTextField = ({
 
   return (
     <Grid item xs={12} style={{ marginBottom: "10px" }}>
+      {labelText && (
+        <Typography className={classes.ccrt_textField_label}>
+          {labelText}
+        </Typography>
+      )}
       <TextField
         variant={variant}
         size="small"
@@ -44,10 +54,9 @@ const SignUpTextField = ({
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e)}
-        // classes={{ root: classes.root }}
         InputLabelProps={{
           style: {
-            color: theme.palette.custom.BLACK,
+            color: color ? color : theme.palette.custom.BLACK,
             fontSize: "85%",
             fontWeight: 500,
             margin: 0,
@@ -61,7 +70,14 @@ const SignUpTextField = ({
         }}
         // classes={{ root: classes.root }}
         InputProps={{
-          className: classes.input,
+          ...(adornment
+            ? {
+                startAdornment: (
+                  <InputAdornment position="start">{adornment}</InputAdornment>
+                ),
+              }
+            : {}),
+          className: color ? classes.inputWhite : classes.input,
           ...(multiline ? { rows: numRows } : {}),
           endAdornment:
             type === "password" ? (
@@ -87,25 +103,10 @@ const SignUpTextField = ({
     </Grid>
   );
 };
-const useStyles = makeStyles((theme) => ({
-  input: {
-    fontSize: "85%",
-    fontWeight: 500,
-    color: theme.palette.custom.BLACK,
-    paddingTop: 10,
-    margin: 0,
-    padding: 0,
-  },
-  iconStyle: { marginRight: 10, fontSize: "150%", cursor: "pointer" },
-  // root: {
-  //   fontSize: "100%",
-  //   fontWeight: "bold",
-  //   padding: "0px 10px",
-  //   color: theme.palette.custom.BLACK,
-  // },
-}));
 
 SignUpTextField.propTypes = {
+  labelText: PropTypes.string,
+  adornment: PropTypes.string,
   label: PropTypes.string,
   type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
@@ -116,6 +117,41 @@ SignUpTextField.propTypes = {
   placeholder: PropTypes.string,
   variant: PropTypes.string,
   numRows: PropTypes.number,
+  color: PropTypes.string,
 };
+
+const useStyles = makeStyles((theme) => ({
+  ccrt_textField_container: {
+    marginBottom: "10px",
+    width: "100%",
+  },
+  ccrt_textField_label: {
+    marginBottom: "5px",
+    fontSize: "80%",
+    fontWeight: "500",
+    textTransform: "capitalize",
+  },
+  ccrt__text_field__error_text: {
+    color: "red",
+    fontSize: "70%",
+  },
+  input: {
+    fontSize: "85%",
+    fontWeight: 500,
+    color: theme.palette.custom.BLACK,
+    paddingTop: 10,
+    margin: 0,
+    padding: 0,
+  },
+  inputWhite: {
+    fontSize: "85%",
+    fontWeight: 500,
+    color: "white",
+    paddingTop: 10,
+    margin: 0,
+    padding: 0,
+  },
+  iconStyle: { marginRight: 10, fontSize: "150%", cursor: "pointer" },
+}));
 
 export default SignUpTextField;

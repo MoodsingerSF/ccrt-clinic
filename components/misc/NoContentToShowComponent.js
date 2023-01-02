@@ -3,7 +3,9 @@ import React from "react";
 import Lottie from "lottie-react";
 import animationData from "../../public/animations/no-data-found.json";
 import PropTypes from "prop-types";
+import { useTheme } from "@mui/styles";
 const NoContentToShowComponent = ({ title = "No blogs to show." }) => {
+  const theme = useTheme();
   return (
     <Grid
       container
@@ -17,7 +19,13 @@ const NoContentToShowComponent = ({ title = "No blogs to show." }) => {
           style={{ height: "40vh", width: "40vh" }}
         />
       </Grid>
-      <Typography style={{ fontSize: "100%", fontWeight: "bold" }}>
+      <Typography
+        style={{
+          fontSize: "100%",
+          fontWeight: "bold",
+          color: theme.palette.custom.BLACK,
+        }}
+      >
         {title}
       </Typography>
     </Grid>

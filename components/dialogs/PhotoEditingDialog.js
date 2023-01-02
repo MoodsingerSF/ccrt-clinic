@@ -47,29 +47,33 @@ const PhotoEditingDialog = ({ open, onClose, title, onSave, openSnackbar }) => {
     }
   };
   return (
-    <Grid container justifyContent="center" alignItems="center">
-      <Dialog
-        open={open}
-        onClose={() => {}}
-        PaperProps={{
-          style: {
-            width: isDesktop ? "40%" : "95%",
-            height: "100%",
-          },
-        }}
-      >
-        <DialogTitle>
-          <Typography className={classes.ccrt__photo__editing__dialog__title}>
-            {title}
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      PaperProps={{
+        style: {
+          width: isDesktop ? "40%" : "100%",
+        },
+      }}
+    >
+      <DialogTitle>
+        <Typography className={classes.ccrt__photo__editing__dialog__title}>
+          {title}
+        </Typography>
+      </DialogTitle>
+      <DialogContent style={{ margin: 0, padding: 0 }}>
+        <Grid
+          item
+          xs={12}
+          container
+          justifyContent="center"
+          alignItems="center"
+        >
           <Grid
-            item
-            xs={12}
             container
             justifyContent="center"
             alignItems="center"
+            style={{ width: "95%" }}
           >
             <Box
               component={Grid}
@@ -124,35 +128,40 @@ const PhotoEditingDialog = ({ open, onClose, title, onSave, openSnackbar }) => {
               </Typography>
             )}
           </Grid>
-        </DialogContent>
-        <DialogActions
-          className={classes.ccrt__photo__editing__dialog__action__wrapper}
+        </Grid>
+      </DialogContent>
+      <DialogActions
+        className={classes.ccrt__photo__editing__dialog__action__wrapper}
+      >
+        <Grid
+          container
+          justifyContent="flex-end"
+          spacing={1}
+          style={{ marginTop: 10 }}
         >
-          <Grid container justifyContent="flex-end">
-            <Grid item xs={6} md={3} style={{ paddingRight: 10 }}>
-              <CustomButton
-                title="close"
-                onClick={() => {
-                  if (!loading) {
-                    onClose();
-                  } else {
-                    openSnackbar("Please wait until photo is uploaded.");
-                  }
-                }}
-              />
-            </Grid>
-            <Grid item xs={6} md={3}>
-              <CustomButton
-                icon={<SaveIcon />}
-                title="save"
-                onClick={saveProfilePicture}
-                loading={loading}
-              />
-            </Grid>
+          <Grid item xs={6} md={3}>
+            <CustomButton
+              title="close"
+              onClick={() => {
+                if (!loading) {
+                  onClose();
+                } else {
+                  openSnackbar("Please wait until photo is uploaded.");
+                }
+              }}
+            />
           </Grid>
-        </DialogActions>
-      </Dialog>
-    </Grid>
+          <Grid item xs={6} md={3}>
+            <CustomButton
+              icon={<SaveIcon />}
+              title="save"
+              onClick={saveProfilePicture}
+              loading={loading}
+            />
+          </Grid>
+        </Grid>
+      </DialogActions>
+    </Dialog>
   );
 };
 const useStyles = makeStyles((theme) =>

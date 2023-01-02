@@ -44,34 +44,39 @@ const UserDataRow = ({
         <Grid
           container
           justifyContent="flex-start"
-          alignItems="center"
+          alignItems={!IsDesktop ? "flex-start" : "center"}
           item
-          xs={12}
+          xs={10}
           md={5}
         >
           {icon}
-          <Typography
-            className={classes.ccrt__dashboard__user__data__row__title}
-          >
-            {title}
-          </Typography>
+          <Grid item>
+            <Typography
+              className={classes.ccrt__dashboard__user__data__row__title}
+            >
+              {title}
+            </Typography>
+            {!IsDesktop && (
+              <Typography
+                className={classes.valueStyle}
+                style={{ marginLeft: 10 }}
+              >
+                {value}
+              </Typography>
+            )}
+          </Grid>
         </Grid>
         <Grid
           container
-          justifyContent="space-between"
+          justifyContent={IsDesktop ? "space-between" : "flex-end"}
           alignItems="center"
           item
-          xs={12}
+          xs={2}
           md={7}
         >
-          <Typography
-            style={{
-              marginLeft: IsDesktop ? "0px" : "40px",
-            }}
-            className={classes.valueStyle}
-          >
-            {value}
-          </Typography>
+          {IsDesktop && (
+            <Typography className={classes.valueStyle}>{value}</Typography>
+          )}
           {editable ? (
             <IconButton onClick={() => setOpenUpdateProfileModal(editable)}>
               <DriveFileRenameOutlineIcon className={classes.editIconStyle} />

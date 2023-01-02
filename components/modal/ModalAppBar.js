@@ -14,10 +14,12 @@ const ModalAppBar = ({ onClose }) => {
         zIndex: 1,
         // border: "1px solid black",
       }}
+      justifyContent="center"
+      alignItems={"center"}
     >
       <Grid
         container
-        style={{ width: "100%" }}
+        style={{ width: "95%" }}
         justifyContent="flex-end"
         alignItems="center"
       >

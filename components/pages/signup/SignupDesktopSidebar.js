@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Image from "next/image";
 import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { SUBTITLE, TITLE } from "../../../data/signup/data";
@@ -12,7 +12,7 @@ const SignupDesktopSidebar = () => {
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
   const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
-
+  console.log("signup sidebar rendered");
   return (
     <Grid
       container
@@ -53,7 +53,6 @@ const useStyles = makeStyles({
   },
   ccrt__signup__left__Lg: {
     padding: "30px 20px",
-    // minHeight: "88vh",
   },
   ccrt__signup__left__title: {
     color: "white",
@@ -73,4 +72,4 @@ const useStyles = makeStyles({
   },
 });
 
-export default SignupDesktopSidebar;
+export default memo(SignupDesktopSidebar);

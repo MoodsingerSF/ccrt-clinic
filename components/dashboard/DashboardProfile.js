@@ -7,7 +7,6 @@ import {
   useTheme,
   useMediaQuery,
   Avatar,
-  Box,
 } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
@@ -33,16 +32,15 @@ import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
 import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";
 import DashboardLoaderComponent from "./DashboardLoaderComponent";
 import { retrieveUserId } from "../../controllers/LocalStorageController";
-import DoctorInfoForm from "../../pages/doctorInfoForm";
 import { Context } from "../../contexts/user-context/UserContext";
 import { Role } from "../../enums/Role";
 import DoctorPriceTag from "./DoctorPriceTag";
 import DoctorAbout from "./DoctorAbout";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import DoctorInfoForm from "../misc/doctorInfoForm";
 const PhotoEditingDialog = dynamic(() =>
   import("../dialogs/PhotoEditingDialog")
 );
-// const UpdateProfileModal = dynamic(() => import("../modal/UpdateProfileModal"));
 const reducer = (state, action) => {
   const payload = action.payload;
   switch (action.type) {
@@ -73,6 +71,13 @@ const DashboardProfile = () => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [snackbar, setSnackbar] = useState(SNACKBAR_INITIAL_STATE);
   const [user, dispatch] = useReducer(reducer, null);
+  const [userDetails, setUserDetails] = useState({
+    education: [],
+    trainings: [],
+    experiences: [],
+    awards: [],
+  });
+
   const [loading, setLoading] = useState(false);
   const openSnackbar = (message) => {
     handleSnackbarOpen(message, setSnackbar);
@@ -83,6 +88,12 @@ const DashboardProfile = () => {
       const data = await retrieveUserDetails(retrieveUserId());
       setLoading(false);
       dispatch({ type: "initialize", payload: data });
+      setUserDetails({
+        education: data.education,
+        trainings: data.trainings,
+        experiences: data.experiences,
+        awards: data.awards,
+      });
     } catch (error) {
       setLoading(false);
     }
@@ -140,15 +151,21 @@ const DashboardProfile = () => {
                 <AddAPhotoIcon />
               </IconButton>
             </Avatar>
+          </Grid>
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            style={{
+              marginTop: Is4KDesktop ? "100px" : IsDesktop ? "80px" : "60px",
+            }}
+          >
             {getRole() === Role.DOCTOR && (
-              <Box
-                // container
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  right: 0,
-                  // background: "red",
-                }}
+              <Grid
+                container
+                justifyContent={"center"}
+                alignItems="center"
+                style={{ marginTop: -20, marginBottom: 10 }}
               >
                 <DoctorPriceTag
                   title="Fee"
@@ -160,17 +177,8 @@ const DashboardProfile = () => {
                   }
                   openSnackbar={openSnackbar}
                 />
-              </Box>
+              </Grid>
             )}
-          </Grid>
-          <Grid
-            container
-            justifyContent="center"
-            alignItems="center"
-            style={{
-              marginTop: Is4KDesktop ? "100px" : IsDesktop ? "80px" : "60px",
-            }}
-          >
             <UserDataRow
               title="First Name"
               value={user.firstName}
@@ -225,10 +233,10 @@ const DashboardProfile = () => {
                 />
                 <DoctorInfoForm
                   headingShow={false}
-                  educationList={user.education}
-                  trainingList={user.trainings}
-                  experienceList={user.experiences}
-                  awardList={user.awards}
+                  educationList={userDetails.education}
+                  trainingList={userDetails.trainings}
+                  experienceList={userDetails.experiences}
+                  awardList={userDetails.awards}
                 />
               </>
             )}

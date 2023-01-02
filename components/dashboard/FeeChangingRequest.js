@@ -75,28 +75,28 @@ const FeeChangingRequest = () => {
               <Table className={classes.table}>
                 <TableHead>
                   <TableRow>
-                    <TableCell style={{ width: "20%" }} align="left">
+                    <TableCell align="left">
                       <Typography className={classes.titleStyle}>
                         Name
                       </Typography>
                     </TableCell>
-                    <TableCell style={{ width: "20%" }} align="center">
+                    <TableCell align="center">
                       <Typography className={classes.titleStyle}>
                         Previous Amount (TK)
                       </Typography>
                     </TableCell>
-                    <TableCell style={{ width: "20%" }} align="center">
+                    <TableCell align="center">
                       <Typography className={classes.titleStyle}>
                         Requested Amount (TK)
                       </Typography>
                     </TableCell>
-                    <TableCell style={{ width: "20%" }} align={"center"}>
+                    <TableCell align={"center"}>
                       <Typography className={classes.titleStyle}>
                         Status
                       </Typography>
                     </TableCell>
                     {filterValue === "PENDING" && (
-                      <TableCell style={{ width: "20%" }} align="center">
+                      <TableCell align="center">
                         <Typography className={classes.titleStyle}>
                           Actions
                         </Typography>
@@ -107,7 +107,7 @@ const FeeChangingRequest = () => {
                 <TableBody>
                   {feeChangingRequests &&
                     feeChangingRequests.map((request, index) => (
-                      <TableRow key={request.requestId} style={{ height: 60 }}>
+                      <TableRow key={request.requestId}>
                         <FeeChangingRequestRow
                           serialNo={index + 1}
                           firstName={request.user.firstName}

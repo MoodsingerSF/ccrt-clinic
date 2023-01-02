@@ -7,15 +7,15 @@ export const useStyles = makeStyles((theme) =>
       background: "none",
     },
     containerDesktopSm: {
-      background: theme.palette.custom.DEFAULT_COLOR,
+      background: theme.palette.custom.BLACK,
     },
     containerDesktopMd: {
-      background: theme.palette.custom.DEFAULT_COLOR,
+      background: theme.palette.custom.BLACK,
       width: "100%",
     },
     containerDesktopLg: {
       width: "100%",
-      background: theme.palette.custom.DEFAULT_COLOR,
+      background: theme.palette.custom.BLACK,
     },
     ccrt__signup__right: {
       background: "#fff",

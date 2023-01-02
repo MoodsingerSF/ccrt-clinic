@@ -7,7 +7,7 @@ import Sponsor from "../components/home-page/sponsor/Sponsor";
 import Blog from "../components/home-page/blogs/Blog";
 import Hero from "../components/home-page/hero-section/Hero";
 // import Category from "../components/home-page/doctors-category/Category";
-import Footer from "../components/footer/Footer";
+// import Footer from "../components/footer/Footer";
 export default function Home() {
   const [showSliders, setShowSliders] = useState(false);
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function Home() {
 
       {showSliders && <Blog />}
       {/* <Category /> */}
-      <Footer />
+      {/* <Footer /> */}
     </Grid>
   );
 }

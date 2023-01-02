@@ -23,7 +23,9 @@ import {
 import CustomButton from "../components/button/CustomButton";
 import CustomSnackbar from "../components/snackbar/CustomSnackbar";
 import {
+  APP_BAR_HEIGHT,
   AUTHORIZATION_HEADER_PREFIX,
+  BODY_HEIGHT,
   SNACKBAR_INITIAL_STATE,
 } from "../misc/constants";
 import { handleSnackbarClose, handleSnackbarOpen } from "../misc/functions";
@@ -128,7 +130,7 @@ const LoginScreen = () => {
         container
         justifyContent="center"
         alignItems="center"
-        style={{ minHeight: "88vh", marginTop: "12vh" }}
+        style={{ minHeight: BODY_HEIGHT, marginTop: APP_BAR_HEIGHT }}
       >
         <Grid
           container

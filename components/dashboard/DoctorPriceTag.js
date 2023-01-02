@@ -11,7 +11,6 @@ const DoctorPriceTag = ({
   editable,
   onSave,
   validate,
-  // onSuccess,
   openSnackbar,
 }) => {
   const classes = useStyles();
@@ -19,28 +18,19 @@ const DoctorPriceTag = ({
   const [openUpdateProfileModal, setOpenUpdateProfileModal] = useState(false);
 
   return (
-    <Grid container>
-      <Grid container alignItems={"center"} style={{ padding: 10 }}>
+    <Grid item>
+      <Grid container alignItems={"center"} justifyContent="center">
         <Typography
           className={classes.ccrt_dashboard__profile__dctr__price__tag}
         >
           {title}: {price} |=
         </Typography>
-        {/* <IconButton
-          style={{ marginLeft: "5px" }}
-          onClick={() => setOpenUpdateProfileModal(editable)}
-        > */}
+
         <DriveFileRenameOutlineIcon
           fontSize="small"
-          style={{
-            color: "white",
-            fontSize: "110%",
-            marginLeft: 10,
-            cursor: "pointer",
-          }}
+          className={classes.iconStyle}
           onClick={() => setOpenUpdateProfileModal(editable)}
         />
-        {/* </IconButton> */}
       </Grid>
       {editable && (
         <UpdateProfileModal
@@ -51,7 +41,6 @@ const DoctorPriceTag = ({
           title={`Update ${title}`}
           validate={validate}
           onSave={onSave}
-          // onSuccess={onSuccess}
           openSnackbar={openSnackbar}
           isPrice={true}
         />
@@ -62,15 +51,16 @@ const DoctorPriceTag = ({
 
 const useStyles = makeStyles((theme) => ({
   ccrt_dashboard__profile__dctr__price__tag: {
-    // position: "absolute",
-    // bottom: "0",
-    // right: "0",
-    background: `${theme.palette.custom.BLACK}`,
+    color: theme.palette.custom.BLACK,
     fontSize: "85%",
     fontWeight: 600,
-    color: "white",
-    // padding: "7px 10px",
-    // borderRadius: "5px",
+  },
+  iconStyle: {
+    color: theme.palette.custom.BLACK,
+
+    fontSize: "110%",
+    marginLeft: 10,
+    cursor: "pointer",
   },
 }));
 

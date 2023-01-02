@@ -11,6 +11,7 @@ import {
 } from "../data/faq/data";
 import UnorderedList from "../components/misc/UnorderedList";
 import OrderedList from "../components/misc/OrderedList";
+import { APP_BAR_HEIGHT } from "../misc/constants";
 
 const Faq = () => {
   const classes = useStyles();
@@ -106,7 +107,7 @@ const Faq = () => {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__faq__banner: {
-      paddingTop: "12vh",
+      paddingTop: APP_BAR_HEIGHT,
     },
     ccrt__faq__title: {
       fontWeight: "bold",

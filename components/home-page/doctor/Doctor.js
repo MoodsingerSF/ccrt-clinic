@@ -17,7 +17,7 @@ const Doctor = () => {
   const retrieveDoctors = async () => {
     try {
       setLoading(true);
-      const data = await retrieveAcceptedDoctors();
+      const data = await retrieveAcceptedDoctors(0, 15, null);
       setDoctors(data);
       setLoading(false);
     } catch (error) {
@@ -27,7 +27,6 @@ const Doctor = () => {
   useEffect(() => {
     retrieveDoctors();
   }, []);
-
   return (
     <>
       {loading ? (
@@ -61,7 +60,7 @@ const Doctor = () => {
                 modules={[Navigation]}
                 className={classes.ccrt__doctor__card__mySwiper}
                 breakpoints={{
-                  600: {
+                  450: {
                     slidesPerView: 2,
                   },
                   900: {

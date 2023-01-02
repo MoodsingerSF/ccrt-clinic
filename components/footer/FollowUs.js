@@ -1,23 +1,33 @@
 import React from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, useMediaQuery } from "@mui/material";
 import FollowLink from "./FollowLink";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import { makeStyles } from "@mui/styles";
+import { makeStyles, useTheme } from "@mui/styles";
 import { FOLLOW_US_TEXT, FOLLOW_US_TITLE } from "../../data/footer/data";
 
 const FollowUs = () => {
   const classes = useStyles();
-
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   return (
-    <Grid item xs={12} sm={4} container justifyContent="flex-end">
+    <Grid
+      item
+      xs={12}
+      sm={4}
+      container
+      justifyContent={isDesktop ? "flex-end" : "center"}
+    >
       <Typography className={classes.headerStyle}>{FOLLOW_US_TITLE}</Typography>
-      <Typography className={classes.ccrt__follow__us__text}>
+      <Typography
+        className={classes.ccrt__follow__us__text}
+        style={{ textAlign: isDesktop ? "right" : "center" }}
+      >
         {FOLLOW_US_TEXT}
       </Typography>
-      <Grid container justifyContent="flex-end">
+      <Grid container justifyContent={isDesktop ? "flex-end" : "center"}>
         <FollowLink
           link="#"
           icon={<FacebookIcon fontSize="medium" />}
@@ -46,7 +56,6 @@ const FollowUs = () => {
 const useStyles = makeStyles((theme) => ({
   ccrt__follow__us__text: {
     marginBottom: "20px",
-    textAlign: "right",
     fontSize: "90%",
     color: theme.palette.custom.BLACK,
   },

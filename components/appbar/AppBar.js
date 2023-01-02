@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import {
@@ -8,24 +8,34 @@ import {
   useMediaQuery,
   useTheme,
   Avatar,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
+// import { Grid, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 
 import logo from "../../public/image/logo/logo2.png";
 import MenuIcon from "@mui/icons-material/Menu";
-import AppbarDrawer from "../drawer/AppbarDrawer";
+import { APP_BAR_HEIGHT } from "../../misc/constants";
+import DonationSection from "./DonationSection";
+import SearchIcon from "@mui/icons-material/Search";
+import dynamic from "next/dynamic";
+// import AppBarDeskTop from "./AppBarDeskTop";
 import AppBarLink from "./AppBarLink";
 
-import { Context } from "../../contexts/user-context/UserContext";
 import ProfileMenu from "../menu/ProfileMenu";
+import { Context } from "../../contexts/user-context/UserContext";
+const AppbarDrawer = dynamic(() => import("../drawer/AppbarDrawer"));
 
 const AppBar = () => {
   const classes = useStyles();
   const router = useRouter();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
-
   const { isSignedIn, getProfileImageUrl } = useContext(Context);
+  // const [appbarHeight, setAppbarHeight] = useState(APP_BAR_HEIGHT);
+  const [openAppbarDrawer, setOpenAppbarDrawer] = useState(false);
+  const [searchText, setSearchText] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleProfileClick = (event) => {
@@ -35,42 +45,80 @@ const AppBar = () => {
     setAnchorEl(null);
   };
 
-  const [openAppbarDrawer, setOpenAppbarDrawer] = useState(false);
-
   const appbarDrawerOpen = () => {
     setOpenAppbarDrawer(true);
   };
-  const appbarDrawerClose = () => {
+  const appbarDrawerClose = useCallback(() => {
     setOpenAppbarDrawer(false);
+  });
+  const onSearch = () => {
+    router.push({
+      pathname: "/search",
+      query: {
+        keyword: searchText,
+      },
+    });
   };
 
+  // useLayoutEffect(() => {
+  //   setAppbarHeight(router.pathname === "/" ? "20vh" : APP_BAR_HEIGHT);
+  // }, [router.pathname]);
   return (
-    <Grid container className={classes.ccrt_app_bar__container}>
+    <Grid
+      container
+      className={classes.ccrt_app_bar__container}
+      style={{
+        height: router.pathname === "/" ? "20vh" : APP_BAR_HEIGHT,
+      }}
+      alignItems="center"
+      justifyContent={"center"}
+    >
+      {router.pathname === "/" && <DonationSection />}
       {matches ? (
-        <Grid container>
-          <Grid item xs={2} className={classes.ccrt_app_bar__logo}>
+        <Grid container style={{ height: APP_BAR_HEIGHT }}>
+          <Grid
+            item
+            xs={2}
+            container
+            style={{ position: "relative", margin: "5px 0px" }}
+          >
             <Image src={logo} layout="fill" objectFit="contain" />
           </Grid>
-          <Grid container alignItems="center" item xs={2}></Grid>
-
-          {isSignedIn() && (
-            <Grid container alignItems="center" item xs={3}></Grid>
-          )}
           <Grid
             container
-            justifyContent="flex-end"
+            justifyContent={"center"}
             alignItems="center"
             item
-            xs
-            // xs={8}
+            xs={3}
           >
+            <TextField
+              className={classes.ccrt__home_page__search_field}
+              size="small"
+              placeholder="search doctor and blog"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" style={{ cursor: "pointer" }}>
+                    <SearchIcon onClick={onSearch} />
+                  </InputAdornment>
+                ),
+                classes: { notchedOutline: classes.noBorder },
+              }}
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  onSearch();
+                }
+              }}
+            />
+          </Grid>
+
+          <Grid container justifyContent="center" alignItems="center" item xs>
             <AppBarLink name="Home" link="/" />
             <AppBarLink name="Doctors" link="/doctors" />
-
             <AppBarLink name="Blogs" link="/blogs" />
             <AppBarLink name="Contact" link="/contact-us" />
             <AppBarLink name="FAQ" link="/faq" />
-            {/* <AppBarLink name="Prescription" link="/prescription" /> */}
 
             {!isSignedIn() && <AppBarLink name="Login" link="/login" />}
 
@@ -113,6 +161,7 @@ const AppBar = () => {
           </Grid>
         </Grid>
       ) : (
+        // appBarDesktop
         <Grid
           container
           justifyContent="space-between"
@@ -128,19 +177,22 @@ const AppBar = () => {
               }}
             />
           </Grid>
-          <Grid container item xs={2} justifyContent="flex-end">
-            <IconButton
-              size="large"
-              color="inherit"
-              aria-label="menu"
-              onClick={appbarDrawerOpen}
-            >
+          <Grid
+            container
+            item
+            xs={2}
+            justifyContent="flex-end"
+            alignItems={"center"}
+          >
+            <IconButton color="primary" onClick={appbarDrawerOpen}>
               <MenuIcon />
             </IconButton>
           </Grid>
         </Grid>
       )}
-      <AppbarDrawer open={openAppbarDrawer} onClose={appbarDrawerClose} />
+      {openAppbarDrawer && (
+        <AppbarDrawer open={openAppbarDrawer} onClose={appbarDrawerClose} />
+      )}
     </Grid>
   );
 };
@@ -148,7 +200,6 @@ const AppBar = () => {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt_app_bar__container: {
-      height: "12vh",
       background: "#fff",
       zIndex: 99,
       position: "fixed",
@@ -181,6 +232,17 @@ const useStyles = makeStyles((theme) =>
       marginRight: "2.5vw",
       border: `1px dashed ${theme.palette.primary.main}`,
       cursor: "pointer",
+      marginLeft: 10,
+    },
+    ccrt__home_page__search_field: {
+      background: "#fff",
+      borderRadius: 100,
+      // boxShadow: "inset 0 0 5px rgba(0,0,0,0.5)",
+      // margin: "20px 0 20px 0",
+      fontSize: "85%",
+    },
+    noBorder: {
+      border: `1px solid ${theme.palette.custom.BLACK}`,
     },
   })
 );

@@ -163,3 +163,13 @@ export const retrievePopularBlogs = async (page) => {
   // console.log(response.data);
   return response.data.blogs.map((item) => processBlogData(item));
 };
+
+export const searchBlogs = async (keyword) => {
+  const { data } = await axios.get(SERVER_PATH + "misc/search/blogs", {
+    // cancelToken: cancelToken,
+    params: {
+      keyword,
+    },
+  });
+  return data.map((item) => processBlogData(item));
+};

@@ -12,13 +12,13 @@ const CustomChip = ({
   return (
     <Typography
       style={{
-        fontSize: "65%",
+        fontSize: "55%",
         fontWeight: 500,
         ...(!onlyBorder ? { background: color } : {}),
         ...(onlyBorder ? { border: `1px solid ${color}` } : {}),
         color: fontColor ? fontColor : themeS.palette.custom.BLACK,
         borderRadius: 25,
-        padding: "4px 16px",
+        padding: "4px 10px",
         textAlign: "center",
         textTransform: "capitalize",
         marginRight: 5,

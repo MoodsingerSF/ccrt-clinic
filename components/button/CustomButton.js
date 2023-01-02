@@ -12,12 +12,13 @@ const CustomButton = ({
   size = "medium",
   loading = false,
   color = null,
+  variant = "contained",
 }) => {
   const classes = useStyles();
   return (
     <Grid container>
       <Button
-        variant="contained"
+        variant={variant}
         fullWidth
         startIcon={icon}
         size={size}
@@ -49,6 +50,7 @@ CustomButton.propTypes = {
   size: PropTypes.string,
   loading: PropTypes.bool,
   color: PropTypes.string,
+  variant: PropTypes.string,
 };
 
 const useStyles = makeStyles(() =>

@@ -3,6 +3,7 @@ import { Grid, useTheme } from "@mui/material";
 import { useStyles } from "../../styles/dashBoardstyle";
 import dynamic from "next/dynamic";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { APP_BAR_HEIGHT } from "../../misc/constants";
 // import DashboardNavbar from "./DashboardNavbar";
 const DashboardSidebar = dynamic(() =>
   import("../../components/dashboard/DashboardSidebar")
@@ -52,19 +53,17 @@ const DashboardWrapper = ({ children, routeName }) => {
           <Grid
             container
             alignItems="flex-start"
+            justifyContent="center"
             item
             xs={12}
-            className={classes.ccrt__dashboard__right__container}
           >
             <Grid
               container
               justifyContent="center"
               alignItems="center"
               item
-              xs={12}
+              style={{ width: "95%", marginTop: APP_BAR_HEIGHT }}
             >
-              {/* <DashboardNavbar /> */}
-
               {children}
             </Grid>
           </Grid>

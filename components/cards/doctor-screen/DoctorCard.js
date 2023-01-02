@@ -4,15 +4,12 @@ import { useRouter } from "next/router";
 import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import PropTypes from "prop-types";
-// import avatar from "../../../public/image/doctor/docAvatar2.png";
 import CustomChip from "../../chip/CustomChip";
-// import DoctorEducationInfo from "../../doctor-info-form/DoctorEducationInfo";
 
 const DoctorCard = ({
   imageUrl = null,
   name,
   specializations,
-  // education,
   doctorId,
   fee,
   about,
@@ -27,12 +24,15 @@ const DoctorCard = ({
     <Grid
       container
       className={classes.ccrt__dctr__page__right__content__wrapper}
-      onClick={() => {
-        router.push("/doctors/" + doctorId);
-      }}
     >
       <Grid item xs={12} md={3}>
-        <Grid container className={classes.ccrt__doct__page__image__container}>
+        <Grid
+          container
+          className={classes.ccrt__doct__page__image__container}
+          onClick={() => {
+            router.push("/doctors/" + doctorId);
+          }}
+        >
           {imageUrl !== null && (
             <Image
               src={imageUrl}
@@ -55,22 +55,27 @@ const DoctorCard = ({
             classes.ccrt__dctr__page__right__content__description__wrapper
           }
         >
-          <Typography className={classes.ccrt__doct__page__dctr__name}>
+          <Typography
+            className={classes.ccrt__doct__page__dctr__name}
+            onClick={() => {
+              router.push("/doctors/" + doctorId);
+            }}
+          >
             {name}
           </Typography>
           <Typography className={classes.ccrt__doct__page__dctr__fee}>
             &#2547;{fee}
           </Typography>
           <Grid container>
-            <Grid item xs={2}>
+            <Grid item xs={12}>
               <Typography className={classes.sectionTitle}>
                 specializations:
               </Typography>
             </Grid>
 
-            <Grid item container xs={9} style={{ paddingLeft: 10 }}>
+            <Grid item container xs={12}>
               {specializations.map((item) => (
-                <CustomChip key={item} title={item} />
+                <CustomChip key={item} title={item} fontColor={"#fff"} />
               ))}
             </Grid>
           </Grid>
@@ -84,12 +89,9 @@ const DoctorCard = ({
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__dctr__page__right__content__wrapper: {
-      // border: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
       margin: "5px 0",
-      cursor: "pointer",
     },
     ccrt__dctr__page__right__content__description__wrapper: {
-      // padding: "20px",
       padding: "0px 20px",
     },
     ccrt__doct__page__image__container: {
@@ -97,20 +99,20 @@ const useStyles = makeStyles((theme) =>
       height: "30vh",
       background: theme.palette.custom.BLACK,
       borderRadius: 5,
+      cursor: "pointer",
     },
     ccrt__doct__page__dctr__name: {
+      cursor: "pointer",
       fontSize: "100%",
       fontWeight: 600,
       textTransform: "capitalize",
       color: theme.palette.custom.BLACK,
-      // margin: "0 0 5px 0",
     },
     ccrt__doct__page__dctr__fee: {
       fontSize: "120%",
       fontWeight: 600,
       textTransform: "capitalize",
       color: theme.palette.custom.GREEN,
-      // margin: "0 0 5px 0",
     },
 
     ccrt__dctr__page__right__content__button__wrapper: {
@@ -124,7 +126,6 @@ const useStyles = makeStyles((theme) =>
       fontWeight: 500,
       color: theme.palette.custom.BLACK,
       textTransform: "capitalize",
-
       marginRight: 10,
     },
     aboutStyle: {
@@ -145,12 +146,8 @@ DoctorCard.propTypes = {
   imageUrl: PropTypes.string,
   name: PropTypes.string.isRequired,
   about: PropTypes.string,
-
   specializations: PropTypes.array.isRequired,
-  // education: PropTypes.array.isRequired,
   fee: PropTypes.number.isRequired,
-
-  // department: PropTypes.string.isRequired,
 };
 
 export default DoctorCard;

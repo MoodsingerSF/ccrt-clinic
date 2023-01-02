@@ -1,30 +1,31 @@
 import React from "react";
-import Link from "next/link";
-import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import { ListItem, Typography } from "@mui/material";
 import PropTypes from "prop-types";
-const AppbarDrawerLink = ({ link, icon, name }) => {
+const AppbarDrawerLink = ({ icon, name, onClick }) => {
   return (
-    <Link href={link}>
-      <ListItem>
-        <ListItemIcon>{icon}</ListItemIcon>
-        <ListItemText
-          disableTypography
-          primary={name}
-          style={{
-            marginLeft: "-20px",
-            fontSize: "80%",
-            fontWeight: "600",
-          }}
-        />
-      </ListItem>
-    </Link>
+    <ListItem
+      style={{ padding: 0, margin: 0, cursor: "pointer" }}
+      onClick={onClick}
+    >
+      {icon}
+      <Typography
+        style={{
+          fontSize: "80%",
+          fontWeight: "500",
+          color: "white",
+          padding: "8px 0px",
+        }}
+      >
+        {name}
+      </Typography>
+    </ListItem>
   );
 };
 
 AppbarDrawerLink.propTypes = {
-  link: PropTypes.string.isRequired,
   icon: PropTypes.node.isRequired,
   name: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default AppbarDrawerLink;

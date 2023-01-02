@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   api:
-    image: rakibulrafi/ccrt_clinic:final_v1
+    image: rakibulrafi/ccrt_clinic:v0.0.8
     # restart: always
     ports:
       - "8080:8080"

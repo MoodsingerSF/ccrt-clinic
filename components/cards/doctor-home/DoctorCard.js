@@ -42,57 +42,33 @@ const DoctorCard = ({ doctorId, imageUrl, name, specializations, fee }) => {
         <Grid container justifyContent="center" alignItems="center">
           <Grid
             container
-            // direction="column"
             justifyContent="center"
             alignItems="center"
             className={classes.ccrt__doctor__card__name__container}
           >
-            <Grid
-              // container
-              item
-              xs={9}
-              // justifyContent="flex-start"
-              // alignItems="flex-start"
-              // style={{ background: "red", height: "100%" }}
-            >
+            <Grid container>
               <Grid
                 container
                 justifyContent="flex-start"
-                alignItems="flex-start"
-                // style={{ marginBottom: 5, background: "green" }}
+                alignItems="center"
+                mb={1}
               >
                 <Typography className={classes.ccrt__doctor__card__name}>
                   {name}
                 </Typography>
               </Grid>
-              <Grid
-                container
-                justifyContent="flex-start"
-                alignItems="center"
-                item
-                xs={12}
-                // style={{ overflowX: "scroll", width: "100%" }}
-              >
+              <Grid container justifyContent="flex-start" alignItems="center">
                 {specializations.map((item) => (
-                  <Grid item key={item}>
-                    <CustomChip title={item} />
+                  <Grid item key={item.id}>
+                    <CustomChip title={item} fontColor={"#fff"} />
                   </Grid>
                 ))}
               </Grid>
             </Grid>
-            <Grid
-              item
-              xs={3}
-              container
-              direction={"row"}
-              justifyContent="center"
-              alignItems={"center"}
-              style={{ height: "100%" }}
-            >
-              <Typography className={classes.creditSignStyle}>
-                &#2547;
+            <Grid style={{ position: "absolute", top: "20%", right: "0" }}>
+              <Typography className={classes.amountStyle}>
+                &#2547; {fee}
               </Typography>
-              <Typography className={classes.amountStyle}>{fee}</Typography>
             </Grid>
           </Grid>
         </Grid>
@@ -112,7 +88,6 @@ DoctorCard.propTypes = {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__doctor__card: {
-      boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
       borderRadius: 5,
       marginBottom: 10,
       background: "white",
@@ -131,9 +106,9 @@ const useStyles = makeStyles((theme) =>
     ccrt__doctor__card__media_image: {
       width: "100%",
       aspectRatio: 1,
-      // borderRadius: 15,
     },
     ccrt__doctor__card__name__container: {
+      position: "relative",
       padding: "10px 0",
       width: "95%",
     },
@@ -144,15 +119,10 @@ const useStyles = makeStyles((theme) =>
       marginTop: 5,
       color: theme.palette.custom.BLACK,
     },
-    creditSignStyle: {
-      fontSize: "100%",
-      color: theme.palette.custom.GREEN,
-      fontWeight: "bold",
-    },
     amountStyle: {
-      fontSize: "130%",
+      fontSize: "85%",
       color: theme.palette.custom.GREEN,
-      fontWeight: "bold",
+      fontWeight: "500",
     },
   })
 );

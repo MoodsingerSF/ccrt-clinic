@@ -10,7 +10,7 @@ const useSpecializations = (page, limit) => {
     try {
       setLoading(true);
       const data = await retrieveAllSpecializations(page, limit);
-      if (data.length < limit || data.length === 0) {
+      if (data.length < limit) {
         setHasMore(false);
       }
       if (page === 0) setData([{ id: -1, name: "All" }, ...data]);

@@ -1,12 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Grid, Typography } from "@mui/material";
 import { createStyles, makeStyles, useTheme } from "@mui/styles";
-import { CategoryData } from "../../data/doctors-by-category/data";
-import { CATEGORY_TITLE } from "../../data/doctor/data";
 import FallbackComponent from "../../components/misc/FallbackComponent";
-import DoctorsCategory from "../../components/doctor/doctor-details/DoctorsCategory";
 import DoctorDetailsMiddle from "../../components/doctor/doctor-details/DoctorDetailsMiddle";
 import PropTypes from "prop-types";
 import { retrieveUserDetails } from "../../controllers/UserController";
@@ -18,10 +15,14 @@ import ActionButton from "../../components/button/ActionButton";
 import BookOutlinedIcon from "@mui/icons-material/BookOutlined";
 import ReviewSection from "../../components/review/ReviewSection";
 import { retrieveAverageRating } from "../../controllers/RatingController";
+import { APP_BAR_HEIGHT } from "../../misc/constants";
+import { Context } from "../../contexts/user-context/UserContext";
+import PopularSpecializations from "../../components/misc/PopularSpecializations";
 const DoctorDetails = ({ doctorId }) => {
   const router = useRouter();
 
   if (router.isFallback) return <FallbackComponent />;
+  const { isSignedIn } = useContext(Context);
   const classes = useStyles();
   const theme = useTheme();
   const scheduleRef = useRef(null);
@@ -172,27 +173,7 @@ const DoctorDetails = ({ doctorId }) => {
                   classes.ccrt__doctor__details__page__right__container
                 }
               >
-                <Grid
-                  container
-                  justifyContent={"center"}
-                  alignItems="center"
-                  className={
-                    classes.ccrt__doctor__details__page__right__container__wrapper
-                  }
-                >
-                  <Typography
-                    className={
-                      classes.ccrt__doctor__details__page__right__container__title
-                    }
-                  >
-                    {CATEGORY_TITLE}
-                  </Typography>
-                  <Grid container justifyContent={"center"} alignItems="center">
-                    {CategoryData.map((item) => (
-                      <DoctorsCategory key={item.id} title={item.title} />
-                    ))}
-                  </Grid>
-                </Grid>
+                <PopularSpecializations />
               </Grid>
             </Grid>
             <Grid
@@ -234,9 +215,11 @@ const DoctorDetails = ({ doctorId }) => {
                   </Grid>
                 ) : null}
               </Grid>
-              <Grid container item xs={12}>
-                <ReviewSection doctorId={doctorId} />
-              </Grid>
+              {isSignedIn() && (
+                <Grid container item xs={12}>
+                  <ReviewSection doctorId={doctorId} />
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Grid>
@@ -268,29 +251,13 @@ DoctorDetails.propTypes = {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__doctor__details__page__container: {
-      marginTop: "12vh",
+      marginTop: APP_BAR_HEIGHT,
     },
     ccrt__doctor__details__page__image__container: {
       position: "relative",
       minHeight: "25vh",
     },
 
-    ccrt__doctor__details__page__right__container__wrapper: {
-      // boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
-      paddingBottom: 10,
-      margin: "0px 0",
-    },
-    ccrt__doctor__details__page__right__container__title: {
-      // textTransform: "capitalize",
-      marginBottom: "10px",
-      fontWeight: "bold",
-      color: theme.palette.custom.BLACK,
-      // borderBottom: `1px solid ${theme.palette.custom.DEFAULT_COLOR_3}`,
-      width: "100%",
-      textAlign: "center",
-      padding: "0 0 15px 0",
-      fontSize: "120%",
-    },
     title: {
       fontWeight: "bold",
       color: theme.palette.custom.BLACK,

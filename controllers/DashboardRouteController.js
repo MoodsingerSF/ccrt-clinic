@@ -5,5 +5,5 @@ export const findIndexOfActiveRoute = (routeName) => {
     const r = DASHBOARD_ROUTES[i];
     if (r.path === routeName) return i;
   }
-  return 0;
+  return null;
 };
