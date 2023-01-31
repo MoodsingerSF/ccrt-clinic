@@ -18,7 +18,7 @@ import {
 import SignUpTextField from "../components/textfields/SignUpTextField";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
-import { useStyles } from "../styles/SignupStyles";
+import { useStyles } from "../styles/signupstyles";
 import {
   sendOtp,
   signUp,

@@ -4,7 +4,7 @@ import Head from "next/head";
 import { Grid, Typography, useTheme } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
-import { useStyles } from "../styles/LoginStyles";
+import { useStyles } from "../styles/loginstyles";
 // import GoogleIcon from "@mui/icons-material/Google";
 // import FacebookIcon from "@mui/icons-material/Facebook";
 import { formErrors } from "../data/signup/data";
