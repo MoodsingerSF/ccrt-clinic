@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { Grid, Typography } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
-import avatar from "../../../public/image/doctor/doctor.jpg";
+
 import CustomChip from "../../chip/CustomChip";
 
 const DoctorCard = ({ doctorId, imageUrl, name, specializations, fee }) => {
@@ -20,24 +20,14 @@ const DoctorCard = ({ doctorId, imageUrl, name, specializations, fee }) => {
     >
       <Grid container item xs={12} className={classes.ccrt__doctor__card}>
         <Grid container className={classes.ccrt__doctor__card__media}>
-          {imageUrl === null ? (
-            <Image
-              src={avatar}
-              alt={name}
-              layout="fill"
-              objectFit="cover"
-              className={classes.ccrt__doctor__card__media_image}
-            />
-          ) : (
-            <Image
-              src={imageUrl}
-              alt={name}
-              loader={({ src }) => src}
-              layout="fill"
-              objectFit="cover"
-              className={classes.ccrt__doctor__card__media_image}
-            />
-          )}
+          <Image
+            src={imageUrl ? imageUrl : "/image/doctor/doctor.jpg"}
+            alt={name}
+            loader={({ src }) => src}
+            layout="fill"
+            objectFit="cover"
+            className={classes.ccrt__doctor__card__media_image}
+          />
         </Grid>
         <Grid container justifyContent="center" alignItems="center">
           <Grid
