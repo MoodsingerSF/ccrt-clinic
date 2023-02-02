@@ -1,5 +1,9 @@
 import React from "react";
 import ExampleTheme from "./themes/ExampleTheme";
+import ToolbarPlugin from "./plugins/ToolbarPlugin";
+import ListMaxIndentLevelPlugin from "./plugins/ListMaxIndentLevelPlugin";
+import CodeHighLightPlugin from "./plugins/CodeHighLightPlugin";
+import PlaygroundAutoLinkPlugin from "./plugins/PlaygroundAutoLinkPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
@@ -7,7 +11,6 @@ import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
-import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
 import { ListItemNode, ListNode } from "@lexical/list";
@@ -18,9 +21,6 @@ import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { TRANSFORMERS } from "@lexical/markdown";
 import PropTypes from "prop-types";
-import ListMaxIndentLevelPlugin from "./plugins/ListMaxIndentLevelPlugin";
-import CodeHighlightPlugin from "./plugins/CodeHighlightPlugin";
-import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
 import ClassNames from "classnames";
 function Placeholder() {
   return <div className="editor-placeholder">Enter some rich text...</div>;
@@ -90,10 +90,10 @@ export default function Editor({
           <HistoryPlugin />
           <CheckListPlugin />
           <AutoFocusPlugin />
-          <CodeHighlightPlugin />
+          <CodeHighLightPlugin />
           <ListPlugin />
           <LinkPlugin />
-          <AutoLinkPlugin />
+          <PlaygroundAutoLinkPlugin />
           <ListMaxIndentLevelPlugin maxDepth={7} />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
         </div>

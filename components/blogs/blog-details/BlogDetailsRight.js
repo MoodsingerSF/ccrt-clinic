@@ -135,7 +135,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 20,
   },
   ccrt__blogDetails__right__section__desktop_Lg: {
-    // border: `1px solid ${"black"}`,
     marginBottom: 20,
   },
   ccrt__blogDetails__right__title__mobile: {
@@ -144,12 +143,10 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "700",
     margin: "0 0 13px",
     color: theme.palette.custom.BLACK,
-    // color: DEFAULT_COLOR,
   },
   ccrt__blogDetails__right__title_tablet: {
     textAlign: "justify",
     fontSize: "100%",
-    // lineHeight: "35px",
     color: theme.palette.custom.BLACK,
     margin: "0 0 13px",
   },
