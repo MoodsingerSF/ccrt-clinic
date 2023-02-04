@@ -6,7 +6,7 @@ import CustomButton from "../button/CustomButton";
 import {
   validateConfirmPassword,
   validatePassword,
-} from "../../controllers/SignupController";
+} from "../../controllers/signupController";
 import { formErrors } from "../../data/signup/data";
 import PropTypes from "prop-types";
 import { resetPassword } from "../../controllers/UserController";

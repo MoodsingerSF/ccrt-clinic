@@ -21,7 +21,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
 import CustomButton from "../button/CustomButton";
-import { verifyOtp } from "../../controllers/SignupController";
+import { verifyOtp } from "../../controllers/signupController";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
 import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
 import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";

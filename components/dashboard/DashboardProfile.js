@@ -26,7 +26,7 @@ import {
   validateName,
   validateText,
   validateUpdateFee,
-} from "../../controllers/SignupController";
+} from "../../controllers/signupController";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
 import { handleSnackbarClose, handleSnackbarOpen } from "../../misc/functions";
 import { SNACKBAR_INITIAL_STATE } from "../../misc/constants";
