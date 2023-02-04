@@ -1,25 +1,16 @@
 import React, { useContext, useState } from "react";
 import Head from "next/head";
-// import Link from "next/link";
 import { Grid, Typography, useTheme } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
 import { useStyles } from "../styles/loginstyles";
-// import GoogleIcon from "@mui/icons-material/Google";
-// import FacebookIcon from "@mui/icons-material/Facebook";
 import { formErrors } from "../data/signup/data";
 import SignUpTextField from "../components/textfields/SignUpTextField";
 import {
   validateEmail,
   validatePassword,
-} from "../controllers/SignupController";
-import {
-  FORGOT__PASSWORD,
-  HEADER_TITLE,
-  LOGIN,
-  // LOGIN_WITH_FACEBOOK,
-  // LOGIN_WITH_GOOGLE,
-} from "../data/login/data";
+} from "../controllers/signupController";
+import { FORGOT__PASSWORD, HEADER_TITLE, LOGIN } from "../data/login/data";
 import CustomButton from "../components/button/CustomButton";
 import CustomSnackbar from "../components/snackbar/CustomSnackbar";
 import {
