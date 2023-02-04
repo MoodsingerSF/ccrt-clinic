@@ -30,7 +30,7 @@ import {
   validateFee,
   validateName,
   validatePassword,
-} from "../controllers/SignupController";
+} from "../controllers/signupController";
 import CustomButton from "../components/button/CustomButton";
 import CustomCheckbox from "../components/checkbox/CustomCheckbox";
 import CustomSnackbar from "../components/snackbar/CustomSnackbar";
