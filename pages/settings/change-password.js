@@ -5,7 +5,7 @@ import { formErrors } from "../../data/signup/data";
 import {
   validateConfirmPassword,
   validatePassword,
-} from "../../controllers/SignupController";
+} from "../../controllers/signupController";
 import CustomButton from "../../components/button/CustomButton";
 import SignUpTextField from "../../components/textfields/SignUpTextField";
 import CustomSnackbar from "../../components/snackbar/CustomSnackbar";
