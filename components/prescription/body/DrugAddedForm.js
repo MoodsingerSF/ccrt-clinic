@@ -8,7 +8,7 @@ import {
   Switch,
 } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
-import { validateInput } from "../../../controllers/DrugAddedFormController";
+import { validateInput } from "../../../controllers/drugAddedFormController";
 import PropTypes from "prop-types";
 import CustomButton from "../../button/CustomButton";
 import CustomTextField from "../../textfields/CustomTextField";

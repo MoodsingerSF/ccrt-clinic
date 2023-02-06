@@ -4,7 +4,7 @@ import { makeStyles } from "@mui/styles";
 import Head from "next/head";
 import SignUpTextField from "../components/textfields/SignUpTextField";
 import CustomButton from "../components/button/CustomButton";
-import { validateEmail } from "../controllers/SignupController";
+import { validateEmail } from "../controllers/signupController";
 import { formErrors } from "../data/signup/data";
 import { BOX_SHADOW } from "../misc/colors";
 import AccountFound from "../components/passwordRecovery/AccountFound";
