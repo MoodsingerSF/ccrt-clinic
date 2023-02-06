@@ -4,7 +4,6 @@ import { Grid, Typography } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
-// import CustomChip from "../../chip/CustomChip";
 
 const BlogCard = ({ image, name, tags, blogId, date }) => {
   const classes = useStyles();
@@ -30,9 +29,11 @@ const BlogCard = ({ image, name, tags, blogId, date }) => {
             </Typography>
           ))}
         </Grid>
-        <Typography className={classes.ccrt__home__blog__textStyle}>
-          {name}
-        </Typography>
+        <Grid container>
+          <Typography className={classes.ccrt__home__blog__textStyle}>
+            {name}
+          </Typography>
+        </Grid>
         <Grid container>
           <Typography className={classes.dateStyle}>{date}</Typography>
         </Grid>
@@ -45,32 +46,19 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__home__blog__img__container: {
       position: "relative",
-      // height: "30vh",
       aspectRatio: 1.5,
       boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
-      // borderLeft: `1px solid ${theme.palette.custom.GREEN}`,
-      // borderRight: `1px solid ${theme.palette.custom.GREEN}`,
-      // borderBottom: `1px solid ${theme.palette.custom.GREEN}`,
-      // borderTopLeftRadius: 5,
-      // borderTopRightRadius: 5,
       borderRadius: 5,
       overflow: "hidden",
       cursor: "pointer",
     },
     ccrt__home__blog__description__container: {
-      // borderLeft: `1px solid ${theme.palette.custom.GREEN}`,
-      // borderRight: `1px solid ${theme.palette.custom.GREEN}`,
-      // borderBottom: `1px solid ${theme.palette.custom.GREEN}`,
       borderBottomLeftRadius: 5,
       borderBottomRightRadius: 5,
     },
     ccrt__home__blog__textStyle: {
       fontSize: "90%",
-      // fontWeight: "bold",
-      // textTransform: "uppercase",
-      // padding: "10px",
       paddingTop: 7,
-      textAlign: "start",
       cursor: "pointer",
       color: theme.palette.custom.BLACK,
     },

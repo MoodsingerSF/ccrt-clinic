@@ -39,7 +39,7 @@ const DoctorCard = ({
               loader={({ src }) => src}
               alt="doctor"
               layout="fill"
-              objectFit="cover"
+              objectFit="contain"
               style={{ borderRadius: 5 }}
             />
           )}

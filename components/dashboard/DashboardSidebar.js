@@ -43,21 +43,14 @@ const DashboardSidebar = ({
             </Typography>
           </Grid>
         )}
-
-        <Grid
-          container
-          // direction={"column"}
-          className={classes.ccrt__dashboard__sidebar__menu}
-        >
-          {/* <ul className={classes.ccrt__dashboard__sidebar__menu__items}> */}
+        <Grid container className={classes.ccrt__dashboard__sidebar__menu}>
           {DASHBOARD_ROUTES.map((item, index) => {
             if (item.allowedRoles.includes(getRole())) {
               return (
                 <Grid
                   key={index}
                   container
-                  // item
-                  justifyContent={"flex-start"}
+                  // justifyContent={"flex-start"}
                   alignItems="center"
                   className={
                     selected === index
@@ -74,7 +67,6 @@ const DashboardSidebar = ({
                       : () => handleClickTest(index, item.path)
                   }
                 >
-                  {/* <Link href={item.path}> */}
                   <>
                     {item.icon}
                     <Typography>
@@ -88,13 +80,11 @@ const DashboardSidebar = ({
                       </Grid>
                     </Typography>
                   </>
-                  {/* </Link> */}
                 </Grid>
               );
             }
             return null;
           })}
-          {/* </ul> */}
         </Grid>
       </Grid>
     </Grid>
@@ -105,20 +95,14 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__dashboard__sidebar__container: {
       padding: "10px 0",
-      // minHeight: "100vh",
-      // width: "100%",
-      // background: theme.palette.custom.BLACK,
-      // overflowY: "scroll",
     },
     ccrt__dashboard__sidebar__header: {
       borderBottom: `2px solid ${theme.palette.custom.GREEN}`,
       paddingBottom: "10px",
-      // marginTop: APP_BAR_HEIGHT,
     },
     ccrt__dashboard__sidebar__menu: {
       paddingTop: "10px",
       overflowY: "auto",
-      height: "80vh",
     },
     ccrt__dashboard__sidebar__menu__items: {
       padding: "0",
@@ -131,7 +115,6 @@ const useStyles = makeStyles((theme) =>
       borderLeft: `5px solid ${"transparent"}`,
       "&:hover": {
         background: theme.palette.custom.GREY,
-        // color: theme.palette.custom.GREEN,
         borderLeft: `5px solid ${theme.palette.custom.GREEN}`,
       },
     },
@@ -146,7 +129,6 @@ const useStyles = makeStyles((theme) =>
       fontWeight: "500",
     },
     ccrt__dashboard__sidebar__menu__item__active: {
-      // background: DEFAULT_COLOR,
       cursor: "pointer",
       borderLeft: `5px solid ${theme.palette.custom.GREEN}`,
     },

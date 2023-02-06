@@ -1,7 +1,6 @@
 import { Box, Modal, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import React from "react";
-import { style } from "../../styles/ProfileInfoModalStyle";
 import PropTypes from "prop-types";
 const DetailsModal = ({ open, onClose, details }) => {
   const theme = useTheme();
@@ -35,6 +34,15 @@ DetailsModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   details: PropTypes.string.isRequired,
+};
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "60%",
+  bgcolor: "background.paper",
 };
 
 export default DetailsModal;

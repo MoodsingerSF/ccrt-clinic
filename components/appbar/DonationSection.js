@@ -2,7 +2,10 @@ import { Grid, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import { useRouter } from "next/router";
 import React from "react";
-import { DONATION_SECTION_HEIGHT } from "../../misc/constants";
+import {
+  DONATION_SECTION_HEIGHT,
+  DONATION_SECTION_HEIGHT_MOBILE,
+} from "../../misc/constants";
 import DonationLink from "./DonationLink";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import RequestPageIcon from "@mui/icons-material/RequestPage";
@@ -19,7 +22,9 @@ const DonationSection = () => {
       justifyContent={"center"}
       alignItems="center"
       style={{
-        height: DONATION_SECTION_HEIGHT,
+        height: isDesktop
+          ? DONATION_SECTION_HEIGHT
+          : DONATION_SECTION_HEIGHT_MOBILE,
         background: theme.palette.custom.BLACK,
       }}
     >
@@ -39,9 +44,9 @@ const DonationSection = () => {
         >
           <Typography
             style={{
-              color: "white",
-              fontWeight: "500",
-              fontSize: "85%",
+              color: "#fff",
+              fontWeight: "300",
+              fontSize: "75%",
               textTransform: "uppercase",
               wordSpacing: 1.5,
             }}
@@ -50,23 +55,23 @@ const DonationSection = () => {
           </Typography>
         </Grid>
         <Grid
+          container
           item
           xs={12}
           md={6}
-          container
-          justifyContent={isDesktop ? "flex-end" : "center"}
+          justifyContent={isDesktop ? "flex-end" : "space-between"}
           alignItems="center"
         >
-          <Grid item style={{ marginRight: 60 }}>
+          <Grid item style={{ marginRight: isDesktop ? 60 : 0 }}>
             <DonationLink
-              icon={<VolunteerActivismIcon style={{ color: "white" }} />}
+              icon={<VolunteerActivismIcon style={{ color: "#fff" }} />}
               title={"Donate"}
               onClick={() => router.push("/donation-requests")}
             />
           </Grid>
           <Grid item>
             <DonationLink
-              icon={<RequestPageIcon style={{ color: "white" }} />}
+              icon={<RequestPageIcon style={{ color: "#fff" }} />}
               title={"Request for Financial Aid"}
               onClick={() => router.push("/donation")}
             />

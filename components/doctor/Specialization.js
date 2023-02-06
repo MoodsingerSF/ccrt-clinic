@@ -29,7 +29,6 @@ const Specialization = ({ title, selected, id }) => {
               onChange={() => router.push("/doctors?specialization=" + id)}
             />
           }
-          // classes={{ root: classes.root }}
           label={
             <Typography className={classes.ccrt__dctr__page__left__menu__list}>
               {title}
@@ -44,7 +43,6 @@ const Specialization = ({ title, selected, id }) => {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__dctr__page__left__menu__list: {
-      width: "100%",
       padding: "5px",
       textTransform: "capitalize",
       fontSize: "85%",

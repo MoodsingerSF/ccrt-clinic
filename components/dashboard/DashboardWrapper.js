@@ -1,10 +1,9 @@
 import React from "react";
 import { Grid, useTheme } from "@mui/material";
-import { useStyles } from "../../styles/dashBoardstyle";
+import { createStyles, makeStyles } from "@mui/styles";
 import dynamic from "next/dynamic";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { APP_BAR_HEIGHT } from "../../misc/constants";
-// import DashboardNavbar from "./DashboardNavbar";
+import { APP_BAR_HEIGHT, MODAL_APP_BAR_HEIGHT } from "../../misc/constants";
 const DashboardSidebar = dynamic(() =>
   import("../../components/dashboard/DashboardSidebar")
 );
@@ -72,5 +71,31 @@ const DashboardWrapper = ({ children, routeName }) => {
     </Grid>
   );
 };
+
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    ccrt__dashboard__container: {
+      position: "relative",
+    },
+    ccrt__dashboard__left__container: {
+      minHeight: "100vh",
+      background: theme.palette.custom.BLACK,
+      position: "fixed",
+      top: "12%",
+      overflowY: "scroll",
+      /* Hide scrollbar for IE, Edge and Firefox */
+      "-ms-overflow-style": "none" /* IE and Edge */,
+      scrollbarWidth: "none" /* Firefox */,
+
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      "&::-webkit-scrollbar": {
+        display: "none",
+      },
+    },
+    ccrt__dashboard__right__container: {
+      padding: `${MODAL_APP_BAR_HEIGHT} 20px 0px 20px`,
+    },
+  })
+);
 
 export default DashboardWrapper;

@@ -11,7 +11,6 @@ import {
   TextField,
   InputAdornment,
 } from "@mui/material";
-// import { Grid, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 
 import logo from "../../public/image/logo/logo2.png";
@@ -20,7 +19,6 @@ import { APP_BAR_HEIGHT } from "../../misc/constants";
 import DonationSection from "./DonationSection";
 import SearchIcon from "@mui/icons-material/Search";
 import dynamic from "next/dynamic";
-// import AppBarDeskTop from "./AppBarDeskTop";
 import AppBarLink from "./AppBarLink";
 
 import ProfileMenu from "../menu/ProfileMenu";
@@ -33,7 +31,6 @@ const AppBar = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
   const { isSignedIn, getProfileImageUrl } = useContext(Context);
-  // const [appbarHeight, setAppbarHeight] = useState(APP_BAR_HEIGHT);
   const [openAppbarDrawer, setOpenAppbarDrawer] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
@@ -60,16 +57,16 @@ const AppBar = () => {
     });
   };
 
-  // useLayoutEffect(() => {
-  //   setAppbarHeight(router.pathname === "/" ? "20vh" : APP_BAR_HEIGHT);
-  // }, [router.pathname]);
   return (
     <Grid
       container
       className={classes.ccrt_app_bar__container}
-      style={{
-        height: router.pathname === "/" ? "20vh" : APP_BAR_HEIGHT,
-      }}
+      style={
+        {
+          // height: router.pathname === "/" ? "20vh" : APP_BAR_HEIGHT,
+          // background: "red",
+        }
+      }
       alignItems="center"
       justifyContent={"center"}
     >
@@ -80,9 +77,15 @@ const AppBar = () => {
             item
             xs={2}
             container
-            style={{ position: "relative", margin: "5px 0px" }}
+            style={{ position: "relative", margin: "12px 0px" }}
           >
-            <Image src={logo} layout="fill" objectFit="contain" />
+            <Image
+              src={logo}
+              layout="fill"
+              objectFit="contain"
+              style={{ cursor: "pointer" }}
+              onClick={() => router.push("/")}
+            />
           </Grid>
           <Grid
             container
@@ -90,11 +93,12 @@ const AppBar = () => {
             alignItems="center"
             item
             xs={3}
+            // style={{ background: "red" }}
           >
             <TextField
               className={classes.ccrt__home_page__search_field}
               size="small"
-              placeholder="search doctor and blog"
+              placeholder="Search Doctor and Blog"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end" style={{ cursor: "pointer" }}>
@@ -235,14 +239,16 @@ const useStyles = makeStyles((theme) =>
       marginLeft: 10,
     },
     ccrt__home_page__search_field: {
+      width: "80%",
       background: "#fff",
-      borderRadius: 100,
-      // boxShadow: "inset 0 0 5px rgba(0,0,0,0.5)",
-      // margin: "20px 0 20px 0",
+      // borderRadius: 100,
+      // boxShadow: "inset 0 0 5px rgba(0,0,0,0.1)",
       fontSize: "85%",
     },
     noBorder: {
       border: `1px solid ${theme.palette.custom.BLACK}`,
+      borderRadius: 100,
+      // border: "none",
     },
   })
 );

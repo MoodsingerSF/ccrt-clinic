@@ -29,14 +29,9 @@ const DoctorsScreen = withRouter((props) => {
   }, [specializationId]);
 
   return (
-    <Grid
-      container
-      justifyContent={"center"}
-      alignItems="center"
-      style={{ height: "100vh" }}
-    >
+    <Grid container justifyContent={"center"} alignItems="center">
       <Grid container className={classes.ccrt__dctr__page__container}>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={3}>
           {matches ? (
             <DoctorsCategoryDesktop
               filter={specializationId ? specializationId : -1}
@@ -46,69 +41,65 @@ const DoctorsScreen = withRouter((props) => {
               filter={specializationId ? specializationId : -1}
             />
           )}
-          <Grid container justifyContent={"center"} alignItems="flex-start">
-            {matches && <Grid item md={3}></Grid>}
+        </Grid>
+        <Grid
+          container
+          item
+          xs={12}
+          md={9}
+          justifyContent={"center"}
+          alignItems="flex-start"
+        >
+          {doctors && doctors.length === 0 ? (
+            loading ? (
+              <Grid
+                container
+                justifyContent="center"
+                alignItems="center"
+                style={{ height: "80vh" }}
+              >
+                <LoaderComponent />
+              </Grid>
+            ) : (
+              <NoContentToShowComponent title="No doctors to show." />
+            )
+          ) : (
             <Grid
               container
-              item
-              xs={12}
-              md={9}
               justifyContent={"center"}
               alignItems="flex-start"
+              style={{
+                paddingLeft: 10,
+                height: BODY_HEIGHT,
+                overflow: "auto",
+              }}
             >
-              {doctors && doctors.length === 0 ? (
-                loading ? (
-                  <Grid
-                    container
-                    justifyContent="center"
-                    alignItems="center"
-                    style={{ height: "80vh" }}
-                  >
-                    <LoaderComponent />
-                  </Grid>
-                ) : (
-                  <NoContentToShowComponent title="No doctors to show." />
-                )
-              ) : (
-                <Grid
-                  container
-                  justifyContent={"center"}
-                  alignItems="flex-start"
-                  style={{ height: "100%", marginBottom: 30, width: "95%" }}
-                >
-                  <Grid
-                    container
-                    justifyContent={"center"}
-                    alignItems="flex-start"
-                    // style={{ height: "100%" }}
-                  >
-                    {doctors &&
-                      doctors.map((item) => (
-                        <DoctorCard
-                          key={item.userId}
-                          doctorId={item.userId}
-                          name={item.firstName + " " + item.lastName}
-                          specializations={item.specializations}
-                          imageUrl={item.profileImageUrl}
-                          fee={item.fee}
-                          about={item.about}
-                        />
-                      ))}
-                  </Grid>
-                  {loading && <LoaderComponent />}
+              <Grid container justifyContent={"center"} alignItems="flex-start">
+                {doctors &&
+                  doctors.map((item) => (
+                    <DoctorCard
+                      key={item.userId}
+                      doctorId={item.userId}
+                      name={item.firstName + " " + item.lastName}
+                      specializations={item.specializations}
+                      imageUrl={item.profileImageUrl}
+                      fee={item.fee}
+                      about={item.about}
+                    />
+                  ))}
+              </Grid>
+              {loading && <LoaderComponent />}
 
-                  {!loading && hasMore && (
-                    <Grid item xs={2}>
-                      <CustomButton
-                        title="Load More"
-                        onClick={() => setPage((prev) => prev + 1)}
-                      />
-                    </Grid>
-                  )}
+              {!loading && hasMore && (
+                <Grid item xs={2}>
+                  <CustomButton
+                    title="Load More"
+                    onClick={() => setPage((prev) => prev + 1)}
+                  />
                 </Grid>
               )}
             </Grid>
-          </Grid>
+          )}
         </Grid>
       </Grid>
     </Grid>

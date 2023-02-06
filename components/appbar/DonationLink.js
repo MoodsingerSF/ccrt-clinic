@@ -11,6 +11,7 @@ const DonationLink = ({ icon, title, onClick }) => {
         if (onClick) onClick();
       }}
       alignItems="center"
+      justifyContent={"center"}
       style={{ cursor: "pointer" }}
     >
       {icon}
@@ -27,9 +28,9 @@ DonationLink.propTypes = {
 const useStyles = makeStyles(() =>
   createStyles({
     titleStyle: {
-      color: "white",
-      fontSize: "85%",
-      fontWeight: "500",
+      color: "#fff",
+      fontSize: "75%",
+      // fontWeight: "500",
       marginLeft: 10,
     },
   })

@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 import Specialization from "../../doctor/Specialization";
 import useSpecializations from "../../../hooks/useSpecializations";
 import CustomButton from "../../button/CustomButton";
-import { BODY_HEIGHT } from "../../../misc/constants";
 const DoctorsCategoryDesktop = ({ filter }) => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
@@ -17,63 +16,41 @@ const DoctorsCategoryDesktop = ({ filter }) => {
     hasMore,
   } = useSpecializations(page, 15);
   return (
-    <Grid
-      container
-      item
-      xs={12}
-      md={3}
-      justifyContent={"center"}
-      alignItems="flex-start"
-      className={classes.ccrt__dctr__page__left__menu}
-    >
-      <Grid
-        container
-        style={{
-          width: "90%",
-        }}
-        justifyContent={"center"}
-        alignItems="center"
-      >
+    <Grid className={classes.ccrt__dctr__page__left__menu}>
+      <Grid container justifyContent={"center"} alignItems="center">
+        <Typography className={classes.ccrt__dctr__page__left__menu__title}>
+          {CATEGORY_TITLE}
+        </Typography>
+      </Grid>
+
+      <Grid container style={{ padding: "0 10px" }}>
+        {specializations.map((item) => (
+          <Specialization
+            key={item.id}
+            id={item.id}
+            title={item.name}
+            selected={Number(filter) === item.id}
+          />
+        ))}
+      </Grid>
+      {loading && (
         <Grid
-          item
-          xs={12}
           container
           justifyContent={"center"}
-          alignItems="center"
+          alignItems={"center"}
+          style={{ height: "100%" }}
         >
-          <Grid
-            item
-            xs={12}
-            container
-            justifyContent={"center"}
-            alignItems="flex-start"
-          >
-            <Typography className={classes.ccrt__dctr__page__left__menu__title}>
-              {CATEGORY_TITLE}
-            </Typography>
-          </Grid>
-
-          <Grid container>
-            {specializations.map((item) => (
-              <Specialization
-                key={item.id}
-                id={item.id}
-                title={item.name}
-                selected={Number(filter) === item.id}
-              />
-            ))}
-          </Grid>
-          {loading && <CircularProgress className={classes.loaderStyle} />}
-          {!loading && hasMore && (
-            <Grid container>
-              <CustomButton
-                title="Load More"
-                onClick={() => setPage((prev) => prev + 1)}
-              />
-            </Grid>
-          )}
+          <CircularProgress className={classes.loaderStyle} />
         </Grid>
-      </Grid>
+      )}
+      {!loading && hasMore && (
+        <Grid container>
+          <CustomButton
+            title="Load More"
+            onClick={() => setPage((prev) => prev + 1)}
+          />
+        </Grid>
+      )}
     </Grid>
   );
 };
@@ -85,21 +62,17 @@ DoctorsCategoryDesktop.propTypes = {
 const useStyles = makeStyles((theme) =>
   createStyles({
     ccrt__dctr__page__left__menu: {
-      position: "fixed",
-      height: BODY_HEIGHT,
-      overflowY: "auto",
+      height: "100%",
       boxShadow:
         "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
     },
     ccrt__dctr__page__left__menu__title: {
-      // textTransform: "uppercase",
-      width: "120%",
+      width: "100%",
       fontWeight: "500",
       color: theme.palette.custom.BLACK,
       borderBottom: `1px solid ${theme.palette.custom.BLACK}`,
       textAlign: "center",
-      paddingBottom: 20,
-      // margin: "20px 0",
+      padding: "10px 0",
     },
     loaderStyle: { color: theme.palette.custom.BLACK, margin: "10px 0px" },
   })

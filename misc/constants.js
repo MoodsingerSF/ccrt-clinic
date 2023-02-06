@@ -5,7 +5,8 @@ export const NUMBER_REGEX = /^-?\d+\.?\d*$/;
 
 export const APP_BAR_HEIGHT = "12vh";
 export const BODY_HEIGHT = "88vh";
-export const DONATION_SECTION_HEIGHT = "8vh";
+export const DONATION_SECTION_HEIGHT = "6vh";
+// export const DONATION_SECTION_HEIGHT_MOBILE = "8vh";
 export const DONATION_SECTION_HEIGHT_MOBILE = "12vh";
 export const HERO_SECTION_HEIGHT = "100vh";
 export const HERO_SECTION_HEIGHT_MOBILE = "70vh";

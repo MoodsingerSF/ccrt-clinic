@@ -1,8 +1,6 @@
 import React, { lazy, useEffect, useState } from "react";
 import { Grid, useTheme } from "@mui/material";
-// import { useStyles } from "../../styles/BlogDetailStyle";
 import useMediaQuery from "@mui/material/useMediaQuery";
-// import classNames from "classnames";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 import { retrieveBlogDetails } from "../../controllers/BlogController";
@@ -27,9 +25,7 @@ const BlogDetailsScreen = ({ blogId, title, imageUrl }) => {
   const router = useRouter();
   if (router.isFallback) return <FallbackComponent />;
 
-  // const classes = useStyles();
   const theme = useTheme();
-  // const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(false);

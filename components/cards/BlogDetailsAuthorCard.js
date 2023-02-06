@@ -1,7 +1,5 @@
 import React from "react";
-// import Image from "next/image";
 import { Avatar, Grid, Typography, useTheme } from "@mui/material";
-// import { useStyles } from "../../styles/BlogDetailStyle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classNames from "classnames";
 import PropTypes from "prop-types";
@@ -54,12 +52,10 @@ const useStyles = makeStyles((theme) => ({
   ccrt__blogDetails__author__containerMobile: {
     margin: "0px 0 0 0",
     padding: "20px 10px 0",
-    // border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
   },
   ccrt__blogDetails__container__container__Tablet: {
     margin: "0px 0 0 0",
     padding: "20px 10px 0",
-    // border: `1px solid ${DEFAULT_COLOR_MINUS_2}`,
   },
   ccrt__blogDetails__author__avatar__mobile: {
     height: "100px",
